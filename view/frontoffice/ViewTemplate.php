@@ -7,6 +7,11 @@
  */
 class ViewTemplate
 {
+	/**
+	 * Returns the HTML code to display the frontoffice <head>
+	 *
+	 * @return void
+	 */
 	public static function FrontHead($pagetitle = 'Titre')
 	{
 		?>
@@ -41,6 +46,11 @@ class ViewTemplate
 		<?php
 	}
 
+	/**
+	 * Returns the HTML code to display the frontoffice header.
+	 *
+	 * @return void
+	 */
 	public static function FrontHeader()
 	{
 		global $config;
@@ -599,11 +609,19 @@ class ViewTemplate
 		<?php
 	}
 
-	public static function FrontBreadcrumb($itemname, $itemurl)
+	/**
+	 * Returns the HTML code to display the frontoffice breadcrumb.
+	 *
+	 * @param string $itemname Name of the item.
+	 * @param array $navbits Array of breadcrumb items to show.
+	 *
+	 * @return void
+	 */
+	public static function FrontBreadcrumb($itemname, $navbits = '')
 	{
 		?>
 		<!-- breadcrumb start -->
-		<div class="breadcrumb-main ">
+		<div class="breadcrumb-main">
 			<div class="container">
 				<div class="row">
 					<div class="col">
@@ -613,12 +631,15 @@ class ViewTemplate
 								<ul>
 									<li><a href="index.php">Accueil</a></li>
 									<?php
-									if ($itemurl AND $itemname)
+									if (is_array($navbits))
 									{
-										?>
-										<li><i class="fa fa-angle-double-right"></i></li>
-										<li><a href="index.php?do=<?= $itemurl; ?>"><?= $itemname; ?></a></li>
-										<?php
+										foreach ($navbits AS $key => $value)
+										{
+											?>
+											<li><i class="fa fa-angle-double-right"></i></li>
+											<li><a href="index.php?do=<?= $key; ?>"><?= $value; ?></a></li>
+											<?php
+										}
 									}
 									?>
 								</ul>
@@ -632,6 +653,11 @@ class ViewTemplate
 		<?php
 	}
 
+	/**
+	 * Returns the HTML code to display the frontoffice footer.
+	 *
+	 * @return void
+	 */
 	public static function FrontFooter()
 	{
 		?>
@@ -654,11 +680,11 @@ class ViewTemplate
 										</div>
 										<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC.</p>
 										<ul class="paymant">
-											<li><a href="javascript:void(0)"><img src="assets/images/layout-1/pay/1.png" class="img-fluid" alt="pay"></a></li>
-											<li><a href="javascript:void(0)"><img src="assets/images/layout-1/pay/2.png" class="img-fluid" alt="pay"></a></li>
-											<li><a href="javascript:void(0)"><img src="assets/images/layout-1/pay/3.png" class="img-fluid" alt="pay"></a></li>
-											<li><a href="javascript:void(0)"><img src="assets/images/layout-1/pay/4.png" class="img-fluid" alt="pay"></a></li>
-											<li><a href="javascript:void(0)"><img src="assets/images/layout-1/pay/5.png" class="img-fluid" alt="pay"></a></li>
+											<li><a href="https://www.visa.com/"><img src="assets/images/layout-1/pay/1.png" class="img-fluid" alt="VISA" /></a></li>
+											<li><a href="https://www.mastercard.com/"><img src="assets/images/layout-1/pay/2.png" class="img-fluid" alt="MasterCard" /></a></li>
+											<li><a href="https://www.paypal.com/"><img src="assets/images/layout-1/pay/3.png" class="img-fluid" alt="PayPal" /></a></li>
+											<li><a href="https://www.americanexpress.com/"><img src="assets/images/layout-1/pay/4.png" class="img-fluid" alt="American Express" /></a></li>
+											<li><a href="https://www.discover.com/"><img src="assets/images/layout-1/pay/5.png" class="img-fluid" alt="Discover" /></a></li>
 										</ul>
 									</div>
 								</div>
@@ -687,30 +713,6 @@ class ViewTemplate
 											<li><i class="fa fa-envelope-o"></i>email us: support@bigdeal.com</li>
 											<li><i class="fa fa-fax"></i>fax <span>123456</span></li>
 										</ul>
-									</div>
-								</div>
-								<div class="footer-box">
-									<div class="footer-title">
-										<h5>newsletter</h5>
-									</div>
-									<div class="footer-contant">
-										<div class="newsletter-second">
-											<div class="form-group">
-												<div class="input-group">
-													<input type="text" class="form-control" placeholder="enter full name" />
-													<span class="input-group-text"><i class="ti-user"></i></span>
-												</div>
-											</div>
-											<div class="form-group ">
-												<div class="input-group">
-													<input type="text" class="form-control" placeholder="enter email address" />
-													<span class="input-group-text"><i class="ti-email"></i></span>
-												</div>
-											</div>
-											<div class="form-group mb-0">
-												<a href="javascript:void(0)" class="btn btn-solid btn-sm">submit now</a>
-											</div>
-										</div>
 									</div>
 								</div>
 							</div>
@@ -1075,6 +1077,16 @@ class ViewTemplate
 		<?php
 	}
 
+	/**
+	 * Returns the HTML code to display the frontoffice notifications.
+	 *
+	 * Notifications here are made with bootstrap-notify.
+	 *
+	 * @param string $title Title of the notification.
+	 * @param string $message Message of the notification.
+	 *
+	 * @return void
+	 */
 	public static function FrontNotify($title, $message)
 	{
 		?>
@@ -1107,7 +1119,7 @@ class ViewTemplate
 				template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
 					'<button type="button" aria-hidden="true" class="btn-close" data-notify="dismiss"></button>' +
 					'<span data-notify="icon"></span> ' +
-					'<span data-notify="title">{1}</span> ' +
+					'<span data-notify="title"><strong>{1}</strong></span><br /> ' +
 					'<span data-notify="message">{2}</span>' +
 					'<div class="progress" data-notify="progressbar">' +
 					'<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
@@ -1120,6 +1132,15 @@ class ViewTemplate
 		<?php
 	}
 
+	/**
+	 * Returns the HTML code to display the frontoffice input validation code.
+	 *
+	 * @param string $id ID of the submit button of the form.
+	 * @param integer $number Number of form items to remove from the end (submit and reset buttons, more items to remove?)
+	 * @param integer $position The position of the form across all forms visible.
+	 *
+	 * @return void
+	 */
 	public static function FrontFormValidation($id = 'valider', $number = 2, $position = 1)
 	{
 		?>

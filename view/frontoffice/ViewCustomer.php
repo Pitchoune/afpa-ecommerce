@@ -41,7 +41,7 @@ class ViewCustomer
 				?>
 
 				<?php
-				ViewTemplate::FrontBreadcrumb($pagetitle, 'register');
+				ViewTemplate::FrontBreadcrumb($pagetitle, ['register' => $pagetitle]);
 				?>
 				<section class="login-page section-big-py-space b-g-light">
 					<div class="custom-container">
@@ -103,18 +103,12 @@ class ViewCustomer
 				<!-- latest jquery-->
 				<script src="assets/js/jquery-3.5.1.min.js" ></script>
 
-				<!-- slick js-->
-				<script src="assets/js/slick.js"></script>
-
 				<!-- popper js-->
 				<script src="assets/js/popper.min.js" ></script>
 				<script src="assets/js/bootstrap-notify.min.js"></script>
 
 				<!-- menu js-->
 				<script src="assets/js/menu.js"></script>
-
-				<!-- timer js -->
-				<!-- <script src="assets/js/timer2.js"></script> -->
 
 				<!-- Bootstrap js-->
 				<script src="assets/js/bootstrap.js"></script>
@@ -173,7 +167,7 @@ class ViewCustomer
 				?>
 
 				<?php
-				ViewTemplate::FrontBreadcrumb($pagetitle, 'login');
+				ViewTemplate::FrontBreadcrumb($pagetitle, ['login' => $pagetitle]);
 				?>
 
 				<section class="login-page section-big-py-space b-g-light">
@@ -211,18 +205,12 @@ class ViewCustomer
 				<!-- latest jquery-->
 				<script src="assets/js/jquery-3.5.1.min.js" ></script>
 
-				<!-- slick js-->
-				<script src="assets/js/slick.js"></script>
-
 				<!-- popper js-->
 				<script src="assets/js/popper.min.js" ></script>
 				<script src="assets/js/bootstrap-notify.min.js"></script>
 
 				<!-- menu js-->
 				<script src="assets/js/menu.js"></script>
-
-				<!-- timer js -->
-				<!-- <script src="assets/js/timer2.js"></script> -->
 
 				<!-- Bootstrap js-->
 				<script src="assets/js/bootstrap.js"></script>
@@ -284,7 +272,7 @@ class ViewCustomer
 				?>
 
 				<?php
-				ViewTemplate::FrontBreadcrumb($pagetitle, 'profile');
+				ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => $pagetitle]);
 				?>
 
 				<!-- section start -->
@@ -367,18 +355,12 @@ class ViewCustomer
 				<!-- latest jquery-->
 				<script src="assets/js/jquery-3.5.1.min.js" ></script>
 
-				<!-- slick js-->
-				<script src="assets/js/slick.js"></script>
-
 				<!-- popper js-->
 				<script src="assets/js/popper.min.js" ></script>
 				<script src="assets/js/bootstrap-notify.min.js"></script>
 
 				<!-- menu js-->
 				<script src="assets/js/menu.js"></script>
-
-				<!-- timer js -->
-				<!-- <script src="assets/js/timer2.js"></script> -->
 
 				<!-- Bootstrap js-->
 				<script src="assets/js/bootstrap.js"></script>
@@ -448,7 +430,7 @@ class ViewCustomer
 					?>
 
 					<?php
-					ViewTemplate::FrontBreadcrumb($pagetitle, 'profile');
+					ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'editprofile' => $pagetitle]);
 					?>
 
 					<!-- personal detail section start -->
@@ -546,18 +528,12 @@ class ViewCustomer
 					<!-- latest jquery-->
 					<script src="assets/js/jquery-3.5.1.min.js" ></script>
 
-					<!-- slick js-->
-					<script src="assets/js/slick.js"></script>
-
 					<!-- popper js-->
 					<script src="assets/js/popper.min.js" ></script>
 					<script src="assets/js/bootstrap-notify.min.js"></script>
 
 					<!-- menu js-->
 					<script src="assets/js/menu.js"></script>
-
-					<!-- timer js -->
-					<!-- <script src="assets/js/timer2.js"></script> -->
 
 					<!-- Bootstrap js-->
 					<script src="assets/js/bootstrap.js"></script>
@@ -639,7 +615,7 @@ class ViewCustomer
 					?>
 
 					<?php
-					ViewTemplate::FrontBreadcrumb($pagetitle, 'editpassword');
+					ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'editpassword' => $pagetitle]);
 					?>
 
 					<!-- personal detail section start -->
@@ -700,18 +676,12 @@ class ViewCustomer
 					<!-- latest jquery-->
 					<script src="assets/js/jquery-3.5.1.min.js" ></script>
 
-					<!-- slick js-->
-					<script src="assets/js/slick.js"></script>
-
 					<!-- popper js-->
 					<script src="assets/js/popper.min.js" ></script>
 					<script src="assets/js/bootstrap-notify.min.js"></script>
 
 					<!-- menu js-->
 					<script src="assets/js/menu.js"></script>
-
-					<!-- timer js -->
-					<!-- <script src="assets/js/timer2.js"></script> -->
 
 					<!-- Bootstrap js-->
 					<script src="assets/js/bootstrap.js"></script>
@@ -790,7 +760,7 @@ class ViewCustomer
 					?>
 
 					<?php
-					ViewTemplate::FrontBreadcrumb($pagetitle, 'forgotpassword');
+					ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'forgotpassword' => $pagetitle]);
 					?>
 
 					<!--section start-->
@@ -827,18 +797,12 @@ class ViewCustomer
 					<!-- latest jquery-->
 					<script src="assets/js/jquery-3.5.1.min.js" ></script>
 
-					<!-- slick js-->
-					<script src="assets/js/slick.js"></script>
-
 					<!-- popper js-->
 					<script src="assets/js/popper.min.js" ></script>
 					<script src="assets/js/bootstrap-notify.min.js"></script>
 
 					<!-- menu js-->
 					<script src="assets/js/menu.js"></script>
-
-					<!-- timer js -->
-					<!-- <script src="assets/js/timer2.js"></script> -->
 
 					<!-- Bootstrap js-->
 					<script src="assets/js/bootstrap.js"></script>
