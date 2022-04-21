@@ -42,12 +42,10 @@ function AddCategory()
  * Inserts a new category into the database.
  *
  * @param string $title Title of the category.
- * @param string $parentcategory ID of the parent. Can be -1 if the category is at root level.
- * @param string $status Status ID of the status. It's saved in the db in an enum, so a string is required between 0 and 1.
  *
  * @return void
  */
-function InsertCategory($title, $parentcategory, $status)
+function InsertCategory($title)
 {
 	if (Utils::cando(10))
 	{
@@ -62,37 +60,16 @@ function InsertCategory($title, $parentcategory, $status)
 			throw new Exception('Le titre est vide.');
 		}
 
-		// Verify category parent
-		$categoryCache = $categories->categoriesCache();
-
-		if (count($categoryCache) > 0)
-		{
-			if (!isset($categoryCache["$parentcategory"]) AND $parentcategory != '-1')
-			{
-				throw new Exception('La catégorie parente spécifiée n\'est pas valide.');
-			}
-		}
-
 		$categories->set_name($title);
-		$categories->set_parentid($parentcategory);
-		$categories->set_status($status);
 
 		// Save the new category in the database
-		$newid = $categories->saveNewCategory();
-
-		if (!$newid)
+		if ($categories->saveNewCategory())
 		{
-			throw new Exception('La catégorie n\'a pas été ajoutée.');
+			$_SESSION['category']['add'] = 1;
 		}
 		else
 		{
-			$cats = $categories->listAllCategories();
-
-			$categoryCache = Utils::categoriesCache($cats);
-			$parentCache = Utils::buildParentCache($categoryCache);
-			Utils::buildCategoryGenealogy($categoryCache, $parentCache);
-
-			$_SESSION['category']['add'] = 1;
+			throw new Exception('La catégorie n\'a pas été ajoutée.');
 		}
 
 		// Save is correctly done, redirects to the category list
@@ -129,12 +106,10 @@ function EditCategory($id)
  *
  * @param integer $id ID of the category to update.
  * @param string $title Title of the category to update.
- * @param string $parentcategory Parent ID of the category to update. Can be -1 if the category is at root level.
- * @param string $status Status ID of the category to update.  It's saved in the db in an enum, so a string is required between 0 and 1.
  *
  * @return void
  */
-function UpdateCategory($id, $title, $parentcategory, $status)
+function UpdateCategory($id, $title)
 {
 	if (Utils::cando(11))
 	{
@@ -149,40 +124,17 @@ function UpdateCategory($id, $title, $parentcategory, $status)
 			throw new Exception('Le titre est vide.');
 		}
 
-		// Verify category parent
-		$cats = $categories->listAllCategories();
-
-		$categoryCache = Utils::categoriesCache($cats);
-
-		if (count($categoryCache) > 0 AND $parentcategory !== 0)
-		{
-			if (!isset($categoryCache["$parentcategory"]) AND $parentcategory !== '-1')
-			{
-				throw new Exception('La catégorie parente spécifiée n\'est pas valide.');
-			}
-		}
-
 		$categories->set_id($id);
 		$categories->set_name($title);
-		$categories->set_parentid($parentcategory);
-		$categories->set_status($status);
 
 		// Save the new category in the database
-		$newid = $categories->saveEditCategory();
-
-		if (!$newid)
+		if ($categories->saveEditCategory())
 		{
-			throw new Exception('La catégorie n\'a pas été enregistrée.');
+			$_SESSION['category']['edit'] = 1;
 		}
 		else
 		{
-			$cats = $categories->listAllCategories();
-
-			$categoryCache = Utils::categoriesCache($cats);
-			$parentCache = Utils::buildParentCache($categoryCache);
-			Utils::buildCategoryGenealogy($categoryCache, $parentCache);
-
-			$_SESSION['category']['edit'] = 1;
+			throw new Exception('La catégorie n\'a pas été enregistrée.');
 		}
 
 		// Save is correctly done, redirects to the category list
@@ -211,21 +163,15 @@ function DeleteCategory($id)
 		$categories = new \Ecommerce\Model\ModelCategory($config);
 
 		$categories->set_id($id);
-		$newid = $categories->deleteCategory();
 
-		if (!$newid)
+		// Delete the category from the database
+		if ($categories->deleteCategory())
 		{
-			throw new Exception('La catégorie n\'a pas été supprimée.');
+			$_SESSION['category']['delete'] = 1;
 		}
 		else
 		{
-			$cats = $categories->listAllCategories();
-
-			$categoryCache = Utils::categoriesCache($cats);
-			$parentCache = Utils::buildParentCache($categoryCache);
-			Utils::buildCategoryGenealogy($categoryCache, $parentCache);
-
-			$_SESSION['category']['delete'] = 1;
+			throw new Exception('La catégorie n\'a pas été supprimée.');
 		}
 
 		// Save is correctly done, redirects to the category list

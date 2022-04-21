@@ -167,209 +167,59 @@ class Utils
 	}
 
 	/**
-	 * Returns an array of categories values with an addition of depth for parent/child relation.
+	 * Creates a list of countries to display in the customer profile.
 	 *
-	 * @return array Array of data.
+	 * @param string $selected Value stored in the database for the customer.
+	 *
+	 * @return string Returns  string with all values stored in &lt;option> tags
 	 */
-	public static function categoriesCache($content)
-	{
-		$array = [];
-
-		foreach ($content AS $key => $data)
-		{
-			$array["$data[id]"] = $data;
-			$array["$data[id]"]['depth'] = substr_count($array["$data[id]"]['parentlist'], ',') - 1;
-		}
-
-		return $array;
-	}
-
-	/**
-	 * Returns a list of <option> fields, optionally with one selected.
-	 *
-	 * @param array $array Array of value => text pairs representing '&lt;option value="$key">$value</option>' fields.
-	 * @param string $selectedid Selected option.
-	 *
-	 * @return string List of &lt;option> tags.
-	 */
-	public static function constructCategorySelectOptions($array, $selectedid = '')
-	{
-		if (is_array($array))
-		{
-			$options = '';
-
-			foreach ($array AS $key => $value)
-			{
-				if (is_array($value))
-				{
-					$options .= "\t\t<optgroup label=\"" . $key . "\">/n";
-					$options .= self::constructCategorySelectOptions($value, $selectedid);
-					$options .= "\t\t</optgroup>\n";
-				}
-				else
-				{
-					if (is_array($selectedid))
-					{
-						$selected = (in_array($key, $selectedid) ? ' selected' : '');
-					}
-					else
-					{
-
-						$selected = ($key == $selectedid ? ' selected' : '');
-					}
-
-					$options .= "\t\t<option value=\"" . $key . "\"$selected>$value</option>\n";
-				}
-			}
-		}
-
-		return $options;
-	}
-
-	/**
-	 * Returns an array representing the list of categories.
-	 *
-	 * @param array $categorycache A valid category cache in form of array[id] => data.
-	 *
-	 * @return array Array representing the list of categories.
-	 */
-	public static function constructCategoryChooserOptions($categorycache)
-	{
-		$selectoptions = [];
-
-		$selectoptions[-1] = 'Selectionnez une catégorie parente. Pas de sélection = pas de parent.';
-
-		$startdepth = '';
-
-		// Pass a sort of cache of category to parse - will do it in another way
-		foreach ($categorycache AS $categoryid => $category)
-		{
-			$depthmark = '';
-
-			for ($i = 0; $i < $category['depth']; $i++)
-			{
-				$depthmark .= '--';
-			}
-
-			$selectoptions["$categoryid"] = $depthmark . ' ' . $category['nom'];
-		}
-
-		return $selectoptions;
-	}
-
-	/**
-	 * Builds a cache with parents informations to create parentlist and childlist.
-	 *
-	 * @param array $array Array of all existing categories.
-	 *
-	 * @return array Array of parents informations.
-	 */
-	public static function buildParentCache($array)
-	{
-		$return = [];
-
-		// $array = $this->listAllCategories();
-
-		foreach ($array AS $key => $newcategory)
-		{
-			$return["$newcategory[parentid]"]["$newcategory[id]"] = $newcategory['id'];
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Recalculates category parent and child lists, then saves them back to the category table.
-	 *
-	 * @param array $categoriesCache Array of categories informations.
-	 * @param array $parentCache Array of parents informations.
-	 *
-	 * @return void
-	 */
-	public static function buildCategoryGenealogy($categoriesCache, $parentCache)
-	{
-		global $config;
-
-		// build parent/child lists
-		foreach ($categoriesCache AS $categoryid => $category)
-		{
-			// parent list
-			$i = 0;
-			$curid = $categoryid;
-
-			$categoriesCache["$categoryid"]['parentlist'] = '';
-
-			while ($curid != -1 AND $i++ < 1000)
-			{
-				if ($curid)
-				{
-					$categoriesCache["$categoryid"]['parentlist'] .= $curid . ',';
-					$curid = $categoriesCache["$curid"]['parentid'];
-				}
-				else
-				{
-					if ($curid !== '0')
-					{
-						throw new Exception('La définition des parents des catégories est non valide.');
-					}
-				}
-			}
-
-			$categoriesCache["$categoryid"]['parentlist'] .= '-1';
-
-			// child list
-			$categoriesCache["$categoryid"]['childlist'] = $categoryid;
-			self::fetchCategoryChildList($categoryid, $categoryid, $categoriesCache, $parentCache);
-			$categoriesCache["$categoryid"]['childlist'] .= ',-1';
-		}
-
-		$parentsql = '';
-		$childsql = '';
-		foreach ($categoriesCache AS $categoryid => $category)
-		{
-			require_once(DIR . '/model/ModelCategory.php');
-			$cats = new \Ecommerce\Model\ModelCategory($config);
-
-			$cats->set_parentlist($category['parentlist']);
-			$cats->set_childlist($category['childlist']);
-			$cats->set_id($categoryid);
-
-			if (!$cats->updateCategoriesGenealogy())
-			{
-				throw new Exception('Une erreur est survenue pendant la mise à jour de la généalogie des catégories.');
-			}
-		}
-	}
-
-	/**
-	* Recursive function to populate the category cache with correct child list fields.
-	*
-	* @param integer $maincategoryid Category ID to be updated.
-	* @param integer $parentid Parent category ID.
-	*
-	* @return void
-	*/
-	private static function fetchCategoryChildList($maincategoryid, $parentid, $categoriesCache, $parentCache)
-	{
-		if (!empty($parentCache["$parentid"]) AND is_array($parentCache["$parentid"]))
-		{
-			foreach ($parentCache["$parentid"] AS $categoryid => $categoryparentid)
-			{
-				$cache["$maincategoryid"]['childlist'] .= ',' . $categoryid;
-				self::fetchCategoryChildList($maincategoryid, $categoryid, $categoriesCache, $parentCache);
-			}
-		}
-	}
-
 	public static function createCountryList($selected = '')
 	{
 		$return = '';
+
 		$countries = [
 			'AF' => 'Afghanistan', 'ZA' => 'Afrique du Sud', 'AL' => 'Albanie', 'DZ' => 'Algérie', 'AD' => 'Andorre', 'AO' => 'Angola',
 			'AI' => 'Anguilla', 'DE' => 'Allemagne', 'AQ' => 'Antarctique', 'AG' => 'Antigua-et-Barbuda', 'SA' => 'Arabie saoudite',
 			'AR' => 'Argentine', 'AM' => 'Arménie', 'AW' => 'Aruba', 'AU' => 'Australie', 'AT' => 'Autriche', 'AZ' => 'Azerbaijan', 'BS' => 'Bahamas',
 			'BH' => 'Bahrain', 'BD' => 'Bangladesh', 'BB' => 'Barbade', 'BE' => 'Belgique', 'BZ' => 'Bélize', 'BJ' => 'Bénin', 'BM' => 'Bermudes',
-			'BT' => 'Bhoutan', 'BY' => 'Biélorussie', 'BO' => 'Bolivie', 'BA' => 'Bosnie Herzégovine', 'BW' => 'Botswana', 'BR' => 'Brésil', 'BN' => 'Brunei Darussalam', 'BG' => 'Bulgarie', 'BF' => 'Burkina Faso', 'BI' => 'Burundi', 'KH' => 'Cambodge', 'CM' => 'Cameroun', 'CA' => 'Canada', 'CV' => 'Cap Vert', 'VA' => 'Cité du Vatican', 'CL' => 'Chili', 'CN' => 'Chine', 'CO' => 'Colombie', 'KM' => 'Comores', 'CG' => 'Congo - Brazzaville', 'CD' => 'Congo - Kinshasa', 'CR' => 'Costa Rica', 'KP' => 'Corée du Nord', 'KR' => 'Corée du Sud', 'CI' => 'Côte d’Ivoire', 'HR' => 'Croatie', 'CU' => 'Cuba', 'CY' => 'Chypre', 'DK' => 'Danemark', 'DJ' => 'Djibouti', 'DM' => 'Dominique', 'EG' => 'Egypte', 'SV' => 'El Salvador', 'AE' => 'Émirats arabes unis', 'EC' => 'Équateur', 'ER' => 'Érythrée', 'ES' => 'Espagne', 'EE' => 'Estonie', 'SZ' => 'Eswatini', 'US' => 'États-Unis', 'ET' => 'Ethiopie', 'FJ' => 'Fidji', 'FI' => 'Finlande', 'FR' => 'France', 'GA' => 'Gabon', 'GM' => 'Gambie', 'GE' => 'Géorgie', 'GS' => 'Géorgie du Sud et les Îles Sandwich du Sud', 'GH' => 'Ghana', 'GI' => 'Gibraltar', 'GR' => 'Grèce', 'GD' => 'Grenade', 'GL' => 'Groenland', 'GP' => 'Guadeloupe', 'GU' => 'Guam', 'GT' => 'Guatemala', 'GG' => 'Guernesey', 'GN' => 'Guinée', 'GQ' => 'Guinée équatoriale', 'GW' => 'Guinée-Bissau', 'GY' => 'Guyane', 'GF' => 'Guyane française', 'HT' => 'Haiti', 'HN' => 'Honduras', 'HK' => 'Hong Kong', 'HU' => 'Hongrie', 'BV' => 'Île Bouvet', 'CX' => 'Île Christmas', 'IM' => 'Île de Man', 'NF' => 'Île Norfolk', 'AX' => 'Îles Åland', 'KY' => 'Îles Caïmans', 'CC' => 'Îles Cocos (Keeling)', 'CK' => 'Îles Cook', 'FK' => 'Îles Falkland (Malvinas)', 'FO' => 'Îles Féroé', 'HM' => 'Îles Heard et McDonald', 'MP' => 'Îles Mariannes du Nord', 'MH' => 'Îles Marshall', 'UM' => 'Îles mineures éloignées des États-Unis', 'PN' => 'Îles Pitcairn', 'SB' => 'Îles Salomon', 'TC' => 'Îles Turks et Caïques', 'VG' => 'Îles Vierges britanniques', 'VI' => 'Îles Vierges des États-Unis', 'IN' => 'Inde', 'ID' => 'Indonésie', 'IR' => 'Iran', 'IQ' => 'Irak', 'IE' => 'Irlande', 'IS' => 'Islande', 'IL' => 'Israël', 'IT' => 'Italie', 'JM' => 'Jamaïque', 'JP' => 'Japon', 'JE' => 'Jersey', 'JO' => 'Jordanie', 'KZ' => 'Kazakhstan', 'KE' => 'Kenya', 'KI' => 'Kiribati', 'KW' => 'Koweit', 'KG' => 'Kirghizistan', 'LA' => 'Laos', 'LS' => 'Lesotho', 'LV' => 'Lettonie', 'LB' => 'Liban', 'LR' => 'Libéria', 'LY' => 'Libye', 'LI' => 'Liechtenstein', 'LT' => 'Lituanie', 'LU' => 'Luxembourg', 'MO' => 'Macao', 'MK' => 'Macédoine du Nord', 'MG' => 'Madagascar', 'MY' => 'Malaisie', 'MW' => 'Malawi', 'MV' => 'Maldives', 'ML' => 'Mali', 'MT' => 'Malte', 'MQ' => 'Martinique', 'MU' => 'Maurice', 'MR' => 'Mauritanie', 'YT' => 'Mayotte', 'MX' => 'Mexique', 'FM' => 'Micronésie', 'MD' => 'Moldavie', 'MC' => 'Monaco', 'MN' => 'Mongolie', 'ME' => 'Monténégro', 'MS' => 'Montserrat', 'MA' => 'Maroc', 'MZ' => 'Mozambique', 'MM' => 'Myanmar (Birmanie)', 'NA' => 'Namibie', 'NR' => 'Nauru', 'NP' => 'Népal', 'NI' => 'Nicaragua', 'NE' => 'Niger', 'NG' => 'Nigeria', 'NU' => 'Niué', 'NO' => 'Norvège', 'NC' => 'Nouvelle-Calédonie', 'NZ' => 'Nouvelle-Zélande', 'OM' => 'Oman', 'UG' => 'Ouganda', 'UZ' => 'Ouzbékistan', 'PK' => 'Pakistan', 'PW' => 'Palaos', 'PA' => 'Panama', 'PG' => 'Papouasie Nouvelle Guinée', 'PY' => 'Paraguay', 'NL' => 'Pays-Bas', 'PE' => 'Pérou', 'PH' => 'Philippines', 'PL' => 'Pologne', 'PF' => 'Polynésie française', 'PT' => 'Portugal', 'PR' => 'Puerto Rico', 'QA' => 'Qatar', 'CF' => 'République centrafricaine', 'DO' => 'République dominicaine', 'RE' => 'Réunion', 'RO' => 'Roumanie', 'GB' => 'Royaume-Uni', 'RU' => 'Russie', 'RW' => 'Rwanda', 'EH' => 'Sahara occidental', 'BL' => 'Saint-Barthélemy', 'KN' => 'Saint-Kitts-et-Nevis', 'MF' => 'Saint-Martin', 'PM' => 'Saint-Pierre-et-Miquelon', 'VC' => 'Saint-Vincent et les Grenadines', 'SH' => 'Sainte-Hélène', 'LC' => 'Sainte-Lucie', 'WS' => 'Samoa', 'AS' => 'Samoa américaines', 'SM' => 'San Marin', 'ST' => 'Sao Tomé-et-Principe', 'SN' => 'Sénégal', 'RS' => 'Serbie', 'SC' => 'Seychelles', 'SL' => 'Sierra Leone', 'SG' => 'Singapour', 'SK' => 'Slovaquie', 'SI' => 'Slovénie', 'SO' => 'Somalie', 'LK' => 'Sri Lanka', 'SD' => 'Soudan', 'SR' => 'Suriname', 'SE' => 'Suède', 'CH' => 'Suisse', 'SJ' => 'Svalbard et Jan Mayen', 'SY' => 'Syrie', 'TJ' => 'Tadjikistan', 'TW' => 'Taiwan', 'TZ' => 'Tanzanie', 'TD' => 'Tchad', 'CZ' => 'Tchéquie', 'TF' => 'Terres australes et antarctiques françaises', 'IO' => 'Territoire britannique de l\'océan Indien', 'PS' => 'Territoires palestiniens', 'TH' => 'Thaïlande', 'TL' => 'Timor-Leste', 'TG' => 'Togo', 'TK' => 'Tokelau', 'TO' => 'Tonga', 'TT' => 'Trinité-et-Tobago', 'TN' => 'Tunisie', 'TM' => 'Turkménistan', 'TR' => 'Turquie', 'TV' => 'Tuvalu', 'UA' => 'Ukraine', 'UY' => 'Uruguay', 'VU' => 'Vanuatu', 'VE' => 'Vénézuela', 'VN' => 'Vietnam', 'WF' => 'Wallis et Futuna', 'YE' => 'Yémen', 'ZM' => 'Zambie', 'ZW' => 'Zimbabwe'];
+			'BT' => 'Bhoutan', 'BY' => 'Biélorussie', 'BO' => 'Bolivie', 'BA' => 'Bosnie Herzégovine', 'BW' => 'Botswana', 'BR' => 'Brésil',
+			'BN' => 'Brunei Darussalam', 'BG' => 'Bulgarie', 'BF' => 'Burkina Faso', 'BI' => 'Burundi', 'KH' => 'Cambodge', 'CM' => 'Cameroun',
+			'CA' => 'Canada', 'CV' => 'Cap Vert', 'VA' => 'Cité du Vatican', 'CL' => 'Chili', 'CN' => 'Chine', 'CO' => 'Colombie', 'KM' => 'Comores',
+			'CG' => 'Congo - Brazzaville', 'CD' => 'Congo - Kinshasa', 'CR' => 'Costa Rica', 'KP' => 'Corée du Nord', 'KR' => 'Corée du Sud',
+			'CI' => 'Côte d’Ivoire', 'HR' => 'Croatie', 'CU' => 'Cuba', 'CY' => 'Chypre', 'DK' => 'Danemark', 'DJ' => 'Djibouti', 'DM' => 'Dominique',
+			'EG' => 'Egypte', 'SV' => 'El Salvador', 'AE' => 'Émirats arabes unis', 'EC' => 'Équateur', 'ER' => 'Érythrée', 'ES' => 'Espagne',
+			'EE' => 'Estonie', 'SZ' => 'Eswatini', 'US' => 'États-Unis', 'ET' => 'Ethiopie', 'FJ' => 'Fidji', 'FI' => 'Finlande', 'FR' => 'France',
+			'GA' => 'Gabon', 'GM' => 'Gambie', 'GE' => 'Géorgie', 'GS' => 'Géorgie du Sud et les Îles Sandwich du Sud', 'GH' => 'Ghana',
+			'GI' => 'Gibraltar', 'GR' => 'Grèce', 'GD' => 'Grenade', 'GL' => 'Groenland', 'GP' => 'Guadeloupe', 'GU' => 'Guam', 'GT' => 'Guatemala',
+			'GG' => 'Guernesey', 'GN' => 'Guinée', 'GQ' => 'Guinée équatoriale', 'GW' => 'Guinée-Bissau', 'GY' => 'Guyane', 'GF' => 'Guyane française',
+			'HT' => 'Haiti', 'HN' => 'Honduras', 'HK' => 'Hong Kong', 'HU' => 'Hongrie', 'BV' => 'Île Bouvet', 'CX' => 'Île Christmas',
+			'IM' => 'Île de Man', 'NF' => 'Île Norfolk', 'AX' => 'Îles Åland', 'KY' => 'Îles Caïmans', 'CC' => 'Îles Cocos (Keeling)', 'CK' => 'Îles Cook',
+			'FK' => 'Îles Falkland (Malvinas)', 'FO' => 'Îles Féroé', 'HM' => 'Îles Heard et McDonald', 'MP' => 'Îles Mariannes du Nord',
+			'MH' => 'Îles Marshall', 'UM' => 'Îles mineures éloignées des États-Unis', 'PN' => 'Îles Pitcairn', 'SB' => 'Îles Salomon',
+			'TC' => 'Îles Turks et Caïques', 'VG' => 'Îles Vierges britanniques', 'VI' => 'Îles Vierges des États-Unis', 'IN' => 'Inde',
+			'ID' => 'Indonésie', 'IR' => 'Iran', 'IQ' => 'Irak', 'IE' => 'Irlande', 'IS' => 'Islande', 'IL' => 'Israël', 'IT' => 'Italie',
+			'JM' => 'Jamaïque', 'JP' => 'Japon', 'JE' => 'Jersey', 'JO' => 'Jordanie', 'KZ' => 'Kazakhstan', 'KE' => 'Kenya', 'KI' => 'Kiribati',
+			'KW' => 'Koweit', 'KG' => 'Kirghizistan', 'LA' => 'Laos', 'LS' => 'Lesotho', 'LV' => 'Lettonie', 'LB' => 'Liban', 'LR' => 'Libéria',
+			'LY' => 'Libye', 'LI' => 'Liechtenstein', 'LT' => 'Lituanie', 'LU' => 'Luxembourg', 'MO' => 'Macao', 'MK' => 'Macédoine du Nord',
+			'MG' => 'Madagascar', 'MY' => 'Malaisie', 'MW' => 'Malawi', 'MV' => 'Maldives', 'ML' => 'Mali', 'MT' => 'Malte', 'MQ' => 'Martinique',
+			'MU' => 'Maurice', 'MR' => 'Mauritanie', 'YT' => 'Mayotte', 'MX' => 'Mexique', 'FM' => 'Micronésie', 'MD' => 'Moldavie', 'MC' => 'Monaco',
+			'MN' => 'Mongolie', 'ME' => 'Monténégro', 'MS' => 'Montserrat', 'MA' => 'Maroc', 'MZ' => 'Mozambique', 'MM' => 'Myanmar (Birmanie)',
+			'NA' => 'Namibie', 'NR' => 'Nauru', 'NP' => 'Népal', 'NI' => 'Nicaragua', 'NE' => 'Niger', 'NG' => 'Nigeria', 'NU' => 'Niué', 'NO' => 'Norvège',
+			'NC' => 'Nouvelle-Calédonie', 'NZ' => 'Nouvelle-Zélande', 'OM' => 'Oman', 'UG' => 'Ouganda', 'UZ' => 'Ouzbékistan', 'PK' => 'Pakistan',
+			'PW' => 'Palaos', 'PA' => 'Panama', 'PG' => 'Papouasie Nouvelle Guinée', 'PY' => 'Paraguay', 'NL' => 'Pays-Bas', 'PE' => 'Pérou',
+			'PH' => 'Philippines', 'PL' => 'Pologne', 'PF' => 'Polynésie française', 'PT' => 'Portugal', 'PR' => 'Puerto Rico', 'QA' => 'Qatar',
+			'CF' => 'République centrafricaine', 'DO' => 'République dominicaine', 'RE' => 'Réunion', 'RO' => 'Roumanie', 'GB' => 'Royaume-Uni',
+			'RU' => 'Russie', 'RW' => 'Rwanda', 'EH' => 'Sahara occidental', 'BL' => 'Saint-Barthélemy', 'KN' => 'Saint-Kitts-et-Nevis',
+			'MF' => 'Saint-Martin', 'PM' => 'Saint-Pierre-et-Miquelon', 'VC' => 'Saint-Vincent et les Grenadines', 'SH' => 'Sainte-Hélène',
+			'LC' => 'Sainte-Lucie', 'WS' => 'Samoa', 'AS' => 'Samoa américaines', 'SM' => 'San Marin', 'ST' => 'Sao Tomé-et-Principe', 'SN' => 'Sénégal',
+			'RS' => 'Serbie', 'SC' => 'Seychelles', 'SL' => 'Sierra Leone', 'SG' => 'Singapour', 'SK' => 'Slovaquie', 'SI' => 'Slovénie', 'SO' => 'Somalie',
+			'LK' => 'Sri Lanka', 'SD' => 'Soudan', 'SR' => 'Suriname', 'SE' => 'Suède', 'CH' => 'Suisse', 'SJ' => 'Svalbard et Jan Mayen', 'SY' => 'Syrie',
+			'TJ' => 'Tadjikistan', 'TW' => 'Taiwan', 'TZ' => 'Tanzanie', 'TD' => 'Tchad', 'CZ' => 'Tchéquie',
+			'TF' => 'Terres australes et antarctiques françaises', 'IO' => 'Territoire britannique de l\'océan Indien', 'PS' => 'Territoires palestiniens',
+			'TH' => 'Thaïlande', 'TL' => 'Timor-Leste', 'TG' => 'Togo', 'TK' => 'Tokelau', 'TO' => 'Tonga', 'TT' => 'Trinité-et-Tobago', 'TN' => 'Tunisie',
+			'TM' => 'Turkménistan', 'TR' => 'Turquie', 'TV' => 'Tuvalu', 'UA' => 'Ukraine', 'UY' => 'Uruguay', 'VU' => 'Vanuatu', 'VE' => 'Vénézuela',
+			'VN' => 'Vietnam', 'WF' => 'Wallis et Futuna', 'YE' => 'Yémen', 'ZM' => 'Zambie', 'ZW' => 'Zimbabwe'
+		];
 
 		foreach ($countries AS $key => $value)
 		{

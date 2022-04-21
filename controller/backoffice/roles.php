@@ -179,7 +179,7 @@ function UpdateRolePerms($id, $permissions)
 
 	// Only the superadmin can edit roles, it's role ID is to be specified in the config.php file for $config['Misc']['superadminid']
 	// This condition different than all other is to prevent to be locked out and no one can edit them later
-	if ($config['Misc']['superadminid'] == $_SESSION['user']['roleid'])
+	if ($config['Misc']['superadminid'] == $_SESSION['employee']['roleid'])
 	{
 		require_once(DIR . '/model/ModelRole.php');
 		$roles = new \Ecommerce\Model\ModelRole($config);

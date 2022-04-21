@@ -21,6 +21,8 @@ if (empty($do) OR !isset($do))
 require_once('../controller/backoffice.php');
 require_once(DIR . '/view/backoffice/ViewTemplate.php');
 
+// Utils::printr($_SESSION, 1);
+
 // Request employee informations here to be used for any page if the employee is logged-in
 if (isset($_SESSION['employee']['id']))
 {
@@ -120,9 +122,7 @@ try
 			break;
 		case 'insertcategory':
 			$title = isset($_POST['title']) ? filter_var($_POST['title'], FILTER_SANITIZE_STRING) : NULL;
-			$parentcategory = isset($_POST['parentcategory']) ? filter_var($_POST['parentcategory'], FILTER_SANITIZE_STRING) : NULL;
-			$status = isset($_POST['status']) ? filter_var($_POST['status'], FILTER_VALIDATE_BOOLEAN) : NULL;
-			InsertCategory($title, $parentcategory, $status);
+			InsertCategory($title);
 			exit;
 		case 'editcategory':
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
@@ -131,9 +131,7 @@ try
 		case 'updatecategory':
 			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
 			$title = isset($_POST['title']) ? filter_var($_POST['title'], FILTER_SANITIZE_STRING) : NULL;
-			$parentcategory = isset($_POST['parentcategory']) ? filter_var($_POST['parentcategory'], FILTER_SANITIZE_STRING) : NULL;
-			$status = isset($_POST['status']) ? filter_var($_POST['status'], FILTER_SANITIZE_STRING) : NULL;
-			UpdateCategory($id, $title, $parentcategory, $status);
+			UpdateCategory($id, $title);
 			exit;
 		case 'deletecategory':
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;

@@ -25,7 +25,7 @@ class ViewCategory
 			$pagetitle = 'Gestion des catégories';
 			$navtitle = 'Liste des catégories';
 			$navbits = [
-				'index.php?do=listemployees' => $pagetitle,
+				'listcategories' => $pagetitle,
 				'' => $navtitle
 			];
 
@@ -93,7 +93,6 @@ class ViewCategory
 																	<thead>
 																		<tr class="tablegrid-header-row">
 																			<th class="tablegrid-header-cell tablegrid-header-sortable" style="width: 125px">Intitulé</th>
-																			<th class="tablegrid-header-cell tablegrid-header-sortable" style="width: 75px">État</th>
 																			<th class="tablegrid-header-cell tablegrid-header-sortable" style="width: 75px">Nombre de produits</th>
 																			<?php
 																			if (Utils::cando(11) OR Utils::cando(12))
@@ -122,7 +121,6 @@ class ViewCategory
 																			?>
 																			<tr class="<?= (($quantity++ % 2) == 0 ? 'tablegrid-row' : 'tablegrid-alt-row') ?>">
 																				<td class="tablegrid-cell" style="width: 125px"><?= $data['nom']; ?></td>
-																				<td class="tablegrid-cell" style="width: 75px"><i class="fa fa-circle font-<?= (($data['etat'] == 1) ? 'success' : 'danger') ?> f-12"></i></td>
 																				<td class="tablegrid-cell" style="width: 75px"><?= $data['compteur']; ?></td>
 																				<?php
 																				if (Utils::cando(11) OR Utils::cando(12))
@@ -308,17 +306,9 @@ class ViewCategory
 			if ($categoryinfos)
 			{
 				$navbits = [
-					'index.php?do=listcategories' => $pagetitle,
+					'listcategories' => $pagetitle,
 					'' => $navtitle
 				];
-
-				// Create a sort of cache to autobuild categories with depth status to have parent and child categories in the whole system
-				require_once(DIR . '/model/ModelCategory.php');
-				$categories = new \Ecommerce\Model\ModelCategory($config);
-				$catlist = $categories->listAllCategories();
-				$cache = Utils::categoriesCache($catlist);
-				$categorylist = Utils::constructCategoryChooserOptions($cache);
-				$categoriesselect = Utils::constructCategorySelectOptions($categorylist, $categoryinfos['parentid']);
 
 				?>
 				<!DOCTYPE html>
@@ -369,29 +359,6 @@ class ViewCategory
 															<label for="validationCustom01" class="col-form-label pt-0"><span>*</span> Intitulé</label>
 															<input class="form-control" id="validationCustom01" type="text" required name="title" value="<?= $categoryinfos['nom'] ?>">
 														</div>
-														<div class="form-group">
-															<label class="col-form-label"><span>*</span> Catégorie</label>
-															<select class="custom-select form-control" required name="parentcategory">
-															<?= $categoriesselect; ?>
-															</select>
-														</div>
-														<div class="form-group">
-															<label class="col-form-label"><span>*</span> État</label>
-															<div class="m-checkbox-inline mb-0 custom-radio-ml d-flex radio-animated">
-																<label class="d-block" for="edo-ani">
-																	<input class="radio_animated" id="edo-ani" type="radio" name="status" value="1" <?= ($categoryinfos['etat'] == 1) ? ' checked' : ''; ?>>
-																	Activé
-																</label>
-																<label class="d-block" for="edo-ani1">
-																	<input class="radio_animated" id="edo-ani1" type="radio" name="status" value="0" <?= ($categoryinfos['etat'] == 0) ? ' checked' : ''; ?>>
-																	Désactivé
-																</label>
-															</div>
-														</div>
-														<div class="form-group">
-															<label for="counter" class="col-form-label pt-0">Nombre de produits dans la catégorie</label>
-															<input class="form-control" id="counter" type="text" required value="<?= $categoryinfos['compteur']; ?>" disabled>
-														</div>
 														<div class="form-group mb-0">
 															<div class="product-buttons text-center">
 																<input type="hidden" name="do" value="<?= $formredirect ?>" />
@@ -426,7 +393,7 @@ class ViewCategory
 
 						</div>
 						<!-- latest jquery-->
-						<script src="../assets/js/jquery-3.3.1.min.js"></script>
+						<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
 						<!-- Bootstrap js-->
 						<script src="../assets/js/popper.min.js"></script>

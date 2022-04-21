@@ -78,7 +78,7 @@ class ModelRole extends Model
 		$query = $db->prepare("
 			SELECT COUNT(*) AS compteur
 			FROM employe
-			WHERE id_role = ?
+			WHERE role = ?
 		");
 		$query->bindParam(1, $this->id, \PDO::PARAM_INT);
 

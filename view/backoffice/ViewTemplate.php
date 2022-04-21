@@ -510,7 +510,7 @@ class ViewTemplate
 									}
 
 									?>
-									<li class="<?= $elementtype; ?>"><?php isset($nav_url) ? '<a href="' . $nav_url . '">' : '' ?><?= $nav_title ?><?php isset($nav_url) ? '</a>' : '' ?></li>
+									<li class="<?= $elementtype; ?>"><?php isset($nav_url) ? '<a href="index.php?do=' . $nav_url . '">' : '' ?><?= $nav_title ?><?php isset($nav_url) ? '</a>' : '' ?></li>
 									<?php
 								}
 							}

@@ -88,7 +88,7 @@ class ModelEmployee extends Model
 		$query = $db->prepare("
 			SELECT e.*, r.nom AS role
 			FROM employe AS e
-			INNER JOIN role AS r ON(r.id = e.id_role)
+			INNER JOIN role AS r ON(r.id = e.role)
 		");
 
 		$query->execute();
@@ -123,7 +123,7 @@ class ModelEmployee extends Model
 		$query = $db->prepare("
 			SELECT COUNT(*) AS compteuremploye
 			FROM employe
-			WHERE id_role = ?
+			WHERE role = ?
 		");
 		$query->bindParam(1, $this->id, \PDO::PARAM_INT);
 
@@ -141,7 +141,7 @@ class ModelEmployee extends Model
 		$db = $this->dbConnect();
 		$query = $db->prepare("
 			INSERT INTO employe
-				(nom, prenom, mail, pass, id_role)
+				(nom, prenom, mail, pass, role)
 			VALUES
 				(?, ?, ?, ?, ?)
 		");
@@ -165,7 +165,7 @@ class ModelEmployee extends Model
 		$query = $db->prepare("
 			SELECT e.*, r.nom AS rolename
 			FROM employe AS e
-			INNER JOIN role AS r ON (r.id = e.id_role)
+			INNER JOIN role AS r ON (r.id = e.role)
 			WHERE e.mail = ?
 		");
 		$query->bindParam(1, $this->email, \PDO::PARAM_STR);
@@ -187,7 +187,7 @@ class ModelEmployee extends Model
 		$query = $db->prepare("
 			SELECT e.id, e.prenom, e.nom, e.mail, r.id AS roleid, r.nom AS rolename
 			FROM employe AS e
-			INNER JOIN role AS r ON (e.id_role = r.id)
+			INNER JOIN role AS r ON (e.role = r.id)
 			WHERE e.id = ?
 		");
 		$query->bindParam(1, $this->id, \PDO::PARAM_INT);
@@ -255,7 +255,7 @@ class ModelEmployee extends Model
 				prenom = ?,
 				mail = ?,
 				pass = ?,
-				id_role = ?
+				role = ?
 			WHERE id = ?
 
 		");
@@ -280,7 +280,7 @@ class ModelEmployee extends Model
 			FROM role_permission
 			WHERE id_role = ?
 		");
-		$query->bindParam(1, $this->role, \PDO::PARAM_STR);
+		$query->bindParam(1, $this->role, \PDO::PARAM_INT);
 
 		$query->execute();
 

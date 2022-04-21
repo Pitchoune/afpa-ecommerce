@@ -80,11 +80,11 @@ function doLogin($email, $pass)
 			// Store session informations
 			$_SESSION['employee']['loggedin'] = true;
 			$_SESSION['employee']['id'] = $employe['id'];
-			$_SESSION['employee']['roleid'] = $employe['id_role'];
+			$_SESSION['employee']['roleid'] = $employe['role'];
 			$_SESSION['employee']['permissions'] = [];
 
 			// Get permissions and store them in the session
-			$employees->set_role($employe['id_role']);
+			$employees->set_role($employe['role']);
 			$permissions = $employees->getEmployeePermissions();
 
 			foreach ($permissions AS $permission)

@@ -57,8 +57,7 @@ class ViewTemplate
 
 		require_once(DIR . '/model/ModelCategory.php');
 		$categories = new \Ecommerce\Model\ModelCategory($config);
-		$categories->set_parentid('-1');
-		$listcategories = $categories->listCategoriesWithParent();
+		$listcategories = $categories->listAllCategories();
 
 		// Create 2 lists of categories without the same values to fill a 'more categories' part with a link to display them.
 		$category1 = $category2 = '';
