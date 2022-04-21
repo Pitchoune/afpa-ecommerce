@@ -37,26 +37,30 @@ class ViewIndex
 					ViewTemplate::FrontBreadcrumb('', '');
 					?>
 
-					<p>Page en cours</p>
-					<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-					<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-					<p>
+					<p>Page en cours, contenu à venir une fois que les produits seront gérés en admin.</p>
+					<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />La page a un contenu vide assez haut car si sa hauteur est trop courte, le template foire.
+					<br /><br /><br /><br /><br />
+					<p>Vous êtes actuellement
 					<?php
 					if ($_SESSION['user']['loggedin'] !== true)
 					{
 					?>
-						 Déconnecté<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+						déconnecté.
 					 <?php
 					}
 					else
 					{
 					?>
-						 Connecté<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+						connecté.
 					 <?php
 					}
+					?>
+					</p><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 
+					<?php
 					ViewTemplate::FrontFooter();
 					?>
+
 
 					<!-- latest jquery-->
 					<script src="assets/js/jquery-3.3.1.min.js" ></script>
@@ -88,6 +92,41 @@ class ViewIndex
 					<!-- Theme js-->
 					<script src="assets/js/modal.js"></script>
 					<script src="assets/js/script.js" ></script>
+
+					<?php
+
+					if ($_SESSION['nonallowed'] === 1)
+					{
+						ViewTemplate::FrontNotify('Erreur', 'Vous ne pouvez pas accéder à cette partie.', 'danger');
+						unset($_SESSION['nonallowed']);
+					}
+
+					if ($_SESSION['userregistered'] === 1)
+					{
+						ViewTemplate::FrontNotify('Inscription', 'Vous vous êtes inscrit avec succès !', 'success');
+						unset($_SESSION['userregistered']);
+					}
+
+					if ($_SESSION['userloggedin'] === 1)
+					{
+						ViewTemplate::FrontNotify('Identification', 'Vous vous êtes identifié avec succès !', 'success');
+						unset($_SESSION['userloggedin']);
+					}
+
+					if ($_SESSION['userloggedout'] === 1)
+					{
+						ViewTemplate::FrontNotify('Déconnexion', 'Vous vous êtes déconnecté avec succès !', 'success');
+						unset($_SESSION['userloggedout']);
+					}
+
+					if ($_SESSION['customerremoved'] === 1)
+					{
+						ViewTemplate::FrontNotify('Suppression de compte', 'Votre compte utilisateur a été supprimé avec succès !', 'success');
+						unset($_SESSION['customerremoved']);
+					}
+
+					?>
+
 				</body>
 			</html>
 		<?php

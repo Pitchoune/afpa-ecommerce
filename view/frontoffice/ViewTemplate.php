@@ -1034,11 +1034,11 @@ class ViewTemplate
 				<form class="theme-form" action="index.php?do=dologin" method="post">
 					<div class="form-group">
 						<label for="email">Adresse email</label>
-						<input type="text" class="form-control" id="email" name="email" placeholder="Email" required />
+						<input type="text" class="form-control" id="email" name="email" placeholder="Insérez votre adresse email" required />
 					</div>
 					<div class="form-group">
 						<label for="review">Mot de passe</label>
-						<input type="password" class="form-control" id="review" name="password" placeholder="Enter your password" required />
+						<input type="password" class="form-control" id="review" name="password" placeholder="Insérez votre mot de passe" required />
 					</div>
 					<div class="form-group">
 						<input type="submit" class="btn btn-solid btn-md btn-block" value="S'identifier" />
@@ -1084,10 +1084,11 @@ class ViewTemplate
 	 *
 	 * @param string $title Title of the notification.
 	 * @param string $message Message of the notification.
+	 * @param string $type Type of notification. Accepted values: 'success' (green), 'info' (blue), 'warning' (yellow), 'danger' (red).
 	 *
 	 * @return void
 	 */
-	public static function FrontNotify($title, $message)
+	public static function FrontNotify($title, $message, $type)
 	{
 		?>
 		<script>
@@ -1099,7 +1100,7 @@ class ViewTemplate
 			},{
 				element: 'body',
 				position: null,
-				type: "success",
+				type: '<?= $type ?>',
 				allow_dismiss: true,
 				newest_on_top: false,
 				showProgressbar: true,

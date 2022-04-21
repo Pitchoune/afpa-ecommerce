@@ -2855,7 +2855,8 @@ $('.tap-top').on('click', function() {
     /*=====================
      26. Cookiebar
      ==========================*/
-    const apiUrl = 'http://127.0.0.1/~Yves/afpa/mvc/controller/geoip.php';
+    //const apiUrl = 'http://127.0.0.1/~Yves/afpa/mvc/controller/geoip.php';
+    const apiUrl = 'http://ks383258.kimsufi.com/geoip.php';
     const cookieName = 'EcommerceCookiePolicyInformed';
     const cookieExpireDays = 5;
 

@@ -96,9 +96,9 @@ class ModelDeliver extends Model
 		$db = $this->dbConnect();
 		$query = $db->prepare("
 			INSERT INTO transporteur
-				(nom)
+				(id, nom, logo)
 			VALUES
-				(?)
+				(NULL, ?, '')
 		");
 		$query->bindParam(1, $this->name, \PDO::PARAM_STR);
 
@@ -115,9 +115,9 @@ class ModelDeliver extends Model
 		$db = $this->dbConnect();
 		$query = $db->prepare("
 			INSERT INTO transporteur
-				(nom, logo)
+				(id, nom, logo)
 			VALUES
-				(?, ?)
+				(NULL, ?, ?)
 		");
 		$query->bindParam(1, $this->name, \PDO::PARAM_STR);
 		$query->bindParam(2, $this->logo, \PDO::PARAM_STR);

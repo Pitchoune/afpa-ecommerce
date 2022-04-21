@@ -44,7 +44,7 @@ else
 // Include it for all, use everywhere
 require_once(DIR . '/controller/Utils.php');
 
-if (in_array($do, ['index', 'register', 'doregister', 'login', 'dologin', 'profile', 'editprofile', 'saveprofile', 'editpassword', 'savepassword', 'forgotpassword', 'sendpassword', 'logout']))
+if (in_array($do, ['index', 'register', 'doregister', 'login', 'dologin', 'profile', 'editprofile', 'saveprofile', 'editpassword', 'savepassword', 'forgotpassword', 'sendpassword', 'deleteprofile', 'dodeleteprofile', 'logout']))
 {
 	require_once(DIR . '/controller/frontoffice/customer.php');
 }

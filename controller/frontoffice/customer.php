@@ -26,6 +26,7 @@ function register()
 {
 	if ($_SESSION['user']['loggedin'])
 	{
+		$_SESSION['nonallowed'] = 1;
 		header('Location: index.php');
 	}
 
@@ -51,6 +52,7 @@ function doRegister($firstname, $lastname, $email, $password, $passwordconfirm)
 
 	if ($_SESSION['user']['loggedin'])
 	{
+		$_SESSION['nonallowed'] = 1;
 		header('Location: index.php');
 	}
 
@@ -63,9 +65,9 @@ function doRegister($firstname, $lastname, $email, $password, $passwordconfirm)
 	{
 		throw new Exception('Veuillez insérer votre prénom.');
 	}
-	else if (!preg_match('/[a-zA-Z0-9_]+$/', trim($firstname)))
+	else if (!preg_match('/^[\p{L}\s]{2,}$/u', trim($firstname)))
 	{
-		throw new Exception('Le prénom peut contenir uniquement des lettres, des chiffres et des sous-tirets.');
+		throw new Exception('Le prénom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
 	}
 
 	// Validate last name
@@ -73,9 +75,9 @@ function doRegister($firstname, $lastname, $email, $password, $passwordconfirm)
 	{
 		throw new Exception('Veuillez insérer votre nom de famille.');
 	}
-	else if (!preg_match('/[a-zA-Z0-9_]+$/', trim($lastname)))
+	else if (!preg_match('/^[\p{L}\s]{2,}$/u', trim($lastname)))
 	{
-		throw new Exception('Le nom de famille peut contenir uniquement des lettres, des chiffres et des sous-tirets.');
+		throw new Exception('Le nom de famille peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
 	}
 
 	// Validate email
@@ -107,6 +109,10 @@ function doRegister($firstname, $lastname, $email, $password, $passwordconfirm)
 	{
 		throw new Exception('Les mots de passe ne correspondent pas.');
 	}
+	else if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', trim($password)))
+	{
+		throw new Exception('Le mot de passe utilise des caractères interdits. Veuillez recommencer.');
+	}
 	else
 	{
 		$password = trim($password);
@@ -120,7 +126,11 @@ function doRegister($firstname, $lastname, $email, $password, $passwordconfirm)
 	$customer->set_email($email);
 	$customer->set_password($hashedpassword);
 
-	if (!$customer->saveNewCustomer())
+	if ($customer->saveNewCustomer())
+	{
+		$_SESSION['userregistered'] = 1;
+	}
+	else
 	{
 		throw new Exception('L\'inscription n\'a pas pu aller jusqu\'au bout. Veuillez recommencer. Si le problème persiste, veuillez contacter l\'équipe.');
 	}
@@ -138,11 +148,9 @@ function login()
 {
 	if ($_SESSION['user']['loggedin'])
 	{
+		$_SESSION['nonallowed'] = 1;
 		header('Location: index.php');
 	}
-
-	// Init the vars to avoid notices
-	$email = $password = '';
 
 	// We generate HTML code from the view
 	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
@@ -163,6 +171,7 @@ function doLogin($email, $password)
 
 	if ($_SESSION['user']['loggedin'])
 	{
+		$_SESSION['nonallowed'] = 1;
 		header('Location: index.php');
 	}
 
@@ -195,6 +204,10 @@ function doLogin($email, $password)
 	{
 		throw new Exception('Veuillez insérer un mot de passe.');
 	}
+	else if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', trim($password)))
+	{
+		throw new Exception('Le mot de passe utilise des caractères interdits. Veuillez recommencer.');
+	}
 
 	// No error - we insert the new user with the model
 	$customer->set_email($email);
@@ -212,6 +225,7 @@ function doLogin($email, $password)
 		$_SESSION['user']['loggedin'] = true;
 		$_SESSION['user']['id'] = $user['id'];
 		$_SESSION['user']['email'] = $user['mail'];
+		$_SESSION['userloggedin'] = 1;
 	}
 	else
 	{
@@ -231,12 +245,16 @@ function doLogout()
 {
 	if (!$_SESSION['user']['loggedin'])
 	{
+		$_SESSION['nonallowed'] = 1;
 		header('Location: index.php');
 	}
 
 	// Kill the whole session
-	$_SESSION['user'] = [];
 	session_destroy();
+
+	// Create a new session to store the value for the notification
+	session_start();
+	$_SESSION['userloggedout'] = 1;
 
 	// We generate HTML code from the view
 	header('Location: index.php');
@@ -251,6 +269,7 @@ function viewProfile()
 {
 	if (!$_SESSION['user']['loggedin'])
 	{
+		$_SESSION['nonallowed'] = 1;
 		header('Location: index.php');
 	}
 
@@ -267,6 +286,7 @@ function editProfile()
 {
 	if (!$_SESSION['user']['loggedin'])
 	{
+		$_SESSION['nonallowed'] = 1;
 		header('Location: index.php');
 	}
 
@@ -285,16 +305,16 @@ function editProfile()
  * @param string $city City of the customer.
  * @param string $zipcode Zip code of the customer.
  * @param string $telephone Telephone of the customer.
- * @param string $country Country of the customer.
  *
  * @return void
  */
-function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipcode, $telephone, $country)
+function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipcode, $telephone)
 {
 	global $config;
 
 	if (!$_SESSION['user']['loggedin'])
 	{
+		$_SESSION['nonallowed'] = 1;
 		header('Location: index.php');
 	}
 
@@ -307,7 +327,7 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 		throw new Exception('Veuillez remplir le nom.');
 	}
 
-	if (!preg_match('/^[\p{L}\s]{2,}$/u', $firstname))
+	if (!preg_match('/^[\p{L}\s]{2,}$/u', trim($firstname)))
 	{
 		throw new Exception('Le format du nom n\'est pas valide.');
 	}
@@ -318,7 +338,7 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 		throw new Exception('Veuillez remplir le prénom.');
 	}
 
-	if (!preg_match('/^[\p{L}\s]{2,}$/u', $lastname))
+	if (!preg_match('/^[\p{L}\s]{2,}$/u', trim($lastname)))
 	{
 		throw new Exception('Le format du prénom n\'est pas valide.');
 	}
@@ -329,7 +349,7 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 		throw new Exception('Veuillez remplir l\'adresse email.');
 	}
 
-	if (!preg_match('/^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si', $email))
+	if (!preg_match('/^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si', trim($email)))
 	{
 		throw new Exception('Le format de l\'adresse email n\'est pas valide.');
 	}
@@ -340,7 +360,7 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 		throw new Exception('Veuillez remplir l\'adresse postale.');
 	}
 
-	if (!preg_match('/^[\d\w\-\s]{5,100}$/', $address))
+	if (!preg_match('/^[\d\w\-\s]{5,100}$/', trim($address)))
 	{
 		throw new Exception('Le format de l\'adresse postale n\'est pas valide.');
 	}
@@ -351,7 +371,7 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 		throw new Exception('Veuillez remplir la ville.');
 	}
 
-	if (!preg_match('/^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/u', $city))
+	if (!preg_match('/^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/u', trim($city)))
 	{
 		throw new Exception('Le format de la ville n\'est pas valide.');
 	}
@@ -362,7 +382,7 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 		throw new Exception('Veuillez remplir le code postal.');
 	}
 
-	if (!preg_match('/^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/', $zipcode))
+	if (!preg_match('/^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/', trim($zipcode)))
 	{
 		throw new Exception('Le format du code postal n\'est pas valide.');
 	}
@@ -373,7 +393,7 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 		throw new Exception('Veuillez remplir le téléphone.');
 	}
 
-	if (!preg_match('/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/', $telephone))
+	if (!preg_match('/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/', trim($telephone)))
 	{
 		throw new Exception('Le format du téléphone n\'est pas valide.');
 	}
@@ -386,7 +406,6 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 	$customers->set_city($city);
 	$customers->set_zipcode($zipcode);
 	$customers->set_telephone($telephone);
-	$customers->set_country($country);
 
 	// Save
 	if ($customers->saveCustomerData())
@@ -551,6 +570,7 @@ function forgotPassword()
 {
 	if ($_SESSION['user']['loggedin'])
 	{
+		$_SESSION['nonallowed'] = 1;
 		header('Location: index.php');
 	}
 
@@ -571,6 +591,7 @@ function sendPassword($email)
 
 	if ($_SESSION['user']['loggedin'])
 	{
+		$_SESSION['nonallowed'] = 1;
 		header('Location: index.php');
 	}
 
@@ -614,6 +635,54 @@ function sendPassword($email)
 	}
 
 	header('Location: index.php?do=forgotpassword');
+}
+
+function deleteProfile()
+{
+	if (!$_SESSION['user']['loggedin'])
+	{
+		$_SESSION['nonallowed'] = 1;
+		header('Location: index.php');
+	}
+
+	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
+	ViewCustomer::CustomerDeleteProfile();
+}
+
+function doDeleteProfile($id, $deletion)
+{
+	global $config;
+
+	if (!$_SESSION['user']['loggedin'])
+	{
+		$_SESSION['nonallowed'] = 1;
+		header('Location: index.php');
+	}
+
+	if ($deletion)
+	{
+		// Kill the session
+		session_destroy();
+
+		// Create a new empty session to store the notify.
+		session_start();
+
+		// Delete only the customer account, not the previous orders
+		require_once(DIR . '/model/ModelCustomer.php');
+		$customers = new \Ecommerce\Model\ModelCustomer($config);
+		$customers->set_id($id);
+
+		if ($customers->deleteCustomer())
+		{
+			$_SESSION['customerremoved'] = 1;
+		}
+	}
+	else
+	{
+		throw new Exception('Vous n\'avez pas coché la case de confirmation de suppression de votre compte, veuillez recommencer.');
+	}
+
+	header('Location: index.php');
 }
 
 ?>

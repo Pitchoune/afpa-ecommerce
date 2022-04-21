@@ -93,6 +93,14 @@ try
 			$email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) : NULL;
 			sendPassword($email);
 			break;
+		case 'deleteprofile':
+			deleteProfile();
+			break;
+		case 'dodeleteprofile':
+			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
+			$deletion = $_POST['deleteprofile'];
+			doDeleteProfile($id, $deletion);
+			break;
 		case 'logout':
 			doLogout();
 			break;

@@ -138,12 +138,6 @@ button:focus {
 
 .alert {
   border-radius: 0;
-  background-color: lighten(#5cb85c, 60%);
-  border: 1px solid #5cb85c;
-
-  span {
-    color: #5cb85c;
-  }
 
   .progress {
     margin-top: 5px;
@@ -151,7 +145,6 @@ button:focus {
   }
 
   .progress-bar {
-    background-color: #5cb85c;
     Height: 10px;
   }
 }
@@ -14601,6 +14594,10 @@ ul.sosiyal {
       padding: 12px 25px;
       border-radius: 0;
       margin-bottom: 0;
+    }
+
+    input[type='checkbox'] {
+      padding: 0px;
     }
 
     textarea {

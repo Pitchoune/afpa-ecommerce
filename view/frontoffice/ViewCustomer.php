@@ -103,6 +103,9 @@ class ViewCustomer
 				<!-- latest jquery-->
 				<script src="assets/js/jquery-3.5.1.min.js" ></script>
 
+				<!-- slick js-->
+				<script src="assets/js/slick.js"></script>
+
 				<!-- popper js-->
 				<script src="assets/js/popper.min.js" ></script>
 				<script src="assets/js/bootstrap-notify.min.js"></script>
@@ -205,6 +208,9 @@ class ViewCustomer
 				<!-- latest jquery-->
 				<script src="assets/js/jquery-3.5.1.min.js" ></script>
 
+				<!-- slick js-->
+				<script src="assets/js/slick.js"></script>
+
 				<!-- popper js-->
 				<script src="assets/js/popper.min.js" ></script>
 				<script src="assets/js/bootstrap-notify.min.js"></script>
@@ -289,6 +295,7 @@ class ViewCustomer
 											<li><a href="javascript:void(0)">Mes commandes</a></li>
 											<li><a href="index.php?do=editprofile">Mon compte</a></li>
 											<li><a href="index.php?do=editpassword">Modifier mon mot de passe</a></li>
+											<li><a href="index.php?do=deleteprofile">Supprimer mon compte</a></li>
 											<li class="last"><a href="index.php?do=logout">Se déconnecter</a></li>
 										</ul>
 									</div>
@@ -355,6 +362,9 @@ class ViewCustomer
 				<!-- latest jquery-->
 				<script src="assets/js/jquery-3.5.1.min.js" ></script>
 
+				<!-- slick js-->
+				<script src="assets/js/slick.js"></script>
+
 				<!-- popper js-->
 				<script src="assets/js/popper.min.js" ></script>
 				<script src="assets/js/bootstrap-notify.min.js"></script>
@@ -381,7 +391,7 @@ class ViewCustomer
 
 				if ($_SESSION['profile']['edit'] === 1)
 				{
-					ViewTemplate::FrontNotify('Modification du profil', 'Profil modifié avec succès !');
+					ViewTemplate::FrontNotify('Modification du profil', 'Profil modifié avec succès !', 'success');
 					unset($_SESSION['profile']['edit']);
 				}
 
@@ -491,15 +501,6 @@ class ViewCustomer
 														<small id="zipcodeHelp" class="form-text text-muted"></small>
 													</div>
 												</div>
-												<div class="col-md-6 select_input">
-													<div class="form-group">
-														<label for="country">Pays *</label>
-														<select class="form-control" id="country" name="country" size="1" aria-describedby="countryHelp" data-type="country" data-message="Le format du pays n'est pas valide." />
-															<?= Utils::createCountryList($data['pays']) ?>
-														</select>
-														<small id="countryHelp" class="form-text text-muted"></small>
-													</div>
-												</div>
 												<div class="col-md-6">
 													<div class="form-group">
 														<label for="city">Ville *</label>
@@ -528,6 +529,9 @@ class ViewCustomer
 					<!-- latest jquery-->
 					<script src="assets/js/jquery-3.5.1.min.js" ></script>
 
+					<!-- slick js-->
+					<script src="assets/js/slick.js"></script>
+
 					<!-- popper js-->
 					<script src="assets/js/popper.min.js" ></script>
 					<script src="assets/js/bootstrap-notify.min.js"></script>
@@ -554,7 +558,7 @@ class ViewCustomer
 
 					if ($_SESSION['profile']['edit'] === 1)
 					{
-						ViewTemplate::FrontNotify('Modification du profil', 'Profil modifié avec succès !');
+						ViewTemplate::FrontNotify('Modification du profil', 'Profil modifié avec succès !', 'success');
 						unset($_SESSION['profile']['edit']);
 					}
 
@@ -676,6 +680,9 @@ class ViewCustomer
 					<!-- latest jquery-->
 					<script src="assets/js/jquery-3.5.1.min.js" ></script>
 
+					<!-- slick js-->
+					<script src="assets/js/slick.js"></script>
+
 					<!-- popper js-->
 					<script src="assets/js/popper.min.js" ></script>
 					<script src="assets/js/bootstrap-notify.min.js"></script>
@@ -702,7 +709,7 @@ class ViewCustomer
 
 					if ($_SESSION['password']['edit'] === 1)
 					{
-						ViewTemplate::FrontNotify('Modification du mot de passe', 'Mot de passe modifié avec succès !');
+						ViewTemplate::FrontNotify('Modification du mot de passe', 'Mot de passe modifié avec succès !', 'success');
 						unset($_SESSION['password']['edit']);
 					}
 
@@ -797,6 +804,9 @@ class ViewCustomer
 					<!-- latest jquery-->
 					<script src="assets/js/jquery-3.5.1.min.js" ></script>
 
+					<!-- slick js-->
+					<script src="assets/js/slick.js"></script>
+
 					<!-- popper js-->
 					<script src="assets/js/popper.min.js" ></script>
 					<script src="assets/js/bootstrap-notify.min.js"></script>
@@ -823,7 +833,116 @@ class ViewCustomer
 
 					if ($_SESSION['password']['forgot'] === 1)
 					{
-						ViewTemplate::FrontNotify('Oubli du mot de passe', 'Demande de nouveau mot de passe effectuée avec succès !');
+						ViewTemplate::FrontNotify('Oubli du mot de passe', 'Demande de nouveau mot de passe effectuée avec succès !', 'success');
+						unset($_SESSION['password']['forgot']);
+					}
+
+					ViewTemplate::FrontFormValidation('valider', 1, 1);
+					?>
+				</body>
+			</html>
+		<?php
+	}
+
+	public static function CustomerDeleteProfile()
+	{
+		global $config;
+
+		$pagetitle = 'Suppression de compte';
+
+		$customer = new \Ecommerce\Model\ModelCustomer($config);
+		$customer->set_id($_SESSION['user']['id']);
+
+		$data = $customer->getCustomerInfosFromId();
+
+		?>
+			<!DOCTYPE html>
+			<html>
+				<head>
+					<?php
+					ViewTemplate::FrontHead($pagetitle);
+					?>
+				</head>
+
+				<body class="bg-light">
+					<!-- loader start -->
+					<div class="loader-wrapper">
+					  <div>
+						<img src="assets/images/loader.gif" alt="loader">
+					  </div>
+					</div>
+					<!-- loader end -->
+
+					<?php
+					ViewTemplate::FrontHeader();
+					?>
+
+					<?php
+					ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'deleteprofile' => $pagetitle]);
+					?>
+
+					<!--section start-->
+					<section class="contact-page section-big-py-space b-g-light">
+						<div class="custom-container">
+							<div class="row section-big-pb-space">
+								<div class="col-xl-6 offset-xl-3">
+									<form class="theme-form" action="index.php?do=dodeleteprofile" method="post">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-check">
+													<input class="form-check-input" type="checkbox" name="deleteprofile" id="name" value="1" />
+													<label for="name">Oui, je souhaite la suppression de mon compte et de toutes les données associées.</label>
+											   </div>
+											</div>
+											<div class="col-md-12">
+												<input type="hidden" name="id" value="<?= $data['id'] ?>" />
+												<button class="btn btn-normal" type="submit">Supprimer mon compte</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</section>
+					<!--Section ends-->
+
+					<?php
+					ViewTemplate::FrontFooter();
+					?>
+
+					<!-- latest jquery-->
+					<script src="assets/js/jquery-3.5.1.min.js" ></script>
+
+					<!-- slick js-->
+					<script src="assets/js/slick.js"></script>
+
+					<!-- popper js-->
+					<script src="assets/js/popper.min.js" ></script>
+					<script src="assets/js/bootstrap-notify.min.js"></script>
+
+					<!-- menu js-->
+					<script src="assets/js/menu.js"></script>
+
+					<!-- Bootstrap js-->
+					<script src="assets/js/bootstrap.js"></script>
+
+					<!-- tool tip js -->
+					<script src="assets/js/tippy-popper.min.js"></script>
+					<script src="assets/js/tippy-bundle.iife.min.js"></script>
+
+					<!-- father icon -->
+					<script src="assets/js/feather.min.js"></script>
+					<script src="assets/js/feather-icon.js"></script>
+
+					<!-- Theme js-->
+					<script src="assets/js/modal.js"></script>
+					<script src="assets/js/script.js" ></script>
+
+					<?php
+
+					if ($_SESSION['password']['forgot'] === 1)
+					{
+						ViewTemplate::FrontNotify('Oubli du mot de passe', 'Demande de nouveau mot de passe effectuée avec succès !', 'success');
 						unset($_SESSION['password']['forgot']);
 					}
 

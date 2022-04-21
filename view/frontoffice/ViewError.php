@@ -54,7 +54,7 @@ class ViewError
 				?>
 
 				<!-- latest jquery-->
-				<script src="assets/js/jquery-3.3.1.min.js" ></script>
+				<script src="assets/js/jquery-3.5.1.min.js" ></script>
 
 				<!-- slick js-->
 				<script src="assets/js/slick.js"></script>
@@ -65,9 +65,6 @@ class ViewError
 
 				<!-- menu js-->
 				<script src="assets/js/menu.js"></script>
-
-				<!-- timer js -->
-				<!-- <script src="assets/js/timer2.js"></script> -->
 
 				<!-- Bootstrap js-->
 				<script src="assets/js/bootstrap.js"></script>

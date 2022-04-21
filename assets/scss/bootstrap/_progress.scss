@@ -27,6 +27,22 @@
   @include transition($progress-bar-transition);
 }
 
+.progress-bar-success {
+  background-color: $success;
+}
+
+.progress-bar-info {
+  background-color: $info;
+}
+
+.progress-bar-warning {
+  background-color: $warning;
+}
+
+.progress-bar-danger {
+  background-color: $danger;
+}
+
 .progress-bar-striped {
   @include gradient-striped();
   background-size: $progress-height $progress-height;

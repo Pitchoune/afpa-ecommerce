@@ -82,13 +82,6 @@ class ModelCustomer extends Model
 	private $token;
 
 	/**
-	 * The country of the customer.
-	 *
-	 * @var string
-	 */
-	private $country;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param array $config Database informations.
@@ -101,11 +94,10 @@ class ModelCustomer extends Model
 	 * @param string $zipcode Zip code of the customer.
 	 * @param string $telephone Telephone of the customer.
 	 * @param string $token Token of the customer.
-	 * @param string $country Country of the customer.
 	 *
 	 * @return void
 	 */
-	public function __construct($config, $id = null, $firstname = null, $lastname = null, $email = null, $password = null,$address = null, $city = null, $zipcode = null, $telephone = null, $token = null, $country = null)
+	public function __construct($config, $id = null, $firstname = null, $lastname = null, $email = null, $password = null,$address = null, $city = null, $zipcode = null, $telephone = null, $token = null)
 	{
 		$this->config = $config;
 		$this->id = $id;
@@ -118,7 +110,6 @@ class ModelCustomer extends Model
 		$this->zipcode = $zipcode;
 		$this->telephone = $telephone;
 		$this->token = $token;
-		$this->country = $country;
 	}
 
 	/**
@@ -224,9 +215,9 @@ class ModelCustomer extends Model
 		$db = $this->dbConnect();
 		$query = $db->prepare("
 			INSERT INTO client
-				(nom, prenom, mail, pass)
+				(id, nom, prenom, mail, pass, tel, adresse, ville, code_post, token)
 			VALUES
-				(?, ?, ?, ?)
+				(NULL, ?, ?, ?, ?, '', '', '', '', NULL)
 		");
 		$query->bindParam(1, $this->lastname, \PDO::PARAM_STR);
 		$query->bindParam(2, $this->firstname, \PDO::PARAM_STR);
@@ -252,8 +243,7 @@ class ModelCustomer extends Model
 				adresse = ?,
 				ville = ?,
 				code_post = ?,
-				tel = ?,
-				pays = ?
+				tel = ?
 			WHERE id = ?
 		");
 		$query->bindParam(1, $this->lastname, \PDO::PARAM_STR);
@@ -263,8 +253,7 @@ class ModelCustomer extends Model
 		$query->bindParam(5, $this->city, \PDO::PARAM_STR);
 		$query->bindParam(6, $this->zipcode, \PDO::PARAM_STR);
 		$query->bindParam(7, $this->telephone, \PDO::PARAM_STR);
-		$query->bindParam(8, $this->country, \PDO::PARAM_STR);
-		$query->bindParam(9, $this->id, \PDO::PARAM_INT);
+		$query->bindParam(8, $this->id, \PDO::PARAM_INT);
 
 		return $query->execute();
 	}
@@ -322,6 +311,23 @@ class ModelCustomer extends Model
 		");
 		$query->bindParam(1, $this->password, \PDO::PARAM_STR);
 		$query->bindParam(2, $this->id, \PDO::PARAM_INT);
+
+		return $query->execute();
+	}
+
+	/**
+	 * Deletes the given customer from the database.
+	 *
+	 * @return mixed Returns false if the query failed.
+	 */
+	public function deleteCustomer()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			DELETE FROM client
+			WHERE id = ?
+		");
+		$query->bindParam(1, $this->id, \PDO::PARAM_INT);
 
 		return $query->execute();
 	}

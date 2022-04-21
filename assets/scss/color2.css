@@ -333,18 +333,12 @@ button:focus {
 
 .alert {
   border-radius: 0;
-  background-color: white;
-  border: 1px solid #5cb85c;
-}
-.alert span {
-  color: #5cb85c;
 }
 .alert .progress {
   margin-top: 5px;
   Height: 10px;
 }
 .alert .progress-bar {
-  background-color: #5cb85c;
   Height: 10px;
 }
 
@@ -11552,6 +11546,9 @@ ul.sosiyal.sosiyal-inverse li:hover {
   padding: 12px 25px;
   border-radius: 0;
   margin-bottom: 0;
+}
+.contact-page .theme-form input[type=checkbox] {
+  padding: 0px;
 }
 .contact-page .theme-form textarea {
   padding: 17px 25px;
