@@ -228,8 +228,8 @@ class ModelCustomer extends Model
 			VALUES
 				(?, ?, ?, ?)
 		");
-		$query->bindParam(1, $this->firstname, \PDO::PARAM_STR);
-		$query->bindParam(2, $this->lastname, \PDO::PARAM_STR);
+		$query->bindParam(1, $this->lastname, \PDO::PARAM_STR);
+		$query->bindParam(2, $this->firstname, \PDO::PARAM_STR);
 		$query->bindParam(3, $this->email, \PDO::PARAM_STR);
 		$query->bindParam(4, $this->password, \PDO::PARAM_STR);
 
@@ -256,8 +256,8 @@ class ModelCustomer extends Model
 				pays = ?
 			WHERE id = ?
 		");
-		$query->bindParam(1, $this->firstname, \PDO::PARAM_STR);
-		$query->bindParam(2, $this->lastname, \PDO::PARAM_STR);
+		$query->bindParam(1, $this->lastname, \PDO::PARAM_STR);
+		$query->bindParam(2, $this->firstname, \PDO::PARAM_STR);
 		$query->bindParam(3, $this->email, \PDO::PARAM_STR);
 		$query->bindParam(4, $this->address, \PDO::PARAM_STR);
 		$query->bindParam(5, $this->city, \PDO::PARAM_STR);

@@ -15,6 +15,7 @@ if (empty($do) OR !isset($do))
 require_once('controller/frontoffice.php');
 require_once(DIR . '/view/frontoffice/ViewTemplate.php');
 
+// echo $do;
 // Utils::printr($_SESSION, 1);
 
 // Request customer informations here to be used for any page if the customer is logged-in

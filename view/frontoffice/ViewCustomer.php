@@ -42,8 +42,6 @@ class ViewCustomer
 
 				<?php
 				ViewTemplate::FrontBreadcrumb($pagetitle, 'register');
-
-				// On error, use class 'is-invalid' next to 'form-control' in <input>
 				?>
 				<section class="login-page section-big-py-space b-g-light">
 					<div class="custom-container">
@@ -55,32 +53,37 @@ class ViewCustomer
 										<div class="row g-3">
 											<div class="col-md-12 form-group">
 												<label for="email">Prénom</label>
-												<input type="text" class="form-control" id="fname" name="firstname" placeholder="Prénom" required>
-												<span class="invalid-feedback"></span>
-											</div>
-											<div class="col-md-12 form-group">
-												<label for="review">Nom</label>
-												<input type="text" class="form-control" id="lname" name="lastname" placeholder="Nom de famille" required>
-												<span class="invalid-feedback"></span>
+												<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du prénom n'est pas valide." placeholder="Prénom" />
+												<small id="firstnameHelp" class="form-text text-muted"></small>
 											</div>
 										</div>
 										<div class="row g-3">
 											<div class="col-md-12 form-group">
-												<label>Adresse email</label>
-												<input type="email" class="form-control" name="email" placeholder="Adresse email" required>
-												<span class="invalid-feedback"></span>
+												<label for="review">Nom</label>
+												<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du nom n'est pas valide." placeholder="Nom" />
+												<small id="lastnameHelp" class="form-text text-muted"></small>
 											</div>
+										</div>
+										<div class="row g-3">
+											<div class="col-md-12 form-group">
+												<label for="mail">Adresse email</label>
+												<input type="email" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." placeholder="Adresse email" autocomplete="off" />
+												<small id="emailHelp" class="form-text text-muted"></small>
+											</div>
+										</div>
+										<div class="row g-3">
 											<div class="col-md-12 form-group">
 												<label>Mot de passe</label>
-												<input type="password" class="form-control" name="password" placeholder="Insérez un mot de passe" required>
-												<span class="invalid-feedback"></span>
+												<input type="password" class="form-control" id="password" name="password" aria-describedby="password" data-message="Le format du mot de passe n'est pas valide." placeholder="Insérez un mot de passe" autocomplete="off" />
+												<small id="passwordHelp" class="form-text text-muted"></small>
 											</div>
+										</div>
+										<div class="row g-3">
 											<div class="col-md-12 form-group">
 												<label>Confirmation du mot de passe</label>
-												<input type="password" class="form-control" name="passwordconfirm" placeholder="Confirmez le mot de passe" required>
-												<span class="invalid-feedback"></span>
+												<input type="password" class="form-control" name="passwordconfirm" placeholder="Confirmez le mot de passe" />
 											</div>
-											<div class="col-md-12 form-group"><input type="submit" class="btn btn-normal" value="S'inscrire" /></div>
+											<div class="col-md-12 form-group"><input type="submit" id="valider" class="btn btn-normal" value="S'inscrire" /></div>
 										</div>
 										<div class="row g-3">
 											<div class="col-md-12 ">
@@ -98,7 +101,7 @@ class ViewCustomer
 				?>
 
 				<!-- latest jquery-->
-				<script src="assets/js/jquery-3.3.1.min.js" ></script>
+				<script src="assets/js/jquery-3.5.1.min.js" ></script>
 
 				<!-- slick js-->
 				<script src="assets/js/slick.js"></script>
@@ -127,6 +130,10 @@ class ViewCustomer
 				<!-- Theme js-->
 				<script src="assets/js/modal.js"></script>
 				<script src="assets/js/script.js" ></script>
+
+				<?php
+				ViewTemplate::FrontFormValidation('valider', 2, 1);
+				?>
 			</body>
 		</html>
 	<?php
@@ -177,8 +184,8 @@ class ViewCustomer
 									<h3 class="text-center">S'identifier</h3>
 									<form class="theme-form" action="index.php?do=dologin" method="post">
 										<div class="form-group">
-											<label for="email">Adresse email</label>
-											<input type="text" class="form-control" id="email" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." placeholder="Adresse email" autocomplete="on">
+											<label for="mail">Adresse email</label>
+											<input type="text" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." placeholder="Adresse email" autocomplete="on">
 											<small id="emailHelp" class="form-text text-muted"></small>
 										</div>
 										<div class="form-group">
@@ -202,7 +209,7 @@ class ViewCustomer
 				?>
 
 				<!-- latest jquery-->
-				<script src="assets/js/jquery-3.3.1.min.js" ></script>
+				<script src="assets/js/jquery-3.5.1.min.js" ></script>
 
 				<!-- slick js-->
 				<script src="assets/js/slick.js"></script>
@@ -231,70 +238,9 @@ class ViewCustomer
 				<!-- Theme js-->
 				<script src="assets/js/modal.js"></script>
 				<script src="assets/js/script.js" ></script>
-
-				<script>
-					$(document).on("click", "#valider", function(e)
-					{
-						e.preventDefault();
-						let regexListe =
-						{
-							email: /^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si,
-							pass: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-						};
-
-						$("small").text("");
-						erreur = false;
-
-						let formElements = $("form")[1]; // récupérer tous les éléments du form
-
-						// formElements.length - 2 pour ne pas prendre les boutons submit et reset
-						for (let i = 0; i < formElements.length - 1; i++)
-						{
-							if ($(formElements[i]).attr("type") === "password")
-							{
-								// traitement du password
-								$("#password").removeClass("is-invalid");
-
-								const pattern = regexListe["pass"];
-
-								if ($("#password").val() === '')
-								{
-									erreur = true;
-									$("#password").addClass("is-invalid");
-									$("#" + $("#password").attr("aria-describedby")).next().html(`<p class="invalid-text">${$("#password").attr("data-message")}</p>`);
-								}
-
-								if (pattern.test(formElements[i].value) === false)
-								{
-									erreur = true;
-									$("#password").addClass("is-invalid");
-									$("#" + $(formElements[i]).attr("aria-describedby")).next().html(`<p class="invalid-text">${$(formElements[i]).attr("data-message")}</p>`);
-								}
-							}
-							else
-							{
-								// traitement des input text
-								$(formElements[i]).removeClass("is-invalid");
-								$(formElements[i]).next().html("");
-
-								const type = $(formElements[i]).attr("id");
-								const pattern = regexListe[type];
-
-								if (pattern.test(formElements[i].value) === false)
-								{
-									erreur = true;
-									$(formElements[i]).addClass("is-invalid");
-									$(formElements[i]).next().html(`<p class="invalid-text">${$(formElements[i]).attr("data-message")}</p>`);
-								}
-							}
-						}
-
-						if (!erreur)
-						{
-							$("form").submit();
-						}
-					});
-				</script>
+				<?php
+				ViewTemplate::FrontFormValidation('valider', 2, 1);
+				?>
 			</body>
 		</html>
 		<?php
@@ -516,16 +462,16 @@ class ViewCustomer
 											<div class="row">
 												<div class="col-md-6">
 													<div class="form-group">
-														<label for="firstname">Prénom</label>
-														<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du nom n'est pas valide." placeholder="Insérez votre nom"<?= ($data['nom'] ? ' value="' . $data["nom"] . '"' : '') ?> />
-														<small id="firstnameHelp" class="form-text text-muted"></small>
+														<label for="lastname">Prénom</label>
+														<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du prénom n'est pas valide." placeholder="Insérez votre prénom"<?= ($data['prenom'] ? ' value="' . $data["prenom"] . '"' : '') ?> />
+														<small id="lastnameHelp" class="form-text text-muted"></small>
 													</div>
 												</div>
 												<div class="col-md-6">
 													<div class="form-group">
-														<label for="lastname">Nom</label>
-														<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du prénom n'est pas valide." placeholder="Insérez votre prénom"<?= ($data['prenom'] ? ' value="' . $data["prenom"] . '"' : '') ?> />
-														<small id="lastnameHelp" class="form-text text-muted"></small>
+														<label for="firstname">Nom</label>
+														<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du nom n'est pas valide." placeholder="Insérez votre nom"<?= ($data['nom'] ? ' value="' . $data["nom"] . '"' : '') ?> />
+														<small id="firstnameHelp" class="form-text text-muted"></small>
 													</div>
 												</div>
 												<div class="col-md-6">
@@ -537,8 +483,8 @@ class ViewCustomer
 												</div>
 												<div class="col-md-6">
 													<div class="form-group">
-														<label for="email">Adresse Email</label>
-														<input type="text" class="form-control" id="email" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." placeholder="Insérez votre adresse email"<?= ($data['mail'] ? ' value="' . $data["mail"] . '"' : '') ?> />
+														<label for="mail">Adresse Email</label>
+														<input type="text" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." placeholder="Insérez votre adresse email"<?= ($data['mail'] ? ' value="' . $data["mail"] . '"' : '') ?> />
 														<small id="emailHelp" class="form-text text-muted"></small>
 													</div>
 												</div>
@@ -636,79 +582,8 @@ class ViewCustomer
 						unset($_SESSION['profile']['edit']);
 					}
 
+					ViewTemplate::FrontFormValidation('valider', 3, 1);
 					?>
-
-					<script>
-						$(document).on("click", "#valider", function(e)
-						{
-							e.preventDefault();
-							let regexListe =
-							{
-								firstname: /^[\p{L}\s]{2,}$/u,
-								lastname: /^[\p{L}\s]{2,}$/u,
-								email: /^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si,
-								telephone: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
-								address: /^[\d\w\-\s]{5,100}$/,
-								city: /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/u,
-								zipcode: /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/,
-							};
-
-							$("small").text("");
-							erreur = false;
-
-							let formElements = $("form")[1]; // récupérer tous les éléments du form
-
-							// formElements.length - 2 pour ne pas prendre les boutons submit et reset
-							for (let i = 0; i < formElements.length - 3; i++)
-							{
-								// traitement des boutons radio
-								if ($(formElements[i]).attr("type") === "radio")
-								{
-									$("#" + $(formElements[i]).attr("aria-describedby")).html("");
-
-									if ($("input[name='" + $(formElements[i]).attr("name") + "']:checked").length === 0)
-									{
-										erreur = true;
-										$("#" + $(formElements[i]).attr("aria-describedby")).html(`<p class="invalid-text">${$(formElements[i]).attr("data-message")}</p>`);
-									}
-								}
-								else if ($(formElements[i]).prop("tagName").toLowerCase() === "select")
-								{
-									// traitement du select
-									$(formElements[i]).removeClass("is-invalid");
-									$(formElements[i]).next().html("");
-
-									if (formElements[i].value === "")
-									{
-										erreur = true;
-										$(formElements[i]).addClass("is-invalid");
-										$(formElements[i]).next().html(`<p class="invalid-text">${$(formElements[i]).attr("data-message")}</p>`);
-									}
-								}
-								else
-								{
-									// traitement des input text
-									$(formElements[i]).removeClass("is-invalid");
-									$(formElements[i]).next().html("");
-
-									const type = $(formElements[i]).attr("id");
-									const pattern = regexListe[type];
-
-									if (pattern.test(formElements[i].value) === false)
-									{
-										erreur = true;
-										$(formElements[i]).addClass("is-invalid");
-										$(formElements[i]).next().html(`<p class="invalid-text">${$(formElements[i]).attr("data-message")}</p>`);
-									}
-								}
-							}
-
-							if (!erreur)
-							{
-								$("form").submit();
-							}
-						});
-					</script>
 				</body>
 			</html>
 		<?php
@@ -767,7 +642,7 @@ class ViewCustomer
 					ViewTemplate::FrontBreadcrumb($pagetitle, 'editpassword');
 					?>
 
-					<!-- personal deatail section start -->
+					<!-- personal detail section start -->
 					<section class="contact-page register-page section-big-py-space b-g-light">
 						<div class="custom-container">
 							<form action="index.php?do=savepassword" method="post">
@@ -776,31 +651,31 @@ class ViewCustomer
 										<h3 class="mb-3 spc-responsive">MOT DE PASSE</h3>
 										<div class="theme-form">
 											<div class="row">
-												<div class="col-md-12">
-													<div class="form-group">
-														<label >Mot de passe actuel *</label>
-														<input type="password" class="form-control" id="pass" name="password" aria-describedby="oldpassHelp" data-message="Le mot de passe original est manquant." placeholder="Mot de passe" />
-													</div>
-													<small id="oldpassHelp" class="form-text text-muted"></small>
-												</div>
 												<?php
 												if (!$token)
 												{
 													?>
-													<div class="col-md-1é">
+													<div class="col-md-12">
 														<div class="form-group">
-															<label >Nouveau mot de passe *</label>
-															<input type="password" class="form-control" id="newpass" name="newpassword" aria-describedby="passHelp" data-message="Le format du mot de passe n'est pas correct." placeholder="Nouveau mot de passe" />
+															<label >Mot de passe actuel *</label>
+															<input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" data-message="Le mot de passe original est manquant." placeholder="Mot de passe" />
+															<small id="passwordHelp" class="form-text text-muted"></small>
 														</div>
-														<small id="passHelp" class="form-text text-muted"></small>
 													</div>
 													<?php
 												}
 												?>
 												<div class="col-md-12">
 													<div class="form-group">
+														<label >Nouveau mot de passe *</label>
+														<input type="password" class="form-control" id="newpassword" name="newpassword" aria-describedby="newpasswordHelp" data-message="Le format du mot de passe n'est pas correct." placeholder="Nouveau mot de passe" />
+														<small id="newpasswordHelp" class="form-text text-muted"></small>
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="form-group">
 														<label >Confirmation du nouveau mot de passe *</label>
-														<input type="password" class="form-control" id="newpass2" name="confirmpassword" placeholder="Confirmation du mot de passe" />
+														<input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Confirmation du mot de passe" />
 													</div>
 												</div>
 												<div class="col-md-12">
@@ -861,61 +736,8 @@ class ViewCustomer
 						unset($_SESSION['password']['edit']);
 					}
 
+					ViewTemplate::FrontFormValidation('valider', 3, 1);
 					?>
-
-					<script>
-						$(document).on("click", "#valider", function(e)
-						{
-							e.preventDefault();
-							let regexListe =
-							{
-								pass: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-							};
-
-							$("small").text("");
-							erreur = false;
-
-							let formElements = $("form")[1]; // récupérer tous les éléments du form
-
-							// formElements.length - 2 pour ne pas prendre les boutons submit et reset
-							for (let i = 0; i < formElements.length - 3; i++)
-							{
-								// traitement du password
-								$("#newpass").removeClass("is-invalid");
-								$("#newpass2").removeClass("is-invalid");
-
-								const pattern = regexListe["pass"];
-
-								if ($("#pass").val() === '')
-								{
-									erreur = true;
-									$("#pass").addClass("is-invalid");
-									$("#" + $("#pass").attr("aria-describedby")).html(`<p class="invalid-text">${$("#pass").attr("data-message")}</p>`);
-								}
-
-								if (pattern.test(formElements[i].value) === false)
-								{
-									erreur = true;
-									$("#newpass").addClass("is-invalid");
-									$("#newpass2").addClass("is-invalid");
-									$("#" + $(formElements[i]).attr("aria-describedby")).html(`<p class="invalid-text">${$(formElements[i]).attr("data-message")}</p>`);
-								}
-
-								if ($("#newpass").val() !== $("#newpass2").val())
-								{
-									erreur = true;
-									$("#newpass").addClass("is-invalid");
-									$("#newpass2").addClass("is-invalid");
-									$("#" + $(formElements[i]).attr("aria-describedby")).html(`<p class="invalid-text">Les deux mot de passes doivent etre identiques</p>`);
-								}
-							}
-
-							if (!erreur)
-							{
-								$("form").submit();
-							}
-						});
-					</script>
 				</body>
 			</html>
 		<?php
@@ -982,7 +804,7 @@ class ViewCustomer
 										<div class="row">
 											<div class="col-md-12">
 											  <div class="form-group">
-												  <input type="text" class="form-control" id="email" name="email" aria-describedby="emailHelp" data-type="email" data-message="L'adresse email n'est pas une adresse email valide." placeholder="Insérez votre adresse email" />
+												  <input type="text" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="L'adresse email n'est pas une adresse email valide." placeholder="Insérez votre adresse email" />
 												  <small id="emailHelp" class="form-text text-muted"></small>
 											  </div>
 											  <div class="form-group mb-0">
@@ -1041,46 +863,8 @@ class ViewCustomer
 						unset($_SESSION['password']['forgot']);
 					}
 
+					ViewTemplate::FrontFormValidation('valider', 1, 1);
 					?>
-
-					<script>
-						$(document).on("click", "#valider", function(e)
-						{
-							e.preventDefault();
-							let regexListe =
-							{
-								email: /^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si,
-							};
-
-							$("small").text("");
-							erreur = false;
-
-							let formElements = $("form")[1]; // récupérer tous les éléments du form
-
-							// formElements.length - 1 pour ne pas prendre le bouton submit
-							for (let i = 0; i < formElements.length - 1; i++)
-							{
-								// traitement des input text
-								$(formElements[i]).removeClass("is-invalid");
-								$(formElements[i]).next().html("");
-
-								const type = $(formElements[i]).attr("id");
-								const pattern = regexListe[type];
-
-								if (pattern.test(formElements[i].value) === false)
-								{
-									erreur = true;
-									$(formElements[i]).addClass("is-invalid");
-									$(formElements[i]).next().html(`<p class="invalid-text">${$(formElements[i]).attr("data-message")}</p>`);
-								}
-							}
-
-							if (!erreur)
-							{
-								$("form").submit();
-							}
-						});
-					</script>
 				</body>
 			</html>
 		<?php

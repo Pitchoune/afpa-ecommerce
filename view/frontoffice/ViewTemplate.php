@@ -1119,6 +1119,111 @@ class ViewTemplate
 		</script>
 		<?php
 	}
+
+	public static function FrontFormValidation($id = 'valider', $number = 2, $position = 1)
+	{
+		?>
+			<script>
+				$(document).on("click", "#<?= $id ?>", function(e)
+				{
+					e.preventDefault();
+					let regexListe =
+					{
+						firstname: /^[\p{L}\s]{2,}$/u,
+						lastname: /^[\p{L}\s]{2,}$/u,
+						mail: /^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si,
+						telephone: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
+						address: /^[\d\w\-\s]{5,100}$/,
+						city: /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/u,
+						zipcode: /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/,
+						pass: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+					};
+
+					$("small").text("");
+					error = false;
+
+					let formElements = $("form")[<?= $position ?>]; // grab form elements
+
+					// formElements.length - x to not use 'submit', 'reset' and any other 'hidden' types at the end of the form
+					for (let i = 0; i < formElements.length - <?= $number ?>; i++)
+					{
+						// radio cleaning
+						if ($(formElements[i]).attr("type") === "radio")
+						{
+							$("#" + $(formElements[i]).attr("aria-describedby")).html("");
+
+							if ($("input[name='" + $(formElements[i]).attr("name") + "']:checked").length === 0)
+							{
+								error = true;
+								$("#" + $(formElements[i]).attr("aria-describedby")).html(`<p class="invalid-text">${$(formElements[i]).attr("data-message")}</p>`);
+							}
+						}
+						else if ($(formElements[i]).attr("type") === "password")
+						{
+							// password cleaning
+							$("#password").removeClass("is-invalid");
+							$("#newpassword").removeClass("is-invalid");
+							$("#confirmpassword").removeClass("is-invalid");
+
+							const pattern = regexListe["pass"];
+
+							if (pattern.test(formElements[i].value) === false)
+							{
+								error = true;
+								$("#password").addClass("is-invalid");
+								$("#newpassword").addClass("is-invalid");
+								$("#confirmpassword").addClass("is-invalid");
+								$("#" + $(formElements[i]).attr("aria-describedby")).html(`<p class="invalid-text">${$(formElements[i]).attr("data-message")}</p>`);
+							}
+
+							if ($("#newpassword").val() !== $("#confirmpassword").val())
+							{
+								error = true;
+								$("#password").removeClass("is-invalid");
+								$("#newpassword").addClass("is-invalid");
+								$("#confirmpassword").addClass("is-invalid");
+								$("#newpasswordHelp").html(`<p class="invalid-text">Les deux mot de passes doivent etre identiques</p>`);
+							}
+						}
+						else if ($(formElements[i]).prop("tagName").toLowerCase() === "select")
+						{
+							// select cleaning
+							$(formElements[i]).removeClass("is-invalid");
+							$(formElements[i]).next().html("");
+
+							if (formElements[i].value === "")
+							{
+								error = true;
+								$(formElements[i]).addClass("is-invalid");
+								$(formElements[i]).next().html(`<p class="invalid-text">${$(formElements[i]).attr("data-message")}</p>`);
+							}
+						}
+						else
+						{
+							// input text cleaning
+							$(formElements[i]).removeClass("is-invalid");
+							$(formElements[i]).next().html("");
+
+							const type = $(formElements[i]).attr("id");
+							const pattern = regexListe[type];
+
+							if (pattern.test(formElements[i].value) === false)
+							{
+								error = true;
+								$(formElements[i]).addClass("is-invalid");
+								$(formElements[i]).next().html(`<p class="invalid-text">${$(formElements[i]).attr("data-message")}</p>`);
+							}
+						}
+					}
+
+					if (!error)
+					{
+						$("form")[<?= $position ?>].submit();
+					}
+				});
+			</script>
+		<?php
+	}
 }
 
 ?>
