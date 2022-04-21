@@ -34,4 +34,9 @@ You can login into ./admin/index.php with these credentials:
 - Email: jywiledyk@mailinator.com
 - Password: Pa$$w0rd!
 
+## Known issues:
+
+- GDPR works only if you are setting up an installation online, it won't work locally.
+- Sending email for the forgot password feature should work, not tested yet.
+
 Enjoy!
