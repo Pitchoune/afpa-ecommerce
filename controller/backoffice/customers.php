@@ -39,220 +39,224 @@ function AddCustomer()
 }
 
 /**
- * Inserts a new deliver into the database.
+ * Inserts a new customer into the database.
  *
  * @return void
  */
-function InsertDeliver($name)
+function InsertCustomer($firstname, $lastname, $email, $telephone, $address, $city, $zipcode)
 {
-	if (Utils::cando(19))
+	if (Utils::cando(29))
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelDeliver.php');
-		$delivers = new \Ecommerce\Model\ModelDeliver($config);
+		require_once(DIR . '/model/ModelCustomer.php');
+		$customers = new \Ecommerce\Model\ModelCustomer($config);
 
-		// Verify name
-		if ($name === '')
+		// Verify first name
+		if ($firstname === '')
 		{
 			throw new Exception('Le nom est vide.');
 		}
 
-		$delivers->set_name($name);
-
-		if (Utils::cando(21))
+		// Verify last name
+		if ($lastname === '')
 		{
-			// Do the file upload
-			if ($_FILES['file']['error'] > 0 AND $_FILES['file']['error'] != 4)
-			{
-				// Specify the allowed extensions list
-				$extensions = ['.apng', '.avif', 'gif', 'jpeg', 'jpg', 'jfif', 'pjpeg', 'pjp', 'png', 'svg', 'webp', 'bmp', 'ico', 'cur', 'tif', 'tiff'];
-				require_once(DIR . '/controller/Utils.php');
+			throw new Exception('Le prénom est vide.');
+		}
 
-				// Do the upload
-				$upload = Utils::upload($extensions, $_FILES['file'], 'delivers');
+		// Verify email address
+		if ($email === '')
+		{
+			throw new Exception('L\'adresse email est vide.');
+		}
 
-				// Do some last stuff if the upload is correctly done
-				if ($upload)
-				{
-					// Save the filename in the database
-					$delivers->set_logo($upload);
+		// Verify telephone
+		if ($telephone === '')
+		{
+			throw new Exception('Le téléphone est vide.');
+		}
 
-					// Save the trademark in the database
-					if ($delivers->saveNewDeliverWithLogo())
-					{
-						$_SESSION['deliver']['add'] = 1;
-					}
-				}
-				else
-				{
-					throw new Exception('Une erreur inattendue est survenue pendant l\'upload. Veuillez recommancer.');
-				}
-			}
-			else
-			{
-				// Save the trademark in the database
-				if ($delivers->saveNewDeliverWithoutLogo())
-				{
-					$_SESSION['deliver']['add'] = 1;
-				}
-			}
+		// Verify address
+		if ($address === '')
+		{
+			throw new Exception('L\'adresse est vide.');
+		}
+
+		// Verify city
+		if ($city === '')
+		{
+			throw new Exception('La ville est vide.');
+		}
+
+		// Verify zip code
+		if ($zipcode === '')
+		{
+			throw new Exception('Le code postal est vide.');
+		}
+
+		$customers->set_firstname($firstname);
+		$customers->set_lastname($lastname);
+		$customers->set_email($email);
+		$customers->set_telephone($telephone);
+		$customers->set_address($address);
+		$customers->set_city($city);
+		$customers->set_zipcode($zipcode);
+
+		if ($customers->saveNewCustomer())
+		{
+			$_SESSION['customer']['add'] = 1;
 		}
 		else
 		{
-			// Save the trademark in the database
-			if ($delivers->saveNewDeliverWithoutLogo())
-			{
-				$_SESSION['deliver']['add'] = 1;
-			}
+			throw new Exception('Le client n\'a pas été ajouté.');
 		}
 
-		// Save is correctly done, redirects to the delivers list
-		header('Location: index.php?do=listdelivers');
+		// Save is correctly done, redirects to the customers list
+		header('Location: index.php?do=listcustomers');
 	}
 	else
 	{
-		throw new Exception('Vous n\'êtes pas autorisé à ajouter des transporteurs.');
+		throw new Exception('Vous n\'êtes pas autorisé à ajouter des clients.');
 	}
 }
 
 /**
- * Displays a form to edit a deliver.
+ * Displays a form to edit a customer.
  *
  * @return void
  */
-function EditDeliver($id)
+function EditCustomer($id)
 {
-	if (Utils::cando(20))
+	if (Utils::cando(30))
 	{
-		require_once(DIR . '/view/backoffice/ViewDeliver.php');
-		ViewDeliver::DeliverAddEdit($id);
+		require_once(DIR . '/view/backoffice/ViewCustomer.php');
+		ViewCustomer::CustomerAddEdit($id);
 	}
 	else
 	{
-		throw new Exception('Vous n\'êtes pas autorisé à modifier des transporteurs.');
+		throw new Exception('Vous n\'êtes pas autorisé à modifier des clients.');
 	}
 }
 
 /**
- * Updates the given deliver into the database.
+ * Updates the given customer into the database.
  *
  * @return void
  */
-function UpdateDeliver($id, $name)
+function UpdateCustomer($id, $firstname, $lastname, $email, $telephone, $address, $city, $zipcode)
 {
-	if (Utils::cando(20))
+	if (Utils::cando(30))
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelDeliver.php');
-		$delivers = new \Ecommerce\Model\ModelDeliver($config);
+		require_once(DIR . '/model/ModelCustomer.php');
+		$customers = new \Ecommerce\Model\ModelCustomer($config);
 
-		// Verify title
-		if ($name === '')
+		// Verify first name
+		if ($firstname === '')
 		{
 			throw new Exception('Le nom est vide.');
 		}
 
-		$delivers->set_id($id);
-		$delivers->set_name($name);
-
-		if (Utils::cando(21))
+		// Verify last name
+		if ($lastname === '')
 		{
-			// Do the file upload
-			if ($_FILES['file']['error'] > 0 AND $_FILES['file']['error'] != 4)
-			{
-				// Delete the previous file
-				$deliverinfo = $delivers->listDeliverInfos($id);
-				$targetFile =  str_replace('/admin/..', '', DIR) . DIRECTORY_SEPARATOR . 'attachments' . DIRECTORY_SEPARATOR . $deliverinfo['logo'];
-				unlink($targetFile);
+			throw new Exception('Le prénom est vide.');
+		}
 
-				// Specify the allowed extensions list
-				$extensions = ['.apng', '.avif', 'gif', 'jpeg', 'jpg', 'jfif', 'pjpeg', 'pjp', 'png', 'svg', 'webp', 'bmp', 'ico', 'cur', 'tif', 'tiff'];
-				require_once(DIR . '/controller/Utils.php');
+		// Verify email address
+		if ($email === '')
+		{
+			throw new Exception('L\'adresse email est vide.');
+		}
 
-				// Do the upload
-				$upload = Utils::upload($extensions, $_FILES['file'], 'delivers');
+		// Verify telephone
+		if ($telephone === '')
+		{
+			throw new Exception('Le téléphone est vide.');
+		}
 
-				// Do some last stuff if the upload is correctly done
-				if ($upload)
-				{
-					// Save the filename in the database
-					$delivers->set_logo($upload);
+		// Verify address
+		if ($address === '')
+		{
+			throw new Exception('L\'adresse est vide.');
+		}
 
-					// Save the $deliver in the database
-					if ($delivers->saveEditDeliverWithLogo())
-					{
-						$_SESSION['deliver']['edit'] = 1;
-					}
-				}
-				else
-				{
-					throw new Exception('Une erreur inattendue est survenue pendant l\'upload. Veuillez recommancer.');
-				}
-			}
-			else
-			{
-				// Save the trademark in the database
-				if ($delivers->saveNewDeliverWithoutLogo())
-				{
-					$_SESSION['deliver']['edit'] = 1;;
-				}
-			}
+		// Verify city
+		if ($city === '')
+		{
+			throw new Exception('La ville est vide.');
+		}
+
+		// Verify zip code
+		if ($zipcode === '')
+		{
+			throw new Exception('Le code postal est vide.');
+		}
+
+		$customers->set_id($id);
+		$customers->set_firstname($firstname);
+		$customers->set_lastname($lastname);
+		$customers->set_email($email);
+		$customers->set_telephone($telephone);
+		$customers->set_address($address);
+		$customers->set_city($city);
+		$customers->set_zipcode($zipcode);
+
+		if ($customers->saveCustomerData())
+		{
+			$_SESSION['customer']['edit'] = 1;
 		}
 		else
 		{
-			// Save the $deliver in the database
-			if ($delivers->saveEditDeliverWithoutLogo())
-			{
-				$_SESSION['deliver']['edit'] = 1;
-			}
+			throw new Exception('Le client n\'a pas été enregistré.');
 		}
 
-		// Save is correctly done, redirects to the delivers list
-		header('Location: index.php?do=listdelivers');
+		// Save is correctly done, redirects to the customers list
+		header('Location: index.php?do=listcustomers');
 	}
 	else
 	{
-		throw new Exception('Vous n\'êtes pas autorisé à modifier des transporteurs.');
+		throw new Exception('Vous n\'êtes pas autorisé à modifier des clients.');
 	}
 }
 
 /**
- * Deletes the given deliver.
+ * Deletes the given customer.
  *
- * @param integer $id ID of the deliver to delete.
+ * @param integer $id ID of the customer to delete.
  *
  * @return void
  */
-function DeleteDeliver($id)
+function DeleteCustomer($id)
 {
-	if (Utils::cando(22))
+	if (Utils::cando(34))
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelDeliver.php');
-		$delivers = new \Ecommerce\Model\ModelDeliver($config);
+		require_once(DIR . '/model/ModelCustomer.php');
+		$customers = new \Ecommerce\Model\ModelCustomer($config);
 
-		$delivers->set_id($id);
+		$customers->set_id($id);
 
-		// Delete the file first
-		$deliverinfo = $delivers->listProductInfos();
-		$targetFile =  str_replace('/admin/..', '', DIR) . DIRECTORY_SEPARATOR . 'attachments' . DIRECTORY_SEPARATOR . 'delivers' . DIRECTORY_SEPARATOR . $deliverinfo['logo'];
-		unlink($targetFile);
-
-		if ($delivers->deleteDeliver())
+		if ($customers->deleteCustomer())
 		{
-			$_SESSION['deliver']['delete'] = 1;
+			$_SESSION['customer']['delete'] = 1;
 		}
 
-		// Save is correctly done, redirects to the delivers list
-		header('Location: index.php?do=listdelivers');
+		// Save is correctly done, redirects to the customers list
+		header('Location: index.php?do=listcustomers');
 	}
 	else
 	{
-		throw new Exception('Vous n\'êtes pas autorisé à supprimer des transporteurs.');
+		throw new Exception('Vous n\'êtes pas autorisé à supprimer des clients.');
 	}
+}
+
+function ViewCustomerProfile($id)
+{
+	require_once(DIR . '/view/backoffice/ViewCustomer.php');
+	ViewCustomer::ViewCustomerProfile($id);
 }
 
 ?>

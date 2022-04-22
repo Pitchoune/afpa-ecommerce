@@ -77,7 +77,22 @@ class ModelOrder extends Model
 		$this->id_deliver = $id_deliver;
 	}
 
+	/**
+	 *
+	 */
+	public function getNumberOfOrdersForCustomer()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT COUNT(*) AS nborders
+			FROM commande
+			WHERE id_client = ?
+		");
+		$query->bindParam(1, $this->id_customer, \PDO::PARAM_INT);
 
+		$query->execute();
+		return $query->fetch();
+	}
 
 	/**
 	 * Defines the ID.

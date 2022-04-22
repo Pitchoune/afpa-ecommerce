@@ -237,7 +237,7 @@ function DeleteDeliver($id)
 		$delivers->set_id($id);
 
 		// Delete the file first
-		$deliverinfo = $delivers->listProductInfos();
+		$deliverinfo = $delivers->listDeliverInfos();
 		$targetFile =  str_replace('/admin/..', '', DIR) . DIRECTORY_SEPARATOR . 'attachments' . DIRECTORY_SEPARATOR . 'delivers' . DIRECTORY_SEPARATOR . $deliverinfo['logo'];
 		unlink($targetFile);
 
