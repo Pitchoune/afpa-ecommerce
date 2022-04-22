@@ -5269,7 +5269,8 @@ button {
           background: url("../images/layout-1/drop-1.png") no-repeat scroll 20px 23px;
           text-align: center;
           text-align-last: center;
-          width:175px;
+          /* width:175px; */
+          width: 250px;
           height:100%;
           text-transform: uppercase;
         }
@@ -5804,7 +5805,8 @@ button {
     }
 
     .input-block {
-      width: 750px;
+      /* width: 750px; */
+      width: 825px;
     }
 
     .icon-block {
@@ -5848,7 +5850,7 @@ button {
 
 
 
-          &:nth-child(n+5) {
+          &:nth-child(n+4) {
             display: inline-block;
           }
 
@@ -5875,6 +5877,8 @@ button {
     justify-content: space-between;
     position: relative;
     z-index: 9;
+    height: 73px;
+    min-height: 73px;
 
     .logo-block {
       display: none;
@@ -6343,7 +6347,8 @@ button {
               background: url("../images/layout-1/drop-1.png") no-repeat scroll 20px;
               text-align: center;
               text-align-last: center;
-              width: 175px;
+              /* width: 175px; */
+              width: 250px;
               text-transform: uppercase;
               border-left: 1px solid $light-border;
             }
@@ -8717,6 +8722,8 @@ header{
     background-color: $white;
     border-bottom: 1px solid $light-border;
     .navbar-menu {
+      height: 40px;
+      min-height: 40px;
       .logo-block {
         display: flex;
         align-items: center;
