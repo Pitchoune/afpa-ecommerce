@@ -324,9 +324,6 @@ class ViewProduct
 				require_once(DIR . '/model/ModelCategory.php');
 				$categories = new \Ecommerce\Model\ModelCategory($config);
 				$catlist = $categories->listAllCategories();
-				$cache = Utils::categoriesCache($catlist);
-				$categorylist = Utils::constructCategoryChooserOptions($cache);
-				$categoriesselect = Utils::constructCategorySelectOptions($categorylist, $productinfos['id_categorie']);
 
 				// Grab all existing trademarks
 				require_once(DIR . '/model/ModelTrademark.php');
@@ -411,21 +408,29 @@ class ViewProduct
 														<div class="form-group">
 															<label class="col-form-label"><span>*</span> Catégorie</label>
 															<select class="custom-select form-control" required name="category">
-															<?= $categoriesselect ?>
+																<option value="0" selected>Sélectionnez une catégorie</option>
+																	<?php
+
+																	foreach ($catlist AS $content)
+																	{
+																		echo '<option value="' . $content['id'] . '"' . ($content['id'] == $productinfos['id_categorie'] ? ' selected' : '') . '>' . $content['nom'] . '</option>\n';
+																	}
+
+																	?>
 															</select>
 														</div>
 														<div class="form-group">
 															<label class="col-form-label"><span>*</span> Marque</label>
 															<select class="custom-select form-control" required name="trademark">
 																<option value="0" selected>Sélectionnez une marque</option>
-															<?php
+																	<?php
 
-															foreach ($trademarkslist AS $content)
-															{
-																echo '<option value="' . $content['id'] . '"' . ($content['id'] == $productinfos['id_marque'] ? ' selected' : '') . '>' . $content['nom'] . '</option>\n';
-															}
+																	foreach ($trademarkslist AS $content)
+																	{
+																		echo '<option value="' . $content['id'] . '"' . ($content['id'] == $productinfos['id_marque'] ? ' selected' : '') . '>' . $content['nom'] . '</option>\n';
+																	}
 
-															?>
+																	?>
 															</select>
 														</div>
 														<div class="form-group mb-0">
@@ -434,9 +439,9 @@ class ViewProduct
 																<?php
 																if ($id)
 																{
-																?>
-																<input type="hidden" name="id" value="<?= $id ?>" />
-																<?php
+																	?>
+																	<input type="hidden" name="id" value="<?= $id ?>" />
+																	<?php
 																}
 																?>
 																<input type="submit" class="btn btn-primary" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
