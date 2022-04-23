@@ -2510,7 +2510,7 @@ $('.feature-slide').slick({
    14. RTL & Dark Light
    ==========================*/
 
-  $('<div class="theme-pannel-main"><ul><li id="rtl_btn"><a href="javascript:void(0)" class="btn setting_btn"><span class="rtl-txt">Rtl</span></a></li><li id="ltr_btn"><a href="javascript:void(0)" class="btn setting_btn"><span class="rtl-txt">Ltr</span></a></li><li class="sidebar-btn dark-light-btn"><a href="javascript:void(0)" class="dark-light"><span class="theme-layout-version">Dark</span></a></li></ul></div><div class="color-picker"> <a href="#" class="handle title"> <img src="assets/images/paint.png"/> </a> <div> <h4>Choose color</h4> <ul class="colors"> <li class="color1"></li><li class="color2"></li><li class="color3"></li><li class="color4"></li><li class="color5"></li><li class="color6"></li><li class="color7"></li><li class="color8"></li><li class="color9"></li><li class="color10"></li><li class="color11"></li><li class="color12"></li><li class="color13"></li><li class="color14"></li><li class="color15"></li></ul> </div></div>').appendTo($('body'));
+  $('<div class="theme-pannel-main"><ul><li id="rtl_btn"><a href="javascript:void(0)" class="btn setting_btn"><span class="rtl-txt">Rtl</span></a></li><li id="ltr_btn"><a href="javascript:void(0)" class="btn setting_btn"><span class="rtl-txt">Ltr</span></a></li><li class="sidebar-btn dark-light-btn"><a href="javascript:void(0)" class="dark-light"><span class="theme-layout-version">Dark</span></a></li></ul></div><div class="color-picker"></div>').appendTo($('body'));
   (function() {
   })();
   $('#ltr_btn').hide();
@@ -2590,49 +2590,10 @@ $('.feature-slide').slick({
     });
   });
 
+
   /*=====================
-   16.  Add to wishlist
+   17. tap on top
    ==========================*/
-  $('.add-to-wish').on('click', function () {
-
-    $.notify({
-      icon: 'fa fa-check',
-      title: 'Success!',
-      message: 'Item Successfully added in wishlist'
-    },{
-      element: 'body',
-      position: null,
-      type: "info",
-      allow_dismiss: true,
-      newest_on_top: false,
-      showProgressbar: true,
-      placement: {
-        from: "top",
-        align: "right"
-      },
-      offset: 20,
-      spacing: 10,
-      z_index: 1031,
-      delay: 5000,
-      animate: {
-        enter: 'animated fadeInDown',
-        exit: 'animated fadeOutUp'
-      },
-      icon_type: 'class',
-      template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-        '<button type="button" aria-hidden="true" class="btn-close" data-notify="dismiss"></button>' +
-        '<span data-notify="icon"></span> ' +
-        '<span data-notify="title">{1}</span> ' +
-        '<span data-notify="message">{2}</span>' +
-        '<div class="progress" data-notify="progressbar">' +
-        '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
-        '</div>' +
-        '<a href="{3}" target="{4}" data-notify="url"></a>' +
-        '</div>'
-    });
-  });
-
-
 
 $(window).on('scroll', function() {
     if ($(this).scrollTop() > 600) {
@@ -2696,86 +2657,6 @@ $('.tap-top').on('click', function() {
 
 
 
-
-
-  /*=====================
-  20. Color Picker
-   ==========================*/
-  var body_event = $("body");
-  body_event.on("click", ".color1", function() {
-    $("#color" ).attr("href", "../assets/css/color1.css" );
-    return false;
-
-  });
-  body_event.on("click", ".color2", function() {
-    $("#color" ).attr("href", "../assets/css/color2.css" );
-    return false;
-  });
-  body_event.on("click", ".color3", function() {
-    $("#color" ).attr("href", "../assets/css/color3.css" );
-    return false;
-  });
-  body_event.on("click", ".color4", function() {
-    $("#color" ).attr("href", "../assets/css/color4.css" );
-    return false;
-  });
-  body_event.on("click", ".color5", function() {
-    $("#color" ).attr("href", "../assets/css/color5.css" );
-    return false;
-  });
-  body_event.on("click", ".color6", function() {
-    $("#color" ).attr("href", "../assets/css/color6.css" );
-    return false;
-  });
-  body_event.on("click", ".color7", function() {
-    $("#color" ).attr("href", "../assets/css/color7.css" );
-    return false;
-  });
-  body_event.on("click", ".color8", function() {
-    $("#color" ).attr("href", "../assets/css/color8.css" );
-    return false;
-  });
-  body_event.on("click", ".color9", function() {
-    $("#color" ).attr("href", "../assets/css/color9.css" );
-    return false;
-  });
-  body_event.on("click", ".color10", function() {
-    $("#color" ).attr("href", "../assets/css/color10.css" );
-    return false;
-  });
-  body_event.on("click", ".color11", function() {
-    $("#color" ).attr("href", "../assets/css/color11.css" );
-    return false;
-  });
-  body_event.on("click", ".color12", function() {
-    $("#color" ).attr("href", "../assets/css/color12.css" );
-    return false;
-  });
-  body_event.on("click", ".color13", function() {
-    $("#color" ).attr("href", "../assets/css/color13.css" );
-    return false;
-  });
-  body_event.on("click", ".color14", function() {
-    $("#color" ).attr("href", "../assets/css/color14.css" );
-    return false;
-  });
-  body_event.on("click", ".color15", function() {
-    $("#color" ).attr("href", "../assets/css/color15.css" );
-    return false;
-  });
-
-  $('.color-picker').animate({right: '-150px'});
-
-  body_event.on("click", ".color-picker a.handle", function(e) {
-    e.preventDefault();
-    var div = $('.color-picker');
-    if (div.css('right') === '-150px') {
-      $('.color-picker').animate({right: '0px'});
-    }
-    else {
-      $('.color-picker').animate({right: '-150px'});
-    }
-  });
 
   /*=====================
   21. Add to cart quantity Counter
@@ -2855,8 +2736,8 @@ $('.tap-top').on('click', function() {
     /*=====================
      26. Cookiebar
      ==========================*/
-    //const apiUrl = 'http://127.0.0.1/~Yves/afpa/mvc/controller/geoip.php';
-    const apiUrl = 'http://ks383258.kimsufi.com/geoip.php';
+    const apiUrl = 'http://127.0.0.1/~Yves/afpa/mvc/controller/geoip.php';
+    //const apiUrl = 'http://ks383258.kimsufi.com/geoip.php';
     const cookieName = 'EcommerceCookiePolicyInformed';
     const cookieExpireDays = 5;
 
@@ -2995,8 +2876,6 @@ function closeCart() {
   document.getElementById("cart_side").classList.remove('open-side');
 }
 
-
-
 function openAccount() {
   document.getElementById("myAccount").classList.add('open-side');
 }
@@ -3004,12 +2883,6 @@ function closeAccount() {
   document.getElementById("myAccount").classList.remove('open-side');
 }
 
-function openWishlist() {
-  document.getElementById("wishlist_side").classList.add('open-side');
-}
-function closeWishlist() {
-  document.getElementById("wishlist_side").classList.remove('open-side');
-}
 function openSetting() {
   document.getElementById("mySetting").classList.add('open-side');
 }

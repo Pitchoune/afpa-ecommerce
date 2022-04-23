@@ -49,4 +49,9 @@ if (in_array($do, ['index', 'register', 'doregister', 'login', 'dologin', 'profi
 	require_once(DIR . '/controller/frontoffice/customer.php');
 }
 
+if (in_array($do, ['viewproduct', 'search']))
+{
+	require_once(DIR . '/controller/frontoffice/products.php');
+}
+
 ?>

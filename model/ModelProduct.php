@@ -271,6 +271,49 @@ class ModelProduct extends Model
 	}
 
 	/**
+	 * Search in the products per customer request for specified category.
+	 *
+	 * @return mixed Returns the products if found, else false if it fails.
+	 */
+	public function searchProductsWithCategory()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT *
+			FROM produit
+			WHERE
+				(nom LIKE :q1
+				OR ref LIKE :q2
+				OR description LIKE :q3)
+				AND id_categorie = :c1
+		");
+
+		$query->execute([':q1' => '%' . $this->name . '%', ':q2' => '%' . $this->ref . '%', ':q3' => '%' . $this->description. '%', ':c1' => $this->id_category]);
+		return $query->fetchAll();
+	}
+
+	/**
+	 * Search in the products per customer request for all categories.
+	 *
+	 * @return mixed Returns the products if found, else false if it fails.
+	 */
+	public function searchProductsWithoutCategory()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT *
+			FROM produit
+			WHERE
+				nom LIKE :q1
+				OR ref LIKE :q2
+				OR description LIKE :q3
+		");
+
+		$query->execute([':q1' => '%' . $this->name . '%', ':q2' => '%' . $this->ref . '%', ':q3' => '%' . $this->description. '%']);
+		return $query->fetchAll();
+	}
+
+	/**
 	 * Defines the ID.
 	 *
 	 * @param integer $id ID of the product.

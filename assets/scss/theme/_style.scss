@@ -3980,7 +3980,7 @@ button {
       .product-detail {
         &.detail-center {
           .detail-title {
-            opacity: 0;
+            /* opacity: 0; */
           }
           .icon-detail {
             opacity: 1;
@@ -4190,7 +4190,7 @@ button {
 
             .price {
               font-size: calc(12px + (14 - 12) * ((100vw - 320px) / (1920 - 320)));
-              margin-left: 10px;
+              /* margin-left: 10px; */
               color: $theme-color1;
             }
           }

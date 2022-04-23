@@ -145,8 +145,6 @@ class ViewCustomer
 	{
 		$pagetitle = 'S\'identifier';
 
-		$emailerr = $passerr = $email = $password = '';
-
 		?>
 		<!DOCTYPE html>
 		<html>

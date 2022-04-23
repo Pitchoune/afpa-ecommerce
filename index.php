@@ -101,6 +101,11 @@ try
 			$deletion = $_POST['deleteprofile'];
 			doDeleteProfile($id, $deletion);
 			break;
+		case 'search':
+			$query = isset($_POST['query']) ? filter_var($_POST['query'], FILTER_SANITIZE_STRING) : NULL;
+			$category = isset($_POST['category']) ? filter_var($_POST['category'], FILTER_VALIDATE_INT) : NULL;
+			searchResults($query, $category);
+			break;
 		case 'logout':
 			doLogout();
 			break;

@@ -3022,7 +3022,7 @@ button {
   animation: none;
 }
 .product .product-box:hover .product-detail.detail-center .detail-title {
-  opacity: 0;
+  /* opacity: 0; */
 }
 .product .product-box:hover .product-detail.detail-center .icon-detail {
   opacity: 1;
@@ -3184,7 +3184,7 @@ button {
 }
 .product .product-box .product-detail.detail-center .detail-title .detail-right .price {
   font-size: calc(12px + 2 * (100vw - 320px) / 1600);
-  margin-left: 10px;
+  /* margin-left: 10px; */
   color: #ff6000;
 }
 .product .product-box .product-detail.detail-inline {
