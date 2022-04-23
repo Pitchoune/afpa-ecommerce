@@ -101,6 +101,11 @@ try
 			$deletion = $_POST['deleteprofile'];
 			doDeleteProfile($id, $deletion);
 			break;
+		case 'viewproduct':
+			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
+			$ref = isset($_GET['ref']) ? filter_var($_GET['ref'], FILTER_SANITIZE_STRING) : NULL;
+			viewProduct($id, $ref);
+			break;
 		case 'search':
 			$query = isset($_POST['query']) ? filter_var($_POST['query'], FILTER_SANITIZE_STRING) : NULL;
 			$category = isset($_POST['category']) ? filter_var($_POST['category'], FILTER_VALIDATE_INT) : NULL;

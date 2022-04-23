@@ -165,19 +165,39 @@ class ModelProduct extends Model
 	}
 
 	/**
-	 * Returns an array of informations about a specific product.
+	 * Returns an array of informations about a specific product following its ID.
 	 *
 	 * @return array Informations about a specific product.
 	 */
-	public function listProductInfos()
+	public function listProductInfosFromId()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT p.*, c.nom AS category
+			FROM produit AS p
+				INNER JOIN categorie AS c ON (c.id = p.id_categorie)
+			WHERE p.id = ?
+		");
+		$query->bindParam(1, $this->id, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetch();
+	}
+
+	/**
+	 * Returns an array of informations about a specific product following its reference.
+	 *
+	 * @return array Informations about a specific product.
+	 */
+	public function listProductInfosFromRef()
 	{
 		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT *
 			FROM produit
-			WHERE id = ?
+			WHERE ref = ?
 		");
-		$query->bindParam(1, $this->id, \PDO::PARAM_INT);
+		$query->bindParam(1, $this->ref, \PDO::PARAM_STR);
 
 		$query->execute();
 		return $query->fetch();

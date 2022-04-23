@@ -293,7 +293,7 @@ class ViewProduct
 			if ($id)
 			{
 				$products->set_id($id);
-				$productinfos = $products->listProductInfos();
+				$productinfos = $products->listProductInfosFromId();
 				$navtitle = 'Modifier un produit';
 				$formredirect = 'updateproduct';
 			}

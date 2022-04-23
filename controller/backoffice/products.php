@@ -322,7 +322,7 @@ function DeleteProduct($id)
 		$products->set_id($id);
 
 		// Delete the file first
-		$productinfo = $products->listProductInfos();
+		$productinfo = $products->listProductInfosFromId();
 		$targetFile =  str_replace('/admin/..', '', DIR) . DIRECTORY_SEPARATOR . 'attachments' . DIRECTORY_SEPARATOR . 'products' . DIRECTORY_SEPARATOR . productinfo['photo'];
 		unlink($targetFile);
 

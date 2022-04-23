@@ -9,11 +9,11 @@ use \Ecommerce\Model\ModelCustomer;
  *
  * @return void
  */
-function viewProduct($id)
+function viewProduct($id = '', $ref = '')
 {
 	// We generate HTML code from the view
 	require_once(DIR . '/view/frontoffice/ViewProduct.php');
-	ViewProduct::DisplayProduct($id);
+	ViewProduct::DisplayProduct($id, $ref);
 }
 
 /**
