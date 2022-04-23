@@ -88,12 +88,12 @@ class ViewProduct
 												<div class="qty-box">
 													<div class="input-group">
 														<button class="qty-minus"></button>
-														<input class="qty-adj form-control" type="number" value="1"/>
+														<input class="qty-adj form-control" type="number" value="1" />
 														<button class="qty-plus"></button>
 													</div>
 												</div>
 												<div class="product-buttons">
-													<a href="javascript:void(0)" id="cartEffect" class="btn cart-btn btn-normal tooltip-top" data-tippy-content="Ajouter au panier">
+													<a href="javascript:void(0)" data-name="<?= $product['nom'] ?>" data-price="<?= $product['prix'] ?>" data-photo="<?= $product['photo'] ?>" data-id="<?= $product['id'] ?>" id="cartEffect" class="btn cart-btn btn-normal tooltip-top add-to-cart" data-tippy-content="Ajouter au panier">
 														<i class="fa fa-shopping-cart"></i>
 														Ajouter au panier
 													</a>

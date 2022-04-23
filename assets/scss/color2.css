@@ -15061,7 +15061,6 @@ ul.sosiyal.sosiyal-inverse li:hover {
 }
 .add_to_cart .cart-inner .cart_media ul.cart_product .qty-adj {
   height: 25px;
-  width: 35px;
 }
 .add_to_cart .cart-inner .cart_media ul.cart_product li {
   position: relative;
@@ -17859,6 +17858,7 @@ table.invoice-table th {
 .pixelstrap a .sub-arrow {
   position: absolute;
   top: 50%;
+  /* margin-top: -(ceil($theme-deafult__toggle-size / 2));*/
   margin-top: -17px;
   left: auto;
   right: 14px;

@@ -3,6 +3,8 @@
     27.Menu css start
 ==========================*/
 
+@use "sass:math";
+
 @mixin round_corner($amount, $chainable: 'ul > li:last-child > ', $level: 4, $chain_prefix: '> li:last-child > ', $chain: '', $selector: '') {
   $chain: $chain_prefix;
   $selector: $chain + 'a, ' + $chain + '*:not(ul) a, ' + $chain + 'ul';
@@ -307,7 +309,8 @@ $theme-deafult__toggle-spacing: floor($theme-deafult__item-height * 0.1);
     .sub-arrow {
       position: absolute;
       top: 50%;
-      margin-top: -(ceil($theme-deafult__toggle-size / 2));
+      /* margin-top: -(ceil($theme-deafult__toggle-size / 2));*/
+      margin-top: -(ceil(math.div($theme-deafult__toggle-size, 2)));
       left: auto;
       right: 14px;
       width: $theme-deafult__toggle-size;
