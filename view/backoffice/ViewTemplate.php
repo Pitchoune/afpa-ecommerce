@@ -206,7 +206,7 @@ class ViewTemplate
 					<p><?= $employee['rolename'] ?></p>
 				</div>
 				<ul class="sidebar-menu">
-					<li><a class="sidebar-header" href="index.php?do=dashboard"><i data-feather="home"></i><span>Tableau de bord</span></a></li>
+					<li><a class="sidebar-header" href="index.php?do=index"><i data-feather="home"></i><span>Tableau de bord</span></a></li>
 					<?php
 					if (Utils::cando(1) OR Utils::cando(2))
 					{
