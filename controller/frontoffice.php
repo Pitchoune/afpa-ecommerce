@@ -59,4 +59,9 @@ if (in_array($do, ['viewcategory']))
 	require_once(DIR . '/controller/frontoffice/categories.php');
 }
 
+if (in_array($do, ['viewcart', 'viewcheckout']))
+{
+	require_once(DIR . '/controller/frontoffice/shopping.php');
+}
+
 ?>

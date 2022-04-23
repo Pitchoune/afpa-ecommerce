@@ -2977,6 +2977,13 @@ var shoppingCart = (function()
     saveCart();
   }
 
+  // Clear completely the cart - used when user has clicked on checkout and the order has been save in the db as not paid
+  obj.clearCart = function()
+  {
+    cart = [];
+    saveCart();
+  }
+
   // Total count of items in cart
   obj.totalCount = function()
   {
@@ -3048,13 +3055,15 @@ $('.add-to-cart').click(function(e)
 function displayCart()
 {
   var cartArray = shoppingCart.listCart();
-  var output = "";
+  var output1 = "";
+  var output2 = "";
 
   for (var i in cartArray)
   {
-    output += "<li>"
+    // Cart in top
+    output1 += "<li>"
     + "<div class='media'>"
-    + "<a href='index.php?do=viewproduct&amp;id=" + cartArray[i].id + "'><img src='attachments/products/" + cartArray[i].photo + "' class='me-3' alt='' /></a>"
+    + "<a href='index.php?do=viewproduct&amp;id=" + cartArray[i].id + "'><img src='attachments/products/" + cartArray[i].photo + "' class='me-3' alt='" + cartArray[i].name + "' /></a>"
     + "<div class='media-body'>"
     + "<a href='index.php?do=viewproduct&amp;id=" + cartArray[i].id + "'><h4>" + cartArray[i].name + "</h4></a>"
     + "<h6>" + cartArray[i].price + " &euro;</h6>"
@@ -3073,8 +3082,46 @@ function displayCart()
     + "</div>"
     + "</div>"
     + "</li>";
+
+    // Cart page
+    output2 += "<tr>"
+    + "<td>"
+    + "<a href='index.php?do=viewproduct&amp;id=" + cartArray[i].id + "'>"
+    + "<img src='attachments/products/" + cartArray[i].photo + "' alt='" + cartArray[i].name + "' class='' />"
+    + "</a>"
+    + "</td>"
+    + "<td><a href='index.php?do=viewproduct&amp;id=" + cartArray[i].id + "'>" + cartArray[i].name + "</a>"
+    + "<div class='mobile-cart-content'>"
+    + "<div class='col-xs-3'>"
+    + "<div class='qty-box'>"
+    + "<div class='input-group'>"
+    + "<input type='text' name='quantity' class='form-control input-number' value='" + cartArray[i].count + "' disabled />"
+    + "</div>"
+    + "</div>"
+    + "</div>"
+    + "<div class='col-xs-3'>"
+    + "<h2 class='td-color'>" + cartArray[i].price + " &euro;</h2>"
+    + "</div>"
+    + "</div>"
+    + "</td>"
+    + "<td>"
+    + "<h2>" + cartArray[i].price + " &euro;</h2>"
+    + "</td>"
+    + "<td>"
+    + "<div class='qty-box'>"
+    + "<div class='input-group'>"
+    + "<input type='number' name='quantity' class='form-control input-number' value='" + cartArray[i].count + "' disabled />"
+    + "</div>"
+    + "</div>"
+    + "</td>"
+    + "<td>"
+    + "<h2 class='td-color'>" + (cartArray[i].price * cartArray[i].count).toFixed(2) + " &euro;</h2>"
+    + "<input type='hidden' name='id' value='" + cartArray[i].id + "' />"
+    + "</td>"
+    + "</tr>";
   }
-  $('.cart_product').html(output);
+  $('.cart_product').html(output1);
+  $('.cart_list').html(output2);
   $('.total-cart').html(shoppingCart.totalCart() + ' &euro;');
   $('.total-count').html(shoppingCart.totalCount());
 }

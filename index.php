@@ -115,6 +115,9 @@ try
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
 			ViewCategory($id);
 			break;
+		case 'viewcart':
+			viewCart();
+			break;
 		case 'logout':
 			doLogout();
 			break;
