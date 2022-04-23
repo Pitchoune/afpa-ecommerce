@@ -9809,13 +9809,11 @@ ul.sosiyal.sosiyal-inverse li:hover {
 }
 .collection-product-wrapper .product-top-filter .product-filter-content.horizontal-filter-mian .horizontal-filter-toggle,
 .collection-product-wrapper .product-top-filter .popup-filter.horizontal-filter-mian .horizontal-filter-toggle {
-  background: url(../images/dropdown.png) no-repeat 95%;
   border-right: 1px solid #dddddd;
   padding: 20px;
   text-transform: capitalize;
   width: 35%;
   font-size: calc(14px + 2 * (100vw - 320px) / 1600);
-  cursor: pointer;
 }
 .collection-product-wrapper .product-top-filter .product-filter-content.horizontal-filter-mian .horizontal-filter-toggle h5,
 .collection-product-wrapper .product-top-filter .product-filter-content.horizontal-filter-mian .horizontal-filter-toggle h4,

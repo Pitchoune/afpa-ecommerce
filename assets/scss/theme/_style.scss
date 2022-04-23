@@ -12433,13 +12433,11 @@ ul.sosiyal {
       &.horizontal-filter-mian {
 
         .horizontal-filter-toggle {
-          background: url(../images/dropdown.png) no-repeat 95%;
           border-right: 1px solid $light-border;
           padding: 20px;
           text-transform: capitalize;
           width: 35%;
           font-size: calc(14px + (16 - 14) * ((100vw - 320px) / (1920 - 320)));
-          cursor: pointer;
 
           h5,
           h4 {

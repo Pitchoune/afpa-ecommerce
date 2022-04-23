@@ -111,6 +111,10 @@ try
 			$category = isset($_POST['category']) ? filter_var($_POST['category'], FILTER_VALIDATE_INT) : NULL;
 			searchResults($query, $category);
 			break;
+		case 'viewcategory':
+			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
+			ViewCategory($id);
+			break;
 		case 'logout':
 			doLogout();
 			break;

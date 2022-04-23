@@ -93,7 +93,7 @@ class ViewProduct
 													</div>
 												</div>
 												<div class="product-buttons">
-													<a href="javascript:void(0)"  id="cartEffect" class="btn cart-btn btn-normal tooltip-top" data-tippy-content="Add to cart">
+													<a href="javascript:void(0)" id="cartEffect" class="btn cart-btn btn-normal tooltip-top" data-tippy-content="Ajouter au panier">
 														<i class="fa fa-shopping-cart"></i>
 														Ajouter au panier
 													</a>

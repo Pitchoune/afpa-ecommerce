@@ -204,6 +204,25 @@ class ModelProduct extends Model
 	}
 
 	/**
+	 * Returns an array of informations about a specific product following its reference.
+	 *
+	 * @return array Informations about a specific product.
+	 */
+	public function listProductInfosFromCategory()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT *
+			FROM produit
+			WHERE id_categorie = ?
+		");
+		$query->bindParam(1, $this->id_category, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
 	 * Saves the existing specified product with updated data.
 	 *
 	 * @return mixed Returns the product ID if done, else false if it fails.
