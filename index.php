@@ -1,11 +1,15 @@
 <?php
+
+// Start the session here
 session_start();
 
+// Hide some notices from errors - added for the upload stuff
 error_reporting(E_ALL & ~E_NOTICE);
 
 // Sanitize do= values, others required per page are sanitized when necessary
 $do = isset($_REQUEST['do']) ? filter_var($_REQUEST['do'], FILTER_SANITIZE_STRING) : NULL;
 
+// Force to go to the index if there is no routing defined
 if (empty($do) OR !isset($do))
 {
 	$do = 'index';
@@ -15,6 +19,7 @@ if (empty($do) OR !isset($do))
 require_once('controller/frontoffice.php');
 require_once(DIR . '/view/frontoffice/ViewTemplate.php');
 
+// Debug stuff - do not take into account
 // echo $do;
 // Utils::printr($_SESSION, 1);
 
@@ -32,10 +37,12 @@ try
 {
 	switch($do)
 	{
+		// Home page
 		case 'index':
 		default:
 			index();
 			break;
+		// Customer
 		case 'register':
 			register();
 			break;
@@ -101,6 +108,10 @@ try
 			$deletion = $_POST['deleteprofile'];
 			doDeleteProfile($id, $deletion);
 			break;
+		case 'logout':
+			doLogout();
+			break;
+		// Products
 		case 'viewproduct':
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
 			$ref = isset($_GET['ref']) ? filter_var($_GET['ref'], FILTER_SANITIZE_STRING) : NULL;
@@ -111,20 +122,35 @@ try
 			$category = isset($_POST['category']) ? filter_var($_POST['category'], FILTER_VALIDATE_INT) : NULL;
 			searchResults($query, $category);
 			break;
+		// Categories
 		case 'viewcategory':
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
 			ViewCategory($id);
 			break;
+		// Shopping
 		case 'viewcart':
 			viewCart();
 			break;
-		case 'logout':
-			doLogout();
+		case 'viewcheckout':
+			viewCheckout();
+			break;
+		case 'placeorder':
+			$price = isset($_POST['price']) ? filter_var($_POST['price'], FILTER_SANITIZE_STRING) : NULL;
+			placeOrder($price);
+			break;
+		case 'paymentprocess':
+			$name = isset($_POST['name']) ? filter_var($_POST['name'], FILTER_SANITIZE_STRING) : NULL;
+			$email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) : NULL;
+			$price = isset($_POST['price']) ? filter_var($_POST['price'], FILTER_SANITIZE_STRING) : NULL;
+			$token = isset($_POST['stripeToken']) ? filter_var($_POST['stripeToken'], FILTER_SANITIZE_STRING) : NULL;
+			$item = isset($_POST['item']) ? $_POST['item'] : NULL;
+			paymentProcess($name, $email, $price, $token, $item);
 			break;
 	}
 }
 catch(Exception $e)
 {
+	// Error has been caught, display it in a specific view
 	$errorMessage = $e->getMessage();
 	require_once(DIR . '/view/frontoffice/ViewError.php');
 

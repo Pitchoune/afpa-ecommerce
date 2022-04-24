@@ -167,7 +167,7 @@ class Utils
 	}
 
 	/**
-	 * Creates a list of countries to display in the customer profile.
+	 * Creates a list of countries to display in the customer profile. Not used actually, maybe added later.
 	 *
 	 * @param string $selected Value stored in the database for the customer.
 	 *

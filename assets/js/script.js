@@ -20,7 +20,7 @@
 // 13. tab js
 // 14. RTL & Dark Light
 // 15. Add to cart
-// 16.  Add to wishlist
+// 16. Add to wishlist
 // 17. Tap on Top
 // 18. loader
 // 19. add to cart sidebar js
@@ -2994,7 +2994,7 @@ var shoppingCart = (function()
       totalCount += cart[item].count;
     }
 
-    return totalCount;
+    return parseInt(totalCount);
   }
 
   // Total cart value
@@ -3055,8 +3055,7 @@ $('.add-to-cart').click(function(e)
 function displayCart()
 {
   var cartArray = shoppingCart.listCart();
-  var output1 = "";
-  var output2 = "";
+  var output1 = output2 = output3 = output4 = "";
 
   for (var i in cartArray)
   {
@@ -3119,11 +3118,52 @@ function displayCart()
     + "<input type='hidden' name='id' value='" + cartArray[i].id + "' />"
     + "</td>"
     + "</tr>";
+
+    // Checkout page
+    output3 += "<li>" + cartArray[i].name + " x " + cartArray[i].count + "<span>" + (cartArray[i].price * cartArray[i].count).toFixed(2) + " &euro;</span></li>"
+
+    // Payment page, to have informations to enter into order details
+    output4 += "<input type='hidden' name='item[" + i + "][id]' value='" + cartArray[i].id + "' />"
+    + "<input type='hidden' name='item[" + i + "][price]' value='" + cartArray[i].price + "' />"
+    + "<input type='hidden' name='item[" + i + "][quantity]' value='" + cartArray[i].count + "' />";
   }
+
+  // Cart in top sidebar
   $('.cart_product').html(output1);
+
+  // Full cart page
   $('.cart_list').html(output2);
+
+  // List of products in checkout
+  $('.qty').html(output3);
+
+  // Value of each item and their quantities from sessionStorage to HTML/PHP form
+  $('.hiddeninput').html(output4);
+
+  // Total price everywhere
   $('.total-cart').html(shoppingCart.totalCart() + ' &euro;');
+
+  // Add total price value in hidden field for the payment process
+  $('.novisibleprice').val(shoppingCart.totalCart());
+
+  // Number of items in the cart
   $('.total-count').html(shoppingCart.totalCount());
+
+  // Define an other way to interact if there is 0 items in the cart
+  if (shoppingCart.totalCount() === 0)
+  {
+    // Cart in top sidebar
+    $('.cart_product').html('<li class="emptycart text-center">Vous n\'avez aucun produit dans votre panier.</li>');
+
+    // Full cart page
+    $('.cart_list').html('<tr><td colspan="5">Vous n\'avez aucun produit dans votre panier.</td></tr>');
+
+    // Button to place order
+    $('.submitcheckoutbutton').attr('disabled', true);
+
+    // List of products in checkout
+    $('.qty').html('<li>Vous n\'avez pas d\'articles dans votre panier, vous ne pouvez pas procéder au paiement.</li>');
+  }
 }
 
 // -1 item count

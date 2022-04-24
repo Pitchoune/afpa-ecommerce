@@ -32,14 +32,11 @@ class ViewTemplate
 		<link rel="stylesheet" type="text/css" href="assets/css/slick.css">
 		<link rel="stylesheet" type="text/css" href="assets/css/slick-theme.css">
 
-
 		<!--Animate css-->
 		<link rel="stylesheet" type="text/css" href="assets/css/animate.css">
 
-
 		<!-- Bootstrap css -->
 		<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
-
 
 		<!-- Theme css -->
 		<link rel="stylesheet" type="text/css" href="assets/css/color2.css" media="screen" id="color">
@@ -392,7 +389,7 @@ class ViewTemplate
 												<img src="assets/images/layout-2/logo/logo.png" class="img-fluid" alt="logo">
 											</a>
 										</div>
-										<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC.</p>
+										<p>Contrairement à la croyance, le Lorem Ipsum n'est pas du simple texte aléatoire. Il a ses racines dans un morceau de littérature latine datant de -45.</p>
 										<ul class="paymant">
 											<li><a href="https://www.visa.com/"><img src="assets/images/layout-1/pay/1.png" class="img-fluid" alt="VISA" /></a></li>
 											<li><a href="https://www.mastercard.com/"><img src="assets/images/layout-1/pay/2.png" class="img-fluid" alt="MasterCard" /></a></li>
@@ -404,7 +401,7 @@ class ViewTemplate
 								</div>
 								<div class="footer-box">
 									<div class="footer-title">
-										<h5>my account</h5>
+										<h5>Mon compte</h5>
 									</div>
 									<div class="footer-contant">
 										<ul>
@@ -418,7 +415,7 @@ class ViewTemplate
 								</div>
 								<div class="footer-box">
 									<div class="footer-title">
-										<h5>contact us</h5>
+										<h5>Nous contacter</h5>
 									</div>
 									<div class="footer-contant">
 										<ul class="contact-list">
@@ -439,7 +436,7 @@ class ViewTemplate
 					<div class="row">
 						<div class="col-xl-6 col-md-8 col-sm-12">
 							<div class="footer-left">
-								<p><?= date('Y') ?> Copy Right by Themeforest Powered by pixel strap</p>
+								<p><?= date('Y') ?> Copyright par Themeforest Édité par pixel strap</p>
 							</div>
 						</div>
 						<div class="col-xl-6 col-md-4 col-sm-12">
@@ -479,7 +476,7 @@ class ViewTemplate
 						<li>
 							<div class="buttons">
 								<a href="index.php?do=viewcart" class="btn btn-solid btn-sm">view cart</a>
-								<a href="index.php?do=viewcheckout" class="btn btn-solid btn-sm ">checkout</a>
+								<a href="index.php?do=viewcheckout" class="btn btn-solid btn-sm">checkout</a>
 							</div>
 						</li>
 					</ul>

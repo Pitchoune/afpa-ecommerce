@@ -637,6 +637,11 @@ function sendPassword($email)
 	header('Location: index.php?do=forgotpassword');
 }
 
+/**
+ * Displays the HTML code to let the user to request to delete his/her profile.
+ *
+ * @return void
+ */
 function deleteProfile()
 {
 	if (!$_SESSION['user']['loggedin'])
@@ -649,6 +654,14 @@ function deleteProfile()
 	ViewCustomer::CustomerDeleteProfile();
 }
 
+/**
+ * Process the profile deletion.
+ *
+ * @param integer $id ID of the customer to delete.
+ * @param boolean $deletion True or false from the checkbox from the customer to delete the account.
+ *
+ * @return void
+ */
 function doDeleteProfile($id, $deletion)
 {
 	global $config;

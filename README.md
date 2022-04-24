@@ -4,14 +4,6 @@ Project code used to validate DWWM learning at AFPA Calais.
 
 ---
 
-Template used: Bigdeal - eCommerce Bootstrap 4 & 5 HTML + Admin Template
-
-By PixelStrap ( https://themeforest.net/user/pixelstrap )
-
-Link: https://themeforest.net/item/bigdeal-ecommerce-html-template/24809149
-
----
-
 ## Installation
 
 ### SQL importation
@@ -40,3 +32,23 @@ You can login into ./admin/index.php with these credentials:
 - Sending email for the forgot password feature should work, not tested yet.
 
 Enjoy!
+
+---
+
+## Credits
+
+### Front and back template
+
+Template used: Bigdeal - eCommerce Bootstrap 4 & 5 HTML + Admin Template
+
+By PixelStrap ( https://themeforest.net/user/pixelstrap )
+
+Link: https://themeforest.net/item/bigdeal-ecommerce-html-template/24809149
+
+### Cart system
+
+https://codepen.io/chrisachinga/pen/MWwrZLJ
+
+### Payment process with Stripe
+
+https://www.youtube.com/watch?v=VU_f2HJAP5A

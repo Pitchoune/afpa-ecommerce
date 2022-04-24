@@ -60,6 +60,10 @@
 </h4>
     <ul class="phpdocumentor-list">
                     <li>
+                <a href="namespaces/ecommerce-controller.html" class="">Controller</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/ecommerce-model.html" class="">Model</a>
                 
             </li>
@@ -165,13 +169,13 @@
     </h2>
 
         <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="view/backoffice/ViewProduct.php"><a href="files/view-backoffice-viewproduct.html"><abbr title="view/backoffice/ViewProduct.php">ViewProduct.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="view/frontoffice/ViewProduct.php"><a href="files/view-frontoffice-viewproduct.html"><abbr title="view/frontoffice/ViewProduct.php">ViewProduct.php</abbr></a></abbr>
     :
     <span class="phpdocumentor-element-found-in__line">10</span>
 
     </aside>
 
-            <p class="phpdocumentor-summary">Class to display HTML content about products in back.</p>
+            <p class="phpdocumentor-summary">Class to display HTML content about products in front.</p>
 
 
 
@@ -203,18 +207,18 @@
 
 <dl class="phpdocumentor-table-of-contents">
                         <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/ViewProduct.html#method_ProductAddEdit">ProductAddEdit()</a>
+    <a href="classes/ViewProduct.html#method_DisplayProduct">DisplayProduct()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Returns the HTML code to display the add or edit product form.</dd>
+<dd>Returns the HTMl code to display the product page.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/ViewProduct.html#method_ProductList">ProductList()</a>
+    <a href="classes/ViewProduct.html#method_SearchResults">SearchResults()</a>
     <span>
                                 &nbsp;: void    </span>
 </dt>
-<dd>Returns the HTML code to display the product list.</dd>
+<dd>Returns the HTML form to search into products.</dd>
 
         </dl>
 
@@ -235,22 +239,22 @@
             -public
                                     -static                    "
 >
-    <h4 class="phpdocumentor-element__name" id="method_ProductAddEdit">
-        ProductAddEdit()
-        <a href="classes/ViewProduct.html#method_ProductAddEdit" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_DisplayProduct">
+        DisplayProduct()
+        <a href="classes/ViewProduct.html#method_DisplayProduct" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="view/backoffice/ViewProduct.php"><a href="files/view-backoffice-viewproduct.html"><abbr title="view/backoffice/ViewProduct.php">ViewProduct.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="view/frontoffice/ViewProduct.php"><a href="files/view-frontoffice-viewproduct.html"><abbr title="view/frontoffice/ViewProduct.php">ViewProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">283</span>
+    <span class="phpdocumentor-element-found-in__line">20</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Returns the HTML code to display the add or edit product form.</p>
+        <p class="phpdocumentor-summary">Returns the HTMl code to display the product page.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">ProductAddEdit</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">DisplayProduct</span><span>(</span><span class="phpdocumentor-signature__argument"><span>[</span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;&#039;</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$ref</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">&#039;&#039;</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -260,7 +264,16 @@
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
                  = <span class="phpdocumentor-signature__argument__default-value">&#039;&#039;</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>ID of the product if we need to edit an existing product. Empty for a new deliver.</p>
+                    <section class="phpdocumentor-description"><p>ID of the product.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$ref</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">&#039;&#039;</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Reference of the product.</p>
 </section>
 
             </dd>
@@ -280,25 +293,46 @@
             -public
                                     -static                    "
 >
-    <h4 class="phpdocumentor-element__name" id="method_ProductList">
-        ProductList()
-        <a href="classes/ViewProduct.html#method_ProductList" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_SearchResults">
+        SearchResults()
+        <a href="classes/ViewProduct.html#method_SearchResults" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
-    <abbr class="phpdocumentor-element-found-in__file" title="view/backoffice/ViewProduct.php"><a href="files/view-backoffice-viewproduct.html"><abbr title="view/backoffice/ViewProduct.php">ViewProduct.php</abbr></a></abbr>
+    <abbr class="phpdocumentor-element-found-in__file" title="view/frontoffice/ViewProduct.php"><a href="files/view-frontoffice-viewproduct.html"><abbr title="view/frontoffice/ViewProduct.php">ViewProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">17</span>
+    <span class="phpdocumentor-element-found-in__line">219</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Returns the HTML code to display the product list.</p>
+        <p class="phpdocumentor-summary">Returns the HTML form to search into products.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">ProductList</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+            <span class="phpdocumentor-signature__static">static</span>        <span class="phpdocumentor-signature__name">SearchResults</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$query</span></span><span class="phpdocumentor-signature__argument"><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$category</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     
-    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$query</span>
+                : <span class="phpdocumentor-signature__argument__return-type">string</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>Search query.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$category</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>ID of the category to search.</p>
+</section>
+
+            </dd>
+            </dl>
+
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>

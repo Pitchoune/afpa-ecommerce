@@ -164,7 +164,9 @@ class ModelRole extends Model
 	}
 
 	/**
+	 * Selects all existing permissions.
 	 *
+	 * @return mixed Returns an array with all existing permissions or false if it fails.
 	 */
 	public function getAllRolePermissions()
 	{

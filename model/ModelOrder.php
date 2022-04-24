@@ -78,7 +78,9 @@ class ModelOrder extends Model
 	}
 
 	/**
+	 * Gets the number of orders for a customer.
 	 *
+	 * @return mixed Returns the number of orders for the specified customer.
 	 */
 	public function getNumberOfOrdersForCustomer()
 	{
@@ -92,6 +94,30 @@ class ModelOrder extends Model
 
 		$query->execute();
 		return $query->fetch();
+	}
+
+	/**
+	 * Saves the new order in the 'commande' table.
+	 *
+	 * @return mixed Returns the saved order ID or false if there is an error.
+	 */
+	public function saveNewOrder()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			INSERT INTO commande
+				(date, etat, mode, id_client, id_transporteur)
+			VALUES
+				(?, ?, ?, ?, ?)
+		");
+		$query->bindParam(1, $this->date, \PDO::PARAM_STR);
+		$query->bindParam(2, $this->status, \PDO::PARAM_STR);
+		$query->bindParam(3, $this->mode, \PDO::PARAM_STR);
+		$query->bindParam(4, $this->id_customer, \PDO::PARAM_INT);
+		$query->bindParam(5, $this->id_deliver, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $db->lastInsertId();
 	}
 
 	/**

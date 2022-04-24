@@ -1,6 +1,6 @@
 <?php
 
-// require_once(DIR . '/model/ModelCategory.php');
+require_once(DIR . '/model/ModelCustomer.php');
 
 /**
  * Class to display HTML content about shopping in front.
@@ -16,8 +16,6 @@ class ViewShopping
 	 */
 	public static function DisplayCart()
 	{
-		global $config;
-
 		$pagetitle = 'Panier';
 
 		?>
@@ -80,7 +78,7 @@ class ViewShopping
 							<div class="row cart-buttons">
 								<div class="col-12">
 									<a href="index.php" class="btn btn-normal">Continuer vos achats</a>
-									<a href="index.php?do=viewcheckout" class="btn btn-normal ms-3" type="submit">Passer la commande</a>
+									<a href="index.php?do=viewcheckout" class="btn btn-normal ms-3 submitcheckout" type="submit">Passer la commande</a>
 								</div>
 							</div>
 						</div>
@@ -122,6 +120,357 @@ class ViewShopping
 			</body>
 		</html>
 		<?php
+	}
+
+	/**
+	 * Returns the HTMl code to display the checkout.
+	 *
+	 * @return void
+	 */
+	public static function DisplayCheckout()
+	{
+		global $config;
+
+		if ($_SESSION['user']['id'])
+		{
+			$pagetitle = 'Vérification de la commande';
+
+			$customers = new \Ecommerce\Model\ModelCustomer($config);
+			$customers->set_id($_SESSION['user']['id']);
+			$customer = $customers->getCustomerInfosFromId();
+
+			?>
+			<!DOCTYPE html>
+			<html>
+				<head>
+					<?php
+					ViewTemplate::FrontHead($pagetitle);
+					?>
+				</head>
+
+				<body class="bg-light">
+					<!-- loader start -->
+					<div class="loader-wrapper">
+				  	<div>
+						<img src="assets/images/loader.gif" alt="loader">
+				  	</div>
+					</div>
+					<!-- loader end -->
+
+					<?php
+					ViewTemplate::FrontHeader();
+					?>
+
+					<?php
+					ViewTemplate::FrontBreadcrumb($pagetitle, ['viewcheckout' => $pagetitle]);
+					?>
+
+					<!-- section start -->
+					<section class="section-big-py-space b-g-light">
+						<div class="custom-container">
+							<div class="checkout-page contact-page">
+								<div class="checkout-form">
+									<form action="index.php?do=placeorder" method="post">
+										<div class="row">
+											<div class="col-lg-6 col-sm-12 col-xs-12">
+												<div class="checkout-title">
+													<h3>Détails de livraison / facturation</h3>
+												</div>
+												<div class="theme-form">
+													<div class="row check-out ">
+														<div class="form-group col-md-6 col-sm-6 col-xs-12">
+															<label>Prénom</label>
+															<input type="text" name="field-name" value="<?= $customer['prenom'] ?>" disabled />
+														</div>
+														<div class="form-group col-md-6 col-sm-6 col-xs-12">
+															<label>Nom</label>
+															<input type="text" name="field-name" value="<?= $customer['nom'] ?>" disabled />
+														</div>
+														<div class="form-group col-md-6 col-sm-6 col-xs-12">
+															<label class="field-label">Téléphone</label>
+															<input type="text" name="field-name" value="<?= $customer['tel'] ?>" disabled />
+														</div>
+														<div class="form-group col-md-6 col-sm-6 col-xs-12">
+															<label class="field-label">Adresse email</label>
+															<input type="text" name="field-name" value="<?= $customer['mail'] ?>" disabled />
+														</div>
+														<div class="form-group col-md-12 col-sm-12 col-xs-12">
+															<label class="field-label">Adresse postale</label>
+															<input type="text" name="field-name" value="<?= $customer['adresse'] ?>" disabled />
+														</div>
+														<div class="form-group col-md-12 col-sm-12 col-xs-12">
+															<label class="field-label">Ville</label>
+															<input type="text" name="field-name" value="<?= $customer['ville'] ?>" disabled>
+														</div>
+														<div class="form-group col-md-12 col-sm-6 col-xs-12">
+															<label class="field-label">Code postal</label>
+															<input type="text" name="field-name" value="<?= $customer['code_post'] ?>" disabled>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-lg-6 col-sm-12 col-xs-12">
+												<div class="checkout-details theme-form  section-big-mt-space">
+													<div class="order-box">
+														<div class="title-box">
+															<div>Produit <span>Total</span></div>
+														</div>
+														<ul class="qty">
+														</ul>
+														<ul class="sub-total">
+															<li>Sous-total <span class="count total-cart"></span></li>
+															<li>Livraison <span style="position: relative; float: right; width: 35%;">Gratuit</span></li>
+														</ul>
+														<ul class="total">
+															<li>Total <span class="count total-cart"></span></li>
+														</ul>
+													</div>
+													<div class="payment-box">
+														<div class="upper-box">
+															<div class="payment-options">
+																<ul>
+																	<li>
+																		<div class="radio-option">
+																			<input type="radio" name="payment-group" id="payment-1" checked>
+																			<label for="payment-1">Carte bancaire</label>
+																		</div>
+																	</li>
+																</ul>
+															</div>
+														</div>
+														<div class="text-right">
+															<input type="hidden" class="novisibleprice" name="price" value="" />
+															<input class="btn-normal btn submitcheckoutbutton" type="submit" value="Effectuer le paiement" />
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</section>
+					<!-- section end -->
+
+					<?php
+					ViewTemplate::FrontFooter();
+					?>
+
+					<!-- latest jquery-->
+					<script src="assets/js/jquery-3.5.1.min.js" ></script>
+
+					<!-- slick js-->
+					<script src="assets/js/slick.js"></script>
+
+					<!-- popper js-->
+					<script src="assets/js/popper.min.js" ></script>
+					<script src="assets/js/bootstrap-notify.min.js"></script>
+
+					<!-- menu js-->
+					<script src="assets/js/menu.js"></script>
+
+					<!-- Bootstrap js-->
+					<script src="assets/js/bootstrap.js"></script>
+
+					<!-- tool tip js -->
+					<script src="assets/js/tippy-popper.min.js"></script>
+					<script src="assets/js/tippy-bundle.iife.min.js"></script>
+
+					<!-- father icon -->
+					<script src="assets/js/feather.min.js"></script>
+					<script src="assets/js/feather-icon.js"></script>
+
+					<!-- Theme js-->
+					<script src="assets/js/modal.js"></script>
+					<script src="assets/js/script.js" ></script>
+				</body>
+			</html>
+			<?php
+		}
+		else
+		{
+			throw new Exception('Afin de pouvoir procéder au paiement, veuillez vous identifier. Votre panier sera conservé.');
+		}
+	}
+
+	/**
+	 * Returns the HTMl code to display the place order page.
+	 *
+	 * @param string $price Price of the whole checkout.
+	 *
+	 * @return void
+	 */
+	public static function PlaceOrder($price)
+	{
+		if ($_SESSION['user']['id'])
+		{
+			global $config;
+
+			$pagetitle = 'Paiement';
+
+			$customers = new \Ecommerce\Model\ModelCustomer($config);
+			$customers->set_id($_SESSION['user']['id']);
+			$customer = $customers->getCustomerInfosFromId();
+
+			?>
+			<!DOCTYPE html>
+			<html>
+				<head>
+					<?php
+					ViewTemplate::FrontHead($pagetitle);
+					?>
+				</head>
+
+				<body class="bg-light">
+					<!-- loader start -->
+					<div class="loader-wrapper">
+				  	<div>
+						<img src="assets/images/loader.gif" alt="loader">
+				  	</div>
+					</div>
+					<!-- loader end -->
+
+					<?php
+					ViewTemplate::FrontHeader();
+					?>
+
+					<?php
+					ViewTemplate::FrontBreadcrumb($pagetitle, ['placeorder' => $pagetitle]);
+					?>
+
+					<section class="checkout-second section-big-py-space b-g-light">
+						<div class="custom-container" id="grad1">
+							<div class="row justify-content-center">
+								<div class="col-md-11">
+									<div class=" checkout-box">
+										<div class="checkout-header">
+											<h2>checkout your product</h2>
+											<h4>Fill all form field to go to next step</h4>
+										</div>
+										<div class="checkout-body ">
+											<form class="checkout-form" action="index.php?do=paymentprocess" method="post" id="payment_form">
+												<div class="checkout-fr-box">
+													<div class="form-card">
+														<h3 class="form-title">Informations de paiement</h3>
+														<ul class="payment-info">
+															<li>
+																<img src="assets/images/checkout/payment-method/1.png" alt="" class="payment-method">
+															</li>
+															<li>
+																<img src="assets/images/checkout/payment-method/2.png" alt="" class="payment-method">
+															</li>
+															<li>
+																<img src="assets/images/checkout/payment-method/3.png" alt="" class="payment-method">
+															</li>
+															<li>
+																<img src="assets/images/checkout/payment-method/4.png" alt="" class="payment-method">
+															</li>
+														</ul>
+														<div class="form-group">
+															<label class="pay">Nom*</label>
+															<input type="text" name="name" class="form-control" />
+														</div>
+														<div class="form-group">
+															<div class="small-group">
+																<div>
+																	<label>Numéro de carte*</label>
+																	<input type="text" name="number" placeholder="" class="form-control" data-stripe="number" />
+																</div>
+																<div class="small-sec">
+																	<label>CVC*</label>
+																	<input type="password" name="cvc" placeholder="***" class="form-control" data-stripe="cvc" />
+																</div>
+															</div>
+														</div>
+														<div class="form-group">
+															<label>Date d'expiration*</label>
+															<div class="small-group">
+																<input type="text" name="exp-month" placeholder="MM" class="form-control" data-stripe="exp_month" />
+																<input type="text" name="exp-year" style="margin-left: 15px;" placeholder="YY" class="form-control" data-stripe="exp_year" />
+															</div>
+														</div>
+													</div>
+													<div class="hiddeninput"></div>
+													<input type="hidden" name="email" value="<?= $customer['mail'] ?>" />
+													<input type="hidden" name="price" value="<?= $price ?>" />
+													<input type="submit" class="btn btn-normal sendbutton" value="Payer" />
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<?php
+					ViewTemplate::FrontFooter();
+					?>
+
+					<!-- latest jquery-->
+					<script src="assets/js/jquery-3.5.1.min.js" ></script>
+
+					<!-- slick js-->
+					<script src="assets/js/slick.js"></script>
+
+					<!-- popper js-->
+					<script src="assets/js/popper.min.js" ></script>
+					<script src="assets/js/bootstrap-notify.min.js"></script>
+
+					<!-- menu js-->
+					<script src="assets/js/menu.js"></script>
+
+					<!-- Bootstrap js-->
+					<script src="assets/js/bootstrap.js"></script>
+
+					<!-- tool tip js -->
+					<script src="assets/js/tippy-popper.min.js"></script>
+					<script src="assets/js/tippy-bundle.iife.min.js"></script>
+
+					<!-- father icon -->
+					<script src="assets/js/feather.min.js"></script>
+					<script src="assets/js/feather-icon.js"></script>
+
+					<!-- Theme js-->
+					<script src="assets/js/modal.js"></script>
+					<script src="assets/js/script.js" ></script>
+
+					<!-- Stripe - use v2, v3 requires app auth from your bank with paymentInstants -->
+					<script src="https://js.stripe.com/v2/"></script>
+
+					<script>
+						Stripe.setPublishableKey($config['Stripe']['publickey']);
+
+						$('#payment_form').submit(function (e)
+						{
+							e.preventDefault();
+							$('#payment_form').find('.sendbutton').attr('disabled', true);
+
+							Stripe.card.createToken($('#payment_form'), function(status, response)
+							{
+								if (response.error)
+								{
+									$('#payment_form').prepend('<div><p>' + response.error.message + '</p></div>');
+									$('#payment_form').find('.next').attr('disabled', false);
+								}
+								else
+								{
+									$('#payment_form').append($('<input type="hidden" name="stripeToken" />').val(response.id));
+									$('#payment_form').get(0).submit();
+								}
+							})
+						})
+					</script>
+
+				</body>
+			</html>
+			<?php
+		}
+		else
+		{
+			throw new Exception('Vous ne pouvez pas accéder à cette page en étant non identifié. Veuillez vous identifier ou vous inscrire.');
+		}
 	}
 }
 

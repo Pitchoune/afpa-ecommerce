@@ -7,6 +7,11 @@
  */
 class ViewIndex
 {
+	/**
+	 * Returns the HTMl code to display the index page.
+	 *
+	 * @return void
+	 */
 	public static function DisplayIndex()
 	{
 		$pagetitle = 'Accueil';
@@ -895,7 +900,6 @@ class ViewIndex
 					ViewTemplate::FrontFooter();
 					?>
 
-
 					<!-- latest jquery-->
 					<script src="assets/js/jquery-3.3.1.min.js" ></script>
 
@@ -959,6 +963,28 @@ class ViewIndex
 						unset($_SESSION['customerremoved']);
 					}
 
+					// Setting this one before the previous to be able to show the notify
+					if ($_SESSION['order']['confirmpaid'] === 1)
+					{
+						ViewTemplate::FrontNotify('Règlement de commande', 'Votre commande a été effectuée avec succès !', 'success');
+						unset($_SESSION['order']['confirmpaid']);
+					}
+
+					if ($_SESSION['order']['paid'] === 1)
+					{
+						?>
+						<script>
+						$(window).on('load', function()
+						{
+							shoppingCart.clearCart();
+							location.reload();
+						});
+						</script>
+						<?php
+
+						$_SESSION['order']['confirmpaid'] = 1;
+						unset($_SESSION['order']['paid']);
+					}
 					?>
 
 				</body>

@@ -12,18 +12,18 @@ require_once(DIR . '/model/Model.php');
 class ModelOrderDetails extends Model
 {
 	/**
-	 * The ID of the order details.
-	 *
-	 * @var integer
-	 */
-	private $id;
-
-	/**
 	 * The order ID of the order details.
 	 *
 	 * @var integer
 	 */
 	private $id_order;
+
+	/**
+	 * The product ID of the order details.
+	 *
+	 * @var integer
+	 */
+	private $id_product;
 
 	/**
 	 * The price of the order details.
@@ -43,46 +43,66 @@ class ModelOrderDetails extends Model
 	 * Constructor.
 	 *
 	 * @param array $config Database informations.
-	 * @param integer $id The ID of the order details.
-	 * @param integer $id_order The order ID of the order details.
+	  * @param integer $id_order The order ID of the order details.
+	 * @param integer $id_product The product ID of the order details.
 	 * @param string $price The price of the order details.
 	 * @param integer $quantity The quantity of the order details.
 	 *
 	 * @return void
 	 */
-	public function __construct($config, $id = null, $id_order = null, $price = null, $quantity = null)
+	public function __construct($config, $id_order = null, $id_product = null, $price = null, $quantity = null)
 	{
 		$this->config = $config;
-		$this->id = $id;
 		$this->id_order = $id_order;
+		$this->id_product = $id_product;
 		$this->price = $price;
 		$this->quantity = $quantity;
 	}
 
-
-
 	/**
-	 * Defines the ID.
+	 * Saves a new order detail in the 'details_commande' table.
 	 *
-	 * @param integer $id ID of the order details.
-	 *
-	 * @return void
+	 * @return mixed Returns false if there is an error.
 	 */
-	public function set_id($id)
+	public function saveOrderDetails()
 	{
-		$this->id = $id;
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			INSERT INTO details_commande
+				(id_commande, id_produit, prix, quantite)
+			VAlUES
+				(?, ?, ?, ?)
+		");
+		$query->bindParam(1, $this->id_order, \PDO::PARAM_INT);
+		$query->bindParam(2, $this->id_product, \PDO::PARAM_INT);
+		$query->bindParam(3, $this->price, \PDO::PARAM_STR);
+		$query->bindParam(4, $this->quantity, \PDO::PARAM_INT);
+
+		return $query->execute();
 	}
 
 	/**
 	 * Defines the order ID.
 	 *
-	 * @param integer $id_order Date of the order.
+	 * @param integer $id_order Order ID of the order details.
 	 *
 	 * @return void
 	 */
 	public function set_order($id_order)
 	{
 		$this->id_order = $id_order;
+	}
+
+	/**
+	 * Defines the product ID.
+	 *
+	 * @param integer $id Product ID of the order details.
+	 *
+	 * @return void
+	 */
+	public function set_product($id_product)
+	{
+		$this->id_product = $id_product;
 	}
 
 	/**

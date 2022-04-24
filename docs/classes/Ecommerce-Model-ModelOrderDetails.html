@@ -60,6 +60,10 @@
 </h4>
     <ul class="phpdocumentor-list">
                     <li>
+                <a href="namespaces/ecommerce-controller.html" class="">Controller</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/ecommerce-model.html" class="">Model</a>
                 
             </li>
@@ -215,18 +219,18 @@
 <dd>The database configuration informations.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
-    <a href="classes/Ecommerce-Model-ModelOrderDetails.html#property_id">$id</a>
-    <span>
-                        &nbsp;: int            </span>
-</dt>
-<dd>The ID of the order details.</dd>
-
-            <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a href="classes/Ecommerce-Model-ModelOrderDetails.html#property_id_order">$id_order</a>
     <span>
                         &nbsp;: int            </span>
 </dt>
 <dd>The order ID of the order details.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -property -private">
+    <a href="classes/Ecommerce-Model-ModelOrderDetails.html#property_id_product">$id_product</a>
+    <span>
+                        &nbsp;: int            </span>
+</dt>
+<dd>The product ID of the order details.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -property -private">
     <a href="classes/Ecommerce-Model-ModelOrderDetails.html#property_price">$price</a>
@@ -278,11 +282,11 @@
 <dd>Returns the quantity of the order element.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Ecommerce-Model-ModelOrderDetails.html#method_set_id">set_id()</a>
+    <a href="classes/Ecommerce-Model-ModelOrderDetails.html#method_saveOrderDetails">saveOrderDetails()</a>
     <span>
-                                &nbsp;: void    </span>
+                                &nbsp;: mixed    </span>
 </dt>
-<dd>Defines the ID.</dd>
+<dd>Saves a new order detail in the &#039;details_commande&#039; table.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Ecommerce-Model-ModelOrderDetails.html#method_set_order">set_order()</a>
@@ -297,6 +301,13 @@
                                 &nbsp;: void    </span>
 </dt>
 <dd>Defines the price of the order element.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Ecommerce-Model-ModelOrderDetails.html#method_set_product">set_product()</a>
+    <span>
+                                &nbsp;: void    </span>
+</dt>
+<dd>Defines the product ID.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Ecommerce-Model-ModelOrderDetails.html#method_set_quantity">set_quantity()</a>
@@ -364,9 +375,9 @@
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="property_id">
-        $id
-        <a href="classes/Ecommerce-Model-ModelOrderDetails.html#property_id" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_id_order">
+        $id_order
+        <a href="classes/Ecommerce-Model-ModelOrderDetails.html#property_id_order" class="headerlink"><i class="fas fa-link"></i></a>
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
@@ -377,12 +388,12 @@
 
     </aside>
 
-        <p class="phpdocumentor-summary">The ID of the order details.</p>
+        <p class="phpdocumentor-summary">The order ID of the order details.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">int</span>
-    <span class="phpdocumentor-signature__name">$id</span>
+    <span class="phpdocumentor-signature__name">$id_order</span>
     </code>
 
     
@@ -397,9 +408,9 @@
             -private
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="property_id_order">
-        $id_order
-        <a href="classes/Ecommerce-Model-ModelOrderDetails.html#property_id_order" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="property_id_product">
+        $id_product
+        <a href="classes/Ecommerce-Model-ModelOrderDetails.html#property_id_product" class="headerlink"><i class="fas fa-link"></i></a>
         <span class="phpdocumentor-element__modifiers">
                                 </span>
     </h4>
@@ -410,12 +421,12 @@
 
     </aside>
 
-        <p class="phpdocumentor-summary">The order ID of the order details.</p>
+        <p class="phpdocumentor-summary">The product ID of the order details.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">private</span>
         <span class="phpdocumentor-signature__type">int</span>
-    <span class="phpdocumentor-signature__name">$id_order</span>
+    <span class="phpdocumentor-signature__name">$id_product</span>
     </code>
 
     
@@ -517,7 +528,7 @@
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$config</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id_order</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$price</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$quantity</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">__construct</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">array&lt;string|int, mixed&gt;&nbsp;</span><span class="phpdocumentor-signature__argument__name">$config</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id_order</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id_product</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">string&nbsp;</span><span class="phpdocumentor-signature__argument__name">$price</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span class="phpdocumentor-signature__argument"><span>[</span><span>, </span><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$quantity</span><span> = </span><span class="phpdocumentor-signature__argument__default-value">null</span><span> ]</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
 
     
         <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
@@ -532,20 +543,20 @@
 
             </dd>
                     <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$id</span>
-                : <span class="phpdocumentor-signature__argument__return-type">int</span>
-                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>The ID of the order details.</p>
-</section>
-
-            </dd>
-                    <dt class="phpdocumentor-argument-list__entry">
                 <span class="phpdocumentor-signature__argument__name">$id_order</span>
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
                  = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
             <dd class="phpdocumentor-argument-list__definition">
                     <section class="phpdocumentor-description"><p>The order ID of the order details.</p>
+</section>
+
+            </dd>
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$id_product</span>
+                : <span class="phpdocumentor-signature__argument__return-type">int</span>
+                 = <span class="phpdocumentor-signature__argument__default-value">null</span>            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"><p>The product ID of the order details.</p>
 </section>
 
             </dd>
@@ -590,7 +601,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelOrderDetails.php"><a href="files/model-modelorderdetails.html"><abbr title="model/ModelOrderDetails.php">ModelOrderDetails.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">117</span>
+    <span class="phpdocumentor-element-found-in__line">137</span>
 
     </aside>
 
@@ -625,7 +636,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelOrderDetails.php"><a href="files/model-modelorderdetails.html"><abbr title="model/ModelOrderDetails.php">ModelOrderDetails.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">127</span>
+    <span class="phpdocumentor-element-found-in__line">147</span>
 
     </aside>
 
@@ -660,7 +671,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelOrderDetails.php"><a href="files/model-modelorderdetails.html"><abbr title="model/ModelOrderDetails.php">ModelOrderDetails.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">137</span>
+    <span class="phpdocumentor-element-found-in__line">157</span>
 
     </aside>
 
@@ -695,7 +706,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelOrderDetails.php"><a href="files/model-modelorderdetails.html"><abbr title="model/ModelOrderDetails.php">ModelOrderDetails.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">147</span>
+    <span class="phpdocumentor-element-found-in__line">167</span>
 
     </aside>
 
@@ -723,43 +734,33 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_set_id">
-        set_id()
-        <a href="classes/Ecommerce-Model-ModelOrderDetails.html#method_set_id" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_saveOrderDetails">
+        saveOrderDetails()
+        <a href="classes/Ecommerce-Model-ModelOrderDetails.html#method_saveOrderDetails" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelOrderDetails.php"><a href="files/model-modelorderdetails.html"><abbr title="model/ModelOrderDetails.php">ModelOrderDetails.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">71</span>
+    <span class="phpdocumentor-element-found-in__line">67</span>
 
     </aside>
 
-        <p class="phpdocumentor-summary">Defines the ID.</p>
+        <p class="phpdocumentor-summary">Saves a new order detail in the &#039;details_commande&#039; table.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">set_id</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">int&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+                    <span class="phpdocumentor-signature__name">saveOrderDetails</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
 
     
-        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
-    <dl class="phpdocumentor-argument-list">
-                    <dt class="phpdocumentor-argument-list__entry">
-                <span class="phpdocumentor-signature__argument__name">$id</span>
-                : <span class="phpdocumentor-signature__argument__return-type">int</span>
-                            </dt>
-            <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>ID of the order details.</p>
-</section>
-
-            </dd>
-            </dl>
-
+    
     
 
         <h5 class="phpdocumentor-return-value__heading">Return values</h5>
-    <span class="phpdocumentor-signature__response_type">void</span>
+    <span class="phpdocumentor-signature__response_type">mixed</span>
             &mdash;
-        
+            <section class="phpdocumentor-description"><p>Returns false if there is an error.</p>
+</section>
+
     
 </article>
                     <article
@@ -775,7 +776,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelOrderDetails.php"><a href="files/model-modelorderdetails.html"><abbr title="model/ModelOrderDetails.php">ModelOrderDetails.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">83</span>
+    <span class="phpdocumentor-element-found-in__line">91</span>
 
     </aside>
 
@@ -793,7 +794,7 @@
                 : <span class="phpdocumentor-signature__argument__return-type">int</span>
                             </dt>
             <dd class="phpdocumentor-argument-list__definition">
-                    <section class="phpdocumentor-description"><p>Date of the order.</p>
+                    <section class="phpdocumentor-description"><p>Order ID of the order details.</p>
 </section>
 
             </dd>
@@ -820,7 +821,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelOrderDetails.php"><a href="files/model-modelorderdetails.html"><abbr title="model/ModelOrderDetails.php">ModelOrderDetails.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">95</span>
+    <span class="phpdocumentor-element-found-in__line">115</span>
 
     </aside>
 
@@ -858,6 +859,50 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_set_product">
+        set_product()
+        <a href="classes/Ecommerce-Model-ModelOrderDetails.html#method_set_product" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="model/ModelOrderDetails.php"><a href="files/model-modelorderdetails.html"><abbr title="model/ModelOrderDetails.php">ModelOrderDetails.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">103</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Defines the product ID.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">set_product</span><span>(</span><span class="phpdocumentor-signature__argument"><span class="phpdocumentor-signature__argument__return-type">mixed&nbsp;</span><span class="phpdocumentor-signature__argument__name">$id_product</span></span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">void</span></code>
+
+    
+        <h5 class="phpdocumentor-argument-list__heading">Parameters</h5>
+    <dl class="phpdocumentor-argument-list">
+                    <dt class="phpdocumentor-argument-list__entry">
+                <span class="phpdocumentor-signature__argument__name">$id_product</span>
+                : <span class="phpdocumentor-signature__argument__return-type">mixed</span>
+                            </dt>
+            <dd class="phpdocumentor-argument-list__definition">
+                    <section class="phpdocumentor-description"></section>
+
+            </dd>
+            </dl>
+
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">void</span>
+            &mdash;
+        
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_set_quantity">
         set_quantity()
         <a href="classes/Ecommerce-Model-ModelOrderDetails.html#method_set_quantity" class="headerlink"><i class="fas fa-link"></i></a>
@@ -865,7 +910,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelOrderDetails.php"><a href="files/model-modelorderdetails.html"><abbr title="model/ModelOrderDetails.php">ModelOrderDetails.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">107</span>
+    <span class="phpdocumentor-element-found-in__line">127</span>
 
     </aside>
 

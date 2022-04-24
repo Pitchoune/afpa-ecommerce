@@ -270,7 +270,9 @@ class ModelEmployee extends Model
 	}
 
 	/**
+	 * Get the employees permissions for the associated employee role.
 	 *
+	 * @return mixed Returns all allowed permissions for the specified employee.
 	 */
 	public function getEmployeePermissions()
 	{

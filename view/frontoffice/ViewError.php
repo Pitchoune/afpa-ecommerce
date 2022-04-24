@@ -7,6 +7,13 @@
  */
 class ViewError
 {
+	/**
+	 * Returns the HTMl code to display any error message.
+	 *
+	 * @param string $errorMessage The error message to display.
+	 *
+	 * @return void
+	 */
 	public static function DisplayError($errorMessage)
 	{
 		$pagetitle = 'Erreur';

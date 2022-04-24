@@ -19111,6 +19111,9 @@ ul.sosiyal {
             &:nth-child(n+2) {
               margin-left: 15px;
             }
+            &.emptycart {
+              max-width: 100%;
+            }
           }
         }
       }

@@ -60,6 +60,10 @@
 </h4>
     <ul class="phpdocumentor-list">
                     <li>
+                <a href="namespaces/ecommerce-controller.html" class="">Controller</a>
+                
+            </li>
+                    <li>
                 <a href="namespaces/ecommerce-model.html" class="">Model</a>
                 
             </li>
@@ -362,11 +366,25 @@
 <dd>Returns an array of all products.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
-    <a href="classes/Ecommerce-Model-ModelProduct.html#method_listProductInfos">listProductInfos()</a>
+    <a href="classes/Ecommerce-Model-ModelProduct.html#method_listProductInfosFromCategory">listProductInfosFromCategory()</a>
     <span>
                                 &nbsp;: array&lt;string|int, mixed&gt;    </span>
 </dt>
-<dd>Returns an array of informations about a specific product.</dd>
+<dd>Returns an array of informations about a specific product following its reference.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Ecommerce-Model-ModelProduct.html#method_listProductInfosFromId">listProductInfosFromId()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+</dt>
+<dd>Returns an array of informations about a specific product following its ID.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Ecommerce-Model-ModelProduct.html#method_listProductInfosFromRef">listProductInfosFromRef()</a>
+    <span>
+                                &nbsp;: array&lt;string|int, mixed&gt;    </span>
+</dt>
+<dd>Returns an array of informations about a specific product following its reference.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Ecommerce-Model-ModelProduct.html#method_saveEditProductWithoutPictures">saveEditProductWithoutPictures()</a>
@@ -395,6 +413,20 @@
                                 &nbsp;: mixed    </span>
 </dt>
 <dd>Saves a new product in the &#039;produit&#039; table.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Ecommerce-Model-ModelProduct.html#method_searchProductsWithCategory">searchProductsWithCategory()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
+<dd>Search in the products per customer request for specified category.</dd>
+
+            <dt class="phpdocumentor-table-of-contents__entry -method -public">
+    <a href="classes/Ecommerce-Model-ModelProduct.html#method_searchProductsWithoutCategory">searchProductsWithoutCategory()</a>
+    <span>
+                                &nbsp;: mixed    </span>
+</dt>
+<dd>Search in the products per customer request for all categories.</dd>
 
             <dt class="phpdocumentor-table-of-contents__entry -method -public">
     <a href="classes/Ecommerce-Model-ModelProduct.html#method_set_category">set_category()</a>
@@ -945,7 +977,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">261</span>
+    <span class="phpdocumentor-element-found-in__line">300</span>
 
     </aside>
 
@@ -978,7 +1010,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">456</span>
+    <span class="phpdocumentor-element-found-in__line">538</span>
 
     </aside>
 
@@ -1013,7 +1045,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">416</span>
+    <span class="phpdocumentor-element-found-in__line">498</span>
 
     </aside>
 
@@ -1048,7 +1080,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">386</span>
+    <span class="phpdocumentor-element-found-in__line">468</span>
 
     </aside>
 
@@ -1083,7 +1115,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">396</span>
+    <span class="phpdocumentor-element-found-in__line">478</span>
 
     </aside>
 
@@ -1118,7 +1150,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">446</span>
+    <span class="phpdocumentor-element-found-in__line">528</span>
 
     </aside>
 
@@ -1153,7 +1185,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">436</span>
+    <span class="phpdocumentor-element-found-in__line">518</span>
 
     </aside>
 
@@ -1188,7 +1220,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">426</span>
+    <span class="phpdocumentor-element-found-in__line">508</span>
 
     </aside>
 
@@ -1223,7 +1255,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">406</span>
+    <span class="phpdocumentor-element-found-in__line">488</span>
 
     </aside>
 
@@ -1258,7 +1290,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">466</span>
+    <span class="phpdocumentor-element-found-in__line">548</span>
 
     </aside>
 
@@ -1321,9 +1353,44 @@
             -public
                                                         "
 >
-    <h4 class="phpdocumentor-element__name" id="method_listProductInfos">
-        listProductInfos()
-        <a href="classes/Ecommerce-Model-ModelProduct.html#method_listProductInfos" class="headerlink"><i class="fas fa-link"></i></a>
+    <h4 class="phpdocumentor-element__name" id="method_listProductInfosFromCategory">
+        listProductInfosFromCategory()
+        <a href="classes/Ecommerce-Model-ModelProduct.html#method_listProductInfosFromCategory" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">211</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns an array of informations about a specific product following its reference.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">listProductInfosFromCategory</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+
+    
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>Informations about a specific product.</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_listProductInfosFromId">
+        listProductInfosFromId()
+        <a href="classes/Ecommerce-Model-ModelProduct.html#method_listProductInfosFromId" class="headerlink"><i class="fas fa-link"></i></a>
     </h4>
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
@@ -1332,11 +1399,46 @@
 
     </aside>
 
-        <p class="phpdocumentor-summary">Returns an array of informations about a specific product.</p>
+        <p class="phpdocumentor-summary">Returns an array of informations about a specific product following its ID.</p>
 
     <code class="phpdocumentor-code phpdocumentor-signature ">
     <span class="phpdocumentor-signature__visibility">public</span>
-                    <span class="phpdocumentor-signature__name">listProductInfos</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+                    <span class="phpdocumentor-signature__name">listProductInfosFromId</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
+
+    
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>Informations about a specific product.</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_listProductInfosFromRef">
+        listProductInfosFromRef()
+        <a href="classes/Ecommerce-Model-ModelProduct.html#method_listProductInfosFromRef" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">192</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Returns an array of informations about a specific product following its reference.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">listProductInfosFromRef</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">array&lt;string|int, mixed&gt;</span></code>
 
     
     
@@ -1363,7 +1465,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">227</span>
+    <span class="phpdocumentor-element-found-in__line">266</span>
 
     </aside>
 
@@ -1398,7 +1500,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">191</span>
+    <span class="phpdocumentor-element-found-in__line">230</span>
 
     </aside>
 
@@ -1496,6 +1598,76 @@
             -public
                                                         "
 >
+    <h4 class="phpdocumentor-element__name" id="method_searchProductsWithCategory">
+        searchProductsWithCategory()
+        <a href="classes/Ecommerce-Model-ModelProduct.html#method_searchProductsWithCategory" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">317</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Search in the products per customer request for specified category.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">searchProductsWithCategory</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">mixed</span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>Returns the products if found, else false if it fails.</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
+    <h4 class="phpdocumentor-element__name" id="method_searchProductsWithoutCategory">
+        searchProductsWithoutCategory()
+        <a href="classes/Ecommerce-Model-ModelProduct.html#method_searchProductsWithoutCategory" class="headerlink"><i class="fas fa-link"></i></a>
+    </h4>
+    <aside class="phpdocumentor-element-found-in">
+    <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
+    :
+    <span class="phpdocumentor-element-found-in__line">339</span>
+
+    </aside>
+
+        <p class="phpdocumentor-summary">Search in the products per customer request for all categories.</p>
+
+    <code class="phpdocumentor-code phpdocumentor-signature ">
+    <span class="phpdocumentor-signature__visibility">public</span>
+                    <span class="phpdocumentor-signature__name">searchProductsWithoutCategory</span><span>(</span><span>)</span><span> : </span><span class="phpdocumentor-signature__response_type">mixed</span></code>
+
+    
+    
+    
+
+        <h5 class="phpdocumentor-return-value__heading">Return values</h5>
+    <span class="phpdocumentor-signature__response_type">mixed</span>
+            &mdash;
+            <section class="phpdocumentor-description"><p>Returns the products if found, else false if it fails.</p>
+</section>
+
+    
+</article>
+                    <article
+        class="phpdocumentor-element
+            -method
+            -public
+                                                        "
+>
     <h4 class="phpdocumentor-element__name" id="method_set_category">
         set_category()
         <a href="classes/Ecommerce-Model-ModelProduct.html#method_set_category" class="headerlink"><i class="fas fa-link"></i></a>
@@ -1503,7 +1675,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">364</span>
+    <span class="phpdocumentor-element-found-in__line">446</span>
 
     </aside>
 
@@ -1548,7 +1720,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">316</span>
+    <span class="phpdocumentor-element-found-in__line">398</span>
 
     </aside>
 
@@ -1593,7 +1765,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">280</span>
+    <span class="phpdocumentor-element-found-in__line">362</span>
 
     </aside>
 
@@ -1638,7 +1810,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">292</span>
+    <span class="phpdocumentor-element-found-in__line">374</span>
 
     </aside>
 
@@ -1683,7 +1855,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">352</span>
+    <span class="phpdocumentor-element-found-in__line">434</span>
 
     </aside>
 
@@ -1728,7 +1900,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">340</span>
+    <span class="phpdocumentor-element-found-in__line">422</span>
 
     </aside>
 
@@ -1773,7 +1945,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">328</span>
+    <span class="phpdocumentor-element-found-in__line">410</span>
 
     </aside>
 
@@ -1818,7 +1990,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">304</span>
+    <span class="phpdocumentor-element-found-in__line">386</span>
 
     </aside>
 
@@ -1863,7 +2035,7 @@
     <aside class="phpdocumentor-element-found-in">
     <abbr class="phpdocumentor-element-found-in__file" title="model/ModelProduct.php"><a href="files/model-modelproduct.html"><abbr title="model/ModelProduct.php">ModelProduct.php</abbr></a></abbr>
     :
-    <span class="phpdocumentor-element-found-in__line">376</span>
+    <span class="phpdocumentor-element-found-in__line">458</span>
 
     </aside>
 

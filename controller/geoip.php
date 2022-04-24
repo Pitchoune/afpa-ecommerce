@@ -41,6 +41,7 @@ else
 	define('DIR', CWD);
 }
 
+// Do the geolocalisation following the IP address
 require_once(DIR . '/../vendor/autoload.php');
 use GeoIp2\Database\Reader;
 
@@ -81,6 +82,7 @@ $countrylist = array(
 
 if (!$record)
 {
+	// No record found
 	$result = array(
 		'isoCode' => $isoCode,
 		'status' => 'error',
@@ -89,6 +91,7 @@ if (!$record)
 }
 else if (!$_SERVER["REMOTE_ADDR"])
 {
+	// $_SERVER['REMOTE_ADDR'] is empty
 	$result = array(
 		'isoCode' => $isoCode,
 		'status' => 'error',
@@ -97,6 +100,7 @@ else if (!$_SERVER["REMOTE_ADDR"])
 }
 else if (in_array($record->country->isoCode, $countrylist))
 {
+	// All is good here
 	$result = array(
 		'isoCode' => $record->country->isoCode,
 		'status' => 'success',
@@ -109,6 +113,7 @@ $result_json = json_encode($result);
 header('Content-Type: application/json');
 header('Content-Length:' . strlen($result_json));
 
+// Returns the result to display or not the GDPR bar
 echo $result_json;
 
 ?>

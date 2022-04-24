@@ -15058,6 +15058,9 @@ ul.sosiyal.sosiyal-inverse li:hover {
 .add_to_cart.top .cart_media ul.cart_product li:nth-child(n+2), .add_to_cart.bottom .cart_media ul.cart_product li:nth-child(n+2) {
   margin-left: 15px;
 }
+.add_to_cart.top .cart_media ul.cart_product li.emptycart, .add_to_cart.bottom .cart_media ul.cart_product li.emptycart {
+  max-width: 100%;
+}
 .add_to_cart.top .cart_media .cart_total, .add_to_cart.bottom .cart_media .cart_total {
   width: 24%;
 }

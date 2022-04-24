@@ -53,15 +53,15 @@ class ViewCustomer
 										<div class="row g-3">
 											<div class="col-md-12 form-group">
 												<label for="email">Prénom</label>
-												<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du prénom n'est pas valide." placeholder="Prénom" />
-												<small id="firstnameHelp" class="form-text text-muted"></small>
+												<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du prénom n'est pas valide." placeholder="Prénom" />
+												<small id="lastnameHelp" class="form-text text-muted"></small>
 											</div>
 										</div>
 										<div class="row g-3">
 											<div class="col-md-12 form-group">
 												<label for="review">Nom</label>
-												<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du nom n'est pas valide." placeholder="Nom" />
-												<small id="lastnameHelp" class="form-text text-muted"></small>
+												<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du nom n'est pas valide." placeholder="Nom" />
+												<small id="firstnameHelp" class="form-text text-muted"></small>
 											</div>
 										</div>
 										<div class="row g-3">
@@ -842,6 +842,11 @@ class ViewCustomer
 		<?php
 	}
 
+	/**
+	 * Returns the HTMl code to display the delete profile form.
+	 *
+	 * @return void
+	 */
 	public static function CustomerDeleteProfile()
 	{
 		global $config;

@@ -44,6 +44,7 @@ else
 // Include it for all, use everywhere
 require_once(DIR . '/controller/Utils.php');
 
+// Here, import files only on specific routing
 if (in_array($do, ['index', 'register', 'doregister', 'login', 'dologin', 'profile', 'editprofile', 'saveprofile', 'editpassword', 'savepassword', 'forgotpassword', 'sendpassword', 'deleteprofile', 'dodeleteprofile', 'logout']))
 {
 	require_once(DIR . '/controller/frontoffice/customer.php');
@@ -59,7 +60,7 @@ if (in_array($do, ['viewcategory']))
 	require_once(DIR . '/controller/frontoffice/categories.php');
 }
 
-if (in_array($do, ['viewcart', 'viewcheckout']))
+if (in_array($do, ['viewcart', 'viewcheckout', 'placeorder', 'paymentprocess']))
 {
 	require_once(DIR . '/controller/frontoffice/shopping.php');
 }
