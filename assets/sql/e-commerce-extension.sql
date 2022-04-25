@@ -22,18 +22,6 @@ SET time_zone = "+00:00";
 --
 
 --
--- Déchargement des données de la table `employe`
---
-
-INSERT INTO `employe` (`id`, `nom`, `prenom`, `mail`, `pass`, `role`) VALUES
-(1, 'Moon', 'Kevin', 'jywiledyk@mailinator.com', '$2y$10$XJZGCP.boFZD0UM74/CqY..ll0CELfmZfLv3IHhvv0HxBecVYhfHK', 1),
-(3, 'rgsff', 'sfsef', 'fdebfs@djgfdkjf.com', '$2y$10$KzLHwapxlQ3VnFnTb3RTlO3YLrMkNLX0q5DfL13/4wlddKugc/v5W', 1),
-(4, 'Marquez', 'Marshall', 'lagabadiw@mailinator.com', '$2y$10$veCb5GUioGhlOVg8.2j0QutPBHIUmgLh/gBMndokwHapmyXbbn23C', 1),
-(5, 'Jesse', 'Cochran', 'cigap@mailinator.com', '$2y$10$u5/VylBDSwulslaQh1/KTe0DVLWCzl6nP8223jknnMIUREBHlvnp.', 2);
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `permission`
 --
 
@@ -83,16 +71,6 @@ INSERT INTO `permission` (`id`, `module`, `description`) VALUES
 (33, 'clients', '');
 
 --
--- Déchargement des données de la table `role`
---
-
-INSERT INTO `role` (`id`, `nom`) VALUES
-(2, 'Administrateur'),
-(1, 'Super administrateur');
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `role_permission`
 --
 
@@ -138,33 +116,7 @@ INSERT INTO `role_permission` (`id_role`, `id_perm`) VALUES
 (1, 30),
 (1, 31),
 (1, 32),
-(1, 33),
-(2, 1),
-(2, 2),
-(2, 3),
-(2, 5),
-(2, 6),
-(2, 7),
-(2, 9),
-(2, 10),
-(2, 11),
-(2, 13),
-(2, 14),
-(2, 15),
-(2, 16),
-(2, 18),
-(2, 19),
-(2, 20),
-(2, 21),
-(2, 23),
-(2, 24),
-(2, 25),
-(2, 26),
-(2, 28),
-(2, 29),
-(2, 30),
-(2, 31),
-(2, 32);
+(1, 33);
 
 --
 -- Index pour les tables déchargées
@@ -181,16 +133,6 @@ ALTER TABLE `permission`
 --
 ALTER TABLE `role_permission`
   ADD UNIQUE KEY `id_role` (`id_role`,`id_perm`);
-
---
--- AUTO_INCREMENT pour les tables déchargées
---
-
---
--- AUTO_INCREMENT pour la table `permission`
---
-ALTER TABLE `permission`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
