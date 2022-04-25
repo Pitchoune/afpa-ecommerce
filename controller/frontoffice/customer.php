@@ -612,10 +612,13 @@ function sendPassword($email)
 		if ($customers->saveCustomerToken())
 		{
 			// Send the generate password link to send to the customer
-			$message = 'Bonjour,\n\nVoici le lien pour modifier votre mot de passe oublié :\n\n';
-			$message .= '<a href="url/index.php?do=editpassword&email=' . $email . '&token=' . $token . '">Cliquez ici pour modifier votre mot de passe</a>';
+			$message = 'Bonjour,
 
-			$headers = 'From: webmaster@example.com' . "\r\n" . 'Reply-To: webmaster@example.com' . "\r\n" . 'X-Mailer: PHP/' . phpversion();
+Voici le lien pour modifier votre mot de passe oublié :
+
+https://' . $_SERVER['HTTP_HOST'] . $_SERVER['DOCUMENT_URI'] . '?do=editpassword&t=' . $token . '&email=' . $email;
+
+			$headers = 'From: admin@yrg.ovh' . "\r\n" . 'Reply-To: admin@yrg.ovh' . "\r\n" . 'X-Mailer: PHP/' . phpversion();
 
 			$sentmail = mail($email, 'Oubli de votre mot de passe', $message, $headers);
 
