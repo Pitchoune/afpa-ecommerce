@@ -2736,10 +2736,9 @@ $('.tap-top').on('click', function() {
     /*=====================
      26. Cookiebar
      ==========================*/
-    const apiUrl = 'http://127.0.0.1/~Yves/afpa/mvc/controller/geoip.php';
-    //const apiUrl = 'http://ks383258.kimsufi.com/geoip.php';
+    const apiUrl = 'https://yrg.ovh/mvc/controller/geoip.php';
     const cookieName = 'EcommerceCookiePolicyInformed';
-    const cookieExpireDays = 5;
+    const cookieExpireDays = 365;
 
     function setCookie(cname, cvalue, exdays)
     {
@@ -2850,19 +2849,15 @@ $('.tap-top').on('click', function() {
         needCookieNotice(function()
         {
           showCookieNotice();
-          setCookie(cookieName, '1', cookieExpireDays);
+
+          $('.cookie-accept').click(function()
+          {
+            setCookie(cookieName, '1', cookieExpireDays);
+          });
         });
       }
     }
     catch(e){}
-
-//     window.setTimeout(function(){
-//         $(".cookie-bar").addClass('show')
-//     }, 5000);
-//
-//     $('.cookie-bar .btn, .cookie-bar .btn-close').on('click',function(){
-//         $(".cookie-bar").removeClass('show')
-//     });
 })(jQuery);
 
 function openCart() {
