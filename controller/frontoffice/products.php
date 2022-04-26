@@ -24,7 +24,7 @@ function viewProduct($id = '', $ref = '')
  *
  * @return void
  */
-function searchResults($query, $category)
+function searchResults($query, $category, $type = '')
 {
 	// Verify query
 	if ($query === '')
@@ -32,9 +32,12 @@ function searchResults($query, $category)
 		throw new Exception('La requête de recherche est vide.');
 	}
 
-	if (!preg_match('/^[\p{L}\s]{2,}$/', trim($query)))
+	if ($type !== 'json')
 	{
-		throw new Exception('La requête de recherche contient des caractères non valides.');
+		if (!preg_match('/^[\p{L}\s]{2,}$/', $query))
+		{
+			throw new Exception('La requête de recherche contient des caractères non valides.');
+		}
 	}
 
 	if (intval($category) === false)
@@ -45,9 +48,32 @@ function searchResults($query, $category)
 	$query = trim($query);
 	$category = intval($category);
 
-	// We generate HTML code from the view
-	require_once(DIR . '/view/frontoffice/ViewProduct.php');
-	ViewProduct::SearchResults($query, $category);
+	if ($type == 'json')
+	{
+		global $config;
+
+		require_once(DIR . '/model/ModelProduct.php');
+		$products = new \Ecommerce\Model\ModelProduct($config);
+		$products->set_name($query);
+		$products->set_ref($query);
+		$products->set_description($query);
+		$product = $products->searchProductsWithoutCategory();
+
+		$encode = [];
+
+		foreach ($product AS $key => $value)
+		{
+			$encode[$value['id']] = $value;
+		}
+
+		echo json_encode(array_values($encode));
+	}
+	else
+	{
+		// We generate HTML code from the view
+		require_once(DIR . '/view/frontoffice/ViewProduct.php');
+		ViewProduct::SearchResults($query, $category);
+	}
 }
 
 ?>

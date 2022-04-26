@@ -73,6 +73,14 @@ class ViewTemplate
 		}
 
 		?>
+		<!-- loader start -->
+		<div class="loader-wrapper">
+			<div>
+				<img src="assets/images/loader.gif" alt="loader">
+			</div>
+		</div>
+		<!-- loader end -->
+
 		<!--header start-->
 		<header id="stickyheader">
 			<div class="mobile-fix-option"></div>
@@ -98,13 +106,13 @@ class ViewTemplate
 							</div>
 							<div class="input-block">
 								<div class="input-box">
-									<form class="big-deal-form" action="index.php?do=search" method="post">
+									<form class="big-deal-form" action="index.php?do=search" method="get">
 										<input type="hidden" name="do" value="search" />
 										<div class="input-group">
 											<div class="input-group-text">
 												<span class="search"><i class="fa fa-search"></i></span>
 											</div>
-											<input type="search" class="form-control" placeholder="Rechercher un produit" name="query">
+											<input type="text" class="form-control autosuggest" placeholder="Rechercher un produit" name="query">
 											<div class="input-group-text">
 												<select name="category">
 													<option value="0">Toutes les catégories</option>
@@ -120,6 +128,7 @@ class ViewTemplate
 											</div>
 										</div>
 									</form>
+									<ul class="list-group hide"></ul>
 								</div>
 							</div>
 							<div class="header-right">

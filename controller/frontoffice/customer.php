@@ -701,4 +701,16 @@ function doDeleteProfile($id, $deletion)
 	header('Location: index.php');
 }
 
+function viewOrders()
+{
+	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
+	ViewCustomer::DisplayOrders();
+}
+
+function viewOrder($id)
+{
+	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
+	ViewCustomer::DisplayOrder($id);
+}
+
 ?>

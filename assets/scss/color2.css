@@ -11635,6 +11635,10 @@ ul.sosiyal.sosiyal-inverse li:hover {
   color: #333333;
   font-weight: 600;
 }
+.order-history .dark-data a {
+  font-size: 14px;
+  color: #333333;
+}
 .order-history .btn-normal {
   text-transform: uppercase;
   padding: 13px 25px;

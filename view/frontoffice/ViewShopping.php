@@ -28,13 +28,6 @@ class ViewShopping
 			</head>
 
 			<body class="bg-light">
-				<!-- loader start -->
-				<div class="loader-wrapper">
-				  <div>
-					<img src="assets/images/loader.gif" alt="loader">
-				  </div>
-				</div>
-				<!-- loader end -->
 
 				<?php
 				ViewTemplate::FrontHeader();
@@ -149,13 +142,6 @@ class ViewShopping
 				</head>
 
 				<body class="bg-light">
-					<!-- loader start -->
-					<div class="loader-wrapper">
-				  	<div>
-						<img src="assets/images/loader.gif" alt="loader">
-				  	</div>
-					</div>
-					<!-- loader end -->
 
 					<?php
 					ViewTemplate::FrontHeader();
@@ -323,13 +309,6 @@ class ViewShopping
 				</head>
 
 				<body class="bg-light">
-					<!-- loader start -->
-					<div class="loader-wrapper">
-				  	<div>
-						<img src="assets/images/loader.gif" alt="loader">
-				  	</div>
-					</div>
-					<!-- loader end -->
 
 					<?php
 					ViewTemplate::FrontHeader();

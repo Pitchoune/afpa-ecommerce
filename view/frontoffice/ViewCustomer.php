@@ -28,13 +28,6 @@ class ViewCustomer
 			</head>
 
 			<body class="bg-light">
-				<!-- loader start -->
-				<div class="loader-wrapper">
-				  <div>
-					<img src="assets/images/loader.gif" alt="loader">
-				  </div>
-				</div>
-				<!-- loader end -->
 
 				<?php
 				ViewTemplate::FrontHeader();
@@ -155,13 +148,6 @@ class ViewCustomer
 			</head>
 
 			<body class="bg-light">
-				<!-- loader start -->
-				<div class="loader-wrapper">
-				  <div>
-					<img src="assets/images/loader.gif" alt="loader">
-				  </div>
-				</div>
-				<!-- loader end -->
 
 				<?php
 				ViewTemplate::FrontHeader();
@@ -263,13 +249,6 @@ class ViewCustomer
 			</head>
 
 			<body class="bg-light">
-				<!-- loader start -->
-				<div class="loader-wrapper">
-				  <div>
-					<img src="assets/images/loader.gif" alt="loader">
-				  </div>
-				</div>
-				<!-- loader end -->
 
 				<?php
 				ViewTemplate::FrontHeader();
@@ -290,7 +269,7 @@ class ViewCustomer
 									<div class="block-content ">
 										<ul>
 											<li class="active"><a href="index.php?do=profile">Tableau de bord</a></li>
-											<li><a href="javascript:void(0)">Mes commandes</a></li>
+											<li><a href="index.php?do=vieworders">Mes commandes</a></li>
 											<li><a href="index.php?do=editprofile">Mon compte</a></li>
 											<li><a href="index.php?do=editpassword">Modifier mon mot de passe</a></li>
 											<li><a href="index.php?do=deleteprofile">Supprimer mon compte</a></li>
@@ -425,13 +404,6 @@ class ViewCustomer
 				</head>
 
 				<body class="bg-light">
-					<!-- loader start -->
-					<div class="loader-wrapper">
-					  <div>
-						<img src="assets/images/loader.gif" alt="loader">
-					  </div>
-					</div>
-					<!-- loader end -->
 
 					<?php
 					ViewTemplate::FrontHeader();
@@ -604,13 +576,6 @@ class ViewCustomer
 				</head>
 
 				<body class="bg-light">
-					<!-- loader start -->
-					<div class="loader-wrapper">
-					  <div>
-						<img src="assets/images/loader.gif" alt="loader">
-					  </div>
-					</div>
-					<!-- loader end -->
 
 					<?php
 					ViewTemplate::FrontHeader();
@@ -752,13 +717,6 @@ class ViewCustomer
 				</head>
 
 				<body class="bg-light">
-					<!-- loader start -->
-					<div class="loader-wrapper">
-					  <div>
-						<img src="assets/images/loader.gif" alt="loader">
-					  </div>
-					</div>
-					<!-- loader end -->
 
 					<?php
 					ViewTemplate::FrontHeader();
@@ -868,13 +826,6 @@ class ViewCustomer
 				</head>
 
 				<body class="bg-light">
-					<!-- loader start -->
-					<div class="loader-wrapper">
-					  <div>
-						<img src="assets/images/loader.gif" alt="loader">
-					  </div>
-					</div>
-					<!-- loader end -->
 
 					<?php
 					ViewTemplate::FrontHeader();
@@ -951,6 +902,299 @@ class ViewCustomer
 
 					ViewTemplate::FrontFormValidation('valider', 1, 1);
 					?>
+				</body>
+			</html>
+		<?php
+	}
+
+	public static function DisplayOrders()
+	{
+		global $config;
+
+		$pagetitle = 'Liste des commandes';
+
+		$customer = new \Ecommerce\Model\ModelCustomer($config);
+		$customer->set_id($_SESSION['user']['id']);
+
+		$data = $customer->getCustomerInfosFromId();
+
+		require_once(DIR . '/model/ModelOrder.php');
+		$orderlist = new \Ecommerce\Model\ModelOrder($config);
+		$orderlist->set_customer($data['id']);
+		$orders = $orderlist->getCustomerOrders();
+
+		?>
+			<!DOCTYPE html>
+			<html>
+				<head>
+					<?php
+					ViewTemplate::FrontHead($pagetitle);
+					?>
+				</head>
+
+				<body class="bg-light">
+
+					<?php
+					ViewTemplate::FrontHeader();
+					?>
+
+					<?php
+					ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'vieworders' => $pagetitle]);
+					?>
+
+					<!--section start-->
+					<section class="cart-section order-history section-big-py-space">
+						<div class="custom-container">
+							<div class="row">
+								<div class="col-sm-12">
+									<table class="table cart-table table-responsive-xs">
+										<thead>
+										<tr class="table-head">
+											<th scope="col">description</th>
+											<th scope="col">prix</th>
+											<th scope="col">détails</th>
+											<th scope="col">état</th>
+										</tr>
+										</thead>
+										<tbody>
+											<?php
+
+											foreach ($orders AS $key => $value)
+											{
+												$orderlist->set_id($value['id']);
+												$orderdetail = $orderlist->getOrderDetails();
+
+												require_once(DIR . '/model/ModelOrderDetails.php');
+												$orderdetails = new \Ecommerce\Model\ModelOrderDetails($config);
+												$orderdetails->set_order($value['id']);
+												$ordercontent = $orderdetails->getOrderDetails();
+
+												$totalprice = 0;
+
+												foreach ($ordercontent AS $key2 => $data)
+												{
+													$totalprice += $data['prix'] * $data['quantite'];
+												}
+
+												?>
+												<tr>
+													<td>
+														<a href="javascript:void(0)">Commande #: <span class="dark-data"><?= $orderdetail['id'] ?></span></a>
+														<div class="mobile-cart-content row">
+															<div class="col-xs-3">
+																<span>Nombre de produits : <?= $orderdetail['nbproduits'] ?></span>
+															</div>
+															<div class="col-xs-3">
+																<span>Quantité totale: <?= $orderdetail['totalquantite'] ?></span>
+															</div>
+														</div>
+													</td>
+													<td>
+														<h4><?= number_format($totalprice, 2) ?> &euro;</h4>
+													</td>
+													<td>
+														<span>Nombre de produits : <?= $orderdetail['nbproduits'] ?></span>
+														<br />
+														<span>Quantité totale: <?= $orderdetail['totalquantite'] ?></span>
+													</td>
+													<td>
+														<div class="responsive-data">
+															<h4 class="price"><?= number_format($totalprice, 2) ?> &euro;</h4>
+														</div>
+														<span class="dark-data"><?= $value['etat'] ?></span>
+														<br />
+														<span class="dark-data"><a href="index.php?do=vieworder&amp;id=<?= $value['id'] ?>">Afficher la commande</a></span>
+													</td>
+												</tr>
+												<?php
+											}
+											?>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</section>
+					<!--section end-->
+
+					<?php
+					ViewTemplate::FrontFooter();
+					?>
+
+					<!-- latest jquery-->
+					<script src="assets/js/jquery-3.5.1.min.js" ></script>
+
+					<!-- slick js-->
+					<script src="assets/js/slick.js"></script>
+
+					<!-- popper js-->
+					<script src="assets/js/popper.min.js" ></script>
+					<script src="assets/js/bootstrap-notify.min.js"></script>
+
+					<!-- menu js-->
+					<script src="assets/js/menu.js"></script>
+
+					<!-- Bootstrap js-->
+					<script src="assets/js/bootstrap.js"></script>
+
+					<!-- tool tip js -->
+					<script src="assets/js/tippy-popper.min.js"></script>
+					<script src="assets/js/tippy-bundle.iife.min.js"></script>
+
+					<!-- father icon -->
+					<script src="assets/js/feather.min.js"></script>
+					<script src="assets/js/feather-icon.js"></script>
+
+					<!-- Theme js-->
+					<script src="assets/js/modal.js"></script>
+					<script src="assets/js/script.js" ></script>
+				</body>
+			</html>
+		<?php
+	}
+
+	public static function DisplayOrder($id)
+	{
+		global $config;
+
+		$customer = new \Ecommerce\Model\ModelCustomer($config);
+		$customer->set_id($_SESSION['user']['id']);
+
+		$data = $customer->getCustomerInfosFromId();
+
+		require_once(DIR . '/model/ModelOrderDetails.php');
+		$orderdetails = new \Ecommerce\Model\ModelOrderDetails($config);
+		$orderdetails->set_order(intval($id));
+		$orderdetail = $orderdetails->getOrderDetails();
+
+		$pagetitle = 'Commande #' . intval($id);
+
+		?>
+			<!DOCTYPE html>
+			<html>
+				<head>
+					<?php
+					ViewTemplate::FrontHead($pagetitle);
+					?>
+				</head>
+
+				<body class="bg-light">
+
+					<?php
+					ViewTemplate::FrontHeader();
+					?>
+
+					<?php
+					ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'vieworders' => 'Liste des commandes', 'vieworder' => $pagetitle]);
+					?>
+
+					<!--order tracking start-->
+					<section class="order-tracking section-big-my-space  ">
+						<div class="container" >
+							<div class="row">
+								<div class="col-md-12">
+									<div id="msform">
+										<fieldset>
+											<div class="container p-0">
+												<div class="row shpping-block">
+													<div class="col-lg-8">
+														<div class="order-tracking-contain order-tracking-box">
+															<div class="tracking-group">
+																<div class="delevery-code">
+																	<h4>Deliver to: 364525</h4>
+																</div>
+															</div>
+															<div class="tracking-group pb-0">
+																<h4 class="tracking-title">my shopping product</h4>
+																<ul class="may-product">
+																	<?php
+																	$totalprice = 0;
+																	foreach ($orderdetail AS $key => $value)
+																	{
+																		$totalprice += $value['prix'] * $value['quantite'];
+																		?>
+																		<li>
+																			<div class="media">
+																				<img src="attachments/products/<?= $value['photo'] ?>" class="img-fluid" alt="" />
+																				<div class="media-body">
+																					<h3><?= $value['nom'] ?></h3>
+																					<h5>Prix à l'unité : <?= number_format($value['prix'], 2) ?> &euro;</h5>
+																					<h5>Quantité : <?= $value['quantite'] ?></h5>
+																					<br />
+																					<h4><?= number_format($value['prix'] * $value['quantite'], 2) ?> &euro;</h4>
+																				</div>
+																			</div>
+																		</li>
+																		<?php
+																	}
+																	?>
+																</ul>
+															</div>
+														</div>
+													</div>
+													<div class="col-lg-4">
+														<div class="order-tracking-sidebar order-tracking-box">
+															<ul class="cart_total">
+																<li>
+																	subtotal : <span><?= number_format($totalprice, 2) ?> &euro;</span>
+																</li>
+																<li>
+																	shipping <span>free</span>
+																</li>
+																<li>
+																	<div class="total">
+																		total<span><?= number_format($totalprice, 2) ?> &euro;</span>
+																	</div>
+																</li>
+																<li class="pt-0">
+																	<div class="buttons">
+																		<a href="javascript:void(0)" class="btn btn-solid btn-sm btn-block mt-1">Faire une réclamation</a>
+																		<a href="javascript:void(0)" class="btn btn-solid btn-sm btn-block mt-1">Exporter ma facture</a>
+																	</div>
+																</li>
+															</ul>
+														</div>
+													</div>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<?php
+					ViewTemplate::FrontFooter();
+					?>
+
+					<!-- latest jquery-->
+					<script src="assets/js/jquery-3.5.1.min.js" ></script>
+
+					<!-- slick js-->
+					<script src="assets/js/slick.js"></script>
+
+					<!-- popper js-->
+					<script src="assets/js/popper.min.js" ></script>
+					<script src="assets/js/bootstrap-notify.min.js"></script>
+
+					<!-- menu js-->
+					<script src="assets/js/menu.js"></script>
+
+					<!-- Bootstrap js-->
+					<script src="assets/js/bootstrap.js"></script>
+
+					<!-- tool tip js -->
+					<script src="assets/js/tippy-popper.min.js"></script>
+					<script src="assets/js/tippy-bundle.iife.min.js"></script>
+
+					<!-- father icon -->
+					<script src="assets/js/feather.min.js"></script>
+					<script src="assets/js/feather-icon.js"></script>
+
+					<!-- Theme js-->
+					<script src="assets/js/modal.js"></script>
+					<script src="assets/js/script.js" ></script>
 				</body>
 			</html>
 		<?php

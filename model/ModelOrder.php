@@ -121,6 +121,45 @@ class ModelOrder extends Model
 	}
 
 	/**
+	 * Gets the orders for the given customer.
+	 *
+	 * @return Returns the data for the customer orders.
+	 */
+	public function getCustomerOrders()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT *
+			FROM commande
+			WHERE id_client = ?
+		");
+		$query->bindParam(1, $this->id_customer, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
+	 * Gets some of the order details from specific order.
+	 *
+	 * @return Returns the data for the specific customer order.
+	 */
+	public function getOrderDetails()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT c.*, COUNT(d.id_commande) AS nbproduits, SUM(d.prix) AS prix, SUM(d.quantite) AS totalquantite
+			FROM commande AS c
+				INNER JOIN details_commande AS d ON (d.id_commande = c.id)
+			WHERE c.id = ?
+		");
+		$query->bindParam(1, $this->id, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetch();
+	}
+
+	/**
 	 * Defines the ID.
 	 *
 	 * @param integer $id ID of the order.

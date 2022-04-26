@@ -167,6 +167,227 @@ class Utils
 	}
 
 	/**
+	 * Returns the HTML for multi-page navigation for backoffice.
+	 *
+	 * @param integer $pagenumber Page number being displayed.
+	 * @param integer $perpage Number of items to be displayed per page.
+	 * @param integer $results Total number of items found.
+	 $ @param string $address Base address to append the page number.
+	 *
+	 * @return string Page navigation HTML
+	 */
+	public static function construct_back_page_nav($pagenumber, $perpage, $results, $address)
+	{
+		$curpage = 0;
+		$pagenavarr = array();
+		$firstlink = '';
+		$prevlink = '';
+		$lastlink = '';
+		$nextlink = '';
+
+		if ($results <= $perpage)
+		{
+			return '';
+		}
+
+		$total = number_format($results);
+		$totalpages = ceil($results / $perpage);
+
+		$firstaddress = $prevaddress = $nextaddress = $lastaddress;
+
+		if ($pagenumber > 1)
+		{
+			$prevpage = $pagenumber - 1;
+			$prevnumbers = self::fetch_start_end_total_array($prevpage, $perpage, $results);
+			$prevaddress = $address . '&page=' . $prevpage;
+		}
+
+		if ($pagenumber < $totalpages)
+		{
+			$nextpage = $pagenumber + 1;
+			$nextnumbers = self::fetch_start_end_total_array($nextpage, $perpage, $results);
+			$nextaddress = $address . '&page=' . $nextpage;
+		}
+
+		// create array of possible relative links that we might have (eg. +10, +20, +50, etc.)
+		$pagenavsarr = [10, 50, 100, 500, 1000];
+
+		$pages = array(1, $pagenumber, $totalpages);
+
+		if (3 > 0)
+		{
+
+			for ($i = 1; $i <= 3; $i++)
+			{
+				$pages[] = $pagenumber + $i;
+				$pages[] = $pagenumber - $i;
+			}
+
+			foreach ($pagenavsarr AS $relpage)
+			{
+				$pages[] = $pagenumber + $relpage;
+				$pages[] = $pagenumber - $relpage;
+			}
+		}
+		else
+		{
+			for ($i = 2; $i < $totalpages; $i++)
+			{
+				$pages[] = $i;
+			}
+		}
+
+		$show_prior_elipsis = $show_after_elipsis = ($totalpages > 3) ? 1 : 0;
+
+		$pages = array_unique($pages);
+		sort($pages);
+
+		foreach ($pages AS $foo => $curpage)
+		{
+			if ($curpage < 1 OR $curpage > $totalpages)
+			{
+				continue;
+			}
+
+			if ($pagenumber != 1)
+			{
+				$firstnumbers = self::fetch_start_end_total_array(1, $perpage, $results);
+				$firstaddress = $address . '&page=1';
+			}
+
+			if ($pagenumber != $totalpages)
+			{
+				$lastnumbers = self::fetch_start_end_total_array($totalpages, $perpage, $results);
+				$lastaddress = $address . '&page=' . $totalpages;
+			}
+
+			if (abs($curpage - $pagenumber) >= 3 AND 3 != 0)
+			{
+				// generate relative links (eg. +10,etc).
+				if (in_array(abs($curpage - $pagenumber), $pagenavsarr) AND $curpage != 1 AND $curpage != $totalpages)
+				{
+					$pagenumbers = self::fetch_start_end_total_array($curpage, $perpage, $results);
+					$relpage = $curpage - $pagenumber;
+
+					if ($relpage > 0)
+					{
+						$relpage = '+' . $relpage;
+					}
+
+					$pagenavarr[] = '<span class="tablegrid-pager-page"><a href="javascript:void(0)" title="Affichage des résultats ' . $pagenumbers['first'] .' à ' . $pagenumbers['last'] .' sur ' . $total . '"><!-- ' . $relpage . ' -->' . $curpage .'</a></a></span>';
+				}
+			}
+			else
+			{
+				// if appropriate, hide the elipses
+				if ($curpage == 1)
+				{
+					$show_prior_elipsis = 0;
+				}
+				else if ($curpage == $totalpages)
+				{
+					$show_after_elipsis = 0;
+				}
+
+				if ($curpage == $pagenumber)
+				{
+					$numbers = self::fetch_start_end_total_array($curpage, $perpage, $results);
+
+					$pagenavarr[] = '<span class="tablegrid-pager-page tablegrid-pager-current-page"><a href="' . $address . '&page=' . $curpage . '" title="Affichage des résultats ' . $numbers['first'] .' à ' . $numbers['last'] .' sur ' . $total . '">' . $curpage .'</a></span>';
+				}
+				else
+				{
+					$pagenumbers = self::fetch_start_end_total_array($curpage, $perpage, $results);
+
+					$pagenavarr[] = '<span class="tablegrid-pager-page"><a href="' . $address . '&page=' . $curpage . '" title="Affichage des résultats ' . $pagenumbers['first'] .' à ' . $pagenumbers['last'] .' sur ' . $total . '">' . $curpage .'</a></a></span>';
+				}
+			}
+		}
+
+		$pagenav = implode('', $pagenavarr);
+
+		$return = '<div class="tablegrid-pager-container">
+			<div class="tablegrid-pager">
+				Pages:
+				' . ($firstaddress ? '<span class="tablegrid-pager-nav-button"><a href="' . $firstaddress . '">First</a></span>' : '') . '
+				' . ($prevaddress ? '<span class="tablegrid-pager-nav-button"><a href="' . $prevaddress . '">Prev</a></span>' : '') . '
+				' . (($show_prior_elipsis AND $prevaddress AND $firstaddress) ? '<span>...</span>' : '') . '
+				' . $pagenav . '
+				' . (($show_after_elipsis AND $nextaddress AND $lastaddress) ? '<span>...</span>' : '') . '
+				' . ($nextaddress ? '<span class="tablegrid-pager-nav-button"><a href="' . $nextaddress . '">Next</a></span>' : '') . '
+				' . ($lastaddress ? '<span class="tablegrid-pager-nav-button"><a href="' . $lastaddress . '">Last</a></span>' : '') . '
+				&nbsp;&nbsp;' . $pagenumber . ' of ' . $totalpages . '
+			</div>
+		</div>';
+
+		echo $return;
+	}
+
+	/**
+	 * Returns an array so you can print 'Showing results $arr[first] to $arr[last] of $totalresults'.
+	 *
+	 * @param integer $pagenumber Current page number
+	 * @param integer $perpage Results to show per-page
+	 * @param integer $total Total results found
+	 *
+	 * @return	array	In the format of - array('first' => x, 'last' => y)
+	 */
+	public static function fetch_start_end_total_array($pagenumber, $perpage, $total)
+	{
+		$first = $perpage * ($pagenumber - 1);
+		$last = $first + $perpage;
+
+		if ($last > $total)
+		{
+			$last = $total;
+		}
+
+		$first++;
+
+		return array('first' => number_format($first), 'last' => number_format($last));
+	}
+
+	/**
+	 * Ensures that the variables for a multi-page display are sane
+	 *
+	 * @param integer $numresults Total number of items to be displayed
+	 * @param integer $page (ref) Current page number
+	 * @param integer $perpage (ref) Desired number of results to show per-page
+	 * @param integer $maxperpage Maximum allowable results to show per-page
+	 * @param integer $$defaultperpage Default number of results to show per-page
+	 */
+	public static function sanitize_pageresults($numresults, &$page, &$perpage, $maxperpage = 20, $defaultperpage = 20)
+	{
+		$perpage = intval($perpage);
+
+		if ($perpage < 1)
+		{
+			$perpage = $defaultperpage;
+		}
+
+		if ($perpage > $maxperpage)
+		{
+			$perpage = $maxperpage;
+		}
+
+		$numpages = ceil($numresults / $perpage);
+
+		if ($numpages == 0)
+		{
+			$numpages = 1;
+		}
+
+		if ($page < 1)
+		{
+			$page = 1;
+		}
+		else if ($page > $numpages)
+		{
+			$page = $numpages;
+		}
+	}
+
+	/**
 	 * Creates a list of countries to display in the customer profile. Not used actually, maybe added later.
 	 *
 	 * @param string $selected Value stored in the database for the customer.

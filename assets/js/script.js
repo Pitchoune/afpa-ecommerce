@@ -3187,3 +3187,5 @@ $('.cart_product').on('change', '.qty-adj', function(e)
 })
 
 displayCart();
+
+

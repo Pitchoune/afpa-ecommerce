@@ -14705,6 +14705,11 @@ ul.sosiyal {
   .dark-data {
     color: $font-color;
     font-weight: 600;
+
+    a {
+      font-size: 14px;
+      color: $font-color;
+    }
   }
 
   .btn-normal {

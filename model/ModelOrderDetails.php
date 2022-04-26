@@ -81,6 +81,21 @@ class ModelOrderDetails extends Model
 		return $query->execute();
 	}
 
+	public function getOrderDetails()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT d.id_produit, d.prix, d.quantite, p.nom, p.photo
+			FROM details_commande AS d
+				INNER JOIN produit AS p ON (p.id = d.id_produit)
+			WHERE d.id_commande = ?
+		");
+		$query->bindParam(1, $this->id_order, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
 	/**
 	 * Defines the order ID.
 	 *

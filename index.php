@@ -108,6 +108,13 @@ try
 			$deletion = $_POST['deleteprofile'];
 			doDeleteProfile($id, $deletion);
 			break;
+		case 'vieworders':
+			viewOrders();
+			break;
+		case 'vieworder':
+			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
+			viewOrder($id);
+			break;
 		case 'logout':
 			doLogout();
 			break;
@@ -118,9 +125,10 @@ try
 			viewProduct($id, $ref);
 			break;
 		case 'search':
-			$query = isset($_POST['query']) ? filter_var($_POST['query'], FILTER_SANITIZE_STRING) : NULL;
-			$category = isset($_POST['category']) ? filter_var($_POST['category'], FILTER_VALIDATE_INT) : NULL;
-			searchResults($query, $category);
+			$query = isset($_GET['query']) ? filter_var($_GET['query'], FILTER_SANITIZE_STRING) : NULL;
+			$category = isset($_GET['category']) ? filter_var($_GET['category'], FILTER_VALIDATE_INT) : NULL;
+			$type = isset($_GET['type']) ? filter_var($_GET['type'], FILTER_SANITIZE_STRING) : NULL;
+			searchResults($query, $category, $type);
 			break;
 		// Categories
 		case 'viewcategory':
