@@ -18,16 +18,44 @@ class ViewCustomer
 	{
 		if (Utils::cando(28))
 		{
-			global $config;
+			global $config, $pagenumber;
 
 			$customers = new \Ecommerce\Model\ModelCustomer($config);
-			$customerlist = $customers->listAllCustomers();
+
 			$pagetitle = 'Gestion des clients';
 			$navtitle = 'Liste des clients';
+
 			$navbits = [
 				'index.php?do=listcustomers' => $pagetitle,
 				'' => $navtitle
 			];
+
+			$totalcustomers = $customers->getTotalNumberOfCustomers();
+
+			// Number max per page
+			$perpage = 10;
+
+			Utils::sanitize_pageresults($totalcustomers['nbcustomers'], $pagenumber, $perpage, 200, 20);
+
+			$limitlower = ($pagenumber - 1) * $perpage;
+			$limitupper = ($pagenumber) * $perpage;
+
+			if ($limitupper > $totalcustomers['nbcustomers'])
+			{
+				$limitupper = $totalcustomers['nbcustomers'];
+
+				if ($limitlower > $totalcustomers['nbcustomers'])
+				{
+					$limitlower = ($totalcustomers['nbcustomers'] - $perpage) - 1;
+				}
+			}
+
+			if ($limitlower < 0)
+			{
+				$limitlower = 0;
+			}
+
+			$customerlist = $customers->getSomeCustomers($limitlower, $perpage);
 
 			?>
 			<!DOCTYPE html>
@@ -111,7 +139,7 @@ class ViewCustomer
 																	<tbody>
 																		<?php
 																		// Get the number of customers returned by the model for background lines
-																		$numbercustomers = $quantity = count($customerlist);
+																		$quantity = count($customerlist);
 
 																		foreach ($customerlist AS $data)
 																		{
@@ -158,6 +186,9 @@ class ViewCustomer
 																	</tbody>
 																</table>
 															</div>
+															<?php
+															Utils::construct_back_page_nav($pagenumber, $perpage, $totalcustomers['nbcustomers'], 'index.php?do=listcustomers');
+															?>
 														</div>
 													</div>
 												</div>

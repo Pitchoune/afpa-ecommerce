@@ -96,23 +96,6 @@ class ModelEmployee extends Model
 	}
 
 	/**
-	 * Returns the number of employees in the database.
-	 *
-	 * @return integer Number of employees.
-	 */
-	public function getEmployeeCount()
-	{
-		$db = $this->dbConnect();
-		$query = $db->prepare("
-			SELECT COUNT(*) AS employeecount
-			FROM employe
-		");
-
-		$query->execute();
-		return $query->fetch();
-	}
-
-	/**
 	 * Returns the number of users in the given role.
 	 *
 	 * @return integer Number of users in role
@@ -304,6 +287,46 @@ class ModelEmployee extends Model
 		$query->bindParam(1, $this->id, \PDO::PARAM_INT);
 
 		return $query->execute();
+	}
+
+	/**
+	 * Returns the number of employees in the database.
+	 *
+	 * @return mixed Integer if valid, false elsewhere.
+	 */
+	public function getTotalNumberOfEmployees()
+	{
+		$db = $this->dbConnect($config);
+		$query = $db->prepare("
+			SELECT COUNT(*) AS nbemployees
+			FROM employe
+		");
+
+		$query->execute();
+		return $query->fetch();
+	}
+
+	/**
+	 * Returns some of the employees following the defined limit.
+	 *
+	 * @param integer $limitlower Minimum value for the limit.
+	 * @param integer $perpage Number of items to return.
+	 *
+	 * @return mixed Array of data if found or false if there is nothing found.
+	 */
+	public function getSomeEmployees($limitlower, $perpage)
+	{
+		$db = $this->dbConnect($config);
+		$query = $db->prepare("
+			SELECT *
+			FROM employe
+			LIMIT ?, ?
+		");
+		$query->bindParam(1, $limitlower, \PDO::PARAM_INT);
+		$query->bindParam(2, $perpage, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetchAll();
 	}
 
 	/**

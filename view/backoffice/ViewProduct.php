@@ -18,16 +18,44 @@ class ViewProduct
 	{
 		if (Utils::cando(23))
 		{
-			global $config;
+			global $config, $pagenumber;
 
 			$products = new \Ecommerce\Model\ModelProduct($config);
-			$productlist = $products->listAllProducts();
+
 			$pagetitle = 'Gestion des produits';
 			$navtitle = 'Liste des produits';
+
 			$navbits = [
 				'index.php?do=listproducts' => $pagetitle,
 				'' => $navtitle
 			];
+
+			$totalproducts = $products->getTotalNumberOfProducts();
+
+			// Number max per page
+			$perpage = 10;
+
+			Utils::sanitize_pageresults($totalproducts['nbproducts'], $pagenumber, $perpage, 200, 20);
+
+			$limitlower = ($pagenumber - 1) * $perpage;
+			$limitupper = ($pagenumber) * $perpage;
+
+			if ($limitupper > $totalproducts['nbproducts'])
+			{
+				$limitupper = $totalproducts['nbproducts'];
+
+				if ($limitlower > $totalproducts['nbproducts'])
+				{
+					$limitlower = ($totalproducts['nbproducts'] - $perpage) - 1;
+				}
+			}
+
+			if ($limitlower < 0)
+			{
+				$limitlower = 0;
+			}
+
+			$productlist = $products->getSomeProducts($limitlower, $perpage);
 
 			?>
 			<!DOCTYPE html>
@@ -166,6 +194,9 @@ class ViewProduct
 																	</tbody>
 																</table>
 															</div>
+															<?php
+															Utils::construct_back_page_nav($pagenumber, $perpage, $totalproducts['nbproducts'], 'index.php?do=listproducts');
+															?>
 														</div>
 													</div>
 												</div>

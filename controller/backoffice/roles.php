@@ -227,7 +227,7 @@ function DeleteRole($id)
 		require_once(DIR . '/model/ModelRole.php');
 		$roles = new \Ecommerce\Model\ModelRole($config);
 
-		$count = $roles->getRoleCount();
+		$count = $roles->getTotalNumberOfRoles();
 
 		// Don't delete the super admin defined in the config.php file
 		if ($config['Misc']['superadminid'] == $_SESSION['user']['roleid'])

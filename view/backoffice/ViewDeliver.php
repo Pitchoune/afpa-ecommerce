@@ -18,16 +18,44 @@ class ViewDeliver
 	{
 		if (Utils::cando(18))
 		{
-			global $config;
+			global $config, $pagenumber;
 
 			$delivers = new \Ecommerce\Model\ModelDeliver($config);
-			$deliverlist = $delivers->listAllDelivers();
+
 			$pagetitle = 'Gestion des transporteurs';
 			$navtitle = 'Liste des transporteurs';
+
 			$navbits = [
 				'index.php?do=listdelivers' => $pagetitle,
 				'' => $navtitle
 			];
+
+			$totaldelivers = $delivers->getTotalNumberOfDelivers();
+
+			// Number max per page
+			$perpage = 10;
+
+			Utils::sanitize_pageresults($totaldelivers['nbdelivers'], $pagenumber, $perpage, 200, 20);
+
+			$limitlower = ($pagenumber - 1) * $perpage;
+			$limitupper = ($pagenumber) * $perpage;
+
+			if ($limitupper > $totaldelivers['nbdelivers'])
+			{
+				$limitupper = $totaldelivers['nbdelivers'];
+
+				if ($limitlower > $totaldelivers['nbdelivers'])
+				{
+					$limitlower = ($totaldelivers['nbdelivers'] - $perpage) - 1;
+				}
+			}
+
+			if ($limitlower < 0)
+			{
+				$limitlower = 0;
+			}
+
+			$deliverlist = $delivers->getSomeDelivers($limitlower, $perpage);
 
 			?>
 			<!DOCTYPE html>
@@ -110,7 +138,7 @@ class ViewDeliver
 																	<tbody>
 																		<?php
 																		// Get the number of delivers returned by the model for background lines
-																		$numberproducts = $quantity = count($deliverlist);
+																		$quantity = count($deliverlist);
 
 																		foreach ($deliverlist AS $data)
 																		{
@@ -150,7 +178,7 @@ class ViewDeliver
 
 																						if (Utils::cando(22))
 																						{
-																							if ($data['compteur'] === 0 OR $numberproducts >= 2)
+																							if ($data['compteur'] === 0 OR $totaldelivers['nbdelivers'] >= 2)
 																							{
 																							?>
 																								<a class="tablegrid-button tablegrid-delete-button" type="button" title="Supprimer" href="index.php?do=deletedeliver&amp;id=<?= $data['id'] ?>"></a>
@@ -169,6 +197,9 @@ class ViewDeliver
 																	</tbody>
 																</table>
 															</div>
+															<?php
+															Utils::construct_back_page_nav($pagenumber, $perpage, $totaldelivers['nbdelivers'], 'index.php?do=listdelivers');
+															?>
 														</div>
 													</div>
 												</div>

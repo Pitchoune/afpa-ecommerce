@@ -333,7 +333,9 @@ function DeleteEmployee($id)
 		require_once(DIR . '/model/ModelEmployee.php');
 		$employees = new \Ecommerce\Model\ModelEmployee($config);
 
-		if ($employees->getEmployeeCount() > 1)
+		$total = $employees->getTotalNumberOfEmployees();
+
+		if ($total['nbemployees'] > 1)
 		{
 			$employees->set_id($id);
 

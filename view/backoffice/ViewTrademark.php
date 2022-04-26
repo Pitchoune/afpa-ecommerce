@@ -18,17 +18,44 @@ class ViewTrademark
 	{
 		if (Utils::cando(13))
 		{
-			global $config;
+			global $config, $pagenumber;
 
 			$trademarks = new \Ecommerce\Model\ModelTrademark($config);
-			$trademarkslist = $trademarks->listAllTrademarks();
 
 			$pagetitle = 'Gestion des marques';
 			$navtitle = 'Liste des marques';
+
 			$navbits = [
 				'index.php?do=listtrademarkss' => $pagetitle,
 				'' => $navtitle
 			];
+
+			$totaltrademarks = $trademarks->getTotalNumberOfTrademarks();
+
+			// Number max per page
+			$perpage = 10;
+
+			Utils::sanitize_pageresults($totaltrademarks['nbtrademarks'], $pagenumber, $perpage, 200, 20);
+
+			$limitlower = ($pagenumber - 1) * $perpage;
+			$limitupper = ($pagenumber) * $perpage;
+
+			if ($limitupper > $totaltrademarks['nbtrademarks'])
+			{
+				$limitupper = $totaltrademarks['nbtrademarks'];
+
+				if ($limitlower > $totaltrademarks['nbtrademarks'])
+				{
+					$limitlower = ($totaltrademarks['nbtrademarks'] - $perpage) - 1;
+				}
+			}
+
+			if ($limitlower < 0)
+			{
+				$limitlower = 0;
+			}
+
+			$trademarkslist = $trademarks->getSomeTrademarks($limitlower, $perpage);
 
 			?>
 			<!DOCTYPE html>
@@ -112,7 +139,7 @@ class ViewTrademark
 																	<tbody>
 																		<?php
 																		// Get the number of trademarks returned by the model for background lines
-																		$numberproducts = $quantity = count($trademarkslist);
+																		$quantity = count($trademarkslist);
 
 																		foreach ($trademarkslist AS $data)
 																		{
@@ -153,7 +180,7 @@ class ViewTrademark
 
 																						if (Utils::cando(17))
 																						{
-																							if ($data['compteur'] === 0 AND $numberproducts >= 2)
+																							if ($data['compteur'] === 0 AND $totaltrademarks['nbtrademarks'] >= 2)
 																							{
 																							?>
 																								<a class="tablegrid-button tablegrid-delete-button" type="button" title="Supprimer" href="index.php?do=deletetrademark&amp;id=<?= $data['id'] ?>"></a>
@@ -172,6 +199,9 @@ class ViewTrademark
 																	</tbody>
 																</table>
 															</div>
+															<?php
+															Utils::construct_back_page_nav($pagenumber, $perpage, $totaltrademarks['nbtrademarks'], 'index.php?do=listtrademarks');
+															?>
 														</div>
 													</div>
 												</div>

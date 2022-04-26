@@ -185,16 +185,44 @@ class ViewEmployee
 	{
 		if (Utils::cando(5))
 		{
-			global $config;
+			global $config, $pagenumber;
 
 			$employees = new \Ecommerce\Model\ModelEmployee($config);
-			$employeeslist = $employees->listAllEmployees();
+
 			$pagetitle = 'Gestion des catégories';
 			$navtitle = 'Liste des employés';
+
 			$navbits = [
 				'index.php?do=listemployees' => $pagetitle,
 				'' => $navtitle
 			];
+
+			$totalemployees = $employees->getTotalNumberOfEmployees();
+
+			// Number max per page
+			$perpage = 10;
+
+			Utils::sanitize_pageresults($totalemployees['nbemployees'], $pagenumber, $perpage, 200, 20);
+
+			$limitlower = ($pagenumber - 1) * $perpage;
+			$limitupper = ($pagenumber) * $perpage;
+
+			if ($limitupper > $totalemployees['nbemployees'])
+			{
+				$limitupper = $totalemployees['nbemployees'];
+
+				if ($limitlower > $totalemployees['nbemployees'])
+				{
+					$limitlower = ($totalemployees['nbemployees'] - $perpage) - 1;
+				}
+			}
+
+			if ($limitlower < 0)
+			{
+				$limitlower = 0;
+			}
+
+			$employeeslist = $employees->getSomeEmployees($limitlower, $perpage);
 
 			?>
 			<!DOCTYPE html>
@@ -322,6 +350,9 @@ class ViewEmployee
 																	</tbody>
 																</table>
 															</div>
+															<?php
+															Utils::construct_back_page_nav($pagenumber, $perpage, $totalemployees['nbemployees'], 'index.php?do=listemployees');
+															?>
 														</div>
 													</div>
 												</div>

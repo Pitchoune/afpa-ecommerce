@@ -5,6 +5,7 @@ error_reporting(E_ALL & ~E_NOTICE);
 
 // Sanitize do= values, others required per page are sanitized when necessary
 $do = isset($_REQUEST['do']) ? filter_var($_REQUEST['do'], FILTER_SANITIZE_STRING) : NULL;
+$pagenumber = isset($_REQUEST['page']) ? filter_var($_REQUEST['page'], FILTER_VALIDATE_INT) : NULL;
 
 // If you're not logged-in, display only the login form
 if (empty($_SESSION['employee']['loggedin']) AND !in_array($do, ['login', 'dologin']))

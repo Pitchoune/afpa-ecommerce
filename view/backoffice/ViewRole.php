@@ -18,17 +18,44 @@ class ViewRole
 	{
 		if (Utils::cando(1))
 		{
-			global $config;
+			global $config, $pagenumber;
 
 			$roles = new \Ecommerce\Model\ModelRole($config);
-			$roleslist = $roles->listAllRoles();
 
 			$pagetitle = 'Gestion des rôles';
 			$navtitle = 'Liste des rôles';
+
 			$navbits = [
 				'index.php?do=listroles' => $pagetitle,
 				'' => $navtitle
 			];
+
+			$totalroles = $roles->getTotalNumberOfRoles();
+
+			// Number max per page
+			$perpage = 10;
+
+			Utils::sanitize_pageresults($totalroles['nbroles'], $pagenumber, $perpage, 200, 20);
+
+			$limitlower = ($pagenumber - 1) * $perpage;
+			$limitupper = ($pagenumber) * $perpage;
+
+			if ($limitupper > $totalroles['nbroles'])
+			{
+				$limitupper = $totalroles['nbroles'];
+
+				if ($limitlower > $totalroles['nbroles'])
+				{
+					$limitlower = ($totalroles['nbroles'] - $perpage) - 1;
+				}
+			}
+
+			if ($limitlower < 0)
+			{
+				$limitlower = 0;
+			}
+
+			$roleslist = $roles->getSomeRoles($limitlower, $perpage);
 
 			?>
 			<!DOCTYPE html>
@@ -110,7 +137,7 @@ class ViewRole
 																	<tbody>
 																		<?php
 																		// Get the number of roles returned by the model for background lines
-																		$numberroles = $quantity = count($roleslist);
+																		$quantity = count($roleslist);
 
 																		foreach ($roleslist AS $data)
 																		{
@@ -135,7 +162,7 @@ class ViewRole
 
 																						if (Utils::cando(4))
 																						{
-																							if ($data['compteur'] === 0 AND $numberroles >= 2)
+																							if ($data['compteur'] === 0 AND $totalroles['nbroles'] >= 2)
 																							{
 																							?>
 																								<a class="tablegrid-button tablegrid-delete-button" type="button" title="Supprimer" href="index.php?do=deleterole&amp;id=<?= $data['id'] ?>"></a>
@@ -154,6 +181,9 @@ class ViewRole
 																	</tbody>
 																</table>
 															</div>
+															<?php
+															Utils::construct_back_page_nav($pagenumber, $perpage, $totalroles['nbroles'], 'index.php?do=listroles');
+															?>
 														</div>
 													</div>
 												</div>

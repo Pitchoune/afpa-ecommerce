@@ -18,16 +18,44 @@ class ViewCategory
 	{
 		if (Utils::cando(9))
 		{
-			global $config;
+			global $config, $pagenumber;
 
 			$categories = new \Ecommerce\Model\ModelCategory($config);
-			$categorieslist = $categories->listAllCategories();
+
 			$pagetitle = 'Gestion des catégories';
 			$navtitle = 'Liste des catégories';
+
 			$navbits = [
 				'listcategories' => $pagetitle,
 				'' => $navtitle
 			];
+
+			$totalcategories = $categories->getTotalNumberOfCategories();
+
+			// Number max per page
+			$perpage = 10;
+
+			Utils::sanitize_pageresults($totalcategories['nbcats'], $pagenumber, $perpage, 200, 20);
+
+			$limitlower = ($pagenumber - 1) * $perpage;
+			$limitupper = ($pagenumber) * $perpage;
+
+			if ($limitupper > $totalcategories['nbcats'])
+			{
+				$limitupper = $totalcategories['nbcats'];
+
+				if ($limitlower > $totalcategories['nbcats'])
+				{
+					$limitlower = ($totalcategories['nbcats'] - $perpage) - 1;
+				}
+			}
+
+			if ($limitlower < 0)
+			{
+				$limitlower = 0;
+			}
+
+			$categorieslist = $categories->getSomeCategories($limitlower, $perpage);
 
 			?>
 			<!DOCTYPE html>
@@ -111,7 +139,7 @@ class ViewCategory
 																	<tbody>
 																		<?php
 																		// Get the number of categories returned by the model for background lines
-																		$numbercats = $quantity = count($categorieslist);
+																		$quantity = count($categorieslist);
 
 																		foreach ($categorieslist AS $data)
 																		{
@@ -137,7 +165,7 @@ class ViewCategory
 
 																						if (Utils::cando(12))
 																						{
-																							if ($data['compteur'] === 0 AND $numbercats >= 2)
+																							if ($data['compteur'] === 0 AND $totalcategories['nbcats'] >= 2)
 																							{
 																							?>
 																								<a class="tablegrid-button tablegrid-delete-button" type="button" title="Supprimer" href="index.php?do=deletecategory&amp;id=<?= $data['id'] ?>"></a>
@@ -156,6 +184,9 @@ class ViewCategory
 																	</tbody>
 																</table>
 															</div>
+															<?php
+															Utils::construct_back_page_nav($pagenumber, $perpage, $totalcategories['nbcats'], 'index.php?do=listcategories');
+															?>
 														</div>
 													</div>
 												</div>

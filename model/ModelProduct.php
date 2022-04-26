@@ -353,6 +353,46 @@ class ModelProduct extends Model
 	}
 
 	/**
+	 * Returns the number of products in the database.
+	 *
+	 * @return mixed Integer if valid, false elsewhere.
+	 */
+	public function getTotalNumberOfProducts()
+	{
+		$db = $this->dbConnect($config);
+		$query = $db->prepare("
+			SELECT COUNT(*) AS nbproducts
+			FROM produit
+		");
+
+		$query->execute();
+		return $query->fetch();
+	}
+
+	/**
+	 * Returns some of the products following the defined limit.
+	 *
+	 * @param integer $limitlower Minimum value for the limit.
+	 * @param integer $perpage Number of items to return.
+	 *
+	 * @return mixed Array of data if found or false if there is nothing found.
+	 */
+	public function getSomeProducts($limitlower, $perpage)
+	{
+		$db = $this->dbConnect($config);
+		$query = $db->prepare("
+			SELECT *
+			FROM produit
+			LIMIT ?, ?
+		");
+		$query->bindParam(1, $limitlower, \PDO::PARAM_INT);
+		$query->bindParam(2, $perpage, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
 	 * Defines the ID.
 	 *
 	 * @param integer $id ID of the product.

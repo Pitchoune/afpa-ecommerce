@@ -20,14 +20,14 @@ $btn-padding : 0.5rem 1.5rem;
       i{
         display: none;
       }
-      &:before,&:after{       
+      &:before,&:after{
         font-family:$font-themify;
         color:$black;
         font-size:16px;
       }
     }
   }
-  
+
 }
 .switch {
   input {
@@ -313,7 +313,7 @@ a {
 // category
 .product-physical {
   table {
-    .jsgrid-filter-row {
+    .tablegrid-filter-row {
       display: none !important;
     }
     tr {
@@ -456,7 +456,7 @@ a {
     border: 1px solid $light-gray;
     thead {
       th {
-        border-bottom: 1px solid $light-gray !important; 
+        border-bottom: 1px solid $light-gray !important;
       }
     }
     tr {
@@ -567,12 +567,12 @@ a {
         }
       }
     }
-    
-    tbody{     
+
+    tbody{
       tr{
         td{
           vertical-align: middle;
-          
+
           .d-inline-block{
             margin-top: 11px;
           }
@@ -589,7 +589,7 @@ a {
       }
     }
     thead{
-      tr{       
+      tr{
         th{
           border-top:0;
           font-size: 16px;
@@ -602,7 +602,7 @@ a {
   }
 }
 .card-block{
-  .table-responsive{   
+  .table-responsive{
     .table{
       caption{
         padding-left: 10px;
@@ -777,7 +777,7 @@ a {
   }
 }
 .project-status {
-  margin-top: 20px; 
+  margin-top: 20px;
   .media {
     margin-top: 20px;
   }
@@ -1115,18 +1115,18 @@ div{
         }
       }
     }
-    .jsgrid-filter-row {
+    .tablegrid-filter-row {
       display: none !important;
     }
-    .jsgrid-cell {
+    .tablegrid-cell {
       padding: 0.75rem;
     }
   }
 }
-.jsgrid-pager {
+.tablegrid-pager {
   padding: 2em 0 0;
 }
-.jsgrid-grid-header{
+.tablegrid-grid-header{
   border:1px solid #e8efff;
 }
 .user-list {
@@ -1401,8 +1401,8 @@ div{
       border-radius: 0 0 0 7px;
       right: 20px;
       top: 25px;
-      display: inline-block;     
-      float: right;     
+      display: inline-block;
+      float: right;
       padding: 7px 0;
       position: absolute;
       background-color: $white;
@@ -1994,7 +1994,7 @@ $header-size: 80px;
         top: 57px;
         height: 355px;
         overflow: hidden;
-        overflow-y: scroll;      
+        overflow-y: scroll;
         // &::-webkit-scrollbar {
         //   width: 12px;
         // }
@@ -2004,7 +2004,7 @@ $header-size: 80px;
         // &::-webkit-scrollbar-thumb {
         //   border-radius: 2px;
         //   background:$theme-color1;
-        // }         
+        // }
 
 
 
@@ -3689,49 +3689,49 @@ $i:1;
 .license-key[disabled]{
   cursor: not-allowed;
 }
-.jsgrid-cell,.jsgrid-grid-body{
+.tablegrid-cell,.tablegrid-grid-body{
   border: 1px solid #ebf1ff;
 }
-.jsgrid {
-  .jsgrid-pager-container {
+.tablegrid {
+  .tablegrid-pager-container {
     text-align: right;
   }
-  .jsgrid-pager [class*="jsgrid-pager"] {
+  .tablegrid-pager [class*="tablegrid-pager"] {
     display: inline-block;
     min-width: 1.5em;
     padding: 0.5em 1em;
     border: 1px solid #f8f8f9;
   }
-  .jsgrid-pager .jsgrid-pager-nav-inactive-button {
+  .tablegrid-pager .tablegrid-pager-nav-inactive-button {
     margin-right: -5px;
   }
 }
-.jsgrid-alt-row {
-  .jsgrid-cell{
+.tablegrid-alt-row {
+  .tablegrid-cell{
     background-color: rgba(241, 244, 251, 0.5);
     text-align: center;
   }
 }
-.jsgrid-row{
-  > .jsgrid-cell {
+.tablegrid-row{
+  > .tablegrid-cell {
     text-align: center;
   }
 }
-.jsgrid-filter-row {
-  .jsgrid-cell{
+.tablegrid-filter-row {
+  .tablegrid-cell{
     background-color: #f8f8f9;
     text-align: center;
   }
 }
-.jsgrid-header-row{
-  .jsgrid-header-cell{
+.tablegrid-header-row{
+  .tablegrid-header-cell{
     background-color: #f1f4fb;
     text-align: center;
     padding: 0.75rem;
   }
 }
-.jsgrid-selected-row{
-  > .jsgrid-cell{
+.tablegrid-selected-row{
+  > .tablegrid-cell{
     background-color: rgba(241, 244, 251, 0.5);
     border-color: #f1f4fb;
   }
@@ -3977,7 +3977,7 @@ $i:1;
     display:inline-block;
   }
   .forgot-pass{
-    color: $theme-color1;   
+    color: $theme-color1;
   }
 }
 .card-left{
@@ -5372,8 +5372,8 @@ body {
         margin-right: unset;
       }
     }
-    .jsgrid-button {
-      +.jsgrid-button {
+    .tablegrid-button {
+      +.tablegrid-button {
         margin-right: 5px;
         margin-left: unset;
       }
@@ -5661,8 +5661,8 @@ body {
               }
               &:first-child {
                 border-right: none;
-                .search-form {                 
-                  .form-group{                   
+                .search-form {
+                  .form-group{
                     &:after {
                       right: 22px;
                       left: unset;
@@ -5783,11 +5783,11 @@ body {
     }
     .add-product-form {
       .qty-box {
-        .input-group {         
+        .input-group {
           // .btn {
           //   border-right: none !important;
           //   border-left: 1px solid $light-gray !important;
-          // }         
+          // }
           .btn-primary {
             &.bootstrap-touchspin-down {
               // border-left: none !important;

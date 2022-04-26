@@ -333,6 +333,46 @@ class ModelCustomer extends Model
 	}
 
 	/**
+	 * Returns the number of categories in the database.
+	 *
+	 * @return mixed Integer if valid, false elsewhere.
+	 */
+	public function getTotalNumberOfCustomers()
+	{
+		$db = $this->dbConnect($config);
+		$query = $db->prepare("
+			SELECT COUNT(*) AS nbcustomers
+			FROM client
+		");
+
+		$query->execute();
+		return $query->fetch();
+	}
+
+	/**
+	 * Returns some of the customers following the defined limit.
+	 *
+	 * @param integer $limitlower Minimum value for the limit.
+	 * @param integer $perpage Number of items to return.
+	 *
+	 * @return mixed Array of data if found or false if there is nothing found.
+	 */
+	public function getSomeCustomers($limitlower, $perpage)
+	{
+		$db = $this->dbConnect($config);
+		$query = $db->prepare("
+			SELECT *
+			FROM client
+			LIMIT ?, ?
+		");
+		$query->bindParam(1, $limitlower, \PDO::PARAM_INT);
+		$query->bindParam(2, $perpage, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
 	 * Defines the ID.
 	 *
 	 * @param integer $id ID of the customer.

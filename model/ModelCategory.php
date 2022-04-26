@@ -152,6 +152,46 @@ class ModelCategory extends Model
 	}
 
 	/**
+	 * Returns the number of categories in the database.
+	 *
+	 * @return mixed Integer if valid, false elsewhere.
+	 */
+	public function getTotalNumberOfCategories()
+	{
+		$db = $this->dbConnect($config);
+		$query = $db->prepare("
+			SELECT COUNT(*) AS nbcats
+			FROM categorie
+		");
+
+		$query->execute();
+		return $query->fetch();
+	}
+
+	/**
+	 * Returns some of the categories following the defined limit.
+	 *
+	 * @param integer $limitlower Minimum value for the limit.
+	 * @param integer $perpage Number of items to return.
+	 *
+	 * @return mixed Array of data if found or false if there is nothing found.
+	 */
+	public function getSomeCategories($limitlower, $perpage)
+	{
+		$db = $this->dbConnect($config);
+		$query = $db->prepare("
+			SELECT *
+			FROM categorie
+			LIMIT ?, ?
+		");
+		$query->bindParam(1, $limitlower, \PDO::PARAM_INT);
+		$query->bindParam(2, $perpage, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
 	 * Defines the ID.
 	 *
 	 * @param integer $id ID of the category.

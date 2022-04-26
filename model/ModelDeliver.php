@@ -208,6 +208,46 @@ class ModelDeliver extends Model
 	}
 
 	/**
+	 * Returns the number of delivers in the database.
+	 *
+	 * @return mixed Integer if valid, false elsewhere.
+	 */
+	public function getTotalNumberOfDelivers()
+	{
+		$db = $this->dbConnect($config);
+		$query = $db->prepare("
+			SELECT COUNT(*) AS nbdelivers
+			FROM transporteur
+		");
+
+		$query->execute();
+		return $query->fetch();
+	}
+
+	/**
+	 * Returns some of the delivers following the defined limit.
+	 *
+	 * @param integer $limitlower Minimum value for the limit.
+	 * @param integer $perpage Number of items to return.
+	 *
+	 * @return mixed Array of data if found or false if there is nothing found.
+	 */
+	public function getSomeDelivers($limitlower, $perpage)
+	{
+		$db = $this->dbConnect($config);
+		$query = $db->prepare("
+			SELECT *
+			FROM transporteur
+			LIMIT ?, ?
+		");
+		$query->bindParam(1, $limitlower, \PDO::PARAM_INT);
+		$query->bindParam(2, $perpage, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
 	 * Defines the ID.
 	 *
 	 * @param integer $id ID of the deliver.

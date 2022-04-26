@@ -87,23 +87,6 @@ class ModelRole extends Model
 	}
 
 	/**
-	 * Returns the number of roles in the database.
-	 *
-	 * @return integer Number of roles.
-	 */
-	public function getRoleCount()
-	{
-		$db = $this->dbConnect();
-		$query = $db->prepare("
-			SELECT COUNT(*) AS rolecount
-			FROM role
-		");
-
-		$query->execute();
-		return $query->fetch();
-	}
-
-	/**
 	 * Saves a new role in the 'role' table.
 	 *
 	 * @return mixed Returns saved role ID or false if there is an error.
@@ -273,6 +256,46 @@ class ModelRole extends Model
 		$query->bindParam(1, $this->id, \PDO::PARAM_INT);
 
 		return $query->execute();
+	}
+
+	/**
+	 * Returns the number of roles in the database.
+	 *
+	 * @return integer Number of roles.
+	 */
+	public function getTotalNumberOfRoles()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT COUNT(*) AS nbroles
+			FROM role
+		");
+
+		$query->execute();
+		return $query->fetch();
+	}
+
+	/**
+	 * Returns some of the roles following the defined limit.
+	 *
+	 * @param integer $limitlower Minimum value for the limit.
+	 * @param integer $perpage Number of items to return.
+	 *
+	 * @return mixed Array of data if found or false if there is nothing found.
+	 */
+	public function getSomeRoles($limitlower, $perpage)
+	{
+		$db = $this->dbConnect($config);
+		$query = $db->prepare("
+			SELECT *
+			FROM role
+			LIMIT ?, ?
+		");
+		$query->bindParam(1, $limitlower, \PDO::PARAM_INT);
+		$query->bindParam(2, $perpage, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetchAll();
 	}
 
 	/**
