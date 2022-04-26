@@ -3189,3 +3189,40 @@ $('.cart_product').on('change', '.qty-adj', function(e)
 displayCart();
 
 
+// Autosuggest search results
+$(document).ready(function()
+{
+  $('.autosuggest').keyup(function()
+  {
+    if ($(this).val().length >= 1)
+    {
+      var search_term = $(this).val();
+
+      $.get(
+        'index.php?do=search',
+        {
+          query: search_term,
+          category: 0,
+          type: 'json'
+        },
+        function(data)
+        {
+          let new_ul = [];
+
+          data.forEach(obj => {
+            new_ul.push(`<li class="list-group-item">${obj.nom}</li>`);
+          })
+
+          $('.list-group').html(new_ul.join(""));
+          $('.list-group').removeClass('hide');
+        },
+        'json'
+      );
+    }
+    else
+    {
+      $('.list-group').html('');
+      $('.list-group').addClass('hide');
+    }
+  });
+});
