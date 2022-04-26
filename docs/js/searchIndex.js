@@ -166,6 +166,16 @@ Search.appendIndex(
             "summary": "Deletes\u0020the\u0020specified\u0020category.",
             "url": "classes/Ecommerce-Model-ModelCategory.html#method_deleteCategory"
         },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003AgetTotalNumberOfCategories\u0028\u0029",
+            "name": "getTotalNumberOfCategories",
+            "summary": "Returns\u0020the\u0020number\u0020of\u0020categories\u0020in\u0020the\u0020database.",
+            "url": "classes/Ecommerce-Model-ModelCategory.html#method_getTotalNumberOfCategories"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003AgetSomeCategories\u0028\u0029",
+            "name": "getSomeCategories",
+            "summary": "Returns\u0020some\u0020of\u0020the\u0020categories\u0020following\u0020the\u0020defined\u0020limit.",
+            "url": "classes/Ecommerce-Model-ModelCategory.html#method_getSomeCategories"
+        },                {
             "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003Aset_id\u0028\u0029",
             "name": "set_id",
             "summary": "Defines\u0020the\u0020ID.",
@@ -216,11 +226,6 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020number\u0020of\u0020employees\u0020in\u0020the\u0020given\u0020role.",
             "url": "classes/Ecommerce-Model-ModelRole.html#method_getNumberOfEmployeesInRole"
         },                {
-            "fqsen": "\\Ecommerce\\Model\\ModelRole\u003A\u003AgetRoleCount\u0028\u0029",
-            "name": "getRoleCount",
-            "summary": "Returns\u0020the\u0020number\u0020of\u0020roles\u0020in\u0020the\u0020database.",
-            "url": "classes/Ecommerce-Model-ModelRole.html#method_getRoleCount"
-        },                {
             "fqsen": "\\Ecommerce\\Model\\ModelRole\u003A\u003AsaveNewRole\u0028\u0029",
             "name": "saveNewRole",
             "summary": "Saves\u0020a\u0020new\u0020role\u0020in\u0020the\u0020\u0027role\u0027\u0020table.",
@@ -265,6 +270,16 @@ Search.appendIndex(
             "name": "deleteRole",
             "summary": "Deletes\u0020the\u0020specified\u0020role.",
             "url": "classes/Ecommerce-Model-ModelRole.html#method_deleteRole"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelRole\u003A\u003AgetTotalNumberOfRoles\u0028\u0029",
+            "name": "getTotalNumberOfRoles",
+            "summary": "Returns\u0020the\u0020number\u0020of\u0020roles\u0020in\u0020the\u0020database.",
+            "url": "classes/Ecommerce-Model-ModelRole.html#method_getTotalNumberOfRoles"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelRole\u003A\u003AgetSomeRoles\u0028\u0029",
+            "name": "getSomeRoles",
+            "summary": "Returns\u0020some\u0020of\u0020the\u0020roles\u0020following\u0020the\u0020defined\u0020limit.",
+            "url": "classes/Ecommerce-Model-ModelRole.html#method_getSomeRoles"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelRole\u003A\u003Aset_id\u0028\u0029",
             "name": "set_id",
@@ -416,11 +431,6 @@ Search.appendIndex(
             "summary": "Returns\u0020an\u0020array\u0020of\u0020all\u0020employees.",
             "url": "classes/Ecommerce-Model-ModelEmployee.html#method_listAllEmployees"
         },                {
-            "fqsen": "\\Ecommerce\\Model\\ModelEmployee\u003A\u003AgetEmployeeCount\u0028\u0029",
-            "name": "getEmployeeCount",
-            "summary": "Returns\u0020the\u0020number\u0020of\u0020employees\u0020in\u0020the\u0020database.",
-            "url": "classes/Ecommerce-Model-ModelEmployee.html#method_getEmployeeCount"
-        },                {
             "fqsen": "\\Ecommerce\\Model\\ModelEmployee\u003A\u003AgetNumberOfUsersInRole\u0028\u0029",
             "name": "getNumberOfUsersInRole",
             "summary": "Returns\u0020the\u0020number\u0020of\u0020users\u0020in\u0020the\u0020given\u0020role.",
@@ -465,6 +475,16 @@ Search.appendIndex(
             "name": "deleteEmployee",
             "summary": "Deletes\u0020the\u0020specified\u0020employee.",
             "url": "classes/Ecommerce-Model-ModelEmployee.html#method_deleteEmployee"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelEmployee\u003A\u003AgetTotalNumberOfEmployees\u0028\u0029",
+            "name": "getTotalNumberOfEmployees",
+            "summary": "Returns\u0020the\u0020number\u0020of\u0020employees\u0020in\u0020the\u0020database.",
+            "url": "classes/Ecommerce-Model-ModelEmployee.html#method_getTotalNumberOfEmployees"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelEmployee\u003A\u003AgetSomeEmployees\u0028\u0029",
+            "name": "getSomeEmployees",
+            "summary": "Returns\u0020some\u0020of\u0020the\u0020employees\u0020following\u0020the\u0020defined\u0020limit.",
+            "url": "classes/Ecommerce-Model-ModelEmployee.html#method_getSomeEmployees"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelEmployee\u003A\u003Aset_id\u0028\u0029",
             "name": "set_id",
@@ -640,6 +660,16 @@ Search.appendIndex(
             "name": "deleteCustomer",
             "summary": "Deletes\u0020the\u0020given\u0020customer\u0020from\u0020the\u0020database.",
             "url": "classes/Ecommerce-Model-ModelCustomer.html#method_deleteCustomer"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCustomer\u003A\u003AgetTotalNumberOfCustomers\u0028\u0029",
+            "name": "getTotalNumberOfCustomers",
+            "summary": "Returns\u0020the\u0020number\u0020of\u0020categories\u0020in\u0020the\u0020database.",
+            "url": "classes/Ecommerce-Model-ModelCustomer.html#method_getTotalNumberOfCustomers"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCustomer\u003A\u003AgetSomeCustomers\u0028\u0029",
+            "name": "getSomeCustomers",
+            "summary": "Returns\u0020some\u0020of\u0020the\u0020customers\u0020following\u0020the\u0020defined\u0020limit.",
+            "url": "classes/Ecommerce-Model-ModelCustomer.html#method_getSomeCustomers"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelCustomer\u003A\u003Aset_id\u0028\u0029",
             "name": "set_id",
@@ -821,6 +851,16 @@ Search.appendIndex(
             "summary": "Saves\u0020the\u0020new\u0020order\u0020in\u0020the\u0020\u0027commande\u0027\u0020table.",
             "url": "classes/Ecommerce-Model-ModelOrder.html#method_saveNewOrder"
         },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelOrder\u003A\u003AgetCustomerOrders\u0028\u0029",
+            "name": "getCustomerOrders",
+            "summary": "Gets\u0020the\u0020orders\u0020for\u0020the\u0020given\u0020customer.",
+            "url": "classes/Ecommerce-Model-ModelOrder.html#method_getCustomerOrders"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelOrder\u003A\u003AgetOrderDetails\u0028\u0029",
+            "name": "getOrderDetails",
+            "summary": "Gets\u0020some\u0020of\u0020the\u0020order\u0020details\u0020from\u0020specific\u0020order.",
+            "url": "classes/Ecommerce-Model-ModelOrder.html#method_getOrderDetails"
+        },                {
             "fqsen": "\\Ecommerce\\Model\\ModelOrder\u003A\u003Aset_id\u0028\u0029",
             "name": "set_id",
             "summary": "Defines\u0020the\u0020ID.",
@@ -925,6 +965,11 @@ Search.appendIndex(
             "name": "saveOrderDetails",
             "summary": "Saves\u0020a\u0020new\u0020order\u0020detail\u0020in\u0020the\u0020\u0027details_commande\u0027\u0020table.",
             "url": "classes/Ecommerce-Model-ModelOrderDetails.html#method_saveOrderDetails"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelOrderDetails\u003A\u003AgetOrderDetails\u0028\u0029",
+            "name": "getOrderDetails",
+            "summary": "",
+            "url": "classes/Ecommerce-Model-ModelOrderDetails.html#method_getOrderDetails"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelOrderDetails\u003A\u003Aset_order\u0028\u0029",
             "name": "set_order",
@@ -1050,6 +1095,16 @@ Search.appendIndex(
             "name": "searchProductsWithoutCategory",
             "summary": "Search\u0020in\u0020the\u0020products\u0020per\u0020customer\u0020request\u0020for\u0020all\u0020categories.",
             "url": "classes/Ecommerce-Model-ModelProduct.html#method_searchProductsWithoutCategory"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelProduct\u003A\u003AgetTotalNumberOfProducts\u0028\u0029",
+            "name": "getTotalNumberOfProducts",
+            "summary": "Returns\u0020the\u0020number\u0020of\u0020products\u0020in\u0020the\u0020database.",
+            "url": "classes/Ecommerce-Model-ModelProduct.html#method_getTotalNumberOfProducts"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelProduct\u003A\u003AgetSomeProducts\u0028\u0029",
+            "name": "getSomeProducts",
+            "summary": "Returns\u0020some\u0020of\u0020the\u0020products\u0020following\u0020the\u0020defined\u0020limit.",
+            "url": "classes/Ecommerce-Model-ModelProduct.html#method_getSomeProducts"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelProduct\u003A\u003Aset_id\u0028\u0029",
             "name": "set_id",
@@ -1235,6 +1290,16 @@ Search.appendIndex(
             "name": "deleteDeliver",
             "summary": "Deletes\u0020the\u0020specified\u0020deliver.",
             "url": "classes/Ecommerce-Model-ModelDeliver.html#method_deleteDeliver"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelDeliver\u003A\u003AgetTotalNumberOfDelivers\u0028\u0029",
+            "name": "getTotalNumberOfDelivers",
+            "summary": "Returns\u0020the\u0020number\u0020of\u0020delivers\u0020in\u0020the\u0020database.",
+            "url": "classes/Ecommerce-Model-ModelDeliver.html#method_getTotalNumberOfDelivers"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelDeliver\u003A\u003AgetSomeDelivers\u0028\u0029",
+            "name": "getSomeDelivers",
+            "summary": "Returns\u0020some\u0020of\u0020the\u0020delivers\u0020following\u0020the\u0020defined\u0020limit.",
+            "url": "classes/Ecommerce-Model-ModelDeliver.html#method_getSomeDelivers"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelDeliver\u003A\u003Aset_id\u0028\u0029",
             "name": "set_id",
@@ -1445,6 +1510,16 @@ Search.appendIndex(
             "name": "deleteTrademark",
             "summary": "Deletes\u0020the\u0020specified\u0020trademark.",
             "url": "classes/Ecommerce-Model-ModelTrademark.html#method_deleteTrademark"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelTrademark\u003A\u003AgetTotalNumberOfTrademarks\u0028\u0029",
+            "name": "getTotalNumberOfTrademarks",
+            "summary": "Returns\u0020the\u0020number\u0020of\u0020trademarks\u0020in\u0020the\u0020database.",
+            "url": "classes/Ecommerce-Model-ModelTrademark.html#method_getTotalNumberOfTrademarks"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelTrademark\u003A\u003AgetSomeTrademarks\u0028\u0029",
+            "name": "getSomeTrademarks",
+            "summary": "Returns\u0020some\u0020of\u0020the\u0020trademarks\u0020following\u0020the\u0020defined\u0020limit.",
+            "url": "classes/Ecommerce-Model-ModelTrademark.html#method_getSomeTrademarks"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelTrademark\u003A\u003Aset_id\u0028\u0029",
             "name": "set_id",
@@ -1691,6 +1766,16 @@ Search.appendIndex(
             "summary": "Process\u0020the\u0020profile\u0020deletion.",
             "url": "namespaces/default.html#function_doDeleteProfile"
         },                {
+            "fqsen": "\\viewOrders\u0028\u0029",
+            "name": "viewOrders",
+            "summary": "",
+            "url": "namespaces/default.html#function_viewOrders"
+        },                {
+            "fqsen": "\\viewOrder\u0028\u0029",
+            "name": "viewOrder",
+            "summary": "",
+            "url": "namespaces/default.html#function_viewOrder"
+        },                {
             "fqsen": "\\Utils",
             "name": "Utils",
             "summary": "Utility\u0020class\u0020to\u0020perform\u0020various\u0020actions\u0020across\u0020the\u0020whole\u0020system",
@@ -1720,6 +1805,21 @@ Search.appendIndex(
             "name": "printr",
             "summary": "Returns\u0020an\u0020array\u0020of\u0020values\u0020passed\u0020through\u0020print_r\u0020with\u0020some\u0020formatting.\u0020Useful\u0020to\u0020debug\u0020arrays.",
             "url": "classes/Utils.html#method_printr"
+        },                {
+            "fqsen": "\\Utils\u003A\u003Aconstruct_back_page_nav\u0028\u0029",
+            "name": "construct_back_page_nav",
+            "summary": "Returns\u0020the\u0020HTML\u0020for\u0020multi\u002Dpage\u0020navigation\u0020for\u0020backoffice.",
+            "url": "classes/Utils.html#method_construct_back_page_nav"
+        },                {
+            "fqsen": "\\Utils\u003A\u003Afetch_start_end_total_array\u0028\u0029",
+            "name": "fetch_start_end_total_array",
+            "summary": "Returns\u0020an\u0020array\u0020so\u0020you\u0020can\u0020print\u0020\u0027Showing\u0020results\u0020\u0024arr\u005Bfirst\u005D\u0020to\u0020\u0024arr\u005Blast\u005D\u0020of\u0020\u0024totalresults\u0027.",
+            "url": "classes/Utils.html#method_fetch_start_end_total_array"
+        },                {
+            "fqsen": "\\Utils\u003A\u003Asanitize_pageresults\u0028\u0029",
+            "name": "sanitize_pageresults",
+            "summary": "Ensures\u0020that\u0020the\u0020variables\u0020for\u0020a\u0020multi\u002Dpage\u0020display\u0020are\u0020sane",
+            "url": "classes/Utils.html#method_sanitize_pageresults"
         },                {
             "fqsen": "\\Utils\u003A\u003AcreateCountryList\u0028\u0029",
             "name": "createCountryList",
@@ -3200,6 +3300,16 @@ Search.appendIndex(
             "name": "CustomerDeleteProfile",
             "summary": "Returns\u0020the\u0020HTMl\u0020code\u0020to\u0020display\u0020the\u0020delete\u0020profile\u0020form.",
             "url": "classes/ViewCustomer.html#method_CustomerDeleteProfile"
+        },                {
+            "fqsen": "\\ViewCustomer\u003A\u003ADisplayOrders\u0028\u0029",
+            "name": "DisplayOrders",
+            "summary": "",
+            "url": "classes/ViewCustomer.html#method_DisplayOrders"
+        },                {
+            "fqsen": "\\ViewCustomer\u003A\u003ADisplayOrder\u0028\u0029",
+            "name": "DisplayOrder",
+            "summary": "",
+            "url": "classes/ViewCustomer.html#method_DisplayOrder"
         },                {
             "fqsen": "\\ViewError\u003A\u003ADisplayError\u0028\u0029",
             "name": "DisplayError",
