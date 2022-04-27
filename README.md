@@ -2,6 +2,8 @@
 
 Project code used to validate DWWM learning at AFPA Calais.
 
+Commits are following some conditions listed [here](https://www.conventionalcommits.org/en/v1.0.0/#summary)
+
 ---
 
 ## Installation
