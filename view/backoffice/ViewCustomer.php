@@ -705,7 +705,7 @@ class ViewCustomer
 															</div>
 														</div>
 														<div class="btn-popup pull-right">
-															<a href="index.php?do=viewcustomerallorders&id=<?= $data['id'] ?> type="button" class="btn btn-secondary">Afficher toutes les commandes</a>
+															<a href="index.php?do=viewcustomerallorders&id=<?= $data['id'] ?>" type="button" class="btn btn-secondary">Afficher toutes les commandes</a>
 														</div>
 													</div>
 												</div>
@@ -914,12 +914,17 @@ class ViewCustomer
 																				{
 																					$photo = "../attachments/products/" . $value['photo'];
 																				}
+
+																				require_once(DIR . '/model/ModelTrademark.php');
+																				$trademarks = new \Ecommerce\Model\ModelTrademark($config);
+																				$trademarks->set_id($value['id_marque']);
+																				$trademark = $trademarks->listTrademarkInfos();
 																				?>
 																				<tr class="<?= (($quantity++ % 2) == 0 ? 'tablegrid-row' : 'tablegrid-alt-row') ?>">
 																					<td class="tablegrid-cell" style="width: 180px">
 																						<div>
 																							<div class="float-start"><img src="<?= $photo ?>" alt="" width="50px" height="50px" /></div>
-																							<div style="line-height: 50px"><?= $value['nom'] ?></div>
+																							<div style="line-height: 50px"><?= $trademark['nom'] ?> - <?= $value['nom'] ?></div>
 																						</div>
 																					</td>
 																					<td class="tablegrid-cell" style="width: 40px"><?= $value['prix'] ?> &euro;</td>

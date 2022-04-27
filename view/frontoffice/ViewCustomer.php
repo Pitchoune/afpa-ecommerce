@@ -811,7 +811,7 @@ class ViewCustomer
 	}
 
 	/**
-	 * Returns the HTMl code to display the delete profile form.
+	 * Returns the HTML code to display the delete profile form.
 	 *
 	 * @return void
 	 */
@@ -917,6 +917,11 @@ class ViewCustomer
 		<?php
 	}
 
+	/**
+	 * Returns the HTML code to display the customers orders page.
+	  *
+	  * @return void
+	 */
 	public static function DisplayOrders()
 	{
 		global $config;
@@ -1063,6 +1068,11 @@ class ViewCustomer
 		<?php
 	}
 
+	/**
+	 * Returns the HTML code to display a specific customer order details
+	 *
+	 * @return void
+	 */
 	public static function DisplayOrder($id)
 	{
 		global $config;
@@ -1072,151 +1082,163 @@ class ViewCustomer
 
 		$data = $customer->getCustomerInfosFromId();
 
-		require_once(DIR . '/model/ModelOrderDetails.php');
-		$orderdetails = new \Ecommerce\Model\ModelOrderDetails($config);
-		$orderdetails->set_order(intval($id));
-		$orderdetail = $orderdetails->getOrderDetails();
+		if ($data['id'] === $_SESSION['user']['id'])
+		{
+			require_once(DIR . '/model/ModelOrderDetails.php');
+			$orderdetails = new \Ecommerce\Model\ModelOrderDetails($config);
+			$orderdetails->set_order(intval($id));
+			$orderdetail = $orderdetails->getOrderDetails();
 
-		$pagetitle = 'Commande #' . intval($id);
+			$pagetitle = 'Commande #' . intval($id);
 
-		?>
-			<!DOCTYPE html>
-			<html>
-				<head>
-					<?php
-					ViewTemplate::FrontHead($pagetitle);
-					?>
-				</head>
+			?>
+				<!DOCTYPE html>
+				<html>
+					<head>
+						<?php
+						ViewTemplate::FrontHead($pagetitle);
+						?>
+					</head>
 
-				<body class="bg-light">
+					<body class="bg-light">
 
-					<?php
-					ViewTemplate::FrontHeader();
-					?>
+						<?php
+						ViewTemplate::FrontHeader();
+						?>
 
-					<?php
-					ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'vieworders' => 'Liste des commandes', 'vieworder' => $pagetitle]);
-					?>
+						<?php
+						ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'vieworders' => 'Liste des commandes', 'vieworder' => $pagetitle]);
+						?>
 
-					<!--order tracking start-->
-					<section class="order-tracking section-big-my-space">
-						<div class="container" >
-							<div class="row">
-								<div class="col-md-12">
-									<div id="msform">
-										<fieldset>
-											<div class="container p-0">
-												<div class="row shpping-block">
-													<div class="col-lg-8">
-														<div class="order-tracking-contain order-tracking-box">
-															<div class="tracking-group">
-																<div class="delevery-code">
-																	<h4>Commande #<?= intval($id) ?></h4>
+						<!--order tracking start-->
+						<section class="order-tracking section-big-my-space">
+							<div class="container" >
+								<div class="row">
+									<div class="col-md-12">
+										<div id="msform">
+											<fieldset>
+												<div class="container p-0">
+													<div class="row shpping-block">
+														<div class="col-lg-8">
+															<div class="order-tracking-contain order-tracking-box">
+																<div class="tracking-group">
+																	<div class="delevery-code">
+																		<h4>Commande #<?= intval($id) ?></h4>
+																	</div>
 																</div>
-															</div>
-															<div class="tracking-group pb-0">
-																<h4 class="tracking-title">my shopping product</h4>
-																<ul class="may-product">
-																	<?php
-																	$totalprice = 0;
-																	foreach ($orderdetail AS $key => $value)
-																	{
-																		$totalprice += $value['prix'] * $value['quantite'];
+																<div class="tracking-group pb-0">
+																	<h4 class="tracking-title">Liste des produits</h4>
+																	<ul class="may-product">
+																		<?php
+																		$totalprice = 0;
+																		foreach ($orderdetail AS $key => $value)
+																		{
+																			$totalprice += $value['prix'] * $value['quantite'];
 
-																		if (empty($value['photo']))
-																		{
-																			$value['photo'] = 'assets/images/nophoto.jpg';
-																		}
-																		else
-																		{
-																			$value['photo'] = 'attachments/products/' . $value['photo'];
+																			if (empty($value['photo']))
+																			{
+																				$value['photo'] = 'assets/images/nophoto.jpg';
+																			}
+																			else
+																			{
+																				$value['photo'] = 'attachments/products/' . $value['photo'];
+																			}
+
+																			require_once(DIR . '/model/ModelTrademark.php');
+																			$trademarks = new \Ecommerce\Model\ModelTrademark($config);
+																			$trademarks->set_id($value['id_marque']);
+																			$trademark = $trademarks->listTrademarkInfos();
+																			?>
+																			<li>
+																				<div class="media">
+																					<img src="<?= $value['photo'] ?>" class="img-fluid" alt="" />
+																					<div class="media-body">
+																						<h3><a href="index.php?do=viewproduct&amp;id=<?= $value['id_produit'] ?>"><?= $trademark['nom'] ?> - <?= $value['nom'] ?></a></h3>
+																						<h5>Prix à l'unité : <?= number_format($value['prix'], 2) ?> &euro;</h5>
+																						<h5>Quantité : <?= $value['quantite'] ?></h5>
+																						<br />
+																						<h4><?= number_format($value['prix'] * $value['quantite'], 2) ?> &euro;</h4>
+																					</div>
+																				</div>
+																			</li>
+																			<?php
 																		}
 																		?>
-																		<li>
-																			<div class="media">
-																				<img src="<?= $value['photo'] ?>" class="img-fluid" alt="" />
-																				<div class="media-body">
-																					<h3><a href="index.php?do=viewproduct&amp;id=<?= $value['id_produit'] ?>"><?= $value['nom'] ?></a></h3>
-																					<h5>Prix à l'unité : <?= number_format($value['prix'], 2) ?> &euro;</h5>
-																					<h5>Quantité : <?= $value['quantite'] ?></h5>
-																					<br />
-																					<h4><?= number_format($value['prix'] * $value['quantite'], 2) ?> &euro;</h4>
-																				</div>
-																			</div>
-																		</li>
-																		<?php
-																	}
-																	?>
+																	</ul>
+																</div>
+															</div>
+														</div>
+														<div class="col-lg-4">
+															<div class="order-tracking-sidebar order-tracking-box">
+																<ul class="cart_total">
+																	<li>
+																		subtotal : <span><?= number_format($totalprice, 2) ?> &euro;</span>
+																	</li>
+																	<li>
+																		shipping <span>free</span>
+																	</li>
+																	<li>
+																		<div class="total">
+																			total<span><?= number_format($totalprice, 2) ?> &euro;</span>
+																		</div>
+																	</li>
+																	<li class="pt-0">
+																		<div class="buttons">
+																			<a href="javascript:void(0)" class="btn btn-solid btn-sm btn-block mt-1">Faire une réclamation</a>
+																			<a href="javascript:void(0)" class="btn btn-solid btn-sm btn-block mt-1">Exporter ma facture</a>
+																		</div>
+																	</li>
 																</ul>
 															</div>
 														</div>
 													</div>
-													<div class="col-lg-4">
-														<div class="order-tracking-sidebar order-tracking-box">
-															<ul class="cart_total">
-																<li>
-																	subtotal : <span><?= number_format($totalprice, 2) ?> &euro;</span>
-																</li>
-																<li>
-																	shipping <span>free</span>
-																</li>
-																<li>
-																	<div class="total">
-																		total<span><?= number_format($totalprice, 2) ?> &euro;</span>
-																	</div>
-																</li>
-																<li class="pt-0">
-																	<div class="buttons">
-																		<a href="javascript:void(0)" class="btn btn-solid btn-sm btn-block mt-1">Faire une réclamation</a>
-																		<a href="javascript:void(0)" class="btn btn-solid btn-sm btn-block mt-1">Exporter ma facture</a>
-																	</div>
-																</li>
-															</ul>
-														</div>
-													</div>
 												</div>
-											</div>
-										</fieldset>
+											</fieldset>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					</section>
+						</section>
 
-					<?php
-					ViewTemplate::FrontFooter();
-					?>
+						<?php
+						ViewTemplate::FrontFooter();
+						?>
 
-					<!-- latest jquery-->
-					<script src="assets/js/jquery-3.5.1.min.js" ></script>
+						<!-- latest jquery-->
+						<script src="assets/js/jquery-3.5.1.min.js" ></script>
 
-					<!-- slick js-->
-					<script src="assets/js/slick.js"></script>
+						<!-- slick js-->
+						<script src="assets/js/slick.js"></script>
 
-					<!-- popper js-->
-					<script src="assets/js/popper.min.js" ></script>
-					<script src="assets/js/bootstrap-notify.min.js"></script>
+						<!-- popper js-->
+						<script src="assets/js/popper.min.js" ></script>
+						<script src="assets/js/bootstrap-notify.min.js"></script>
 
-					<!-- menu js-->
-					<script src="assets/js/menu.js"></script>
+						<!-- menu js-->
+						<script src="assets/js/menu.js"></script>
 
-					<!-- Bootstrap js-->
-					<script src="assets/js/bootstrap.js"></script>
+						<!-- Bootstrap js-->
+						<script src="assets/js/bootstrap.js"></script>
 
-					<!-- tool tip js -->
-					<script src="assets/js/tippy-popper.min.js"></script>
-					<script src="assets/js/tippy-bundle.iife.min.js"></script>
+						<!-- tool tip js -->
+						<script src="assets/js/tippy-popper.min.js"></script>
+						<script src="assets/js/tippy-bundle.iife.min.js"></script>
 
-					<!-- father icon -->
-					<script src="assets/js/feather.min.js"></script>
-					<script src="assets/js/feather-icon.js"></script>
+						<!-- father icon -->
+						<script src="assets/js/feather.min.js"></script>
+						<script src="assets/js/feather-icon.js"></script>
 
-					<!-- Theme js-->
-					<script src="assets/js/modal.js"></script>
-					<script src="assets/js/script.js" ></script>
-				</body>
-			</html>
-		<?php
+						<!-- Theme js-->
+						<script src="assets/js/modal.js"></script>
+						<script src="assets/js/script.js" ></script>
+					</body>
+				</html>
+			<?php
+		}
+		else
+		{
+			throw new Exception('Vous n\'êtes pas autorisé à afficher cette page.');
+		}
 	}
 }
 

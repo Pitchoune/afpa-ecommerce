@@ -85,7 +85,7 @@ class ModelOrderDetails extends Model
 	{
 		$db = $this->dbConnect();
 		$query = $db->prepare("
-			SELECT d.id_produit, d.prix, d.quantite, p.nom, p.photo
+			SELECT d.id_produit, d.prix, d.quantite, p.nom, p.photo, p.id_marque
 			FROM details_commande AS d
 				INNER JOIN produit AS p ON (p.id = d.id_produit)
 			WHERE d.id_commande = ?
