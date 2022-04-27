@@ -66,7 +66,7 @@ class ViewTemplate
 
 		if (isset($listcategories) AND count($listcategories) > 10)
 		{
-			for ($i = 10; $i < 10000; $i++)
+			for ($i = 10; $i < count($listcategories); $i++)
 			{
 				$category2 .= '<li> <a href="index.php?do=viewcategory&amp;id=' . $listcategories[$i]['id'] . '"><img src="assets/images/layout-1/nav-img/' . ($i + 1) . '.png" alt="category-product"> ' . $listcategories[$i]['nom'] .'</a></li>';
 			}
