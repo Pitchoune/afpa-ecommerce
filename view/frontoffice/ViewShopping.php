@@ -211,6 +211,28 @@ class ViewShopping
 															<li>Total <span class="count total-cart"></span></li>
 														</ul>
 													</div>
+													<div class="delivery-box">
+														<div class="title-box">
+															<div>Livraison</div>
+														</div>
+														<div class="delivery-list">
+															<select name="deliver" id="deliver">
+																<option value="0" selected disabled>Sélectionnez un mode de livraison</option>
+																<?php
+																require_once(DIR . '/model/ModelDeliver.php');
+																$delivers = new \Ecommerce\Model\ModelDeliver($config);
+																$deliverlist = $delivers->listAllDelivers();
+
+																foreach ($deliverlist AS $key => $value)
+																{
+																	?>
+																	<option value="<?= $value['id'] ?>"><?= $value['nom'] ?></option>
+																	<?php
+																}
+																?>
+															</select>
+														</div>
+													</div>
 													<div class="payment-box">
 														<div class="upper-box">
 															<div class="payment-options">
@@ -287,7 +309,7 @@ class ViewShopping
 	 *
 	 * @return void
 	 */
-	public static function PlaceOrder($price)
+	public static function PlaceOrder($price, $deliver)
 	{
 		if ($_SESSION['user']['id'])
 		{
@@ -324,8 +346,8 @@ class ViewShopping
 								<div class="col-md-11">
 									<div class=" checkout-box">
 										<div class="checkout-header">
-											<h2>checkout your product</h2>
-											<h4>Fill all form field to go to next step</h4>
+											<h2>Paiement de votre commande</h2>
+											<h4>Veuillez compléter tous les champs pour terminer votre achat.</h4>
 										</div>
 										<div class="checkout-body ">
 											<form class="checkout-form" action="index.php?do=paymentprocess" method="post" id="payment_form">
@@ -373,6 +395,7 @@ class ViewShopping
 													<div class="hiddeninput"></div>
 													<input type="hidden" name="email" value="<?= $customer['mail'] ?>" />
 													<input type="hidden" name="price" value="<?= $price ?>" />
+													<input type="hidden" name="deliver" value="<?= $deliver ?>" />
 													<input type="submit" class="btn btn-normal sendbutton" value="Payer" />
 												</div>
 											</form>

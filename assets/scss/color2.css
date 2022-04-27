@@ -206,7 +206,7 @@
 16. Header CSS start
 17. Media Banner start
 18. Footer start
-19.  Slider start
+19. Slider start
 20. Title css
 21. Tab-product css
 22. Newsleatter css
@@ -13400,6 +13400,22 @@ ul.sosiyal.sosiyal-inverse li:hover {
   display: block;
 }
 
+.delivery-box {
+  position: relative;
+  margin-bottom: 50px;
+  border-bottom: 1px solid #dddddd;
+}
+.delivery-box .title-box {
+  position: relative;
+  padding-bottom: 25px;
+  color: #444444;
+  font-weight: 600;
+  font-size: 22px;
+}
+.delivery-box .delivery-list {
+  margin-bottom: 20px;
+}
+
 .payment-box {
   position: relative;
 }
@@ -17724,6 +17740,16 @@ table.invoice-table th {
 }
 .order-tracking #progressbar li.active span {
   color: #00baf2;
+}
+
+.predictivesearch {
+  position: absolute;
+  z-index: 2;
+}
+
+.list-group-item a {
+  color: #444444;
+  font-size: 14px;
 }
 
 /*=====================

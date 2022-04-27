@@ -29,11 +29,11 @@ function viewCheckout()
  *
  * @return void
  */
-function placeOrder($price)
+function placeOrder($price, $deliver)
 {
 	// We generate HTML code from the view
 	require_once(DIR . '/view/frontoffice/ViewShopping.php');
-	ViewShopping::PlaceOrder($price);
+	ViewShopping::PlaceOrder($price, $deliver);
 }
 
 /**
@@ -47,7 +47,7 @@ function placeOrder($price)
  *
  * @return void
  */
-function paymentProcess($name, $email, $price, $token, $item)
+function paymentProcess($name, $email, $price, $deliver, $token, $item)
 {
 	global $config;
 
@@ -74,7 +74,7 @@ function paymentProcess($name, $email, $price, $token, $item)
 		$orders->set_status('Payé');
 		$orders->set_mode('');
 		$orders->set_customer($_SESSION['user']['id']);
-		$orders->set_deliver(3);
+		$orders->set_deliver($deliver);
 		$orderid = $orders->saveNewOrder();
 
 		if ($orderid > 0)

@@ -12,7 +12,7 @@ class Utils
 	 *
 	 * @param array $extensions Array of allowed extensions file for the uploading media.
 	 * @param file $fichier The uploaded file.
-	 * @param string $module The module to upload the file. Defines the final subdirectory into the upload folder.
+	 * @param string $module The module to upload the file. Defines the final subdirectory into the upload folder. Valid values: 'delivers', 'products', 'trademarks'.
 	 *
 	 * @return mixed If upload is correctly done, returns the file name to save into the database.
 	 */
@@ -22,6 +22,8 @@ class Utils
 		$file_size = $fichier['size'];
 		$file_tmp = $fichier['tmp_name'];
 		$file_ext = strtolower(pathinfo($fichier['name'], PATHINFO_EXTENSION));
+
+		// Upload is via ./admin only, we're storing attachments at ./, we need to go 1 directory back
 		$path = str_replace('/admin/..', '', DIR);
 
 		$pattern = "/^[\p{L}\w\s\-\.]{3,}$/";
@@ -45,7 +47,7 @@ class Utils
 
 		$file_name = substr(md5($fichier['name']), 10) . '.' . $file_ext;
 
-		while (file_exists($path . DIRECTORY_SEPARATOR . 'attachments' . DIRECTORY_SEPARATOR . $file_name))
+		while (file_exists($path . DIRECTORY_SEPARATOR . 'attachments' . DIRECTORY_SEPARATOR . $module . DIRECTORY_SEPARATOR . $file_name))
 		{
 			$file_name = substr(md5($file_name), 10) . '.' . $file_ext;
 		}

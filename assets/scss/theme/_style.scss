@@ -26,7 +26,7 @@
 16. Header CSS start
 17. Media Banner start
 18. Footer start
-19.  Slider start
+19. Slider start
 20. Title css
 21. Tab-product css
 22. Newsleatter css
@@ -16805,6 +16805,24 @@ ul.sosiyal {
   }
 }
 
+.delivery-box {
+  position: relative;
+  margin-bottom: 50px;
+  border-bottom: 1px solid $light-border;
+
+  .title-box {
+    position: relative;
+    padding-bottom: 25px;
+    color: $dark;
+    font-weight: 600;
+    font-size: 22px;
+  }
+
+  .delivery-list {
+    margin-bottom: 20px;
+  }
+}
+
 .payment-box {
   position: relative;
 
@@ -22309,4 +22327,14 @@ table {
       }
     }
   }
+}
+
+.predictivesearch {
+  position: absolute;
+  z-index: 2;
+}
+
+.list-group-item a {
+  color: $dark;
+  font-size: 14px;
 }

@@ -128,7 +128,7 @@ class ViewTemplate
 											</div>
 										</div>
 									</form>
-									<ul class="list-group hide"></ul>
+									<ul class="list-group predictivesearch hide"></ul>
 								</div>
 							</div>
 							<div class="header-right">

@@ -7,11 +7,11 @@
  ----------------------------------------------------------------------------------- */
 // 01. Slick slider
 // 02. header js
-// 03.footer js
+// 03. footer js
 // 04. Image to background js
-// 05 toggle nav
-// 06 navbar mobile nav
-// 07 menu js
+// 05  toggle nav
+// 06  navbar mobile nav
+// 07  menu js
 // 08. Product page
 // 09. category page
 // 10. Product page Quantity Counter
@@ -3158,6 +3158,9 @@ function displayCart()
 
     // List of products in checkout
     $('.qty').html('<li>Vous n\'avez pas d\'articles dans votre panier, vous ne pouvez pas procéder au paiement.</li>');
+
+    // Deliver list in checkout
+    $('#deliver').attr('disabled', true);
   }
 }
 
@@ -3225,4 +3228,12 @@ $(document).ready(function()
       $('.list-group').addClass('hide');
     }
   });
+  $(document).click(function()
+  {
+    if (!$('.autosuggest').is(":hover"))
+    {
+      $('.list-group').html('');
+      $('.list-group').addClass('hide');
+    }
+  })
 });
