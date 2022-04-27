@@ -63,7 +63,7 @@ function InsertDeliver($name)
 		if (Utils::cando(21))
 		{
 			// Do the file upload
-			if ($_FILES['file']['error'] > 0 AND $_FILES['file']['error'] != 4)
+			if (($_FILES['file']['error'] > 0 AND $_FILES['file']['error'] != 4) OR $_FILES['file']['error'] == 0)
 			{
 				// Specify the allowed extensions list
 				$extensions = ['.apng', '.avif', 'gif', 'jpeg', 'jpg', 'jfif', 'pjpeg', 'pjp', 'png', 'svg', 'webp', 'bmp', 'ico', 'cur', 'tif', 'tiff'];
@@ -160,7 +160,7 @@ function UpdateDeliver($id, $name)
 		if (Utils::cando(21))
 		{
 			// Do the file upload
-			if ($_FILES['file']['error'] > 0 AND $_FILES['file']['error'] != 4)
+			if (($_FILES['file']['error'] > 0 AND $_FILES['file']['error'] != 4) OR $_FILES['file']['error'] == 0)
 			{
 				// Delete the previous file
 				$deliverinfo = $delivers->listDeliverInfos($id);

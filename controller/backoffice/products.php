@@ -109,7 +109,7 @@ function InsertProduct($name, $ref, $description, $quantity, $price, $category, 
 		if (Utils::cando(16))
 		{
 			// Do the file upload
-			if ($_FILES['file']['error'] > 0 AND $_FILES['file']['error'] != 4)
+			if (($_FILES['file']['error'] > 0 AND $_FILES['file']['error'] != 4) OR $_FILES['file']['error'] == 0)
 			{
 				// Specify the allowed extensions list
 				$extensions = ['.apng', '.avif', 'gif', 'jpeg', 'jpg', 'jfif', 'pjpeg', 'pjp', 'png', 'svg', 'webp', 'bmp', 'ico', 'cur', 'tif', 'tiff'];
@@ -251,7 +251,7 @@ function UpdateProduct($id, $name, $ref, $description, $quantity, $price, $categ
 		if (Utils::cando(16))
 		{
 			// Do the file upload
-			if ($_FILES['file']['error'] >= 0 AND $_FILES['file']['error'] != 4)
+			if (($_FILES['file']['error'] > 0 AND $_FILES['file']['error'] != 4) OR $_FILES['file']['error'] == 0)
 			{
 				// Specify the allowed extensions list
 				$extensions = ['.apng', '.avif', 'gif', 'jpeg', 'jpg', 'jfif', 'pjpeg', 'pjp', 'png', 'svg', 'webp', 'bmp', 'ico', 'cur', 'tif', 'tiff'];
