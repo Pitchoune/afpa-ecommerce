@@ -53,7 +53,7 @@ function paymentProcess($name, $email, $price, $token, $item)
 
 	// Call stripe class
 	require_once(DIR . '/controller/stripe.php');
-	$stripe = new \Ecommerce\Controller\Stripe();
+	$stripe = new \Ecommerce\Stripe\Stripe();
 
 	// Set Stripe API key
 	$stripe->set_apikey($config['Stripe']['privatekey']);

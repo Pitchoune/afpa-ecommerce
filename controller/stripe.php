@@ -1,6 +1,6 @@
 <?php
 
-namespace Ecommerce\Controller;
+namespace Ecommerce\Stripe;
 
 /**
  * Class to handle every part of Stripe payment system.
@@ -32,7 +32,7 @@ class Stripe
 	 *
 	 * @return stdClass Decoded-json response from Stripe API.
 	 */
-	public function api(string $endpoint, array $data = null): stdClass
+	public function api(string $endpoint, array $data = null): ?\stdClass
 	{
 		// Init cURL connection
 		$ch = curl_init();
@@ -66,7 +66,7 @@ class Stripe
 		// Handle error in the response
 		if (property_exists($response, 'error'))
 		{
-			throw new Exception($response->error->message);
+			throw new \Exception($response->error->message);
 		}
 
 		// Return the final answer if there is no error.

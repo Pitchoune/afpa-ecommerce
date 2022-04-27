@@ -419,7 +419,7 @@ class ViewShopping
 					<script src="https://js.stripe.com/v2/"></script>
 
 					<script>
-						Stripe.setPublishableKey($config['Stripe']['publickey']);
+						Stripe.setPublishableKey('<?= $config['Stripe']['publickey'] ?>');
 
 						$('#payment_form').submit(function (e)
 						{
