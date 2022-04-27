@@ -3210,7 +3210,7 @@ $(document).ready(function()
           let new_ul = [];
 
           data.forEach(obj => {
-            new_ul.push(`<li class="list-group-item">${obj.nom}</li>`);
+            new_ul.push(`<li class="list-group-item"><a href="index.php?do=viewproduct&id=${obj.id}">${obj.nom}</a></li>`);
           })
 
           $('.list-group').html(new_ul.join(""));
