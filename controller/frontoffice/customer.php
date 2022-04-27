@@ -480,7 +480,8 @@ function savePassword($id, $password = '', $newpassword, $confirmpassword, $toke
 
 	require_once(DIR . '/model/ModelCustomer.php');
 	$customers = new \Ecommerce\Model\ModelCustomer($config);
-	$customers->set_id($id);
+	$customers->set_id(intval($id));
+	$customer = $customers->getCustomerInfosFromId();
 
 	if (!$token)
 	{
@@ -494,6 +495,14 @@ function savePassword($id, $password = '', $newpassword, $confirmpassword, $toke
 		{
 			throw new Exception('Le mot de passe actuel n\'est pas valide. Il doit contenir des caractères minuscules, majuscules, des chiffres et des caractères spéciaux, sur 8 caractères de long.');
 		}
+
+		$checkpassword = password_verify($password, $customer['pass']);
+	}
+	else
+	{
+		// If there is a token sumbitted (forgot password), there is no current password field
+		// We can't verify the current password, setting it to true for this case.
+		$checkpassword = true;
 	}
 
 	// Verify new password
@@ -518,55 +527,46 @@ function savePassword($id, $password = '', $newpassword, $confirmpassword, $toke
 		throw new Exception('La confirmation du mot de passe n\'est pas valide. Il doit contenir des caractères minuscules, majuscules, des chiffres et des caractères spéciaux, sur 8 caractères de long.');
 	}
 
-	$customer = $customers->getCustomerInfosFromId();
-
-	if (!$token)
+	// Change password with the original password
+	if ($checkpassword)
 	{
-		// Change password with the original password
-		if (password_verify($password, $customer['pass']))
+		if ($newpassword === $confirmpassword)
 		{
-			if ($newpassword === $confirmpassword)
+			if (!password_verify($newpassword, $customer['pass']))
 			{
-				if (!password_verify($newpassword, $customer['pass']))
+				// All checks are OK - save the hashed password into the database
+				$hashedpassword = password_hash($newpassword, PASSWORD_DEFAULT);
+				$customers->set_password($hashedpassword);
+
+				if ($customers->saveNewPassword())
 				{
-					// All checks are OK - save the hashed password into the database
-					$hashedpassword = password_hash($newpassword, PASSWORD_DEFAULT);
-					$customers->set_password($hashedpassword);
-
-					if ($customers->saveNewPassword())
+					// Delete the token
+					if ($token)
 					{
-						// Delete the token
-						if ($token)
-						{
-							$customers->set_token($token);
-							$customers->deleteCustomerToken();
-						}
+						$customers->set_token($token);
+						$customers->deleteCustomerToken();
+					}
 
-						$_SESSION['password']['edit'] = 1;
-					}
-					else
-					{
-						throw new Exception('La modification du mot de passe a échoué. Veuillez recommencer. Si le problème persiste, veuillez contacter l\'éqauipe.');
-					}
+					$_SESSION['password']['edit'] = 1;
 				}
 				else
 				{
-					throw new Exception('Le nouveau mot de passe ne peut pas être l\'ancien mot de passe. Veuillez recommencer.');
+					throw new Exception('La modification du mot de passe a échoué. Veuillez recommencer. Si le problème persiste, veuillez contacter l\'éqauipe.');
 				}
 			}
 			else
 			{
-				throw new Exception('Le nouveau mot de passe ne conrrespond pas à la confirmation du nouveau mot de passe. Veuillez recommencer.');
+				throw new Exception('Le nouveau mot de passe ne peut pas être l\'ancien mot de passe. Veuillez recommencer.');
 			}
 		}
 		else
 		{
-			throw new Exception('Le mot de passe actuel ne correpond pas. Veuillez recommencer.');
+			throw new Exception('Le nouveau mot de passe ne conrrespond pas à la confirmation du nouveau mot de passe. Veuillez recommencer.');
 		}
 	}
 	else
 	{
-		// Change password without the original password
+		throw new Exception('Le mot de passe actuel ne correpond pas. Veuillez recommencer.');
 	}
 
 	header('Location: index.php?do=editpassword');
@@ -615,8 +615,8 @@ function sendPassword($email)
 	if ($customer)
 	{
 		// User found, generate a token
-		// Define the length to 25 as the final token will have the defined length x 2
-		$token = bin2hex(random_bytes(25));
+		// Define the length to 50 as the final token will have the defined length x 2
+		$token = bin2hex(random_bytes(50));
 		$customers->set_token($token);
 		$customers->set_id($customer['id']);
 
@@ -688,7 +688,7 @@ function doDeleteProfile($id, $deletion)
 
 	if ($deletion)
 	{
-		// Kill the session
+		// Kill the session - kill also the admin session too
 		session_destroy();
 
 		// Create a new empty session to store the notify.
@@ -712,14 +712,36 @@ function doDeleteProfile($id, $deletion)
 	header('Location: index.php');
 }
 
+/**
+ * Displays the HTML code for the view orders page.
+ *
+ * @retrun void
+ */
 function viewOrders()
 {
+	if (!$_SESSION['user']['loggedin'])
+	{
+		$_SESSION['nonallowed'] = 1;
+		header('Location: index.php');
+	}
+
 	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
 	ViewCustomer::DisplayOrders();
 }
 
+/**
+ * Display the HTML code for the specific order page.
+ *
+ * @return void
+ */
 function viewOrder($id)
 {
+	if (!$_SESSION['user']['loggedin'])
+	{
+		$_SESSION['nonallowed'] = 1;
+		header('Location: index.php');
+	}
+
 	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
 	ViewCustomer::DisplayOrder($id);
 }

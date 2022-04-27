@@ -45,16 +45,16 @@ class ViewCustomer
 									<form class="theme-form" action="index.php?do=doregister" method="post">
 										<div class="row g-3">
 											<div class="col-md-12 form-group">
-												<label for="email">Prénom</label>
-												<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du prénom n'est pas valide." placeholder="Prénom" />
-												<small id="lastnameHelp" class="form-text text-muted"></small>
+												<label for="firstname">Prénom</label>
+												<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="lastname" data-message="Le format du prénom n'est pas valide." placeholder="Prénom" />
+												<small id="firstnameHelp" class="form-text text-muted"></small>
 											</div>
 										</div>
 										<div class="row g-3">
 											<div class="col-md-12 form-group">
-												<label for="review">Nom</label>
-												<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du nom n'est pas valide." placeholder="Nom" />
-												<small id="firstnameHelp" class="form-text text-muted"></small>
+												<label for="lastname">Nom</label>
+												<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du nom n'est pas valide." placeholder="Nom" />
+												<small id="lastnameHelp" class="form-text text-muted"></small>
 											</div>
 										</div>
 										<div class="row g-3">
@@ -66,15 +66,15 @@ class ViewCustomer
 										</div>
 										<div class="row g-3">
 											<div class="col-md-12 form-group">
-												<label>Mot de passe</label>
+												<label for="password">Mot de passe</label>
 												<input type="password" class="form-control" id="password" name="password" aria-describedby="password" data-message="Le format du mot de passe n'est pas valide." placeholder="Insérez un mot de passe" autocomplete="off" />
 												<small id="passwordHelp" class="form-text text-muted"></small>
 											</div>
 										</div>
 										<div class="row g-3">
 											<div class="col-md-12 form-group">
-												<label>Confirmation du mot de passe</label>
-												<input type="password" class="form-control" name="passwordconfirm" placeholder="Confirmez le mot de passe" />
+												<label for="passwordconfirm">Confirmation du mot de passe</label>
+												<input type="password" class="form-control" id="passwordconfirm" name="passwordconfirm" placeholder="Confirmez le mot de passe" />
 											</div>
 											<div class="col-md-12 form-group"><input type="submit" id="valider" class="btn btn-normal" value="S'inscrire" /></div>
 										</div>
@@ -216,6 +216,7 @@ class ViewCustomer
 				<!-- Theme js-->
 				<script src="assets/js/modal.js"></script>
 				<script src="assets/js/script.js" ></script>
+
 				<?php
 				ViewTemplate::FrontFormValidation('valider', 2, 1);
 				?>
@@ -424,16 +425,16 @@ class ViewCustomer
 											<div class="row">
 												<div class="col-md-6">
 													<div class="form-group">
-														<label for="lastname">Prénom</label>
-														<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du prénom n'est pas valide." placeholder="Insérez votre prénom"<?= ($data['prenom'] ? ' value="' . $data["prenom"] . '"' : '') ?> required />
-														<small id="lastnameHelp" class="form-text text-muted"></small>
+														<label for="firstname">Prénom</label>
+														<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du prénom n'est pas valide." placeholder="Insérez votre prénom"<?= ($data['prenom'] ? ' value="' . $data["prenom"] . '"' : '') ?> required />
+														<small id="firstnameHelp" class="form-text text-muted"></small>
 													</div>
 												</div>
 												<div class="col-md-6">
 													<div class="form-group">
-														<label for="firstname">Nom</label>
-														<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du nom n'est pas valide." placeholder="Insérez votre nom"<?= ($data['nom'] ? ' value="' . $data["nom"] . '"' : '') ?> required />
-														<small id="firstnameHelp" class="form-text text-muted"></small>
+														<label for="lastname">Nom</label>
+														<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du nom n'est pas valide." placeholder="Insérez votre nom"<?= ($data['nom'] ? ' value="' . $data["nom"] . '"' : '') ?> required />
+														<small id="lastnameHelp" class="form-text text-muted"></small>
 													</div>
 												</div>
 												<div class="col-md-6">
@@ -676,7 +677,16 @@ class ViewCustomer
 						unset($_SESSION['password']['edit']);
 					}
 
-					ViewTemplate::FrontFormValidation('valider', 3, 1);
+					if ($token)
+					{
+						$removeitem = 4;
+					}
+					else
+					{
+						$removeitem = 3;
+					}
+
+					ViewTemplate::FrontFormValidation('valider', $removeitem, 1);
 					?>
 				</body>
 			</html>
@@ -1089,7 +1099,7 @@ class ViewCustomer
 					?>
 
 					<!--order tracking start-->
-					<section class="order-tracking section-big-my-space  ">
+					<section class="order-tracking section-big-my-space">
 						<div class="container" >
 							<div class="row">
 								<div class="col-md-12">
@@ -1101,7 +1111,7 @@ class ViewCustomer
 														<div class="order-tracking-contain order-tracking-box">
 															<div class="tracking-group">
 																<div class="delevery-code">
-																	<h4>Deliver to: 364525</h4>
+																	<h4>Commande #<?= intval($id) ?></h4>
 																</div>
 															</div>
 															<div class="tracking-group pb-0">

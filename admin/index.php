@@ -264,6 +264,10 @@ try
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
 			ViewCustomerProfile($id);
 			break;
+		case 'viewcustomerorderdetails':
+			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
+			ViewCustomerOrderDetails($id);
+			break;
 	}
 }
 catch(Exception $e)

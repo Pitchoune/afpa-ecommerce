@@ -140,6 +140,27 @@ class ModelOrder extends Model
 	}
 
 	/**
+	 * Gets the orders for the given customer.
+	 *
+	 * @return Returns the data for the customer orders.
+	 */
+	public function getFiveLastCustomerOrders()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT *
+			FROM commande
+			WHERE id_client = ?
+			ORDER BY id DESC
+			LIMIT 0, 5
+		");
+		$query->bindParam(1, $this->id_customer, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
 	 * Gets some of the order details from specific order.
 	 *
 	 * @return Returns the data for the specific customer order.

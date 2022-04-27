@@ -49,6 +49,9 @@ class ViewTemplate
 		<link rel="stylesheet" type="text/css" href="../assets/css/slick.css">
 		<link rel="stylesheet" type="text/css" href="../assets/css/slick-theme.css">
 
+		<!-- jsgrid css-->
+		<link rel="stylesheet" type="text/css" href="../assets/css/jsgrid.css">
+
 		<!-- tablegrid css-->
 		<link rel="stylesheet" type="text/css" href="../assets/css/tablegrid.css">
 

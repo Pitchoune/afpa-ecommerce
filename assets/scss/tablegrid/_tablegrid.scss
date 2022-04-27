@@ -1,0 +1,157 @@
+.tablegrid {
+	position: relative;
+	overflow: hidden;
+	font-size: 1em;
+	//Instead of the line below you could use @include box-sizing($bs)
+	box-sizing: border-box;
+	* {
+		//Instead of the line below you could use @include box-sizing($bs)
+		box-sizing: border-box;
+	}
+	:after {
+		//Instead of the line below you could use @include box-sizing($bs)
+		box-sizing: border-box;
+	}
+	:before {
+		//Instead of the line below you could use @include box-sizing($bs)
+		box-sizing: border-box;
+	}
+	input {
+		font-size: 1em;
+	}
+	select {
+		font-size: 1em;
+	}
+	textarea {
+		font-size: 1em;
+	}
+}
+.tablegrid-grid-header {
+	overflow-x: hidden;
+	overflow-y: scroll;
+	//Instead of the line below you could use @include user-select($select)
+	user-select: none;
+}
+.tablegrid-grid-body {
+	overflow-x: auto;
+	overflow-y: scroll;
+}
+.tablegrid-table {
+	width: 100%;
+	table-layout: fixed;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+.tablegrid-cell {
+	padding: .5em;
+}
+.tablegrid-header-cell {
+	//Instead of the line below you could use @include box-sizing($bs)
+	box-sizing: border-box;
+	padding: .5em;
+}
+.tablegrid-сell {
+	//Instead of the line below you could use @include box-sizing($bs)
+	box-sizing: border-box;
+}
+.tablegrid-align-left {
+	text-align: left;
+}
+.tablegrid-align-center {
+	text-align: center;
+	input {
+		text-align: center;
+	}
+	select {
+		text-align: center;
+	}
+	textarea {
+		text-align: center;
+	}
+}
+.tablegrid-align-right {
+	text-align: right;
+	input {
+		text-align: right;
+	}
+	select {
+		text-align: right;
+	}
+	textarea {
+		text-align: right;
+	}
+}
+.tablegrid-edit-row {
+	input {
+		width: 100%;
+		padding: .3em .5em;
+	}
+	select {
+		width: 100%;
+		padding: .3em .5em;
+	}
+	textarea {
+		width: 100%;
+		padding: .3em .5em;
+	}
+	input[type=checkbox] {
+		width: auto;
+	}
+}
+.tablegrid-filter-row {
+	input {
+		width: 100%;
+		padding: .3em .5em;
+	}
+	select {
+		width: 100%;
+		padding: .3em .5em;
+	}
+	textarea {
+		width: 100%;
+		padding: .3em .5em;
+	}
+	input[type=checkbox] {
+		width: auto;
+	}
+}
+.tablegrid-insert-row {
+	input {
+		width: 100%;
+		padding: .3em .5em;
+	}
+	select {
+		width: 100%;
+		padding: .3em .5em;
+	}
+	textarea {
+		width: 100%;
+		padding: .3em .5em;
+	}
+	input[type=checkbox] {
+		width: auto;
+	}
+}
+.tablegrid-header-sort {
+	cursor: pointer;
+}
+.tablegrid-pager {
+	padding: .5em 0;
+}
+.tablegrid-pager-nav-button {
+	padding: .2em .6em;
+}
+.tablegrid-pager-nav-inactive-button {
+	display: none;
+	pointer-events: none;
+}
+.tablegrid-pager-page {
+	padding: .2em .6em;
+}
+.tablegrid-selected-row .tablegrid-cell {
+	cursor: pointer;
+}
+.tablegrid-nodata-row .tablegrid-cell {
+	padding: .5em 0;
+	text-align: center;
+}

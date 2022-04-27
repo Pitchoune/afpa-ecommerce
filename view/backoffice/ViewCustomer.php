@@ -456,7 +456,7 @@ class ViewCustomer
 
 						</div>
 						<!-- latest jquery-->
-						<script src="../assets/js/jquery-3.3.1.min.js"></script>
+						<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
 						<!-- Bootstrap js-->
 						<script src="../assets/js/popper.min.js"></script>
@@ -597,6 +597,22 @@ class ViewCustomer
 																	</div>
 																</div>
 															</div>
+															<div class="media">
+																<div class="media-body">
+																	<h6>Téléphone de contact</h6>
+																	<div>
+																		<?= $data['tel'] ?>
+																	</div>
+																</div>
+															</div>
+															<div class="media">
+																<div class="media-body">
+																	<h6>Nombre de commandes effectuées</h6>
+																	<div>
+																		<?= $data['nborders'] ?>
+																	</div>
+																</div>
+															</div>
 														</div>
 													</div>
 												</div>
@@ -605,27 +621,75 @@ class ViewCustomer
 												<div class="card tab2-card">
 													<div class="card-body">
 														<div class="tab-pane fade show active" id="top-profile" role="tabpanel" aria-labelledby="top-profile-tab">
-															<h5 class="f-w-600">Profil</h5>
 															<div class="table-responsive profile-table">
 																<table class="table table-responsive">
 																	<tbody>
-																	<tr>
-																		<td>Téléphone de contact :</td>
-																		<td><?= $data['tel'] ?></td>
-																	</tr>
-																	<tr>
-																		<td>Nombre de commandes effectuées :</td>
-																		<td><?= $data['nborders'] ?></td>
-																	</tr>
 																	<tr>
 																		<td>Liste des 5 dernières commandes effectuées :</td>
 																	</tr>
 																	<tr>
 																		<?php
-																		if ($data['nborders'] > 0)
+																		if (intval($data['nborders']) > 0)
 																		{
 																			?>
-																			Traitement de la liste des commandes
+																			<td>
+																				<div class="table-responsive">
+																					<div class="tablegrid">
+																						<div class="tablegrid-grid-header">
+																							<table class="tablegrid-table">
+																								<thead>
+																									<tr class="tablegrid-header-row">
+																										<th class="tablegrid-header-cell" style="width: 25px">Commande</th>
+																										<th class="tablegrid-header-cell" style="width: 25px">Prix</th>
+																										<th class="tablegrid-header-cell" style="width: 25px">Détails</th>
+																										<th class="tablegrid-header-cell" style="width: 25px">État</th>
+																										<th class="tablegrid-header-cell tablegrid-control-field tablegrid-align-center" style="width: 25px">Actions</th>
+																									</tr>
+																								</thead>
+																							</table>
+																						</div>
+																						<div class="tablegrid-grid-body">
+																							<table class="tablegrid-table">
+																								<tbody>
+																								<?php
+																								$listorders = $orders->getFiveLastCustomerOrders();
+
+																								foreach ($listorders AS $key => $value)
+																								{
+																									require_once(DIR . '/model/ModelOrderDetails.php');
+																									$orderdetails = new \Ecommerce\Model\ModelOrderDetails($config);
+																									$orderdetails->set_order($value['id']);
+																									$orderdetail = $orderdetails->getOrderDetails();
+
+																									$totalorder = 0;
+																									$totalquantity = 0;
+
+																									foreach ($orderdetail AS $detail => $content)
+																									{
+																										$totalorder += ($content['quantite'] * $content['prix']);
+																										$totalquantity += $content['quantite'];
+																									}
+
+																									?>
+																									<tr class="<?= (($quantity++ % 2) == 0 ? 'tablegrid-row' : 'tablegrid-alt-row') ?>">
+																										<td class="tablegrid-cell" style="width: 25px">#<?= $value['id'] ?></td>
+																										<td class="tablegrid-cell" style="width: 25px"><?= number_format($totalorder, 2) ?> &euro;</td>
+																										<td class="tablegrid-cell" style="width: 25px">Date de la commande : <?= $value['date'] ?><br />Quantité : <?= $totalquantity ?></td>
+																										<td class="tablegrid-cell" style="width: 25px"><?= $value['etat'] ?></td>
+																										<td class="tablegrid-cell tablegrid-control-field tablegrid-align-center" style="width: 25px">
+																											<a class="tablegrid-button tablegrid-search-button" type="button" title="Voir les détails de la commande" href="index.php?do=viewcustomerorderdetails&amp;id=<?= $value['id'] ?>"></a>
+																											<a class="tablegrid-button tablegrid-edit-button" type="button" title="Modifier l'état de la commande" href="index.php?do=editcustomerorderdetails&amp;id=<?= $value['id'] ?>"></a>
+																										</td>
+																									</tr>
+																									<?php
+																								}
+																								?>
+																								</tbody>
+																							</table>
+																						</div>
+																					</div>
+																				</div>
+																			</td>
 																			<?php
 																		}
 																		else
@@ -639,6 +703,9 @@ class ViewCustomer
 																	</tbody>
 																</table>
 															</div>
+														</div>
+														<div class="btn-popup pull-right">
+															<a href="index.php?do=viewcustomerallorders&id=<?= $data['id'] ?> type="button" class="btn btn-secondary">Afficher toutes les commandes</a>
 														</div>
 													</div>
 												</div>
@@ -659,7 +726,255 @@ class ViewCustomer
 
 						</div>
 						<!-- latest jquery-->
-						<script src="../assets/js/jquery-3.3.1.min.js"></script>
+						<script src="../assets/js/jquery-3.5.1.min.js"></script>
+
+						<!-- Bootstrap js-->
+						<script src="../assets/js/popper.min.js"></script>
+						<script src="../assets/js/bootstrap.js"></script>
+
+						<!-- feather icon js-->
+						<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
+						<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
+
+						<!-- Sidebar jquery-->
+						<script src="../assets/js/sidebar-menu.js"></script>
+						<script src="../assets/js/slick.js"></script>
+
+						<!--script admin-->
+						<script src="../assets/js/admin-script.js"></script>
+					</body>
+				</html>
+			<?php
+			}
+		}
+		else
+		{
+			throw new Exception('Vous n\'êtes pas autorisé à consulter le profil des clients.');
+		}
+	}
+
+	public static function ViewOrderDetails($id)
+	{
+		if (Utils::cando(32))
+		{
+			global $config;
+
+			$pagetitle = 'Gestion des clients';
+
+			// Grab an external value and add it into the data array filled above
+			require_once(DIR . '/model/ModelOrder.php');
+			$orders = new \Ecommerce\Model\ModelOrder($config);
+			$orders->set_id($id);
+
+			$data = $orders->getOrderDetails();
+
+			$navtitle = 'Détails de la commande';
+
+			if ($data)
+			{
+				// Get customer informations
+				require_once(DIR . '/model/ModelCustomer.php');
+				$customers = new \Ecommerce\Model\ModelCustomer($config);
+				$customers->set_id($data['id_client']);
+				$customer = $customers->getCustomerInfosFromId();
+
+				$navbits = [
+					'index.php?do=listcustomers' => $pagetitle,
+					'' => $navtitle
+				];
+
+				?>
+				<!DOCTYPE html>
+				<html>
+					<head>
+						<?php
+						ViewTemplate::BackHead($pagetitle);
+						?>
+					</head>
+
+					<body>
+						<div class="page-wrapper">
+
+							<!-- Page Header Start-->
+							<?php
+							ViewTemplate::BackHeader();
+							?>
+							<!-- Page Header Ends -->
+
+							<!-- Page Body Start-->
+							<div class="page-body-wrapper">
+
+								<!-- Page Sidebar Start-->
+								<?php
+								ViewTemplate::Sidebar();
+								?>
+								<!-- Page Sidebar Ends-->
+
+								<div class="page-body">
+
+									<!-- Container-fluid starts-->
+									<?php
+									ViewTemplate::Breadcrumb($pagetitle, $navbits);
+									?>
+									<!-- Container-fluid ends-->
+
+									<div class="container-fluid">
+										<div class="row">
+											<div class="col-xl-8">
+												<div class="card">
+													<div class="card-header">
+														<h5>Commande #<?= $data['id'] ?></h5>
+													</div>
+													<div class="card-body">
+														<div class="row">
+															<div class="col-xl-6">
+																<h5 class="f-w-600 pb-3">Détails généraux</h5>
+																<div class="table-responsive profile-table">
+																	<table class="table table-responsive">
+																		<tbody>
+																			<tr>
+																				<td>Date de commande</td>
+																				<td><?= $data['date'] ?></td>
+																			</tr>
+																			<tr>
+																				<td>État de la commande</td>
+																				<td><?= $data['etat'] ?></td>
+																			</tr>
+																			<tr>
+																				<td>Client</td>
+																				<td><?= $customer['prenom'] ?> <?= $customer['nom'] ?></td>
+																			</tr>
+																		</tbody>
+																	</table>
+																</div>
+															</div>
+															<div class="col-xl-6">
+																<h5 class="f-w-600 pb-3">Adresse de facturation / livraison</h5>
+																<div class="table-responsive profile-table">
+																	<table class="table-responsive">
+																		<tbody>
+																			<tr>
+																				<td>Adresse</td>
+																				<td><?= $customer['adresse'] ?></td>
+																			</tr>
+																			<tr>
+																				<td>Code postal</td>
+																				<td><?= $customer['code_post'] ?></td>
+																			</tr>
+																			<tr>
+																				<td>Ville</td>
+																				<td><?= $customer['ville'] ?></td>
+																			</tr>
+																		</tbody>
+																	</table>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="card">
+													<div class="card-header">
+														<h5>Produits de la commande</h5>
+													</div>
+													<div class="card-body">
+														<div class="table-responsive">
+															<div class="tablegrid">
+																<div class="tablegrid-grid-header">
+																	<table class="tablegrid-table">
+																		<thead>
+																			<tr class="tablegrid-header-row">
+																				<td class="tablegrid-header-cell" style="width: 180px">Produit</td>
+																				<td class="tablegrid-header-cell" style="width: 40px">Prix</td>
+																				<td class="tablegrid-header-cell" style="width: 40px">Quantité</td>
+																				<td class="tablegrid-header-cell" style="width: 40px">Total</td>
+																			</tr>
+																		</thead>
+																	</table>
+																</div>
+																<div class="tablegrid-grid-body">
+																	<table class="tablegrid-table">
+																		<tbody>
+																			<?php
+																			require_once(DIR . '/model/ModelOrderDetails.php');
+																			$orderdetails = new \Ecommerce\Model\ModelOrderDetails($config);
+																			$orderdetails->set_order($id);
+																			$details = $orderdetails->getOrderDetails();
+
+																			$totalprice = 0;
+
+																			foreach ($details AS $key => $value)
+																			{
+																				$totalprice += ($value['quantite'] * $value['prix']);
+
+																				if (empty($value['photo']))
+																				{
+																					$photo = "../assets/images/nophoto.jpg";
+																				}
+																				else
+																				{
+																					$photo = "../attachments/products/" . $value['photo'];
+																				}
+																				?>
+																				<tr class="<?= (($quantity++ % 2) == 0 ? 'tablegrid-row' : 'tablegrid-alt-row') ?>">
+																					<td class="tablegrid-cell" style="width: 180px">
+																						<div>
+																							<div class="float-start"><img src="<?= $photo ?>" alt="" width="50px" height="50px" /></div>
+																							<div style="line-height: 50px"><?= $value['nom'] ?></div>
+																						</div>
+																					</td>
+																					<td class="tablegrid-cell" style="width: 40px"><?= $value['prix'] ?> &euro;</td>
+																					<td class="tablegrid-cell" style="width: 40px"><?= $value['quantite'] ?></td>
+																					<td class="tablegrid-cell" style="width: 40px"><?= number_format($value['prix'] * $value['quantite'], 2) ?> &euro;</td>
+																				</tr>
+																				<?php
+																			}
+																			?>
+																		</tbody>
+																	</table>
+																</div>
+																<div class="tavblegrid-grid-body">
+																	<table class="tablegrid-table">
+																		<tbody>
+																			<tr class="tablegrid-row">
+																				<td class="tablegrid-cell" style="width: 180px">Frais de port</td>
+																				<td class="tablegrid-cell" style="width: 40px">&nbsp;</td>
+																				<td class="tablegrid-cell" style="width: 40px">&nbsp;</td>
+																				<td class="tablegrid-cell" style="width: 40px">0 &euro;</td>
+																			</tr>
+																			<tr class="tablegrid-row">
+																				<td class="tablegrid-cell" style="width: 180px">Total</td>
+																				<td class="tablegrid-cell" style="width: 40px">&nbsp;</td>
+																				<td class="tablegrid-cell" style="width: 40px">&nbsp;</td>
+																				<td class="tablegrid-cell" style="width: 40px"><?= number_format($totalprice, 2) ?> &euro;</td>
+																			</tr>
+																		</tbody>
+																	</table>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-xl-4">
+												<div class="card">
+													<div class="card-header"></div>
+													<div class="card-body"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- footer start-->
+								<?php
+								ViewTemplate::BackFooter();
+								?>
+								<!-- footer end-->
+							</div>
+
+
+						</div>
+						<!-- latest jquery-->
+						<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
 						<!-- Bootstrap js-->
 						<script src="../assets/js/popper.min.js"></script>

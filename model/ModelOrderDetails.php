@@ -145,16 +145,6 @@ class ModelOrderDetails extends Model
 	}
 
 	/**
-	 * Returns the ID of the order details.
-	 *
-	 * @return integer ID of the order details.
-	 */
-	public function get_id()
-	{
-		return $this->id;
-	}
-
-	/**
 	 * Returns the order ID of the order.
 	 *
 	 * @return integer Order ID of the order.
@@ -162,6 +152,16 @@ class ModelOrderDetails extends Model
 	public function get_order()
 	{
 		return $this->id_order;
+	}
+
+	/**
+	 * Returns the product ID of the order details.
+	 *
+	 * @return integer Product ID of the order details.
+	 */
+	public function get_product()
+	{
+		return $this->id_product;
 	}
 
 	/**

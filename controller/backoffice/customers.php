@@ -371,4 +371,13 @@ function ViewCustomerProfile($id)
 	ViewCustomer::ViewCustomerProfile($id);
 }
 
+/**
+ *
+ */
+function ViewCustomerOrderDetails($id)
+{
+	require_once(DIR . '/view/backoffice/ViewCustomer.php');
+	ViewCustomer::ViewOrderDetails($id);
+}
+
 ?>
