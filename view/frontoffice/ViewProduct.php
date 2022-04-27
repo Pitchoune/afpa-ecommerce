@@ -56,6 +56,14 @@ class ViewProduct
 
 				if ($product)
 				{
+					if (empty($product['photo']))
+					{
+						$product['photo'] = 'assets/images/nophoto.jpg';
+					}
+					else
+					{
+						$product['photo'] = 'attachments/products/' . $product['photo'];
+					}
 					?>
 
 					<!-- section start -->
@@ -65,7 +73,7 @@ class ViewProduct
 								<div class="row">
 									<div class="col-lg-5">
 										<div class="product-slick no-arrow">
-											<div><img src="attachments/products/<?= $product['photo'] ?>" alt="" class="img-fluid image_zoom_cls-0"></div>
+											<div><img src="<?= $product['photo'] ?>" alt="" class="img-fluid image_zoom_cls-0"></div>
 										</div>
 									</div>
 									<div class="col-lg-7 rtl-text">

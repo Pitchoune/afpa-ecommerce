@@ -3057,7 +3057,7 @@ function displayCart()
     // Cart in top
     output1 += "<li>"
     + "<div class='media'>"
-    + "<a href='index.php?do=viewproduct&amp;id=" + cartArray[i].id + "'><img src='attachments/products/" + cartArray[i].photo + "' class='me-3' alt='" + cartArray[i].name + "' /></a>"
+    + "<a href='index.php?do=viewproduct&amp;id=" + cartArray[i].id + "'><img src='" + cartArray[i].photo + "' class='me-3' alt='" + cartArray[i].name + "' /></a>"
     + "<div class='media-body'>"
     + "<a href='index.php?do=viewproduct&amp;id=" + cartArray[i].id + "'><h4>" + cartArray[i].name + "</h4></a>"
     + "<h6>" + cartArray[i].price + " &euro;</h6>"
@@ -3081,7 +3081,7 @@ function displayCart()
     output2 += "<tr>"
     + "<td>"
     + "<a href='index.php?do=viewproduct&amp;id=" + cartArray[i].id + "'>"
-    + "<img src='attachments/products/" + cartArray[i].photo + "' alt='" + cartArray[i].name + "' class='' />"
+    + "<img src='" + cartArray[i].photo + "' alt='" + cartArray[i].name + "' class='' />"
     + "</a>"
     + "</td>"
     + "<td><a href='index.php?do=viewproduct&amp;id=" + cartArray[i].id + "'>" + cartArray[i].name + "</a>"

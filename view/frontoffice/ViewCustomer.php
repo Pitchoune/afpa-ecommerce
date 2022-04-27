@@ -1112,12 +1112,21 @@ class ViewCustomer
 																	foreach ($orderdetail AS $key => $value)
 																	{
 																		$totalprice += $value['prix'] * $value['quantite'];
+
+																		if (empty($value['photo']))
+																		{
+																			$value['photo'] = 'assets/images/nophoto.jpg';
+																		}
+																		else
+																		{
+																			$value['photo'] = 'attachments/products/' . $value['photo'];
+																		}
 																		?>
 																		<li>
 																			<div class="media">
-																				<img src="attachments/products/<?= $value['photo'] ?>" class="img-fluid" alt="" />
+																				<img src="<?= $value['photo'] ?>" class="img-fluid" alt="" />
 																				<div class="media-body">
-																					<h3><?= $value['nom'] ?></h3>
+																					<h3><a href="index.php?do=viewproduct&amp;id=<?= $value['id_produit'] ?>"><?= $value['nom'] ?></a></h3>
 																					<h5>Prix à l'unité : <?= number_format($value['prix'], 2) ?> &euro;</h5>
 																					<h5>Quantité : <?= $value['quantite'] ?></h5>
 																					<br />

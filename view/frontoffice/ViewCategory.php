@@ -122,11 +122,19 @@ class ViewCategory
 
 															foreach ($product AS $key => $value)
 															{
+																if (empty($value['photo']))
+																{
+																	$value['photo'] = 'assets/images/nophoto.jpg';
+																}
+																else
+																{
+																	$value['photo'] = 'attachments/products/' . $value['photo'];
+																}
 															?>
 																<div class="col-xl-2 col-lg-3 col-md-4 col-6 col-grid-box">
 																	<div class="product-box">
 																		<div class="product-imgbox">
-																			<a href="index.php?do=viewproduct&amp;id=<?= $value['id'] ?>"> <img src="attachments/products/<?= $value['photo'] ?>" class="img-fluid  " alt="product"> </a>
+																			<a href="index.php?do=viewproduct&amp;id=<?= $value['id'] ?>"> <img src="<?= $value['photo'] ?>" class="img-fluid  " alt="product"> </a>
 																		</div>
 																		<div class="product-detail detail-center detail-inverse">
 																			<div class="detail-title">
