@@ -383,32 +383,44 @@ class ViewCustomer
 												<div class="card-body">
 													<form class="digital-add needs-validation" enctype="multipart/form-data" method="post" action="index.php?do=<?= $formredirect ?>">
 														<div class="form-group">
-															<label for="validationCustom01" class="col-form-label pt-0"><span>*</span> Nom</label>
-															<input class="form-control" id="validationCustom01" type="text" required name="firstname" value="<?= $customerinfos['nom'] ?>">
+															<label for="validationCustom01" class="col-form-label pt-0"><span>*</span> Prénom</label>
+															<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du nom n'est pas valide." placeholder="Insérez votre nom" value="<?= $customerinfos['nom'] ?>" required />
+															<small id="firstnameHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
 															<label for="validationCustom02" class="col-form-label pt-0"><span>*</span> Nom</label>
-															<input class="form-control" id="validationCustom02" type="text" required name="lastname" value="<?= $customerinfos['prenom'] ?>">
+															<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du prénom n'est pas valide." placeholder="Insérez votre prénom" value="<?= $customerinfos['prenom'] ?>" required />
+															<small id="lastnameHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
 															<label for="validationCustom03" class="col-form-label pt-0"><span>*</span> Email</label>
-															<input class="form-control" id="validationCustom03" type="text" required name="email" value="<?= $customerinfos['mail'] ?>">
+															<input type="text" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." placeholder="Insérez votre adresse email" value="<?= $customerinfos['mail'] ?>" required />
+															<small id="emailHelp" class="form-text text-muted"></small>
+														</div>
+														<div class="form-group">
+															<label for="" class="col-form-label pt-0"><span>*</span> Mot de passe</label>
+															<input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" data-type="password" data-message="Le format du mot de passe n'est pas valide." required />
+															<small id="passwordHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
 															<label for="validationCustom04" class="col-form-label pt-0"><span>*</span> Téléphone</label>
-															<input class="form-control" id="validationCustom04" type="text" required name="telephone" value="<?= $customerinfos['tel'] ?>">
+															<input type="text" class="form-control" id="telephone" name="telephone" aria-describedby="telephoneHelp" data-type="telephone" data-message="Le format du numéro de téléphone n'est pas valide." placeholder="Insérez votre téléphone" value="<?= $customerinfos['tel'] ?>" required />
+															<small id="telephoneHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
 															<label for="validationCustom05" class="col-form-label pt-0"><span>*</span> Adresse</label>
-															<input class="form-control" id="validationCustom05" type="text" required name="address" value="<?= $customerinfos['adresse'] ?>">
+															<input type="text" class="form-control" id="address" name="address" aria-describedby="addressHelp" data-type="address" data-message="Le format de l'adresse postale n'est pas valide." placeholder="Adresse" value="<?= $customerinfos['adresse'] ?>" required />
+															<small id="addressHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
 															<label for="validationCustom06" class="col-form-label pt-0"><span>*</span> Ville</label>
-															<input class="form-control" id="validationCustom06" type="text" required name="city" value="<?= $customerinfos['ville'] ?>">
+															<input type="text" class="form-control" id="city" name="city" aria-describedby="cityHelp" data-type="city" data-message="Le format de la ville n'est pas valide." placeholder="Ville" value="<?= $customerinfos['ville'] ?>" required />
+															<small id="cityHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
 															<label for="validationCustom07" class="col-form-label pt-0"><span>*</span> Code postal</label>
-															<input class="form-control" id="validationCustom07" type="text" required name="zipcode" value="<?= $customerinfos['code_post'] ?>">
+															<input type="text" class="form-control" id="zipcode" name="zipcode" aria-describedby="zipcodeHelp" data-type="zipcode" data-message="Le format du code postal n'est pas valide." placeholder="Code postal" value="<?= $customerinfos['code_post'] ?>" required />
+															<small id="zipcodeHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group mb-0">
 															<div class="product-buttons text-center">
@@ -421,7 +433,7 @@ class ViewCustomer
 																<?php
 																}
 																?>
-																<input type="submit" class="btn btn-primary" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
+																<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
 																<input type="reset" class="btn btn-light" value="Annuler"/>
 															</div>
 														</div>
@@ -460,6 +472,16 @@ class ViewCustomer
 
 						<!--script admin-->
 						<script src="../assets/js/admin-script.js"></script>
+						<?php
+						if ($id)
+						{
+							ViewTemplate::BackFormValidation('valider', 4, 1);
+						}
+						else
+						{
+							ViewTemplate::BackFormValidation('valider', 3, 1);
+						}
+						?>
 					</body>
 				</html>
 				<?php

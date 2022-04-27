@@ -228,6 +228,32 @@ class ModelCustomer extends Model
 	}
 
 	/**
+	 * Saves the new customer at registration.
+	 *
+	 * @return mixed Returns the ID generated if query is correct else returns false.
+	 */
+	public function saveNewCustomerFromBack()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			INSERT INTO client
+				(id, nom, prenom, mail, pass, tel, adresse, ville, code_post, token)
+			VALUES
+				(NULL, ?, ?, ?, ?, ?, ?, ?, ?, NULL)
+		");
+		$query->bindParam(1, $this->lastname, \PDO::PARAM_STR);
+		$query->bindParam(2, $this->firstname, \PDO::PARAM_STR);
+		$query->bindParam(3, $this->email, \PDO::PARAM_STR);
+		$query->bindParam(4, $this->password, \PDO::PARAM_STR);
+		$query->bindParam(5, $this->telephone, \PDO::PARAM_STR);
+		$query->bindParam(6, $this->address, \PDO::PARAM_STR);
+		$query->bindParam(7, $this->city, \PDO::PARAM_STR);
+		$query->bindParam(8, $this->zipcode, \PDO::PARAM_INT);
+
+		return $query->execute();
+	}
+
+	/**
 	 * Saves the customer personal informations from profile edit.
 	 *
 	 * @return mixed Returns the ID generated if query is correct else returns false.
@@ -254,6 +280,39 @@ class ModelCustomer extends Model
 		$query->bindParam(6, $this->zipcode, \PDO::PARAM_STR);
 		$query->bindParam(7, $this->telephone, \PDO::PARAM_STR);
 		$query->bindParam(8, $this->id, \PDO::PARAM_INT);
+
+		return $query->execute();
+	}
+
+	/**
+	 * Saves the customer personal informations from profile edit.
+	 *
+	 * @return mixed Returns the ID generated if query is correct else returns false.
+	 */
+	public function saveCustomerDataWithPassword()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			UPDATE client SET
+				nom = ?,
+				prenom = ?,
+				mail = ?,
+				pass = ?,
+				adresse = ?,
+				ville = ?,
+				code_post = ?,
+				tel = ?
+			WHERE id = ?
+		");
+		$query->bindParam(1, $this->lastname, \PDO::PARAM_STR);
+		$query->bindParam(2, $this->firstname, \PDO::PARAM_STR);
+		$query->bindParam(3, $this->email, \PDO::PARAM_STR);
+		$query->bindParam(4, $this->password, \PDO::PARAM_STR);
+		$query->bindParam(5, $this->address, \PDO::PARAM_STR);
+		$query->bindParam(6, $this->city, \PDO::PARAM_STR);
+		$query->bindParam(7, $this->zipcode, \PDO::PARAM_STR);
+		$query->bindParam(8, $this->telephone, \PDO::PARAM_STR);
+		$query->bindParam(9, $this->id, \PDO::PARAM_INT);
 
 		return $query->execute();
 	}

@@ -628,12 +628,12 @@ class ViewTemplate
 					e.preventDefault();
 					let regexListe =
 					{
-						firstname: /^[\p{L}\s]{2,}$/u,
-						lastname: /^[\p{L}\s]{2,}$/u,
+						firstname: /^[\p{L}\s-]{2,}$/u,
+						lastname: /^[\p{L}\s-]{2,}$/u,
 						mail: /^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si,
 						telephone: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
 						address: /^[\d\w\-\s]{5,100}$/,
-						city: /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/u,
+						city: /^([a-zA-Z]+(?:[\s-][a-zA-Z]+)*){1,}$/u,
 						zipcode: /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/,
 						pass: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
 					};

@@ -425,28 +425,28 @@ class ViewCustomer
 												<div class="col-md-6">
 													<div class="form-group">
 														<label for="lastname">Prénom</label>
-														<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du prénom n'est pas valide." placeholder="Insérez votre prénom"<?= ($data['prenom'] ? ' value="' . $data["prenom"] . '"' : '') ?> />
+														<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du prénom n'est pas valide." placeholder="Insérez votre prénom"<?= ($data['prenom'] ? ' value="' . $data["prenom"] . '"' : '') ?> required />
 														<small id="lastnameHelp" class="form-text text-muted"></small>
 													</div>
 												</div>
 												<div class="col-md-6">
 													<div class="form-group">
 														<label for="firstname">Nom</label>
-														<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du nom n'est pas valide." placeholder="Insérez votre nom"<?= ($data['nom'] ? ' value="' . $data["nom"] . '"' : '') ?> />
+														<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du nom n'est pas valide." placeholder="Insérez votre nom"<?= ($data['nom'] ? ' value="' . $data["nom"] . '"' : '') ?> required />
 														<small id="firstnameHelp" class="form-text text-muted"></small>
 													</div>
 												</div>
 												<div class="col-md-6">
 													<div class="form-group">
 														<label for="telephone">Téléphone</label>
-														<input type="text" class="form-control" id="telephone" name="telephone" aria-describedby="telephoneHelp" data-type="telephone" data-message="Le format du numéro de téléphone n'est pas valide." placeholder="Insérez votre téléphone"<?= ($data['tel'] ? ' value="' . $data["tel"] . '"' : '') ?> />
+														<input type="text" class="form-control" id="telephone" name="telephone" aria-describedby="telephoneHelp" data-type="telephone" data-message="Le format du numéro de téléphone n'est pas valide." placeholder="Insérez votre téléphone"<?= ($data['tel'] ? ' value="' . $data["tel"] . '"' : '') ?> required />
 														<small id="telephoneHelp" class="form-text text-muted"></small>
 													</div>
 												</div>
 												<div class="col-md-6">
 													<div class="form-group">
 														<label for="mail">Adresse Email</label>
-														<input type="text" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." placeholder="Insérez votre adresse email"<?= ($data['mail'] ? ' value="' . $data["mail"] . '"' : '') ?> />
+														<input type="text" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." placeholder="Insérez votre adresse email"<?= ($data['mail'] ? ' value="' . $data["mail"] . '"' : '') ?> required />
 														<small id="emailHelp" class="form-text text-muted"></small>
 													</div>
 												</div>
@@ -460,21 +460,21 @@ class ViewCustomer
 												<div class="col-md-6">
 													<div class="form-group">
 														<label for="address">Adresse *</label>
-														<input type="text" class="form-control" id="address" name="address" aria-describedby="addressHelp" data-type="address" data-message="Le format de l'adresse postale n'est pas valide." placeholder="Adresse"<?= ($data['adresse'] ? ' value="' . $data["adresse"] . '"' : '') ?> />
+														<input type="text" class="form-control" id="address" name="address" aria-describedby="addressHelp" data-type="address" data-message="Le format de l'adresse postale n'est pas valide." placeholder="Adresse"<?= ($data['adresse'] ? ' value="' . $data["adresse"] . '"' : '') ?> required />
 														<small id="addressHelp" class="form-text text-muted"></small>
 													</div>
 												</div>
 												<div class="col-md-6">
 													<div class="form-group">
 														<label for="zipcode">Code postal *</label>
-														<input type="text" class="form-control" id="zipcode" name="zipcode" aria-describedby="zipcodeHelp" data-type="zipcode" data-message="Le format du code postal n'est pas valide." placeholder="Code postal"<?= ($data['code_post'] ? ' value="' . (strlen($data['code_post']) === 4 ? '0' . $data["code_post"] : $data["code_post"]) . '"' : '') ?> />
+														<input type="text" class="form-control" id="zipcode" name="zipcode" aria-describedby="zipcodeHelp" data-type="zipcode" data-message="Le format du code postal n'est pas valide." placeholder="Code postal"<?= ($data['code_post'] ? ' value="' . (strlen($data['code_post']) === 4 ? '0' . $data["code_post"] : $data["code_post"]) . '"' : '') ?> required />
 														<small id="zipcodeHelp" class="form-text text-muted"></small>
 													</div>
 												</div>
 												<div class="col-md-6">
 													<div class="form-group">
 														<label for="city">Ville *</label>
-														<input type="text" class="form-control" id="city" name="city" aria-describedby="cityHelp" data-type="city" data-message="Le format de la ville n'est pas valide." placeholder="Ville"<?= ($data['ville'] ? ' value="' . $data["ville"] . '"' : '') ?> />
+														<input type="text" class="form-control" id="city" name="city" aria-describedby="cityHelp" data-type="city" data-message="Le format de la ville n'est pas valide." placeholder="Ville"<?= ($data['ville'] ? ' value="' . $data["ville"] . '"' : '') ?> required />
 														<small id="cityHelp" class="form-text text-muted"></small>
 													</div>
 												</div>

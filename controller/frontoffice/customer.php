@@ -73,11 +73,11 @@ function doRegister($firstname, $lastname, $email, $password, $passwordconfirm)
 	// Validate last name
 	if (empty(trim($lastname)))
 	{
-		throw new Exception('Veuillez insérer votre nom de famille.');
+		throw new Exception('Veuillez insérer votre nom.');
 	}
 	else if (!preg_match('/^[\p{L}\s]{2,}$/u', trim($lastname)))
 	{
-		throw new Exception('Le nom de famille peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
+		throw new Exception('Le nom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
 	}
 
 	// Validate email
@@ -111,7 +111,7 @@ function doRegister($firstname, $lastname, $email, $password, $passwordconfirm)
 	}
 	else if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', trim($password)))
 	{
-		throw new Exception('Le mot de passe utilise des caractères interdits. Veuillez recommencer.');
+		throw new Exception('Le mot de passe utilise des caractères interdits. Il doit contenir des caractères minuscules, majuscules, des chiffres et des caractères spéciaux, sur 8 caractères de long. Veuillez recommencer.');
 	}
 	else
 	{
@@ -206,7 +206,7 @@ function doLogin($email, $password)
 	}
 	else if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', trim($password)))
 	{
-		throw new Exception('Le mot de passe utilise des caractères interdits. Veuillez recommencer.');
+		throw new Exception('Le mot de passe utilise des caractères interdits. Il doit contenir des caractères minuscules, majuscules, des chiffres et des caractères spéciaux, sur 8 caractères de long. Veuillez recommencer.');
 	}
 
 	// No error - we insert the new user with the model
@@ -324,23 +324,23 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 	// Verify first name
 	if ($firstname === '')
 	{
-		throw new Exception('Veuillez remplir le nom.');
+		throw new Exception('Veuillez remplir le prénom.');
 	}
 
 	if (!preg_match('/^[\p{L}\s]{2,}$/u', trim($firstname)))
 	{
-		throw new Exception('Le format du nom n\'est pas valide.');
+		throw new Exception('Le format du prénom n\'est pas valide.');
 	}
 
 	// Verify last name
 	if ($lastname === '')
 	{
-		throw new Exception('Veuillez remplir le prénom.');
+		throw new Exception('Veuillez remplir le nom.');
 	}
 
 	if (!preg_match('/^[\p{L}\s]{2,}$/u', trim($lastname)))
 	{
-		throw new Exception('Le format du prénom n\'est pas valide.');
+		throw new Exception('Le format du nom n\'est pas valide.');
 	}
 
 	// Verify email address
@@ -482,15 +482,18 @@ function savePassword($id, $password = '', $newpassword, $confirmpassword, $toke
 	$customers = new \Ecommerce\Model\ModelCustomer($config);
 	$customers->set_id($id);
 
-	// Verify password
-	if ($password === '')
+	if (!$token)
 	{
-		throw new Exception('Veuillez remplir le mot de passe actuel.');
-	}
+		// Verify password
+		if ($password === '')
+		{
+			throw new Exception('Veuillez remplir le mot de passe actuel.');
+		}
 
-	if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $password))
-	{
-		throw new Exception('Le mot de passe actuel n\'est pas valide.');
+		if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $password))
+		{
+			throw new Exception('Le mot de passe actuel n\'est pas valide. Il doit contenir des caractères minuscules, majuscules, des chiffres et des caractères spéciaux, sur 8 caractères de long.');
+		}
 	}
 
 	// Verify new password
@@ -501,7 +504,7 @@ function savePassword($id, $password = '', $newpassword, $confirmpassword, $toke
 
 	if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $newpassword))
 	{
-		throw new Exception('Le nouveau mot de passe n\'est pas valide.');
+		throw new Exception('Le nouveau mot de passe n\'est pas valide. Il doit contenir des caractères minuscules, majuscules, des chiffres et des caractères spéciaux, sur 8 caractères de long.');
 	}
 
 	// Verify confirm password
@@ -512,50 +515,58 @@ function savePassword($id, $password = '', $newpassword, $confirmpassword, $toke
 
 	if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $confirmpassword))
 	{
-		throw new Exception('La confirmation du mot de passe n\'est pas valide.');
+		throw new Exception('La confirmation du mot de passe n\'est pas valide. Il doit contenir des caractères minuscules, majuscules, des chiffres et des caractères spéciaux, sur 8 caractères de long.');
 	}
 
 	$customer = $customers->getCustomerInfosFromId();
 
-	if (password_verify($password, $customer['pass']))
+	if (!$token)
 	{
-		if ($newpassword === $confirmpassword)
+		// Change password with the original password
+		if (password_verify($password, $customer['pass']))
 		{
-			if (!password_verify($newpassword, $customer['pass']))
+			if ($newpassword === $confirmpassword)
 			{
-				// All checks are OK - save the hashed password into the database
-				$hashedpassword = password_hash($newpassword, PASSWORD_DEFAULT);
-				$customers->set_password($hashedpassword);
-
-				if ($customers->saveNewPassword())
+				if (!password_verify($newpassword, $customer['pass']))
 				{
-					// Delete the token
-					if ($token)
-					{
-						$customers->set_token($token);
-						$customers->deleteCustomerToken();
-					}
+					// All checks are OK - save the hashed password into the database
+					$hashedpassword = password_hash($newpassword, PASSWORD_DEFAULT);
+					$customers->set_password($hashedpassword);
 
-					$_SESSION['password']['edit'] = 1;
+					if ($customers->saveNewPassword())
+					{
+						// Delete the token
+						if ($token)
+						{
+							$customers->set_token($token);
+							$customers->deleteCustomerToken();
+						}
+
+						$_SESSION['password']['edit'] = 1;
+					}
+					else
+					{
+						throw new Exception('La modification du mot de passe a échoué. Veuillez recommencer. Si le problème persiste, veuillez contacter l\'éqauipe.');
+					}
 				}
 				else
 				{
-					throw new Exception('La modification du mot de passe a échoué. Veuillez recommencer. Si le problème persiste, veuillez contacter l\'éqauipe.');
+					throw new Exception('Le nouveau mot de passe ne peut pas être l\'ancien mot de passe. Veuillez recommencer.');
 				}
 			}
 			else
 			{
-				throw new Exception('Le nouveau mot de passe ne peut pas être l\'ancien mot de passe. Veuillez recommencer.');
+				throw new Exception('Le nouveau mot de passe ne conrrespond pas à la confirmation du nouveau mot de passe. Veuillez recommencer.');
 			}
 		}
 		else
 		{
-			throw new Exception('Le nouveau mot de passe ne conrrespond pas à la confirmation du nouveau mot de passe. Veuillez recommencer.');
+			throw new Exception('Le mot de passe actuel ne correpond pas. Veuillez recommencer.');
 		}
 	}
 	else
 	{
-		throw new Exception('Le mot de passe actuel ne correpond pas. Veuillez recommencer.');
+		// Change password without the original password
 	}
 
 	header('Location: index.php?do=editpassword');

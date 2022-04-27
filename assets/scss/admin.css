@@ -466,7 +466,7 @@ button:focus {
 }
 
 .invalid-text {
-  color: #33b54c;
+  color: #dc3545;
 }
 
 button {
@@ -618,7 +618,7 @@ button {
   padding: 18px 45px;
   font-weight: 700;
   color: #ffffff !important;
-  background-color: #33b54c;
+  background-color: #dc3545;
   position: relative;
   transition: all 0.3s;
   display: inline-block;
@@ -628,11 +628,11 @@ button {
 }
 .btn-danger.btn-outline {
   background-color: #ffffff;
-  border: 1px solid #33b54c;
+  border: 1px solid #dc3545;
   color: #444444 !important;
 }
 .btn-danger.btn-outline:hover {
-  background-color: #33b54c;
+  background-color: #dc3545;
   color: #ffffff !important;
 }
 .btn-danger:hover {
@@ -5719,7 +5719,7 @@ button {
   background-color: #1c3481;
 }
 .header7 .header-contain .icon-block ul.theme-color.color-full li:nth-child(3) {
-  background-color: #33b54c;
+  background-color: #dc3545;
 }
 .header7 .header-contain .icon-block ul.theme-color.color-full li:nth-child(4) {
   background-color: #f85357;

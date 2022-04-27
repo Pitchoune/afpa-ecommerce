@@ -230,15 +230,15 @@ try
 			AddCustomer();
 			break;
 		case 'insertcustomer':
-			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
 			$firstname = isset($_POST['firstname']) ? filter_var($_POST['firstname'], FILTER_SANITIZE_STRING) : NULL;
 			$lastname = isset($_POST['lastname']) ? filter_var($_POST['lastname'], FILTER_SANITIZE_STRING) : NULL;
 			$email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_SANITIZE_STRING) : NULL;
+			$password = isset($_POST['password']) ? filter_var($_POST['password'], FILTER_SANITIZE_STRING) : NULL;
 			$telephone = isset($_POST['telephone']) ? filter_var($_POST['telephone'], FILTER_SANITIZE_STRING) : NULL;
 			$address = isset($_POST['address']) ? filter_var($_POST['address'], FILTER_SANITIZE_STRING) : NULL;
 			$city = isset($_POST['city']) ? filter_var($_POST['city'], FILTER_SANITIZE_STRING) : NULL;
 			$zipcode = isset($_POST['zipcode']) ? filter_var($_POST['zipcode'], FILTER_SANITIZE_STRING) : NULL;
-			InsertCustomer($id, $firstname, $lastname, $email, $telephone, $address, $city, $zipcode);
+			InsertCustomer($firstname, $lastname, $email, $password, $telephone, $address, $city, $zipcode);
 			break;
 		case 'editcustomer':
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
@@ -249,11 +249,12 @@ try
 			$firstname = isset($_POST['firstname']) ? filter_var($_POST['firstname'], FILTER_SANITIZE_STRING) : NULL;
 			$lastname = isset($_POST['lastname']) ? filter_var($_POST['lastname'], FILTER_SANITIZE_STRING) : NULL;
 			$email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_SANITIZE_STRING) : NULL;
+			$password = isset($_POST['password']) ? filter_var($_POST['password'], FILTER_SANITIZE_STRING) : NULL;
 			$telephone = isset($_POST['telephone']) ? filter_var($_POST['telephone'], FILTER_SANITIZE_STRING) : NULL;
 			$address = isset($_POST['address']) ? filter_var($_POST['address'], FILTER_SANITIZE_STRING) : NULL;
 			$city = isset($_POST['city']) ? filter_var($_POST['city'], FILTER_SANITIZE_STRING) : NULL;
 			$zipcode = isset($_POST['zipcode']) ? filter_var($_POST['zipcode'], FILTER_SANITIZE_STRING) : NULL;
-			UpdateCustomer($id, $firstname, $lastname, $email, $telephone, $address, $city, $zipcode);
+			UpdateCustomer($id, $firstname, $lastname, $email, $password, $telephone, $address, $city, $zipcode);
 			break;
 		case 'deletecustomer':
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;

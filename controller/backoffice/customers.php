@@ -3,7 +3,7 @@
 use \Ecommerce\Model\ModelCustomer;
 
 /**
- * Lists all custoers.
+ * Lists all customers.
  *
  * @return void
  */
@@ -43,7 +43,7 @@ function AddCustomer()
  *
  * @return void
  */
-function InsertCustomer($firstname, $lastname, $email, $telephone, $address, $city, $zipcode)
+function InsertCustomer($firstname, $lastname, $email, $password, $telephone, $address, $city, $zipcode)
 {
 	if (Utils::cando(29))
 	{
@@ -53,56 +53,105 @@ function InsertCustomer($firstname, $lastname, $email, $telephone, $address, $ci
 		$customers = new \Ecommerce\Model\ModelCustomer($config);
 
 		// Verify first name
-		if ($firstname === '')
-		{
-			throw new Exception('Le nom est vide.');
-		}
-
-		// Verify last name
-		if ($lastname === '')
+		if ($firstname === '' OR empty($firstname))
 		{
 			throw new Exception('Le prénom est vide.');
 		}
 
+		if (!preg_match('/^[\p{L}\s-]{2,}$/u', trim($firstname)))
+		{
+			throw new Exception('Le prénom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
+		}
+
+		// Verify last name
+		if ($lastname === '' OR empty($lastname))
+		{
+			throw new Exception('Le nom est vide.');
+		}
+
+		if (!preg_match('/^[\p{L}\s]{1,}$/u', $lastname))
+		{
+			throw new Exception('Le nom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
+		}
+
 		// Verify email address
-		if ($email === '')
+		if ($email === '' OR empty($email))
 		{
 			throw new Exception('L\'adresse email est vide.');
 		}
 
+		if (!preg_match('/^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si', $email))
+		{
+			throw new Exception('L\'adresse email n\'est pas valide.');
+		}
+
+		// Verify password
+		if ($password === '' OR empty($password))
+		{
+			throw new Exception('Le mot de passe est vide.');
+		}
+
+		if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $password))
+		{
+			throw new Exception('Le mot de passe n\'est pas valide.');
+		}
+
 		// Verify telephone
-		if ($telephone === '')
+		if ($telephone === '' OR empty($telephone))
 		{
 			throw new Exception('Le téléphone est vide.');
 		}
 
+		if (!preg_match('/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/', $telephone))
+		{
+			throw new Exception('Le téléphone n\'est pas valide.');
+		}
+
 		// Verify address
-		if ($address === '')
+		if ($address === '' OR empty($address))
 		{
 			throw new Exception('L\'adresse est vide.');
 		}
 
+		if (!preg_match('/^[\d\w\-\s]{5,100}$/', $address))
+		{
+			throw new Exception('L\'adresse n\'est pas valide.');
+		}
+
 		// Verify city
-		if ($city === '')
+		if ($city === '' OR empty($city))
 		{
 			throw new Exception('La ville est vide.');
 		}
 
+		if (!preg_match('/^([a-zA-Z]+(?:[\s-][a-zA-Z]+)*){1,}$/u', $city))
+		{
+			throw new Exception('La ville n\'est pas valide.');
+		}
+
 		// Verify zip code
-		if ($zipcode === '')
+		if ($zipcode === '' OR empty($zipcode))
 		{
 			throw new Exception('Le code postal est vide.');
 		}
 
+		if (!preg_match('/^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/', $zipcode))
+		{
+			throw new Exception('Le code postal n\'est pas valide.');
+		}
+
+		$hashedpassword = password_hash($password, PASSWORD_DEFAULT);
+
 		$customers->set_firstname($firstname);
 		$customers->set_lastname($lastname);
 		$customers->set_email($email);
+		$customers->set_password($hashedpassword);
 		$customers->set_telephone($telephone);
 		$customers->set_address($address);
 		$customers->set_city($city);
 		$customers->set_zipcode($zipcode);
 
-		if ($customers->saveNewCustomer())
+		if ($customers->saveNewCustomerFromBack())
 		{
 			$_SESSION['customer']['add'] = 1;
 		}
@@ -143,7 +192,7 @@ function EditCustomer($id)
  *
  * @return void
  */
-function UpdateCustomer($id, $firstname, $lastname, $email, $telephone, $address, $city, $zipcode)
+function UpdateCustomer($id, $firstname, $lastname, $email, $password, $telephone, $address, $city, $zipcode)
 {
 	if (Utils::cando(30))
 	{
@@ -155,13 +204,23 @@ function UpdateCustomer($id, $firstname, $lastname, $email, $telephone, $address
 		// Verify first name
 		if ($firstname === '')
 		{
-			throw new Exception('Le nom est vide.');
+			throw new Exception('Le prénom est vide.');
+		}
+
+		if (!preg_match('/^[\p{L}\s]{2,}$/u', $firstname))
+		{
+			throw new Exception('Le prénom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
 		}
 
 		// Verify last name
 		if ($lastname === '')
 		{
-			throw new Exception('Le prénom est vide.');
+			throw new Exception('Le nom est vide.');
+		}
+
+		if (!preg_match('/^[\p{L}\s]{1,}$/u', $lastname))
+		{
+			throw new Exception('Le nom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
 		}
 
 		// Verify email address
@@ -170,10 +229,34 @@ function UpdateCustomer($id, $firstname, $lastname, $email, $telephone, $address
 			throw new Exception('L\'adresse email est vide.');
 		}
 
+		if (!preg_match('/^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si', $email))
+		{
+			throw new Exception('L\'adresse email n\'est pas valide.');
+		}
+
+		if ($password)
+		{
+			// Verify password
+			if ($password === '' OR empty($password))
+			{
+				throw new Exception('Le mot de passe est vide.');
+			}
+
+			if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $password))
+			{
+				throw new Exception('Le mot de passe n\'est pas valide.');
+			}
+		}
+
 		// Verify telephone
 		if ($telephone === '')
 		{
 			throw new Exception('Le téléphone est vide.');
+		}
+
+		if (!preg_match('/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/', $telephone))
+		{
+			throw new Exception('Le téléphone n\'est pas valide.');
 		}
 
 		// Verify address
@@ -182,16 +265,31 @@ function UpdateCustomer($id, $firstname, $lastname, $email, $telephone, $address
 			throw new Exception('L\'adresse est vide.');
 		}
 
+		if (!preg_match('/^[\d\w\-\s]{5,100}$/', $address))
+		{
+			throw new Exception('L\'adresse n\'est pas valide.');
+		}
+
 		// Verify city
 		if ($city === '')
 		{
 			throw new Exception('La ville est vide.');
 		}
 
+		if (!preg_match('/^([a-zA-Z]+(?:[\s-][a-zA-Z]+)*){1,}$/u', $city))
+		{
+			throw new Exception('La ville n\'est pas valide.');
+		}
+
 		// Verify zip code
 		if ($zipcode === '')
 		{
 			throw new Exception('Le code postal est vide.');
+		}
+
+		if (!preg_match('/^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/', $zipcode))
+		{
+			throw new Exception('Le code postal n\'est pas valide.');
 		}
 
 		$customers->set_id($id);
@@ -203,7 +301,18 @@ function UpdateCustomer($id, $firstname, $lastname, $email, $telephone, $address
 		$customers->set_city($city);
 		$customers->set_zipcode($zipcode);
 
-		if ($customers->saveCustomerData())
+		if ($password)
+		{
+			$hashedpassword = password_hash($password, PASSWORD_DEFAULT);
+			$customers->set_password($hashedpassword);
+			$customer = $customers->saveCustomerDataWithPassword();
+		}
+		else
+		{
+			$customer = $customers->saveCustomerData();
+		}
+
+		if ($customer)
 		{
 			$_SESSION['customer']['edit'] = 1;
 		}
@@ -253,6 +362,9 @@ function DeleteCustomer($id)
 	}
 }
 
+/**
+ *
+ */
 function ViewCustomerProfile($id)
 {
 	require_once(DIR . '/view/backoffice/ViewCustomer.php');
