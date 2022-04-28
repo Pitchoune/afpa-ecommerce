@@ -176,6 +176,11 @@ Search.appendIndex(
             "summary": "Returns\u0020some\u0020of\u0020the\u0020categories\u0020following\u0020the\u0020defined\u0020limit.",
             "url": "classes/Ecommerce-Model-ModelCategory.html#method_getSomeCategories"
         },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003AgetSomeCategoriesContent\u0028\u0029",
+            "name": "getSomeCategoriesContent",
+            "summary": "Returns\u0020some\u0020of\u0020the\u0020categories\u0020following\u0020the\u0020defined\u0020limit\u0020and\u0020the\u0020given\u0020category.",
+            "url": "classes/Ecommerce-Model-ModelCategory.html#method_getSomeCategoriesContent"
+        },                {
             "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003Aset_id\u0028\u0029",
             "name": "set_id",
             "summary": "Defines\u0020the\u0020ID.",
@@ -601,6 +606,11 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020add\u0020or\u0020edit\u0020employee\u0020form.",
             "url": "classes/ViewEmployee.html#method_EmployeeAddEdit"
         },                {
+            "fqsen": "\\ViewEmployee\u003A\u003AViewProfile\u0028\u0029",
+            "name": "ViewProfile",
+            "summary": "",
+            "url": "classes/ViewEmployee.html#method_ViewProfile"
+        },                {
             "fqsen": "\\Ecommerce\\Model\\ModelCustomer",
             "name": "ModelCustomer",
             "summary": "Class\u0020to\u0020do\u0020data\u0020save\/delete\u0020operations\u0020about\u0020customers",
@@ -896,15 +906,20 @@ Search.appendIndex(
             "summary": "Gets\u0020the\u0020latest\u0020orders.",
             "url": "classes/Ecommerce-Model-ModelOrder.html#method_getLatestOrders"
         },                {
-            "fqsen": "\\Ecommerce\\Model\\ModelOrder\u003A\u003AgetNumberOfOrdersPerCustomer\u0028\u0029",
-            "name": "getNumberOfOrdersPerCustomer",
+            "fqsen": "\\Ecommerce\\Model\\ModelOrder\u003A\u003AgetTotalNumberOfOrders\u0028\u0029",
+            "name": "getTotalNumberOfOrders",
             "summary": "Returns\u0020the\u0020number\u0020of\u0020orders\u0020in\u0020the\u0020given\u0020customer.",
-            "url": "classes/Ecommerce-Model-ModelOrder.html#method_getNumberOfOrdersPerCustomer"
+            "url": "classes/Ecommerce-Model-ModelOrder.html#method_getTotalNumberOfOrders"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelOrder\u003A\u003AgetAllCustomerOrders\u0028\u0029",
             "name": "getAllCustomerOrders",
-            "summary": "Returns\u0020some\u0020of\u0020the\u0020orders\u0020following\u0020the\u0020defined\u0020limit.",
+            "summary": "Returns\u0020some\u0020of\u0020the\u0020orders\u0020following\u0020the\u0020defined\u0020limit\u0020for\u0020a\u0020specific\u0020customer.",
             "url": "classes/Ecommerce-Model-ModelOrder.html#method_getAllCustomerOrders"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelOrder\u003A\u003AgetAllOrders\u0028\u0029",
+            "name": "getAllOrders",
+            "summary": "Returns\u0020some\u0020of\u0020the\u0020orders\u0020following\u0020the\u0020defined\u0020limit.",
+            "url": "classes/Ecommerce-Model-ModelOrder.html#method_getAllOrders"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelOrder\u003A\u003Aset_id\u0028\u0029",
             "name": "set_id",
@@ -1150,6 +1165,16 @@ Search.appendIndex(
             "name": "getSomeProducts",
             "summary": "Returns\u0020some\u0020of\u0020the\u0020products\u0020following\u0020the\u0020defined\u0020limit.",
             "url": "classes/Ecommerce-Model-ModelProduct.html#method_getSomeProducts"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelProduct\u003A\u003AgetTotalNumberOfProductsForSpecificCategory\u0028\u0029",
+            "name": "getTotalNumberOfProductsForSpecificCategory",
+            "summary": "Returns\u0020the\u0020number\u0020of\u0020products\u0020in\u0020the\u0020database.",
+            "url": "classes/Ecommerce-Model-ModelProduct.html#method_getTotalNumberOfProductsForSpecificCategory"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelProduct\u003A\u003AgetSomeProductsForSpecificCategory\u0028\u0029",
+            "name": "getSomeProductsForSpecificCategory",
+            "summary": "Returns\u0020some\u0020of\u0020the\u0020products\u0020following\u0020the\u0020defined\u0020limit.",
+            "url": "classes/Ecommerce-Model-ModelProduct.html#method_getSomeProductsForSpecificCategory"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelProduct\u003A\u003Aset_id\u0028\u0029",
             "name": "set_id",
@@ -1740,6 +1765,16 @@ Search.appendIndex(
             "name": "DeleteEmployee",
             "summary": "Deletes\u0020the\u0020given\u0020employee\u0020from\u0020the\u0020database.",
             "url": "namespaces/default.html#function_DeleteEmployee"
+        },                {
+            "fqsen": "\\ViewProfile\u0028\u0029",
+            "name": "ViewProfile",
+            "summary": "Display\u0020the\u0020current\u0020employee\u0020profile\u0020to\u0020edit\u0020own\u0020informations.",
+            "url": "namespaces/default.html#function_ViewProfile"
+        },                {
+            "fqsen": "\\UpdateProfile\u0028\u0029",
+            "name": "UpdateProfile",
+            "summary": "Updates\u0020the\u0020given\u0020employee\u0020profileinto\u0020the\u0020database.",
+            "url": "namespaces/default.html#function_UpdateProfile"
         },                {
             "fqsen": "\\ListTrademarks\u0028\u0029",
             "name": "ListTrademarks",
@@ -3525,6 +3560,21 @@ Search.appendIndex(
             "name": "PlaceOrder",
             "summary": "Returns\u0020the\u0020HTMl\u0020code\u0020to\u0020display\u0020the\u0020place\u0020order\u0020page.",
             "url": "classes/ViewShopping.html#method_PlaceOrder"
+        },                {
+            "fqsen": "\\ListOrders\u0028\u0029",
+            "name": "ListOrders",
+            "summary": "Lists\u0020all\u0020orders.",
+            "url": "namespaces/default.html#function_ListOrders"
+        },                {
+            "fqsen": "\\ViewOrder",
+            "name": "ViewOrder",
+            "summary": "Class\u0020to\u0020display\u0020HTML\u0020content\u0020about\u0020dashboard\u0020in\u0020back.",
+            "url": "classes/ViewOrder.html"
+        },                {
+            "fqsen": "\\ViewOrder\u003A\u003AOrdersList\u0028\u0029",
+            "name": "OrdersList",
+            "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020dashboard.",
+            "url": "classes/ViewOrder.html#method_OrdersList"
         },                {
             "fqsen": "\\",
             "name": "\\",
