@@ -201,7 +201,7 @@ class ViewDashboard
 														?>
 														</tbody>
 													</table>
-													<a href="order.html" class="btn btn-primary">View All Orders</a>
+													<a href="index.php?do=listorders" class="btn btn-primary">Voir toutes les commandes</a>
 												</div>
 											</div>
 										</div>

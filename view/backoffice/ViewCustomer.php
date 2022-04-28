@@ -783,7 +783,7 @@ class ViewCustomer
 		require_once(DIR . '/model/ModelOrder.php');
 		$orders = new \Ecommerce\Model\ModelOrder($config);
 		$orders->set_customer($data['id']);
-		$totalorders = $orders->getNumberOfOrdersPerCustomer();
+		$totalorders = $orders->getNumberOfOrdersForCustomer();
 
 		// Number max per page
 		$perpage = 10;

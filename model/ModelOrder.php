@@ -243,22 +243,20 @@ class ModelOrder extends Model
 	 *
 	 * @return integer Number of orders in customer.
 	 */
-	public function getNumberOfOrdersPerCustomer()
+	public function getTotalNumberOfOrders()
 	{
 		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT COUNT(*) AS nborders
 			FROM commande
-			WHERE id_client = ?
 		");
-		$query->bindParam(1, $this->id_customer, \PDO::PARAM_INT);
 
 		$query->execute();
 		return $query->fetch();
 	}
 
 	/**
-	 * Returns some of the orders following the defined limit.
+	 * Returns some of the orders following the defined limit for a specific customer.
 	 *
 	 * @param integer $limitlower Minimum value for the limit.
 	 * @param integer $perpage Number of items to return.
@@ -277,6 +275,29 @@ class ModelOrder extends Model
 		$query->bindParam(1, $this->id_customer, \PDO::PARAM_INT);
 		$query->bindParam(2, $limitlower, \PDO::PARAM_INT);
 		$query->bindParam(3, $perpage, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
+	 * Returns some of the orders following the defined limit.
+	 *
+	 * @param integer $limitlower Minimum value for the limit.
+	 * @param integer $perpage Number of items to return.
+	 *
+	 * @return mixed Returns the requested data or false if there is an error.
+	 */
+	public function getAllOrders($limitlower, $perpage)
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT *
+			FROM commande
+			LIMIT ?, ?
+		");
+		$query->bindParam(1, $limitlower, \PDO::PARAM_INT);
+		$query->bindParam(2, $perpage, \PDO::PARAM_INT);
 
 		$query->execute();
 		return $query->fetchAll();

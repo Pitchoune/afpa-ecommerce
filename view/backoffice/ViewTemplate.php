@@ -397,6 +397,7 @@ class ViewTemplate
 								<?php
 							}
 							?>
+							<li><a href="index.php?do=listorders"><i class="fa fa-circle"></i>Liste des commandes</a></li>
 						</ul>
 					</li>
 					<?php

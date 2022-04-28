@@ -84,4 +84,9 @@ if (in_array($do, ['listmessages', 'addmessage', 'insertmessage', 'editmessage',
 	require_once(DIR . '/controller/backoffice/messages.php');
 }
 
+if (in_array($do, ['listorders']))
+{
+	require_once(DIR . '/controller/backoffice/orders.php');
+}
+
 ?>

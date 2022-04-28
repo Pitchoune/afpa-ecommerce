@@ -277,6 +277,10 @@ try
 			$status = isset($_GET['status']) ? filter_var($_GET['status'], FILTER_VALIDATE_INT) : NULL;
 			ChangeOrderStatus($id, $status);
 			break;
+		// Orders
+		case 'listorders':
+			ListOrders();
+			break;
 	}
 }
 catch(Exception $e)
