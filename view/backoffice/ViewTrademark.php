@@ -200,7 +200,7 @@ class ViewTrademark
 																</table>
 															</div>
 															<?php
-															Utils::construct_back_page_nav($pagenumber, $perpage, $totaltrademarks['nbtrademarks'], 'index.php?do=listtrademarks');
+															Utils::construct_page_nav($pagenumber, $perpage, $totaltrademarks['nbtrademarks'], 'index.php?do=listtrademarks', 'back');
 															?>
 														</div>
 													</div>

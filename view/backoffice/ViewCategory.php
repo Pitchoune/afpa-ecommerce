@@ -120,8 +120,8 @@ class ViewCategory
 																<table class="tablegrid-table">
 																	<thead>
 																		<tr class="tablegrid-header-row">
-																			<th class="tablegrid-header-cell tablegrid-header-sortable" style="width: 125px">Intitulé</th>
-																			<th class="tablegrid-header-cell tablegrid-header-sortable" style="width: 75px">Nombre de produits</th>
+																			<th class="tablegrid-header-cell" style="width: 125px">Intitulé</th>
+																			<th class="tablegrid-header-cell" style="width: 75px">Nombre de produits</th>
 																			<?php
 																			if (Utils::cando(11) OR Utils::cando(12))
 																			{
@@ -185,7 +185,7 @@ class ViewCategory
 																</table>
 															</div>
 															<?php
-															Utils::construct_back_page_nav($pagenumber, $perpage, $totalcategories['nbcats'], 'index.php?do=listcategories');
+															Utils::construct_page_nav($pagenumber, $perpage, $totalcategories['nbcats'], 'index.php?do=listcategories', 'back');
 															?>
 														</div>
 													</div>

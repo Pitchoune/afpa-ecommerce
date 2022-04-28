@@ -73,6 +73,8 @@ class ViewTemplate
 	 */
 	public static function BackHeader()
 	{
+		global $config;
+
 		?>
 		<div class="page-main-header">
 			<div class="main-header-left">
@@ -105,18 +107,32 @@ class ViewTemplate
 							</ul>
 						</li>
 						<li><a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()"><i data-feather="maximize"></i></a></li>
-						<li class="onhover-dropdown"><i data-feather="bell"></i><span class="badge badge-pill badge-primary pull-right notification-badge">3</span><span class="dot"></span>
+						<?php
+						require_once(DIR . '/model/ModelMessage.php');
+						$messages = new \Ecommerce\Model\ModelMessage($config);
+						$messages->set_type('notif');
+						$messagecount = $messages->countMessagesFromType();
+						?>
+						<li class="onhover-dropdown"><i data-feather="bell"></i><span class="badge badge-pill badge-primary pull-right notification-badge"><?= $messagecount['count'] ?></span><span class="dot"></span>
 							<ul class="notification-dropdown custom-scrollbar onhover-show-div p-0">
-								<li>
-									<div class="media">
-										<div class="notification-icons bg-success me-3"><i data-feather="thumbs-up"></i></div>
-										<div class="media-body">
-											<h6 class="font-success">Someone Likes Your Posts</h6>
-											<p class="mb-0"> 2 Hours Ago</p>
+								<?php
+								$messagelist = $messages->getAllMessagesFromType();
+
+								foreach ($messagelist AS $key => $value)
+								{
+									?>
+									<li>
+										<div class="media">
+											<div class="notification-icons bg-success me-3"><i data-feather="thumbs-up"></i></div>
+											<div class="media-body">
+												<h6 class="font-success"><?= $value['message'] ?></h6>
+											</div>
 										</div>
-									</div>
-								</li>
-								<li>
+									</li>
+									<?php
+								}
+								?>
+								<!-- <li>
 									<div class="media">
 										<div class="notification-icons bg-info me-3"><i data-feather="message-circle"></i></div>
 										<div class="media-body">
@@ -168,7 +184,7 @@ class ViewTemplate
 									</div>
 								</li>
 
-								<li class="bg-light txt-dark"><a href="javascript:void(0)" data-original-title="" title="">Toutes </a> les notifications</li>
+								<li class="bg-light txt-dark"><a href="javascript:void(0)" data-original-title="" title="">Toutes </a> les notifications</li> -->
 							</ul>
 						</li>
 						<li class="onhover-dropdown">

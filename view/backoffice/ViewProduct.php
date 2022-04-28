@@ -195,7 +195,7 @@ class ViewProduct
 																</table>
 															</div>
 															<?php
-															Utils::construct_back_page_nav($pagenumber, $perpage, $totalproducts['nbproducts'], 'index.php?do=listproducts');
+															Utils::construct_page_nav($pagenumber, $perpage, $totalproducts['nbproducts'], 'index.php?do=listproducts', 'back');
 															?>
 														</div>
 													</div>

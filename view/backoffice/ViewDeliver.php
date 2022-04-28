@@ -198,7 +198,7 @@ class ViewDeliver
 																</table>
 															</div>
 															<?php
-															Utils::construct_back_page_nav($pagenumber, $perpage, $totaldelivers['nbdelivers'], 'index.php?do=listdelivers');
+															Utils::construct_page_nav($pagenumber, $perpage, $totaldelivers['nbdelivers'], 'index.php?do=listdelivers', 'back');
 															?>
 														</div>
 													</div>

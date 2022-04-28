@@ -182,7 +182,7 @@ class ViewRole
 																</table>
 															</div>
 															<?php
-															Utils::construct_back_page_nav($pagenumber, $perpage, $totalroles['nbroles'], 'index.php?do=listroles');
+															Utils::construct_page_nav($pagenumber, $perpage, $totalroles['nbroles'], 'index.php?do=listroles', 'back');
 															?>
 														</div>
 													</div>

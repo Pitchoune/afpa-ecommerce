@@ -441,11 +441,11 @@ function ChangeOrderStatus($id, $status)
 		switch($status)
 		{
 			case 2:
-				$messages->set_message('Commande ' . $id . ' marqué en préparation');
+				$messages->set_message('Commande #' . $id . ' marqué en préparation');
 				$_SESSION['employee']['order']['statusprepare'] = 1;
 				break;
 			case 3:
-				$messages->set_message('Commande ' . $id . ' marqué comme envoyé');
+				$messages->set_message('Commande #' . $id . ' marqué comme envoyé');
 				$_SESSION['employee']['order']['statussent'] = 1;
 				break;
 		}

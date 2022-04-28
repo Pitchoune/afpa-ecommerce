@@ -351,7 +351,7 @@ class ViewEmployee
 																</table>
 															</div>
 															<?php
-															Utils::construct_back_page_nav($pagenumber, $perpage, $totalemployees['nbemployees'], 'index.php?do=listemployees');
+															Utils::construct_page_nav($pagenumber, $perpage, $totalemployees['nbemployees'], 'index.php?do=listemployees', 'back');
 															?>
 														</div>
 													</div>

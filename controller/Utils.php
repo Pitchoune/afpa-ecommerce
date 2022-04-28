@@ -174,11 +174,12 @@ class Utils
 	 * @param integer $pagenumber Page number being displayed.
 	 * @param integer $perpage Number of items to be displayed per page.
 	 * @param integer $results Total number of items found.
-	 $ @param string $address Base address to append the page number.
+	 * @param string $address Base address to append the page number.
+	 * @param string $type Type of page navigation. Valid values: 'back', 'front'.
 	 *
 	 * @return string Page navigation HTML
 	 */
-	public static function construct_back_page_nav($pagenumber, $perpage, $results, $address)
+	public static function construct_page_nav($pagenumber, $perpage, $results, $address, $type = 'back')
 	{
 		$curpage = 0;
 		$pagenavarr = array();
@@ -276,7 +277,14 @@ class Utils
 						$relpage = '+' . $relpage;
 					}
 
-					$pagenavarr[] = '<span class="tablegrid-pager-page"><a href="javascript:void(0)" title="Affichage des résultats ' . $pagenumbers['first'] .' à ' . $pagenumbers['last'] .' sur ' . $total . '"><!-- ' . $relpage . ' -->' . $curpage .'</a></a></span>';
+					if ($type === 'back')
+					{
+						$pagenavarr[] = '<span class="tablegrid-pager-page"><a href="javascript:void(0)" title="Affichage des résultats ' . $pagenumbers['first'] .' à ' . $pagenumbers['last'] .' sur ' . $total . '"><!-- ' . $relpage . ' -->' . $curpage .'</a></a></span>';
+					}
+					else if ($type === 'front')
+					{
+						$pagenavarr[] = '<span class="tablegrid-pager-page"><a href="javascript:void(0)" title="Affichage des résultats ' . $pagenumbers['first'] .' à ' . $pagenumbers['last'] .' sur ' . $total . '"><!-- ' . $relpage . ' -->' . $curpage .'</a></a></span>';
+					}
 				}
 			}
 			else
@@ -295,32 +303,65 @@ class Utils
 				{
 					$numbers = self::fetch_start_end_total_array($curpage, $perpage, $results);
 
-					$pagenavarr[] = '<span class="tablegrid-pager-page tablegrid-pager-current-page"><a href="' . $address . '&page=' . $curpage . '" title="Affichage des résultats ' . $numbers['first'] .' à ' . $numbers['last'] .' sur ' . $total . '">' . $curpage .'</a></span>';
+					if ($type === 'back')
+					{
+						$pagenavarr[] = '<span class="tablegrid-pager-page tablegrid-pager-current-page"><a href="' . $address . '&page=' . $curpage . '" title="Affichage des résultats ' . $numbers['first'] .' à ' . $numbers['last'] .' sur ' . $total . '">' . $curpage .'</a></span>';
+					}
+					else if ($type === 'front')
+					{
+						$pagenavarr[] = '<span class="tablegrid-pager-page tablegrid-pager-current-page"><a href="' . $address . '&page=' . $curpage . '" title="Affichage des résultats ' . $numbers['first'] .' à ' . $numbers['last'] .' sur ' . $total . '">' . $curpage .'</a></span>';
+					}
 				}
 				else
 				{
 					$pagenumbers = self::fetch_start_end_total_array($curpage, $perpage, $results);
 
-					$pagenavarr[] = '<span class="tablegrid-pager-page"><a href="' . $address . '&page=' . $curpage . '" title="Affichage des résultats ' . $pagenumbers['first'] .' à ' . $pagenumbers['last'] .' sur ' . $total . '">' . $curpage .'</a></a></span>';
+					if ($type === 'back')
+					{
+						$pagenavarr[] = '<span class="tablegrid-pager-page"><a href="' . $address . '&page=' . $curpage . '" title="Affichage des résultats ' . $pagenumbers['first'] .' à ' . $pagenumbers['last'] .' sur ' . $total . '">' . $curpage .'</a></a></span>';
+					}
+					else if ($type === 'front')
+					{
+						$pagenavarr[] = '<span class="tablegrid-pager-page"><a href="' . $address . '&page=' . $curpage . '" title="Affichage des résultats ' . $pagenumbers['first'] .' à ' . $pagenumbers['last'] .' sur ' . $total . '">' . $curpage .'</a></a></span>';
+					}
 				}
 			}
 		}
 
 		$pagenav = implode('', $pagenavarr);
 
-		$return = '<div class="tablegrid-pager-container">
-			<div class="tablegrid-pager">
-				Pages:
-				' . ($firstaddress ? '<span class="tablegrid-pager-nav-button"><a href="' . $firstaddress . '">First</a></span>' : '') . '
-				' . ($prevaddress ? '<span class="tablegrid-pager-nav-button"><a href="' . $prevaddress . '">Prev</a></span>' : '') . '
-				' . (($show_prior_elipsis AND $prevaddress AND $firstaddress) ? '<span>...</span>' : '') . '
-				' . $pagenav . '
-				' . (($show_after_elipsis AND $nextaddress AND $lastaddress) ? '<span>...</span>' : '') . '
-				' . ($nextaddress ? '<span class="tablegrid-pager-nav-button"><a href="' . $nextaddress . '">Next</a></span>' : '') . '
-				' . ($lastaddress ? '<span class="tablegrid-pager-nav-button"><a href="' . $lastaddress . '">Last</a></span>' : '') . '
-				&nbsp;&nbsp;' . $pagenumber . ' of ' . $totalpages . '
-			</div>
-		</div>';
+		if ($type === 'back')
+		{
+			$return = '<div class="tablegrid-pager-container">
+				<div class="tablegrid-pager">
+					Pages:
+					' . ($firstaddress ? '<span class="tablegrid-pager-nav-button"><a href="' . $firstaddress . '">Première</a></span>' : '') . '
+					' . ($prevaddress ? '<span class="tablegrid-pager-nav-button"><a href="' . $prevaddress . '">Précédente</a></span>' : '') . '
+					' . (($show_prior_elipsis AND $prevaddress AND $firstaddress) ? '<span>...</span>' : '') . '
+					' . $pagenav . '
+					' . (($show_after_elipsis AND $nextaddress AND $lastaddress) ? '<span>...</span>' : '') . '
+					' . ($nextaddress ? '<span class="tablegrid-pager-nav-button"><a href="' . $nextaddress . '">Suivante</a></span>' : '') . '
+					' . ($lastaddress ? '<span class="tablegrid-pager-nav-button"><a href="' . $lastaddress . '">Dernière</a></span>' : '') . '
+					&nbsp;&nbsp;' . $pagenumber . ' sur ' . $totalpages . '
+				</div>
+			</div>';
+		}
+		else if ($type === 'front')
+		{
+			$return = '<div class="tablegrid-pager-container">
+				<div class="tablegrid-pager">
+					Pages:
+					' . ($firstaddress ? '<span class="tablegrid-pager-nav-button"><a href="' . $firstaddress . '">Première</a></span>' : '') . '
+					' . ($prevaddress ? '<span class="tablegrid-pager-nav-button"><a href="' . $prevaddress . '">Précédente</a></span>' : '') . '
+					' . (($show_prior_elipsis AND $prevaddress AND $firstaddress) ? '<span>...</span>' : '') . '
+					' . $pagenav . '
+					' . (($show_after_elipsis AND $nextaddress AND $lastaddress) ? '<span>...</span>' : '') . '
+					' . ($nextaddress ? '<span class="tablegrid-pager-nav-button"><a href="' . $nextaddress . '">Suivante</a></span>' : '') . '
+					' . ($lastaddress ? '<span class="tablegrid-pager-nav-button"><a href="' . $lastaddress . '">Dernière</a></span>' : '') . '
+					&nbsp;&nbsp;' . $pagenumber . ' sur ' . $totalpages . '
+				</div>
+			</div>';
+		}
 
 		echo $return;
 	}
