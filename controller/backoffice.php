@@ -49,7 +49,7 @@ if (in_array($do, ['listroles', 'addrole', 'insertrole', 'editrole', 'updaterole
 	require_once(DIR . '/controller/backoffice/roles.php');
 }
 
-if (in_array($do, ['index', 'login', 'dologin', 'logout', 'listemployees', 'addemployee', 'insertemployee', 'editemployee', 'updateemployee', 'deleteemployee']))
+if (in_array($do, ['index', 'login', 'dologin', 'logout', 'listemployees', 'addemployee', 'insertemployee', 'editemployee', 'updateemployee', 'deleteemployee', 'profile', 'updateprofile']))
 {
 	require_once(DIR . '/controller/backoffice/employees.php');
 }

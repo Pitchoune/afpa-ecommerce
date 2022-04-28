@@ -97,17 +97,9 @@ class ViewTemplate
 								</div>
 							</form>
 						</li>
-						<li class="onhover-dropdown"><a class="txt-dark" href="javascript:void(0)">
-							<h6>FR</h6></a>
-							<ul class="language-dropdown onhover-show-div p-20">
-								<li><a href="javascript:void(0)" data-lng="pt"><i class="flag-icon flag-icon-pt"></i> Portugais</a></li>
-								<li><a href="javascript:void(0)" data-lng="es"><i class="flag-icon flag-icon-es"></i> Espagnol</a></li>
-								<li><a href="javascript:void(0)" data-lng="en"><i class="flag-icon flag-icon-us"></i> Anglais</a></li>
-								<li><a href="javascript:void(0)" data-lng="fr"><i class="flag-icon flag-icon-fr"></i> Français</a></li>
-							</ul>
-						</li>
 						<li><a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()"><i data-feather="maximize"></i></a></li>
 						<?php
+						// Put this part of code here to have the notifications total
 						require_once(DIR . '/model/ModelMessage.php');
 						$messages = new \Ecommerce\Model\ModelMessage($config);
 						$messages->set_type('notif');
@@ -132,59 +124,6 @@ class ViewTemplate
 									<?php
 								}
 								?>
-								<!-- <li>
-									<div class="media">
-										<div class="notification-icons bg-info me-3"><i data-feather="message-circle"></i></div>
-										<div class="media-body">
-											<h6 class="font-info">3 New Comments</h6>
-											<p class="mb-0"> 1 Hours Ago</p>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="media">
-										<div class="notification-icons bg-secondary me-3"><i data-feather="download"></i></div>
-										<div class="media-body">
-											<h6 class="font-secondary">Download Complete</h6>
-											<p class="mb-0"> 3 Days Ago</p>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="media">
-										<div class="notification-icons bg-success bg-warning me-3">
-											<i data-feather="gift"></i>
-										</div>
-										<div class="media-body">
-											<h6 class="font-secondary">New Order Recieved</h6>
-											<p class="mb-0"> 4 Days Ago</p>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="media">
-										<div class="notification-icons bg-success me-3">
-											<i data-feather="airplay"></i>
-										</div>
-										<div class="media-body">
-											<h6 class="font-secondary">Apps are ready for update</h6>
-											<p class="mb-0"> 3 Minutes Ago</p>
-										</div>
-									</div>
-								</li>
-								<li>
-									<div class="media">
-										<div class="notification-icons bg-info me-3">
-											<i data-feather="alert-circle"></i>
-										</div>
-										<div class="media-body">
-											<h6 class="font-secondary">Server Warning</h6>
-											<p class="mb-0"> Just Now</p>
-										</div>
-									</div>
-								</li>
-
-								<li class="bg-light txt-dark"><a href="javascript:void(0)" data-original-title="" title="">Toutes </a> les notifications</li> -->
 							</ul>
 						</li>
 						<li class="onhover-dropdown">
@@ -192,10 +131,8 @@ class ViewTemplate
 								<div class="dotted-animation"><span class="animate-circle"></span><span class="main-circle"></span></div>
 							</div>
 							<ul class="profile-dropdown onhover-show-div p-20 profile-dropdown-hover">
-								<li><a href="javascript:void(0)">Profil<span class="pull-right"><i data-feather="user"></i></span></a></li>
-								<li><a href="javascript:void(0)">Messages<span class="pull-right"><i data-feather="mail"></i></span></a></li>
-								<li><a href="javascript:void(0)">Tâches<span class="pull-right"><i data-feather="file-text"></i></span></a></li>
-								<li><a href="javascript:void(0)">Paramètres<span class="pull-right"><i data-feather="settings"></i></span></a></li>
+								<li><a href="index.php?do=profile">Profil<span class="pull-right"><i data-feather="user"></i></span></a></li>
+								<li><a href="index.php?do=listmessages">Messages<span class="pull-right"><i data-feather="mail"></i></span></a></li>
 								<li><a href="index.php?do=logout">Se déconnecter<span class="pull-right"><i data-feather="log-out"></i></span></a></li>
 							</ul>
 						</li>
@@ -403,12 +340,12 @@ class ViewTemplate
 					<?php
 					}
 					?>
-					<li><a class="sidebar-header" href=""><i data-feather="settings" ></i><span>Settings</span><i class="fa fa-angle-right pull-right"></i></a>
+					<li><a class="sidebar-header" href=""><i data-feather="settings" ></i><span>Paramètres</span><i class="fa fa-angle-right pull-right"></i></a>
 						<ul class="sidebar-submenu">
-							<li><a href="index.php?do=profile"><i class="fa fa-circle"></i>Profile</a></li>
+							<li><a href="index.php?do=profile"><i class="fa fa-circle"></i>Mon profil</a></li>
 						</ul>
 					</li>
-					<li><a class="sidebar-header" href="index.php?do=logout"><i data-feather="log-out"></i><span>Logout</span></a>
+					<li><a class="sidebar-header" href="index.php?do=logout"><i data-feather="log-out"></i><span>Se déconnecter</span></a>
 					</li>
 				</ul>
 			</div>

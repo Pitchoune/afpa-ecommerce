@@ -114,6 +114,18 @@ try
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
 			DeleteEmployee($id);
 			break;
+		case 'profile':
+			ViewProfile();
+			break;
+		case 'updateprofile':
+			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
+			$firstname = isset($_POST['firstname']) ? filter_var($_POST['firstname'], FILTER_SANITIZE_STRING) : NULL;
+			$lastname = isset($_POST['lastname']) ? filter_var($_POST['lastname'], FILTER_SANITIZE_STRING) : NULL;
+			$email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_SANITIZE_STRING) : NULL;
+			$password = isset($_POST['password']) ? filter_var($_POST['password'], FILTER_SANITIZE_STRING) : NULL;
+			$role = isset($_POST['role']) ? filter_var($_POST['role'], FILTER_VALIDATE_INT) : NULL;
+			UpdateProfile($id, $firstname, $lastname, $email, $password, $role);
+			break;
 		// Categories
 		case 'listcategories':
 			ListCategories();

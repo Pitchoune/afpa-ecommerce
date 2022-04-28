@@ -99,18 +99,6 @@ class ViewEmployee
 														<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.</p>
 													</div>
 												</div>
-												<div>
-													<div>
-														<h3>Welcome to Bigdeal</h3>
-														<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.</p>
-													</div>
-												</div>
-												<div>
-													<div>
-														<h3>Welcome to Bigdeal</h3>
-														<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.</p>
-													</div>
-												</div>
 											</div>
 										</div>
 									</div>
@@ -492,7 +480,7 @@ class ViewEmployee
 			}
 			else
 			{
-				$options .= '<option value="0" disabled>Il n\'y a pas de rôle à lister.</option';
+				$options .= '<option value="0" disabled>Il n\'y a pas de rôle à lister.</option>';
 			}
 
 			if ($id)
@@ -652,6 +640,155 @@ class ViewEmployee
 		{
 			throw new Exception('Vous n\'êtes pas autorisé à ajouter ou à modifier des employés.');
 		}
+	}
+
+	public static function ViewProfile()
+	{
+		global $config;
+
+		$pagetitle = 'Paramètres';
+		$navtitle = 'Profil';
+
+		$navbits = [
+			'index.php?do=listemployees' => $pagetitle,
+			'' => $navtitle
+		];
+
+		$employees = new \Ecommerce\Model\ModelEmployee($config);
+		$employees->set_id($_SESSION['employee']['id']);
+		$employee = $employees->getEmployeeInfosFromId();
+
+		$options = '<option value="-1" disabled>Sélectionnez un rôle</option>';
+		require_once(DIR . '/model/ModelRole.php');
+		$roles = new \Ecommerce\Model\ModelRole($config);
+		$rolelist = $roles->listAllRoles();
+
+		$pagetitle = 'Gestion des employées';
+
+		if ($rolelist)
+		{
+			foreach ($rolelist AS $key => $value)
+			{
+				$options .= '<option value="' . $value['id'] . '">' . $value['nom'] . '</option>';
+			}
+		}
+		else
+		{
+			$options .= '<option value="0" disabled>Il n\'y a pas de rôle à lister.</option>';
+		}
+
+		?>
+		<!DOCTYPE html>
+		<html>
+			<head>
+				<?php
+				ViewTemplate::BackHead($pagetitle);
+				?>
+			</head>
+
+			<body>
+				<div class="page-wrapper">
+
+					<!-- Page Header Start-->
+					<?php
+					ViewTemplate::BackHeader();
+					?>
+					<!-- Page Header Ends -->
+
+					<!-- Page Body Start-->
+					<div class="page-body-wrapper">
+
+						<!-- Page Sidebar Start-->
+						<?php
+						ViewTemplate::Sidebar();
+						?>
+						<!-- Page Sidebar Ends-->
+
+						<div class="page-body">
+
+							<!-- Container-fluid starts-->
+							<?php
+							ViewTemplate::Breadcrumb($pagetitle, $navbits);
+							?>
+							<!-- Container-fluid ends-->
+
+								<div class="container-fluid">
+									<div class="row product-adding">
+										<div class="col">
+											<div class="card">
+												<div class="card-header">
+													<h5><?= $navtitle ?></h5>
+												</div>
+												<div class="card-body">
+													<form class="digital-add needs-validation" method="post" action="index.php?do=updateprofile">
+														<div class="form-group">
+															<label for="validationCustom01" class="col-form-label pt-0"><span>*</span> Nom</label>
+															<input class="form-control" id="validationCustom01" type="text" required name="firstname" value="<?= $employee['nom'] ?>">
+														</div>
+														<div class="form-group">
+															<label for="validationCustom02" class="col-form-label pt-0"><span>*</span> Prénom</label>
+															<input class="form-control" id="validationCustom02" type="text" required name="lastname" value="<?= $employee['prenom'] ?>">
+														</div>
+														<div class="form-group">
+															<label for="validationCustom03" class="col-form-label pt-0"><span>*</span> Adresse email</label>
+															<input class="form-control" id="validationCustom03" type="email" required name="email" value="<?= $employee['mail'] ?>">
+														</div>
+														<div class="form-group">
+															<label for="validationCustom04" class="col-form-label pt-0"><span>*</span> Mot de passe</label>
+															<input class="form-control" id="validationCustom04" type="password" name="password">
+														</div>
+														<div class="form-group">
+															<label class="col-form-label"><span>*</span> Role</label>
+															<select class="custom-select form-control" required name="role">
+															<?= $options ?>
+															</select>
+														</div>
+														<div class="form-group mb-0">
+															<div class="text-center">
+																<input type="hidden" name="do" value="updateprofile" />
+																<input type="hidden" name="id" value="<?= $employee['id'] ?>" />
+																<input type="submit" class="btn btn-primary" value="Modifier" />
+																<input type="reset" class="btn btn-light" value="Annuler"/>
+															</div>
+														</div>
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+						<!-- footer start-->
+						<?php
+						ViewTemplate::BackFooter();
+						?>
+						<!-- footer end-->
+					</div>
+
+
+				</div>
+				<!-- latest jquery-->
+				<script src="../assets/js/jquery-3.5.1.min.js"></script>
+
+				<!-- Bootstrap js-->
+				<script src="../assets/js/popper.min.js"></script>
+				<script src="../assets/js/bootstrap.js"></script>
+
+				<!-- feather icon js-->
+				<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
+				<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
+
+				<!-- Sidebar jquery-->
+				<script src="../assets/js/sidebar-menu.js"></script>
+				<script src="../assets/js/slick.js"></script>
+
+				<!--script admin-->
+				<script src="../assets/js/admin-script.js"></script>
+			</body>
+		</html>
+		<?php
 	}
 }
 

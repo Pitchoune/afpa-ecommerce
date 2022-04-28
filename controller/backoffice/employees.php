@@ -358,4 +358,88 @@ function DeleteEmployee($id)
 	}
 }
 
+/**
+ * Display the current employee profile to edit own informations.
+ *
+ * @return void
+ */
+function ViewProfile()
+{
+	require_once(DIR . '/view/backoffice/ViewEmployee.php');
+	ViewEmployee::ViewProfile();
+}
+
+/**
+ * Updates the given employee profileinto the database.
+ *
+ * @param integer $id ID of the employee.
+ * @param string $firstname First name of the employee.
+ * @param string $lastname Last name of the employee.
+ * @param string $email Email of the employee.
+ * @param string $password Password of the employee.
+ * @param integer $role Role of the employee.
+ *
+ * @return void
+ */
+function UpdateProfile($id, $firstname, $lastname, $email, $password, $role)
+{
+	global $config;
+
+	require_once(DIR . '/model/ModelEmployee.php');
+	$employees = new \Ecommerce\Model\ModelEmployee($config);
+
+	// Verify firstname
+	if ($firstname === '')
+	{
+		throw new Exception('Le prénom est vide.');
+	}
+
+	// Verify lastname
+	if ($lastname === '')
+	{
+		throw new Exception('Le nom est vide.');
+	}
+
+	// Verify email
+	if ($email === '')
+	{
+		throw new Exception('L\'adresse email est vide.');
+	}
+
+	// Verify role
+	if ($role === '')
+	{
+		throw new Exception('Le rôle est vide.');
+	}
+
+	$employees->set_id($id);
+	$employees->set_firstname($firstname);
+	$employees->set_lastname($lastname);
+	$employees->set_email($email);
+	$employees->set_role($role);
+
+	if (isset($password))
+	{
+		$hashedpassword = password_hash($password, PASSWORD_DEFAULT);
+		$employees->set_password($hashedpassword);
+
+		// Save the employee in the database
+		if ($employees->saveEditEmployeeWithPassword())
+		{
+			$_SESSION['employee']['edit'] = 1;
+		}
+	}
+	else
+	{
+		// Save the employee in the database
+		if ($employees->saveEditEmployeeWithoutPassword())
+		{
+			$_SESSION['employee']['edit'] = 1;
+		}
+	}
+
+	// Save is correctly done, redirects to the profile
+	header('Location: index.php?do=profile');
+}
+
 ?>
