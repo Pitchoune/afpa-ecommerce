@@ -262,9 +262,6 @@ class ViewDashboard
 				<!--dashboard custom js-->
 				<script src="../assets/js/dashboard/default.js"></script>
 
-				<!--height equal js-->
-				<script src="../assets/js/equal-height.js"></script>
-
 				<!--script admin-->
 				<script src="../assets/js/admin-script.js"></script>
 				<script src="../assets/js/slick.js"></script>
