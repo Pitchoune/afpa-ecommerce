@@ -87,7 +87,7 @@ class ViewError
 					</div>
 				</div>
 				<!-- latest jquery-->
-				<script src="../assets/js/jquery-3.3.1.min.js"></script>
+				<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
 				<!-- Bootstrap js-->
 				<script src="../assets/js/popper.min.js"></script>

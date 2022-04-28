@@ -108,7 +108,6 @@ class ViewShopping
 				<script src="assets/js/feather-icon.js"></script>
 
 				<!-- Theme js-->
-				<script src="assets/js/modal.js"></script>
 				<script src="assets/js/script.js" ></script>
 			</body>
 		</html>
@@ -303,7 +302,6 @@ class ViewShopping
 					<script src="assets/js/feather-icon.js"></script>
 
 					<!-- Theme js-->
-					<script src="assets/js/modal.js"></script>
 					<script src="assets/js/script.js" ></script>
 				</body>
 			</html>
@@ -451,7 +449,6 @@ class ViewShopping
 					<script src="assets/js/feather-icon.js"></script>
 
 					<!-- Theme js-->
-					<script src="assets/js/modal.js"></script>
 					<script src="assets/js/script.js" ></script>
 
 					<!-- Stripe - use v2, v3 requires app auth from your bank with paymentInstants -->

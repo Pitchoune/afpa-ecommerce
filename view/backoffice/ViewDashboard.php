@@ -158,26 +158,6 @@ class ViewDashboard
 									<div class="col-xl-6 xl-100">
 										<div class="card">
 											<div class="card-header">
-												<h5>Product Value</h5>
-												<div class="card-header-right">
-													<ul class="list-unstyled card-option">
-														<li><i class="icofont icofont-simple-left"></i></li>
-														<li><i class="view-html fa fa-code"></i></li>
-														<li><i class="icofont icofont-maximize full-card"></i></li>
-														<li><i class="icofont icofont-minus minimize-card"></i></li>
-														<li><i class="icofont icofont-refresh reload-card"></i></li>
-														<li><i class="icofont icofont-error close-card"></i></li>
-													</ul>
-												</div>
-											</div>
-											<div class="card-body">
-												<div class="market-chart"></div>
-											</div>
-										</div>
-									</div>
-									<div class="col-xl-6 xl-100">
-										<div class="card">
-											<div class="card-header">
 												<h5>Dernières commandes</h5>
 											</div>
 											<div class="card-body">
@@ -226,126 +206,6 @@ class ViewDashboard
 											</div>
 										</div>
 									</div>
-									<div class="col-sm-12">
-										<div class="card btn-months">
-											<div class="card-header">
-												<h5>Buy / Sell</h5>
-											</div>
-											<div class="card-body sell-graph">
-												<div class="flot-chart-placeholder" id="multiple-real-timeupdate"></div>
-											</div>
-										</div>
-									</div>
-									<div class="col-xl-4 xl-50">
-										<div class="card customers-card">
-											<div class="card-header">
-												<h5>New Customers</h5>
-												<div class="chart-value-box pull-right">
-													<div class="value-square-box-secondary"></div><span class="f-12 f-w-600">Customers</span>
-												</div>
-											</div>
-											<div class="card-body p-0">
-												<div class="apex-chart-container">
-													<div id="customers"></div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-xl-8 xl-50">
-										<div class="card height-equal">
-											<div class="card-header">
-												<h5>Employee Status</h5>
-											</div>
-											<div class="card-body">
-												<div class="user-status table-responsive products-table">
-													<table class="table table-bordernone mb-0">
-														<thead>
-														<tr>
-															<th scope="col">Name</th>
-															<th scope="col">Designation</th>
-															<th scope="col">Skill Level</th>
-															<th scope="col">Experience</th>
-														</tr>
-														</thead>
-														<tbody>
-														<tr>
-															<td class="bd-t-none u-s-tb">
-																<div class="align-middle image-sm-size"><img class="img-radius align-top m-r-15 rounded-circle blur-up lazyloaded" src="../assets/images/dashboard/user2.jpg" alt="" data-original-title="" title="">
-																	<div class="d-inline-block">
-																		<h6>John Deo <span class="text-muted digits">(14+ Online)</span></h6>
-																	</div>
-																</div>
-															</td>
-															<td>Designer</td>
-															<td>
-																<div class="progress-showcase">
-																	<div class="progress" style="height: 8px;">
-																		<div class="progress-bar bg-primary" role="progressbar" style="width: 30%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-																	</div>
-																</div>
-															</td>
-															<td class="digits">2 Year</td>
-														</tr>
-														<tr>
-															<td class="bd-t-none u-s-tb">
-																<div class="align-middle image-sm-size"><img class="img-radius align-top m-r-15 rounded-circle blur-up lazyloaded" src="../assets/images/dashboard/man.png" alt="" data-original-title="" title="">
-																	<div class="d-inline-block">
-																		<h6>Mohsib lara<span class="text-muted digits">(99+ Online)</span></h6>
-																	</div>
-																</div>
-															</td>
-															<td>Tester</td>
-															<td>
-																<div class="progress-showcase">
-																	<div class="progress" style="height: 8px;">
-																		<div class="progress-bar bg-primary" role="progressbar" style="width: 60%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-																	</div>
-																</div>
-															</td>
-															<td class="digits">5 Month</td>
-														</tr>
-														<tr>
-															<td class="bd-t-none u-s-tb">
-																<div class="align-middle image-sm-size"><img class="img-radius align-top m-r-15 rounded-circle blur-up lazyloaded" src="../assets/images/dashboard/user.png" alt="" data-original-title="" title="">
-																	<div class="d-inline-block">
-																		<h6>Hileri Soli <span class="text-muted digits">(150+ Online)</span></h6>
-																	</div>
-																</div>
-															</td>
-															<td>Designer</td>
-															<td>
-																<div class="progress-showcase">
-																	<div class="progress" style="height: 8px;">
-																		<div class="progress-bar bg-secondary" role="progressbar" style="width: 30%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-																	</div>
-																</div>
-															</td>
-															<td class="digits">3 Month</td>
-														</tr>
-														<tr>
-															<td class="bd-t-none u-s-tb">
-																<div class="align-middle image-sm-size"><img class="img-radius align-top m-r-15 rounded-circle blur-up lazyloaded" src="../assets/images/dashboard/designer.jpg" alt="" data-original-title="" title="">
-																	<div class="d-inline-block">
-																		<h6>Pusiz bia <span class="text-muted digits">(14+ Online)</span></h6>
-																	</div>
-																</div>
-															</td>
-															<td>Designer</td>
-															<td>
-																<div class="progress-showcase">
-																	<div class="progress" style="height: 8px;">
-																		<div class="progress-bar bg-primary" role="progressbar" style="width: 90%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-																	</div>
-																</div>
-															</td>
-															<td class="digits">5 Year</td>
-														</tr>
-														</tbody>
-													</table>
-												</div>
-											</div>
-										</div>
-									</div>
 								</div>
 							</div>
 							<!-- Container-fluid Ends-->
@@ -362,7 +222,7 @@ class ViewDashboard
 
 				</div>
 				<!-- latest jquery-->
-				<script src="../assets/js/jquery-3.3.1.min.js"></script>
+				<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
 				<!-- Bootstrap js-->
 				<script src="../assets/js/popper.min.js"></script>
@@ -376,20 +236,8 @@ class ViewDashboard
 				<script src="../assets/js/sidebar-menu.js"></script>
 				<script src="../assets/js/slick.js"></script>
 
-				<!--dropzone js-->
-				<script src="../assets/js/dropzone/dropzone.js"></script>
-				<script src="../assets/js/dropzone/dropzone-script.js"></script>
-
 				<!--chartist js-->
 				<script src="../assets/js/chart/chartist/chartist.js"></script>
-
-				<!-- lazyload js-->
-				<script src="../assets/js/lazysizes.min.js"></script>
-
-				<!--copycode js-->
-				<script src="../assets/js/prism/prism.min.js"></script>
-				<script src="../assets/js/clipboard/clipboard.min.js"></script>
-				<script src="../assets/js/custom-card/custom-card.js"></script>
 
 				<!--counter js-->
 				<script src="../assets/js/counter/jquery.waypoints.min.js"></script>
@@ -398,10 +246,6 @@ class ViewDashboard
 
 				<!--Customizer admin-->
 				<script src="../assets/js/admin-customizer.js"></script>
-
-				<!--map js-->
-				<script src="../assets/js/vector-map/jquery-jvectormap-2.0.2.min.js"></script>
-				<script src="../assets/js/vector-map/map/jquery-jvectormap-world-mill-en.js"></script>
 
 				<!--apex chart js-->
 				<script src="../assets/js/chart/apex-chart/apex-chart.js"></script>
@@ -414,6 +258,7 @@ class ViewDashboard
 				<script src="../assets/js/chart/flot-chart/jquery.flot.categories.js"></script>
 				<script src="../assets/js/chart/flot-chart/jquery.flot.stack.js"></script>
 				<script src="../assets/js/chart/flot-chart/jquery.flot.pie.js"></script>
+
 				<!--dashboard custom js-->
 				<script src="../assets/js/dashboard/default.js"></script>
 

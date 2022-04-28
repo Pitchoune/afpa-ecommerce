@@ -894,7 +894,7 @@ class ViewIndex
 					?>
 
 					<!-- latest jquery-->
-					<script src="assets/js/jquery-3.3.1.min.js" ></script>
+					<script src="assets/js/jquery-3.5.1.min.js" ></script>
 
 					<!-- slick js-->
 					<script src="assets/js/slick.js"></script>
@@ -905,9 +905,6 @@ class ViewIndex
 
 					<!-- menu js-->
 					<script src="assets/js/menu.js"></script>
-
-					<!-- timer js -->
-					<!-- <script src="assets/js/timer2.js"></script> -->
 
 					<!-- Bootstrap js-->
 					<script src="assets/js/bootstrap.js"></script>
@@ -921,7 +918,6 @@ class ViewIndex
 					<script src="assets/js/feather-icon.js"></script>
 
 					<!-- Theme js-->
-					<script src="assets/js/modal.js"></script>
 					<script src="assets/js/script.js" ></script>
 
 					<?php

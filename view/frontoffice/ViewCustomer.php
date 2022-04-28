@@ -118,7 +118,6 @@ class ViewCustomer
 				<script src="assets/js/feather-icon.js"></script>
 
 				<!-- Theme js-->
-				<script src="assets/js/modal.js"></script>
 				<script src="assets/js/script.js" ></script>
 
 				<?php
@@ -214,7 +213,6 @@ class ViewCustomer
 				<script src="assets/js/feather-icon.js"></script>
 
 				<!-- Theme js-->
-				<script src="assets/js/modal.js"></script>
 				<script src="assets/js/script.js" ></script>
 
 				<?php
@@ -362,7 +360,6 @@ class ViewCustomer
 				<script src="assets/js/feather-icon.js"></script>
 
 				<!-- Theme js-->
-				<script src="assets/js/modal.js"></script>
 				<script src="assets/js/script.js" ></script>
 
 				<?php
@@ -522,7 +519,6 @@ class ViewCustomer
 					<script src="assets/js/feather-icon.js"></script>
 
 					<!-- Theme js-->
-					<script src="assets/js/modal.js"></script>
 					<script src="assets/js/script.js" ></script>
 
 					<?php
@@ -666,7 +662,6 @@ class ViewCustomer
 					<script src="assets/js/feather-icon.js"></script>
 
 					<!-- Theme js-->
-					<script src="assets/js/modal.js"></script>
 					<script src="assets/js/script.js" ></script>
 
 					<?php
@@ -792,7 +787,6 @@ class ViewCustomer
 					<script src="assets/js/feather-icon.js"></script>
 
 					<!-- Theme js-->
-					<script src="assets/js/modal.js"></script>
 					<script src="assets/js/script.js" ></script>
 
 					<?php
@@ -899,7 +893,6 @@ class ViewCustomer
 					<script src="assets/js/feather-icon.js"></script>
 
 					<!-- Theme js-->
-					<script src="assets/js/modal.js"></script>
 					<script src="assets/js/script.js" ></script>
 
 					<?php
@@ -1061,7 +1054,6 @@ class ViewCustomer
 					<script src="assets/js/feather-icon.js"></script>
 
 					<!-- Theme js-->
-					<script src="assets/js/modal.js"></script>
 					<script src="assets/js/script.js" ></script>
 				</body>
 			</html>
@@ -1229,7 +1221,6 @@ class ViewCustomer
 						<script src="assets/js/feather-icon.js"></script>
 
 						<!-- Theme js-->
-						<script src="assets/js/modal.js"></script>
 						<script src="assets/js/script.js" ></script>
 					</body>
 				</html>
