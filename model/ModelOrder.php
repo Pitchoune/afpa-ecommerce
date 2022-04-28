@@ -182,7 +182,9 @@ class ModelOrder extends Model
 	}
 
 	/**
+	 * Updates the status for an order.
 	 *
+	 * @return mixed Returns saved order ID or false if there is an error.
 	 */
 	public function updateStatus()
 	{
@@ -199,7 +201,9 @@ class ModelOrder extends Model
 	}
 
 	/**
+	 * Returns the ID of the customer from the ID of the order.
 	 *
+	 * @return mixed Returns saved order ID or false if there is an error.
 	 */
 	public function getCustomerId()
 	{
@@ -254,7 +258,12 @@ class ModelOrder extends Model
 	}
 
 	/**
+	 * Returns some of the orders following the defined limit.
 	 *
+	 * @param integer $limitlower Minimum value for the limit.
+	 * @param integer $perpage Number of items to return.
+	 *
+	 * @return mixed Returns the requested data or false if there is an error.
 	 */
 	public function getAllCustomerOrders($limitlower, $perpage)
 	{

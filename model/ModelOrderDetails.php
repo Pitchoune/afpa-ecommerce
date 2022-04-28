@@ -82,7 +82,9 @@ class ModelOrderDetails extends Model
 	}
 
 	/**
+	 * Returns all products from an order.
 	 *
+	 * @return mixed Returns the requested data or false if there is an error.
 	 */
 	public function getOrderDetails()
 	{

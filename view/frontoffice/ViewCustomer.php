@@ -1061,7 +1061,9 @@ class ViewCustomer
 	}
 
 	/**
-	 * Returns the HTML code to display a specific customer order details
+	 * Returns the HTML code to display a specific customer order details.
+	 *
+	 * @param integer $id ID of the order.
 	 *
 	 * @return void
 	 */

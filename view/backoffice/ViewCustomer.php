@@ -499,7 +499,11 @@ class ViewCustomer
 	}
 
 	/**
+	 * Returns the HTML code to display the customer profile
 	 *
+	 * @param integer $id, ID of the customer.
+	 *
+	 * @return void
 	 */
 	public static function ViewCustomerProfile($id)
 	{

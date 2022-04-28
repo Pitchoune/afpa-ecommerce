@@ -500,7 +500,7 @@ function savePassword($id, $password = '', $newpassword, $confirmpassword, $toke
 	}
 	else
 	{
-		// If there is a token sumbitted (forgot password), there is no current password field
+		// If there is a token submitted (forgot password), there is no current password field
 		// We can't verify the current password, setting it to true for this case.
 		$checkpassword = true;
 	}

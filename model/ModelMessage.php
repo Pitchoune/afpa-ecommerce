@@ -77,6 +77,11 @@ class ModelMessage extends Model
 		$this->id_employee = $id_employee;
 	}
 
+	/**
+	 * Saves a mew notification in the 'message' table.
+	 *
+	 * @return mixed Returns saved message ID or false if there is an error.
+	 */
 	public function saveNewNotification()
 	{
 		$db = $this->dbConnect();
@@ -96,7 +101,9 @@ class ModelMessage extends Model
 	}
 
 	/**
+	 * Returns all messages from a specific type.
 	 *
+	 * @return mixed Returns the requested content or false if there is an error.
 	 */
 	public function getAllMessagesFromType()
 	{
@@ -113,7 +120,9 @@ class ModelMessage extends Model
 	}
 
 	/**
+	 * Returns the number of messages from a certain type.
 	 *
+	 * @return mixed Returns the requested content or false if there is an error.
 	 */
 	public function countMessagesFromType()
 	{

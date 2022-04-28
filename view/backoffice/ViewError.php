@@ -10,6 +10,8 @@ class ViewError
 	/**
 	 * Returns the HTML code to display the caught error when logged-out.
 	 *
+	 * @param string $errorMessage Error message to display.
+	 *
 	 * @return void
 	 */
 	public static function DisplayLoggedOutError($errorMessage)
@@ -32,6 +34,8 @@ class ViewError
 
 	/**
 	 * Returns the HTML code to display the caught error when logged-in.
+	 *
+	 * @param string $errorMessage Error message to display.
 	 *
 	 * @return void
 	 */

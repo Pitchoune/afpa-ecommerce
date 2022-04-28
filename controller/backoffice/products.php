@@ -42,8 +42,12 @@ function AddProduct()
  * Inserts a new product into the database.
  *
  * @param string $name Name of the product.
- * @param string $parentcategory ID of the parent. Can be -1 if the category is at root level.
- * @param string $status Status ID of the status. It's saved in the db in an enum, so a string is required between 0 and 1.
+ * @param string $ref Reference of the product.
+ * @param string $description Description of the product.
+ * @param integer $quantity Quantity of the product.
+ * @param string $price Price of the product.
+ * @param integer $category Category of the product.
+ * @param integer $trademark Trademark of the product.
  *
  * @return void
  */
@@ -183,8 +187,16 @@ function EditProduct($id)
 }
 
 /**
- * Inserts a new product into the database.
+ * Updates a product into the database.
  *
+ * @param integer $id ID of the product.
+ * @param string $name Name of the product.
+ * @param string $ref Reference of the product.
+ * @param string $description Description of the product.
+ * @param integer $quantity Quantity of the product.
+ * @param string $price Price of the product.
+ * @param integer $category Category of the product.
+ * @param integer $trademark Trademark of the product.
  *
  * @return void
  */

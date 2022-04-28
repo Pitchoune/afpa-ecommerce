@@ -303,6 +303,7 @@ class ViewRole
 	 *
 	 * @param integer $id ID of the role if we need to edit an existing role. Empty for a new role.
 	 * @param array $permissions Array of permissions available for the system.
+	 * @param array $perms Current permissions values for the given role.
 	 *
 	 * @return void
 	 */

@@ -182,13 +182,13 @@ function InsertEmployee($firstname, $lastname, $email, $password, $role)
 		// Verify firstname
 		if ($firstname === '')
 		{
-			throw new Exception('Le nom est vide.');
+			throw new Exception('Le prénom est vide.');
 		}
 
 		// Verify lastname
 		if ($lastname === '')
 		{
-			throw new Exception('Le prénom est vide.');
+			throw new Exception('Le nom est vide.');
 		}
 
 		// Verify firstname

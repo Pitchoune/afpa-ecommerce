@@ -41,6 +41,15 @@ function AddCustomer()
 /**
  * Inserts a new customer into the database.
  *
+ * @param string $firstname First name of the customer.
+ * @param string $lastname Last name of the customer.
+ * @param string $email Email of the customer.
+ * @param string $password Password of the customer.
+ * @param string $telephone Telephone of the customer.
+ * @param string $address Address of the customer.
+ * @param string $city City of the customer.
+ * @param string $zipcode Zip code of the customer.
+ *
  * @return void
  */
 function InsertCustomer($firstname, $lastname, $email, $password, $telephone, $address, $city, $zipcode)
@@ -189,6 +198,16 @@ function EditCustomer($id)
 
 /**
  * Updates the given customer into the database.
+ *
+ * @param integer $id ID of the customer.
+ * @param string $firstname First name of the customer.
+ * @param string $lastname Last name of the customer.
+ * @param string $email Email of the customer.
+ * @param string $password Password of the customer.
+ * @param string $telephone Telephone of the customer.
+ * @param string $address Address of the customer.
+ * @param string $city City of the customer.
+ * @param string $zipcode Zip code of the customer.
  *
  * @return void
  */
@@ -397,7 +416,10 @@ function ViewCustomerOrderDetails($id)
 }
 
 /**
+ * Updates the order status.
  *
+ * @param integer $id ID of the order.
+ * @param integer $status ID of a fictive status. 2 for 'Preparing', 3 for 'Sent'.
  */
 function ChangeOrderStatus($id, $status)
 {
