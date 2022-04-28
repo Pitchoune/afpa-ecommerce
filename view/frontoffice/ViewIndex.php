@@ -1,5 +1,8 @@
 <?php
 
+use \Ecommerce\Model\ModelProduct;
+use \Ecommerce\Model\ModelOrderDetails;
+
 /**
  * Class to display HTML content about first page in front.
  *
@@ -8,12 +11,14 @@
 class ViewIndex
 {
 	/**
-	 * Returns the HTMl code to display the index page.
+	 * Returns the HTML code to display the index page.
 	 *
 	 * @return void
 	 */
 	public static function DisplayIndex()
 	{
+		global $config;
+
 		$pagetitle = 'Accueil';
 
 		?>
@@ -47,408 +52,54 @@ class ViewIndex
 										<div class="tab-content-cls">
 											<div id="tab-9" class="tab-content active default">
 												<div class="media-slide-5 product-m no-arrow">
-													<div>
-														<div class="media-banner media-banner-1 border-0">
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/3.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>sumsung galaxy</p></a>
-																					<h6>$47.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/1.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>bajaj rex mixer</p></a>
-																					<h6>$40.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/2.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>usha table fan</p></a>
-																					<h6>$52.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
+													<?php
+													for ($i = 0; $i < 6; $i++)
+													{
+														?>
+														<div>
+															<div class="media-banner media-banner-1 border-0">
+																<?php
+																require_once(DIR . '/model/ModelOrderDetails.php');
+																$orderdetails = new ModelOrderDetails($config);
+																$bestsellinglist = $orderdetails->getBestSellingProductsFromSpecificRange(($i + $i * 2), 3);
+
+																foreach ($bestsellinglist AS $key => $value)
+																{
+																	if ($value['photo'])
+																	{
+																		$photo = 'attachments/products/' . $value['photo'];
+																	}
+																	else
+																	{
+																		$photo = 'assets/images/nophoto.jpg';
+																	}
+																	?>
+
+																		<div class="media-banner-box">
+																			<div class="media">
+																				<a href="index.php?do=viewproduct&amp;id=<?= $value['id_produit'] ?>">
+																					<img src="<?= $photo ?>" height="108px" width="84" class="img-fluid " alt="banner">
+																				</a>
+																				<div class="media-body">
+																					<div class="media-contant">
+																						<div>
+																							<div class="product-detail">
+																								<a href="index.php?do=viewproduct&amp;id=<?= $value['id_produit'] ?>"><p><?= $value['nom'] ?></p></a>
+																								<h6><?= $value['prix'] ?> &euro;</h6>
+																							</div>
+																						</div>
+																					</div>
 																				</div>
 																			</div>
 																		</div>
-																	</div>
-																</div>
+																	<?php
+																}
+																?>
 															</div>
 														</div>
-													</div>
-													<div>
-														<div class="media-banner media-banner-1 border-0">
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/2.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>usha table fan</p></a>
-																					<h6>$52.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/3.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>sumsung galaxy</p></a>
-																					<h6>$47.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/1.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>bajaj rex mixer</p></a>
-																					<h6>$40.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div>
-														<div class="media-banner media-banner-1 border-0">
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/1.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>bajaj rex mixer</p></a>
-																					<h6>$40.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/2.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>usha table fan</p></a>
-																					<h6>$52.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/3.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>sumsung galaxy</p></a>
-																					<h6>$47.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div>
-														<div class="media-banner media-banner-1 border-0">
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/3.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>sumsung galaxy</p></a>
-																					<h6>$47.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/1.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>bajaj rex mixer</p></a>
-																					<h6>$40.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/2.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>usha table fan</p></a>
-																					<h6>$52.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div>
-														<div class="media-banner media-banner-1 border-0">
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/2.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>usha table fan</p></a>
-																					<h6>$52.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/3.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>sumsung galaxy</p></a>
-																					<h6>$47.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/1.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>bajaj rex mixer</p></a>
-																					<h6>$40.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div>
-														<div class="media-banner media-banner-1 border-0">
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/1.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>bajaj rex mixer</p></a>
-																					<h6>$40.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/2.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>usha table fan</p></a>
-																					<h6>$52.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/3.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>sumsung galaxy</p></a>
-																					<h6>$47.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
+														<?php
+													}
+													?>
 												</div>
 											</div>
 										</div>
@@ -470,408 +121,53 @@ class ViewIndex
 										<div class="tab-content-cls">
 											<div id="tab-7" class="tab-content active default ">
 												<div class="media-slide-5 product-m no-arrow">
-													<div>
-														<div class="media-banner media-banner-1 border-0">
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/1.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>bajaj rex mixer</p></a>
-																					<h6>$40.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/2.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>usha table fan</p></a>
-																					<h6>$52.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
+													<?php
+													for ($i = 0; $i < 6; $i++)
+													{
+														?>
+														<div>
+															<div class="media-banner media-banner-1 border-0">
+																<?php
+																require_once(DIR . '/model/ModelProduct.php');
+																$products = new ModelProduct($config);
+																$productlist = $products->getLatestNewProductsFromSpecificRange(($i + $i * 2), 3);
+
+																foreach ($productlist AS $key => $value)
+																{
+																	if ($value['photo'])
+																	{
+																		$photo = 'attachments/products/' . $value['photo'];
+																	}
+																	else
+																	{
+																		$photo = 'assets/images/nophoto.jpg';
+																	}
+																	?>
+																		<div class="media-banner-box">
+																			<div class="media">
+																				<a href="index.php?do=viewproduct&amp;id=<?= $value['id'] ?>">
+																					<img src="<?= $photo ?>" height="108px" width="84" class="img-fluid " alt="banner">
+																				</a>
+																				<div class="media-body">
+																					<div class="media-contant">
+																						<div>
+																							<div class="product-detail">
+																								<a href="index.php?do=viewproduct&amp;id=<?= $value['id'] ?>"><p><?= $value['nom'] ?></p></a>
+																								<h6><?= $value['prix'] ?> &euro;</h6>
+																							</div>
+																						</div>
+																					</div>
 																				</div>
 																			</div>
 																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/3.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>sumsung galaxy</p></a>
-																					<h6>$47.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
+																	<?php
+																}
+																?>
 															</div>
 														</div>
-													</div>
-													<div>
-														<div class="media-banner media-banner-1 border-0">
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/3.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>sumsung galaxy</p></a>
-																					<h6>$47.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/1.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>bajaj rex mixer</p></a>
-																					<h6>$40.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/2.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>usha table fan</p></a>
-																					<h6>$52.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div>
-														<div class="media-banner media-banner-1 border-0">
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																	<img src="assets/images/layout-2/media-banner/2.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>usha table fan</p></a>
-																					<h6>$52.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/3.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>sumsung galaxy</p></a>
-																					<h6>$47.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/1.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>bajaj rex mixer</p></a>
-																					<h6>$40.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div>
-														<div class="media-banner media-banner-1 border-0">
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/1.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>bajaj rex mixer</p></a>
-																					<h6>$40.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/2.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>usha table fan</p></a>
-																					<h6>$52.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/3.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>sumsung galaxy</p></a>
-																					<h6>$47.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div>
-														<div class="media-banner media-banner-1 border-0">
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/3.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>sumsung galaxy</p></a>
-																					<h6>$47.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/1.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>bajaj rex mixer</p></a>
-																					<h6>$40.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/2.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>usha table fan</p></a>
-																					<h6>$52.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div>
-														<div class="media-banner media-banner-1 border-0">
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/2.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>usha table fan</p></a>
-																					<h6>$52.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/3.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>sumsung galaxy</p></a>
-																					<h6>$47.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-															<div class="media-banner-box">
-																<div class="media">
-																	<a href="product-page(left-sidebar).html">
-																		<img src="assets/images/layout-2/media-banner/1.jpg" class="img-fluid " alt="banner">
-																	</a>
-																	<div class="media-body">
-																		<div class="media-contant">
-																			<div>
-																				<div class="product-detail">
-																					<a href="product-page(left-sidebar).html"><p>bajaj rex mixer</p></a>
-																					<h6>$40.05</h6>
-																				</div>
-																				<div class="cart-info">
-																					<button onclick="openCart()" class="tooltip-top" data-tippy-content="Add to cart"><i data-feather="shopping-cart"></i></button>
-																					<a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#quick-view" class="tooltip-top" data-tippy-content="Quick View"><i data-feather="eye"></i></a>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
+														<?php
+													}
+													?>
 												</div>
 											</div>
 										</div>

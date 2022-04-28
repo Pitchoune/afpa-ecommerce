@@ -45,7 +45,12 @@ else
 require_once(DIR . '/controller/Utils.php');
 
 // Here, import files only on specific routing
-if (in_array($do, ['index', 'register', 'doregister', 'login', 'dologin', 'profile', 'editprofile', 'saveprofile', 'editpassword', 'savepassword', 'forgotpassword', 'sendpassword', 'deleteprofile', 'dodeleteprofile', 'vieworders', 'vieworder', 'logout']))
+if (in_array($do, ['index']))
+{
+	require_once(DIR . '/controller/frontoffice/index.php');
+}
+
+if (in_array($do, ['register', 'doregister', 'login', 'dologin', 'profile', 'editprofile', 'saveprofile', 'editpassword', 'savepassword', 'forgotpassword', 'sendpassword', 'deleteprofile', 'dodeleteprofile', 'vieworders', 'vieworder', 'logout']))
 {
 	require_once(DIR . '/controller/frontoffice/customer.php');
 }

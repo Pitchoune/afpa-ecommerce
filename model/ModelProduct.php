@@ -353,6 +353,23 @@ class ModelProduct extends Model
 	}
 
 	/**
+	 *
+	 */
+	public function getNewProductsList()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT id
+			FROM produit
+			ORDER BY id DESC
+			LIMIT 0, 15
+		");
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
 	 * Returns the number of products in the database.
 	 *
 	 * @return mixed Integer if valid, false elsewhere.
@@ -431,6 +448,44 @@ class ModelProduct extends Model
 		$query->bindParam(1, $this->id_category, \PDO::PARAM_INT);
 		$query->bindParam(2, $limitlower, \PDO::PARAM_INT);
 		$query->bindParam(3, $perpage, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
+	 * Updates the quantity available for a product after an order is done.
+	 *
+	 * @return mixed Returns the product ID if done, else false if it fails.
+	 */
+	public function setNewQuantityAfterPaidOrder()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			UPDATE product SET
+				quantity = ?
+			WHERE id = ?
+		");
+		$query->bindParam(1, $this->quantity, \PDO::PARAM_INT);
+		$query->bindParam(2, $this->id, \PDO::PARAM_INT);
+
+		return $query->execute();
+	}
+
+	/**
+	 *
+	 */
+	public function getLatestNewProductsFromSpecificRange($min, $max)
+	{
+		$db = $this->dbConnect($config);
+		$query = $db->prepare("
+			SELECT *
+			FROM produit
+			ORDER BY id DESC
+			LIMIT ?, ?
+		");
+		$query->bindParam(1, $min, \PDO::PARAM_INT);
+		$query->bindParam(2, $max, \PDO::PARAM_INT);
 
 		$query->execute();
 		return $query->fetchAll();

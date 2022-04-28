@@ -1,7 +1,5 @@
 <?php
 
-use \Ecommerce\Model\ModelCustomer;
-
 /**
  * Displays the selected category page.
  *

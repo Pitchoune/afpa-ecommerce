@@ -7184,10 +7184,6 @@ header {
 .media-banner .media-banner-box .media .media-body .media-contant .cart-info a:nth-child(n+2) {
   margin-left: 5px;
 }
-.media-banner .media-banner-box .media:hover .media-body .media-contant .product-detail {
-  opacity: 0;
-  visibility: hidden;
-}
 .media-banner .media-banner-box .media:hover .media-body .media-contant .cart-info {
   opacity: 1;
   visibility: visible;

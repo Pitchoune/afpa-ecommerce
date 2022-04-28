@@ -102,6 +102,27 @@ class ModelOrderDetails extends Model
 	}
 
 	/**
+	 *
+	 */
+	public function getBestSellingProductsFromSpecificRange($min, $max)
+	{
+		$db = $this->dbConnect($config);
+		$query = $db->prepare("
+			SELECT d.*, p.nom
+			FROM details_commande AS d
+			INNER JOIN produit AS p ON (p.id = d.id_produit)
+			GROUP BY d.id_produit
+			ORDER BY d.quantite DESC
+			LIMIT ?, ?
+		");
+		$query->bindParam(1, $min, \PDO::PARAM_INT);
+		$query->bindParam(2, $max, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
 	 * Defines the order ID.
 	 *
 	 * @param integer $id_order Order ID of the order details.

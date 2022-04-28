@@ -1,7 +1,5 @@
 <?php
 
-use \Ecommerce\Model\ModelProduct;
-
 /**
  * Displays the selected product page.
  *

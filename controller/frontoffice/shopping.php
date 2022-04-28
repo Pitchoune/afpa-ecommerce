@@ -87,7 +87,7 @@ function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $
 				break;
 		}
 
-		// Save the order
+		// Save order
 		require_once(DIR . '/model/ModelOrder.php');
 		$orders = new \Ecommerce\Model\ModelOrder($config);
 		$orders->set_date(date("Y-m-d H:i:s"));
@@ -108,11 +108,20 @@ function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $
 
 			foreach ($item AS $key => $value)
 			{
+				// Save order details
 				$orderdetails->set_order($orderid);
 				$orderdetails->set_product(intval($value['id']));
 				$orderdetails->set_price(trim($value['price']));
 				$orderdetails->set_quantity(intval($value['quantity']));
 				$orderdetails->saveOrderDetails();
+
+				// Decrease quantity for each product
+				require_once(DIR . '/model/ModelProduct.php');
+				$products = new \Ecommerce\Model\ModelProduct($config);
+				$products->set_id($value['id']);
+				$products->set_quantity($value['quantity']);
+				$products->setNewQuantityAfterPaidOrder();
+
 				$addeditems++;
 			}
 
