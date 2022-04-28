@@ -775,6 +775,12 @@ class ViewCustomer
 		global $config, $pagenumber;
 
 		$pagetitle = 'Gestion des clients';
+		$navtitle = 'Liste des commandes du client';
+
+		$navbits = [
+			'index.php?do=listcustomers' => $pagetitle,
+			'' => $navtitle
+		];
 
 		$customers = new \Ecommerce\Model\ModelCustomer($config);
 		$customers->set_id($id);
@@ -809,15 +815,6 @@ class ViewCustomer
 		}
 
 		$orderlist = $orders->getAllCustomerOrders($limitlower, $perpage);
-
-		$navtitle = 'Liste des commandes';
-
-		if ($orderlist)
-		{
-			$navbits = [
-				'index.php?do=listcustomers' => $pagetitle,
-				'' => $navtitle
-			];
 
 		?>
 		<!DOCTYPE html>
@@ -993,11 +990,6 @@ class ViewCustomer
 			</body>
 		</html>
 	<?php
-		}
-		else
-		{
-			throw new Exception('Une erreur est survenue pendant l\'affichage des commandes du client.');
-		}
 	}
 
 	/**
