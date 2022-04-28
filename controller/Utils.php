@@ -279,11 +279,11 @@ class Utils
 
 					if ($type === 'back')
 					{
-						$pagenavarr[] = '<span class="tablegrid-pager-page"><a href="javascript:void(0)" title="Affichage des résultats ' . $pagenumbers['first'] .' à ' . $pagenumbers['last'] .' sur ' . $total . '"><!-- ' . $relpage . ' -->' . $curpage .'</a></a></span>';
+						$pagenavarr[] = '<span class="tablegrid-pager-page"><a href="' . $address . '&page=' . $curpage . '" title="Affichage des résultats ' . $pagenumbers['first'] .' à ' . $pagenumbers['last'] .' sur ' . $total . '"><!-- ' . $relpage . ' -->' . $curpage .'</a></a></span>';
 					}
 					else if ($type === 'front')
 					{
-						$pagenavarr[] = '<span class="tablegrid-pager-page"><a href="javascript:void(0)" title="Affichage des résultats ' . $pagenumbers['first'] .' à ' . $pagenumbers['last'] .' sur ' . $total . '"><!-- ' . $relpage . ' -->' . $curpage .'</a></a></span>';
+						$pagenavarr[] = '<li class="page-item"><a class="page-link" href="' . $address . '&page=' . $curpage . '" title="Affichage des résultats ' . $pagenumbers['first'] .' à ' . $pagenumbers['last'] .' sur ' . $total . '"><!-- ' . $relpage . ' -->' . $curpage .'</a></a></li>';
 					}
 				}
 			}
@@ -309,7 +309,7 @@ class Utils
 					}
 					else if ($type === 'front')
 					{
-						$pagenavarr[] = '<span class="tablegrid-pager-page tablegrid-pager-current-page"><a href="' . $address . '&page=' . $curpage . '" title="Affichage des résultats ' . $numbers['first'] .' à ' . $numbers['last'] .' sur ' . $total . '">' . $curpage .'</a></span>';
+						$pagenavarr[] = '<li class="page-item"><a class="page-link" href="' . $address . '&page=' . $curpage . '" title="Affichage des résultats ' . $numbers['first'] .' à ' . $numbers['last'] .' sur ' . $total . '">' . $curpage .'</a></li>';
 					}
 				}
 				else
@@ -322,7 +322,7 @@ class Utils
 					}
 					else if ($type === 'front')
 					{
-						$pagenavarr[] = '<span class="tablegrid-pager-page"><a href="' . $address . '&page=' . $curpage . '" title="Affichage des résultats ' . $pagenumbers['first'] .' à ' . $pagenumbers['last'] .' sur ' . $total . '">' . $curpage .'</a></a></span>';
+						$pagenavarr[] = '<li class="page-item"><a class="page-link" href="' . $address . '&page=' . $curpage . '" title="Affichage des résultats ' . $pagenumbers['first'] .' à ' . $pagenumbers['last'] .' sur ' . $total . '">' . $curpage .'</a></a></li>';
 					}
 				}
 			}
@@ -348,19 +348,32 @@ class Utils
 		}
 		else if ($type === 'front')
 		{
-			$return = '<div class="tablegrid-pager-container">
-				<div class="tablegrid-pager">
-					Pages:
-					' . ($firstaddress ? '<span class="tablegrid-pager-nav-button"><a href="' . $firstaddress . '">Première</a></span>' : '') . '
-					' . ($prevaddress ? '<span class="tablegrid-pager-nav-button"><a href="' . $prevaddress . '">Précédente</a></span>' : '') . '
-					' . (($show_prior_elipsis AND $prevaddress AND $firstaddress) ? '<span>...</span>' : '') . '
-					' . $pagenav . '
-					' . (($show_after_elipsis AND $nextaddress AND $lastaddress) ? '<span>...</span>' : '') . '
-					' . ($nextaddress ? '<span class="tablegrid-pager-nav-button"><a href="' . $nextaddress . '">Suivante</a></span>' : '') . '
-					' . ($lastaddress ? '<span class="tablegrid-pager-nav-button"><a href="' . $lastaddress . '">Dernière</a></span>' : '') . '
-					&nbsp;&nbsp;' . $pagenumber . ' sur ' . $totalpages . '
+			$return = '<div class="product-pagination">
+			<div class="theme-paggination-block">
+				<div class="container-fluid p-0">
+					<div class="row">
+						<div class="col-xl-6 col-md-6 col-sm-12">
+							<nav aria-label="Page navigation">
+								<ul class="pagination">
+									' . ($firstaddress ? '<li class="page-item"><a class="page-link" href="' . $firstaddress . '" aria-label="Première">Première</a></li>' : '') . '
+									' . ($prevaddress ? '<li class="page-item"><a class="page-link" href="' . $prevaddress . '" aria-label="Précédente"><span aria-hidden="true"><i class="fa fa-chevron-left" aria-hidden="true"></i></span> <span class="sr-only">Précédente</span></a></li>' : '') . '
+									' . (($show_prior_elipsis AND $prevaddress AND $firstaddress) ? '<li class="page-item"><a class="page-link" href="javascript:void(0)" role="link" attribute aria-disabled="true">...</a></li>' : '') . '
+									' . $pagenav . '
+									' . (($show_after_elipsis AND $nextaddress AND $lastaddress) ? '<li class="page-item"><a class="page-link" href="javascript:void(0)" role="link" attribute aria-disabled="true">...</a></li>' : '') . '
+									' . ($nextaddress ? '<li class="page-item"><a class="page-link" href="' . $nextaddress . '" aria-label="Suivante"><span aria-hidden="true"><i class="fa fa-chevron-right" aria-hidden="true"></i></span> <span class="sr-only">Suivante</span></a></li>' : '') . '
+									' . ($lastaddress ? '<li class="page-item"><a class="page-link" href="' . $lastaddress . '" aria-label="Dernière">Dernière</a></li>' : '') . '
+								</ul>
+							</nav>
+						</div>
+						<div class="col-xl-6 col-md-6 col-sm-12">
+							<div class="product-search-count-bottom">
+								<h5>Affichage de la page ' . $pagenumber . ' sur ' . $totalpages . '</h5>
+							</div>
+						</div>
+					</div>
 				</div>
-			</div>';
+			</div>
+		</div>';
 		}
 
 		echo $return;

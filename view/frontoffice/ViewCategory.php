@@ -18,12 +18,42 @@ class ViewCategory
 	 */
 	public static function DisplayCategory($id = '')
 	{
-		global $config;
+		global $config, $pagenumber;
 
 		$categories = new \Ecommerce\Model\ModelCategory($config);
 
 		$categories->set_id($id);
+
+		require_once(DIR . '/model/ModelProduct.php');
+		$products = new \Ecommerce\Model\ModelProduct($config);
+		$products->set_category($id);
+		$totalproducts = $products->getTotalNumberOfProductsForSpecificCategory();
+
+		// Number max per page
+		$perpage = 2;
+
+		Utils::sanitize_pageresults($totalproducts['nbproducts'], $pagenumber, $perpage, 200, 20);
+
+		$limitlower = ($pagenumber - 1) * $perpage;
+		$limitupper = ($pagenumber) * $perpage;
+
+		if ($limitupper > $totalproducts['nbproducts'])
+		{
+			$limitupper = $totalproducts['nbproducts'];
+
+			if ($limitlower > $totalproducts['nbproducts'])
+			{
+				$limitlower = ($totalproducts['nbproducts'] - $perpage) - 1;
+			}
+		}
+
+		if ($limitlower < 0)
+		{
+			$limitlower = 0;
+		}
+
 		$category = $categories->listCategoryInfos();
+		$product = $products->getSomeProductsForSpecificCategory($limitlower, $perpage);
 
 		$pagetitle = 'Visualisation de la catégorie : « ' . $category['nom'] . ' »';
 
@@ -115,10 +145,10 @@ class ViewCategory
 
 															<?php
 
-															require_once(DIR . '/model/ModelProduct.php');
-															$products = new \Ecommerce\Model\ModelProduct($config);
-															$products->set_category($category['id']);
-															$product = $products->listProductInfosFromCategory();
+															// require_once(DIR . '/model/ModelProduct.php');
+															// $products = new \Ecommerce\Model\ModelProduct($config);
+															// $products->set_category($category['id']);
+															// $product = $products->listProductInfosFromCategory();
 
 															foreach ($product AS $key => $value)
 															{
@@ -160,30 +190,9 @@ class ViewCategory
 															?>
 															</div>
 														</div>
-														<div class="product-pagination">
-															<div class="theme-paggination-block">
-																<div class="container-fluid p-0">
-																	<div class="row">
-																		<div class="col-xl-6 col-md-6 col-sm-12">
-																			<nav aria-label="Page navigation">
-																				<ul class="pagination">
-																					<li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true"><i class="fa fa-chevron-left" aria-hidden="true"></i></span> <span class="sr-only">Previous</span></a></li>
-																					<li class="page-item "><a class="page-link" href="javascript:void(0)">1</a></li>
-																					<li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
-																					<li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-																					<li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next"><span aria-hidden="true"><i class="fa fa-chevron-right" aria-hidden="true"></i></span> <span class="sr-only">Next</span></a></li>
-																				</ul>
-																			</nav>
-																		</div>
-																		<div class="col-xl-6 col-md-6 col-sm-12">
-																			<div class="product-search-count-bottom">
-																				<h5>Showing Products 1-24 of 10 Result</h5>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
+														<?php
+														Utils::construct_page_nav($pagenumber, $perpage, $totalproducts['nbproducts'], 'index.php?do=viewcategory&amp;id=' . $category['id'], 'front');
+														?>
 													</div>
 												</div>
 											</div>

@@ -439,7 +439,7 @@ class ViewProduct
 														<div class="form-group">
 															<label class="col-form-label"><span>*</span> Catégorie</label>
 															<select class="custom-select form-control" required name="category">
-																<option value="0" selected>Sélectionnez une catégorie</option>
+																<option value="0" selected disabled>Sélectionnez une catégorie</option>
 																	<?php
 
 																	foreach ($catlist AS $content)
@@ -453,7 +453,7 @@ class ViewProduct
 														<div class="form-group">
 															<label class="col-form-label"><span>*</span> Marque</label>
 															<select class="custom-select form-control" required name="trademark">
-																<option value="0" selected>Sélectionnez une marque</option>
+																<option value="0" selected disabled>Sélectionnez une marque</option>
 																	<?php
 
 																	foreach ($trademarkslist AS $content)

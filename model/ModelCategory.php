@@ -192,6 +192,31 @@ class ModelCategory extends Model
 	}
 
 	/**
+	 * Returns some of the categories following the defined limit and the given category.
+	 *
+	 * @param integer $limitlower Minimum value for the limit.
+	 * @param integer $perpage Number of items to return.
+	 *
+	 * @return mixed Array of data if found or false if there is nothing found.
+	 */
+	public function getSomeCategoriesContent($limitlower, $perpage)
+	{
+		$db = $this->dbConnect($config);
+		$query = $db->prepare("
+			SELECT *
+			FROM categorie
+			WHERE id = ?
+			LIMIT ?, ?
+		");
+		$query->bindParam(1, $this->id, \PDO::PARAM_INT);
+		$query->bindParam(2, $limitlower, \PDO::PARAM_INT);
+		$query->bindParam(3, $perpage, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
 	 * Defines the ID.
 	 *
 	 * @param integer $id ID of the category.
