@@ -144,17 +144,19 @@ try
 			break;
 		case 'placeorder':
 			$deliver = isset($_POST['deliver']) ? filter_var($_POST['deliver'], FILTER_VALIDATE_INT) : NULL;
+			$delivermode = isset($_POST['delivermode']) ? filter_var($_POST['delivermode'], FILTER_VALIDATE_INT) : NULL;
 			$price = isset($_POST['price']) ? filter_var($_POST['price'], FILTER_SANITIZE_STRING) : NULL;
-			placeOrder($price, $deliver);
+			placeOrder($price, $deliver, $delivermode);
 			break;
 		case 'paymentprocess':
 			$name = isset($_POST['name']) ? filter_var($_POST['name'], FILTER_SANITIZE_STRING) : NULL;
 			$email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) : NULL;
 			$price = isset($_POST['price']) ? filter_var($_POST['price'], FILTER_SANITIZE_STRING) : NULL;
 			$deliver = isset($_POST['deliver']) ? filter_var($_POST['deliver'], FILTER_VALIDATE_INT) : NULL;
+			$delivermode = isset($_POST['delivermode']) ? filter_var($_POST['delivermode'], FILTER_VALIDATE_INT) : NULL;
 			$token = isset($_POST['stripeToken']) ? filter_var($_POST['stripeToken'], FILTER_SANITIZE_STRING) : NULL;
 			$item = isset($_POST['item']) ? $_POST['item'] : NULL;
-			paymentProcess($name, $email, $price, $deliver, $token, $item);
+			paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $item);
 			break;
 	}
 }

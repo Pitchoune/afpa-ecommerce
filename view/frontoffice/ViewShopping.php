@@ -211,13 +211,26 @@ class ViewShopping
 															<li>Total <span class="count total-cart"></span></li>
 														</ul>
 													</div>
+													<div class="delivermode-box">
+														<div class="title-box">
+															<div>Mode de livraison</div>
+														</div>
+														<div class="delivermode-list">
+															<select name="delivermode" id="delivermode">
+																<option value="0" selected disabled>Sélectionnez un mode de livraison</option>
+																<option value="1">À domicile</option>
+																<option value="2">En point-relais</option>
+																<option value="3">Au bureau de poste</option>
+															</select>
+														</div>
+													</div>
 													<div class="delivery-box">
 														<div class="title-box">
-															<div>Livraison</div>
+															<div>Transporteur</div>
 														</div>
 														<div class="delivery-list">
 															<select name="deliver" id="deliver">
-																<option value="0" selected disabled>Sélectionnez un mode de livraison</option>
+																<option value="0" selected disabled>Sélectionnez un transporteur</option>
 																<?php
 																require_once(DIR . '/model/ModelDeliver.php');
 																$delivers = new \Ecommerce\Model\ModelDeliver($config);
@@ -306,10 +319,12 @@ class ViewShopping
 	 * Returns the HTMl code to display the place order page.
 	 *
 	 * @param string $price Price of the whole checkout.
+	 * @param integer $deliver Deliver ID selected in the checkout.
+	 * @param integer $delivermode Deliver mode selected in the checkout.
 	 *
 	 * @return void
 	 */
-	public static function PlaceOrder($price, $deliver)
+	public static function PlaceOrder($price, $deliver, $delivermode)
 	{
 		if ($_SESSION['user']['id'])
 		{
@@ -396,6 +411,7 @@ class ViewShopping
 													<input type="hidden" name="email" value="<?= $customer['mail'] ?>" />
 													<input type="hidden" name="price" value="<?= $price ?>" />
 													<input type="hidden" name="deliver" value="<?= $deliver ?>" />
+													<input type="hidden" name="delivermode" value="<?= $delivermode ?>" />
 													<input type="submit" class="btn btn-normal sendbutton" value="Payer" />
 												</div>
 											</form>

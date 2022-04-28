@@ -27,13 +27,17 @@ function viewCheckout()
 /**
  * Display the place order page.
  *
+ * @param string $price Total price of the checkout.
+ * @param $deliver Deliver ID selected in the checkout.
+ * @param integer $delivermode Deliver mode selected in the checkout.
+ *
  * @return void
  */
-function placeOrder($price, $deliver)
+function placeOrder($price, $deliver, $delivermode)
 {
 	// We generate HTML code from the view
 	require_once(DIR . '/view/frontoffice/ViewShopping.php');
-	ViewShopping::PlaceOrder($price, $deliver);
+	ViewShopping::PlaceOrder($price, $deliver, $delivermode);
 }
 
 /**
@@ -42,12 +46,14 @@ function placeOrder($price, $deliver)
  * @param string $name Name (firstname + lastname) of the customer.
  * @param string $email Email address of the customer.
  * @param string $price Total price of the checkout.
+ * @param string $deliver Deliver ID selected in the checkout.
+ * @param integer $delivermode Deliver mode selected in the checkout.
  * @param string $token Stripe token generate'd in the place order page.
  * @param array $item Array of all items in the cart. Used to save order details.
  *
  * @return void
  */
-function paymentProcess($name, $email, $price, $deliver, $token, $item)
+function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $item)
 {
 	global $config;
 
@@ -67,12 +73,26 @@ function paymentProcess($name, $email, $price, $deliver, $token, $item)
 	// Charge is successful, create the order and order details in the database for the customer and clear sessionStorage once created!
 	if ($charge->paid === true)
 	{
+		// Define the text for the deliver mode
+		switch($delivermode)
+		{
+			case 1:
+				$mode = 'À domicile';
+				break;
+			case 2:
+				$mode = 'Point-relais';
+				break;
+			case 3:
+				$mode = 'Bureau de poste';
+				break;
+		}
+
 		// Save the order
 		require_once(DIR . '/model/ModelOrder.php');
 		$orders = new \Ecommerce\Model\ModelOrder($config);
 		$orders->set_date(date("Y-m-d H:i:s"));
 		$orders->set_status('Payé');
-		$orders->set_mode('');
+		$orders->set_mode($mode);
 		$orders->set_customer($_SESSION['user']['id']);
 		$orders->set_deliver($deliver);
 		$orderid = $orders->saveNewOrder();

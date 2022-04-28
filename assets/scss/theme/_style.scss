@@ -16688,6 +16688,7 @@ ul.sosiyal {
 .order-box {
   position: relative;
   margin-bottom: 50px;
+  border-bottom: 1px solid $light-border;
   .title-box {
     position: relative;
     padding-bottom: 25px;
@@ -16802,6 +16803,24 @@ ul.sosiyal {
         display: block;
       }
     }
+  }
+}
+
+.delivermode-box {
+  position: relative;
+  margin-bottom: 50px;
+  border-bottom: 1px solid $light-border;
+
+  .title-box {
+    position: relative;
+    padding-bottom: 25px;
+    color: $dark;
+    font-weight: 600;
+    font-size: 22px;
+  }
+
+  .delivermode-list {
+    margin-bottom: 20px;
   }
 }
 

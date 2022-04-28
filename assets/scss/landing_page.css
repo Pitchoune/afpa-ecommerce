@@ -13118,6 +13118,7 @@ ul.sosiyal.sosiyal-inverse li:hover {
 .order-box {
   position: relative;
   margin-bottom: 50px;
+  border-bottom: 1px solid #dddddd;
 }
 .order-box .title-box {
   position: relative;
@@ -13218,6 +13219,22 @@ ul.sosiyal.sosiyal-inverse li:hover {
   font-weight: 400;
   width: 35%;
   display: block;
+}
+
+.delivermode-box {
+  position: relative;
+  margin-bottom: 50px;
+  border-bottom: 1px solid #dddddd;
+}
+.delivermode-box .title-box {
+  position: relative;
+  padding-bottom: 25px;
+  color: #444444;
+  font-weight: 600;
+  font-size: 22px;
+}
+.delivermode-box .delivermode-list {
+  margin-bottom: 20px;
 }
 
 .delivery-box {
