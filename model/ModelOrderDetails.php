@@ -81,6 +81,9 @@ class ModelOrderDetails extends Model
 		return $query->execute();
 	}
 
+	/**
+	 *
+	 */
 	public function getOrderDetails()
 	{
 		$db = $this->dbConnect();

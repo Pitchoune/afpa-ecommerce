@@ -74,7 +74,7 @@ if (in_array($do, ['listproducts', 'addproduct', 'insertproduct', 'editproduct',
 	require_once(DIR . '/controller/backoffice/products.php');
 }
 
-if (in_array($do, ['listcustomers', 'addcustomer', 'insertcustomer', 'editcustomer', 'updatecustomer', 'deletecustomer', 'viewcustomerprofile', 'viewcustomerorderdetails']))
+if (in_array($do, ['listcustomers', 'addcustomer', 'insertcustomer', 'editcustomer', 'updatecustomer', 'deletecustomer', 'viewcustomerprofile', 'viewcustomerallorders', 'viewcustomerorderdetails', 'changecustomerorderstatus']))
 {
 	require_once(DIR . '/controller/backoffice/customers.php');
 }

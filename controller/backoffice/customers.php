@@ -363,21 +363,98 @@ function DeleteCustomer($id)
 }
 
 /**
+ * Returns the HTMl code to display the customer profile.
  *
+ * @param integer $id ID of the customer.
+ *
+ * @return void
  */
 function ViewCustomerProfile($id)
 {
 	require_once(DIR . '/view/backoffice/ViewCustomer.php');
 	ViewCustomer::ViewCustomerProfile($id);
 }
-
 /**
  *
+ */
+function ViewCustomerAllOrders($id)
+{
+	require_once(DIR . '/view/backoffice/ViewCustomer.php');
+	ViewCustomer::ViewCustomerAllOrders($id);
+}
+
+/**
+ * Returns the HTML code to display the order details.
+ *
+ * @param integer $id ID of the order.
+ *
+ * @return void
  */
 function ViewCustomerOrderDetails($id)
 {
 	require_once(DIR . '/view/backoffice/ViewCustomer.php');
 	ViewCustomer::ViewOrderDetails($id);
+}
+
+/**
+ *
+ */
+function ChangeOrderStatus($id, $status)
+{
+	global $config;
+
+	$id = intval($id);
+	$status = intval($status);
+
+	switch($status)
+	{
+		case 2:
+			$mode = 'En préparation';
+			break;
+		case 3:
+			$mode = 'Envoyé';
+			break;
+	}
+
+	require_once(DIR . '/model/ModelOrder.php');
+	$orders = new \Ecommerce\Model\ModelOrder($config);
+	$orders->set_id($id);
+	$orders->set_status($mode);
+
+	if ($orders->updateStatus())
+	{
+		// Get customer ID
+		require_once(DIR . '/model/ModelOrder.php');
+		$orders = new \Ecommerce\Model\ModelOrder($config);
+		$orders->set_id($id);
+		$order = $orders->getCustomerId();
+
+		// Send a notification in message
+		require_once(DIR . '/model/ModelMessage.php');
+		$messages = new \Ecommerce\Model\ModelMessage($config);
+		$messages->set_type('notif');
+		$messages->set_message('Commande ' . $id . ' marqué en préparation');
+		$messages->set_employee($_SESSION['employee']['id']);
+		$messages->set_customer($order['id_client']);
+		$messages->set_previous(NULL);
+
+		switch($status)
+		{
+			case 2:
+				$messages->set_message('Commande ' . $id . ' marqué en préparation');
+				$_SESSION['employee']['order']['statusprepare'] = 1;
+				break;
+			case 3:
+				$messages->set_message('Commande ' . $id . ' marqué comme envoyé');
+				$_SESSION['employee']['order']['statussent'] = 1;
+				break;
+		}
+
+		if ($messages->saveNewNotification())
+		{
+			header('Location: index.php?do=viewcustomerorderdetails&id=' . $id);
+		}
+	}
 }
 
 ?>

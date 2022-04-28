@@ -26,13 +26,6 @@ class ModelMessage extends Model
 	private $type;
 
 	/**
-	 * The date of the message.
-	 *
-	 * @var integer
-	 */
-	private $date;
-
-	/**
 	 * The message of the message.
 	 *
 	 * @var string
@@ -66,7 +59,6 @@ class ModelMessage extends Model
 	 * @param array $config Database informations.
 	 * @param integer $id The ID of the message.
 	 * @param string $type The type of the message.
-	 * @param string $date The date of the message.
 	 * @param string $message The message content of the message.
 	 * @param integer $previous_id The previous ID of the message.
 	 * @param integer $id_customer The customer ID of the message.
@@ -74,19 +66,68 @@ class ModelMessage extends Model
 	 *
 	 * @return void
 	 */
-	public function __construct($config, $id = null, $type = null, $date = null, $message = null, $previous_id = null, $id_customer = null, $id_employee = null)
+	public function __construct($config, $id = null, $type = null, $message = null, $previous_id = null, $id_customer = null, $id_employee = null)
 	{
 		$this->config = $config;
 		$this->id = $id;
 		$this->type = $type;
-		$this->date = $date;
 		$this->message = $message;
 		$this->previous_id = $previous_id;
 		$this->id_customer = $id_customer;
 		$this->id_employee = $id_employee;
 	}
 
+	public function saveNewNotification()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			INSERT INTO message
+				(type, message, precedent_id, id_client, id_employe)
+			VALUES
+				(?, ?, ?, ?, ?)
+		");
+		$query->bindParam(1, $this->type, \PDO::PARAM_STR);
+		$query->bindParam(2, $this->message, \PDO::PARAM_STR);
+		$query->bindParam(3, $this->previous_id, \PDO::PARAM_STR);
+		$query->bindParam(4, $this->id_customer, \PDO::PARAM_INT);
+		$query->bindParam(5, $this->id_employee, \PDO::PARAM_INT);
 
+		return $query->execute();
+	}
+
+	/**
+	 *
+	 */
+	public function getAllMessagesFromType()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT *
+			FROM message
+			WHERE type = ?
+		");
+		$query->bindParam(1, $this->type, \PDO::PARAM_STR);
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
+	 *
+	 */
+	public function countMessagesFromType()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT COUNT(*) AS count
+			FROM message
+			WHERE type = ?
+		");
+		$query->bindParam(1, $this->type, \PDO::PARAM_STR);
+
+		$query->execute();
+		return $query->fetch();
+	}
 
 	/**
 	 * Defines the ID.
@@ -110,18 +151,6 @@ class ModelMessage extends Model
 	public function set_type($type)
 	{
 		$this->type = $type;
-	}
-
-	/**
-	 * Defines the date.
-	 *
-	 * @param integer $date Date of the message.
-	 *
-	 * @return void
-	 */
-	public function set_date($date)
-	{
-		$this->date = $date;
 	}
 
 	/**
@@ -190,16 +219,6 @@ class ModelMessage extends Model
 	public function get_type()
 	{
 		return $this->type;
-	}
-
-	/**
-	 * Returns the date of the message.
-	 *
-	 * @return string Date of the message.
-	 */
-	public function get_date()
-	{
-		return $this->date;
 	}
 
 	/**

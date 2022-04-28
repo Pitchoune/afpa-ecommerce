@@ -264,9 +264,18 @@ try
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
 			ViewCustomerProfile($id);
 			break;
+		case 'viewcustomerallorders':
+			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
+			ViewCustomerAllOrders($id);
+			break;
 		case 'viewcustomerorderdetails':
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
 			ViewCustomerOrderDetails($id);
+			break;
+		case 'changecustomerorderstatus':
+			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
+			$status = isset($_GET['status']) ? filter_var($_GET['status'], FILTER_VALIDATE_INT) : NULL;
+			ChangeOrderStatus($id, $status);
 			break;
 	}
 }

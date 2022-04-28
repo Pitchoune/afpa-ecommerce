@@ -187,7 +187,7 @@ class ViewCustomer
 																</table>
 															</div>
 															<?php
-															Utils::construct_back_page_nav($pagenumber, $perpage, $totalcustomers['nbcustomers'], 'index.php?do=listcustomers');
+															Utils::construct_page_nav($pagenumber, $perpage, $totalcustomers['nbcustomers'], 'index.php?do=listcustomers', 'back');
 															?>
 														</div>
 													</div>
@@ -268,6 +268,7 @@ class ViewCustomer
 
 					<!--script admin-->
 					<script src="../assets/js/admin-script.js"></script>
+
 					<?php
 					if ($_SESSION['customer']['add'] === 1)
 					{
@@ -497,16 +498,18 @@ class ViewCustomer
 		}
 	}
 
+	/**
+	 *
+	 */
 	public static function ViewCustomerProfile($id)
 	{
 		if (Utils::cando(33))
 		{
 			global $config;
 
-			$customers = new \Ecommerce\Model\ModelCustomer($config);
-
 			$pagetitle = 'Gestion des clients';
 
+			$customers = new \Ecommerce\Model\ModelCustomer($config);
 			$customers->set_id($id);
 			$data = $customers->getCustomerInfosFromId();
 
@@ -678,7 +681,6 @@ class ViewCustomer
 																										<td class="tablegrid-cell" style="width: 25px"><?= $value['etat'] ?></td>
 																										<td class="tablegrid-cell tablegrid-control-field tablegrid-align-center" style="width: 25px">
 																											<a class="tablegrid-button tablegrid-search-button" type="button" title="Voir les détails de la commande" href="index.php?do=viewcustomerorderdetails&amp;id=<?= $value['id'] ?>"></a>
-																											<a class="tablegrid-button tablegrid-edit-button" type="button" title="Modifier l'état de la commande" href="index.php?do=editcustomerorderdetails&amp;id=<?= $value['id'] ?>"></a>
 																										</td>
 																									</tr>
 																									<?php
@@ -746,6 +748,10 @@ class ViewCustomer
 				</html>
 			<?php
 			}
+			else
+			{
+				throw new Exception('Une erreur est survenue pendant l\'affichage du client.');
+			}
 		}
 		else
 		{
@@ -753,6 +759,250 @@ class ViewCustomer
 		}
 	}
 
+	/**
+	 * Returns the HTML code to display all orders done by a specific customer.
+	 *
+	 * @param integer $id ID of the customer.
+	 *
+	 * @return void
+	 */
+	public static function ViewCustomerAllOrders($id)
+	{
+		global $config, $pagenumber;
+
+		$pagetitle = 'Gestion des clients';
+
+		$customers = new \Ecommerce\Model\ModelCustomer($config);
+		$customers->set_id($id);
+		$data = $customers->getCustomerInfosFromId();
+
+		require_once(DIR . '/model/ModelOrder.php');
+		$orders = new \Ecommerce\Model\ModelOrder($config);
+		$orders->set_customer($data['id']);
+		$totalorders = $orders->getNumberOfOrdersPerCustomer();
+
+		// Number max per page
+		$perpage = 10;
+
+		Utils::sanitize_pageresults($totalorders['nborders'], $pagenumber, $perpage, 200, 20);
+
+		$limitlower = ($pagenumber - 1) * $perpage;
+		$limitupper = ($pagenumber) * $perpage;
+
+		if ($limitupper > $totalorders['nborders'])
+		{
+			$limitupper = $totalorders['nborders'];
+
+			if ($limitlower > $totalorders['nborders'])
+			{
+				$limitlower = ($totalorders['nborders'] - $perpage) - 1;
+			}
+		}
+
+		if ($limitlower < 0)
+		{
+			$limitlower = 0;
+		}
+
+		$orderlist = $orders->getAllCustomerOrders($limitlower, $perpage);
+
+		$navtitle = 'Liste des commandes';
+
+		if ($orderlist)
+		{
+			$navbits = [
+				'index.php?do=listcustomers' => $pagetitle,
+				'' => $navtitle
+			];
+
+		?>
+		<!DOCTYPE html>
+		<html>
+			<head>
+				<?php
+				ViewTemplate::BackHead($pagetitle);
+				?>
+			</head>
+
+			<body>
+				<div class="page-wrapper">
+
+					<!-- Page Header Start-->
+					<?php
+					ViewTemplate::BackHeader();
+					?>
+					<!-- Page Header Ends -->
+
+					<!-- Page Body Start-->
+					<div class="page-body-wrapper">
+
+						<!-- Page Sidebar Start-->
+						<?php
+						ViewTemplate::Sidebar();
+						?>
+						<!-- Page Sidebar Ends-->
+
+						<div class="page-body">
+						<?php
+						if ($orderlist)
+						{
+							?>
+							<!-- Container-fluid starts-->
+							<?php
+							ViewTemplate::Breadcrumb($pagetitle, $navbits);
+							?>
+							<!-- Container-fluid ends-->
+
+							<div class="container-fluid">
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="card">
+											<div class="card-header">
+												<h5><?= $navtitle ?></h5>
+											</div>
+											<div class="card-body">
+												<div class="table-responsive">
+													<div class="tablegrid">
+														<div class="tablegrid-grid-header">
+															<table class="tablegrid-table">
+																<thead>
+																	<tr class="tablegrid-header-row">
+																		<th class="tablegrid-header-cell" style="width: 125px">Commande #</th>
+																		<th class="tablegrid-header-cell" style="width: 75px">Total</th>
+																		<th class="tablegrid-header-cell" style="width: 75px">État</th>
+																		<th class="tablegrid-header-cell tablegrid-control-field tablegrid-align-center" style="width: 75px">Actions</th>
+																	</tr>
+																</thead>
+															</table>
+														</div>
+														<div class="tablegrid-grid-body">
+															<table class="tablegrid-table">
+																<tbody>
+																	<?php
+																	// Get the number of orders returned by the model for background lines
+																	$quantity = count($orderlist);
+
+																	foreach ($orderlist AS $key => $value)
+																	{
+																		require_once(DIR . '/model/ModelOrderDetails.php');
+																		$orderdetails = new \Ecommerce\Model\ModelOrderDetails($config);
+																		$orderdetails->set_order($value['id']);
+																		$details = $orderdetails->getOrderDetails();
+
+																		$totalprice = 0;
+
+																		foreach ($details AS $key2 => $value2)
+																		{
+																			$totalprice += ($value2['quantite'] * $value2['prix']);
+																		}
+
+																		?>
+																		<tr class="<?= (($quantity++ % 2) == 0 ? 'tablegrid-row' : 'tablegrid-alt-row') ?>">
+																			<td class="tablegrid-cell" style="width: 125px"><?= $value['id'] ?></td>
+																			<td class="tablegrid-cell" style="width: 75px"><?= number_format($totalprice, 2) ?> &euro;</td>
+																			<td class="tablegrid-cell" style="width: 75px"><?= $value['etat'] ?></td>
+																			<td class="tablegrid-cell tablegrid-control-field tablegrid-align-center" style="width: 75px">
+																				<a class="tablegrid-button tablegrid-search-button" type="button" title="Modifier" href="index.php?do=viewcustomerorderdetails&amp;id=<?= $value['id'] ?>"></a>
+																			</td>
+																		</tr>
+																		<?php
+																	}
+																	?>
+																</tbody>
+															</table>
+														</div>
+														<?php
+														Utils::construct_page_nav($pagenumber, $perpage, $totalorders['nborders'], 'index.php?do=viewcustomerallorders&amp;id=' . $data['id'], 'back');
+														?>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<?php
+						}
+						else
+						{
+							?>
+							<!-- Container-fluid starts-->
+							<?php
+							ViewTemplate::breadcrumb($pagetitle, $navbits);
+							?>
+							<!-- Container-fluid ends-->
+
+							<div class="container-fluid">
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="card">
+											<div class="card-header">
+												<h5>Liste des catégories</h5>
+											</div>
+											<div class="card-body">
+												<?php
+												if (Utils::cando(10))
+												{
+													?>
+													<div class="btn-popup pull-right">
+														<a href="index.php?do=addcategory" type="button" class="btn btn-secondary">Ajouter une catégorie</a>
+													</div>
+													<?php
+												}
+												?>
+												<div class="table-responsive">
+													<div class="text-center">Il n'y a pas de catégorie.</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<?php
+						}
+						?>
+						</div>
+						<!-- footer start-->
+						<?php
+						ViewTemplate::BackFooter();
+						?>
+						<!-- footer end-->
+					</div>
+				</div>
+				<!-- latest jquery-->
+				<script src="../assets/js/jquery-3.5.1.min.js"></script>
+
+				<!-- Bootstrap js-->
+				<script src="../assets/js/popper.min.js"></script>
+				<script src="../assets/js/bootstrap.js"></script>
+
+				<!-- feather icon js-->
+				<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
+				<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
+
+				<!-- Sidebar jquery-->
+				<script src="../assets/js/sidebar-menu.js"></script>
+				<script src="../assets/js/slick.js"></script>
+
+				<!--script admin-->
+				<script src="../assets/js/admin-script.js"></script>
+			</body>
+		</html>
+	<?php
+		}
+		else
+		{
+			throw new Exception('Une erreur est survenue pendant l\'affichage des commandes du client.');
+		}
+	}
+
+	/**
+	 * Returns the HTMl code to display the details of an order.
+	 *
+	 * @param integer $id ID of the order.
+	 *
+	 * @return void
+	 */
 	public static function ViewOrderDetails($id)
 	{
 		if (Utils::cando(32))
@@ -962,8 +1212,61 @@ class ViewCustomer
 											</div>
 											<div class="col-xl-4">
 												<div class="card">
-													<div class="card-header"></div>
-													<div class="card-body"></div>
+													<div class="card-header">
+														<h5>Informations de livraison</h5>
+													</div>
+													<div class="card-body">
+														<div class="row">
+															<div class="col-xl-12">
+																<h5 class="f-w-600 pb-3">Détails généraux</h5>
+																<div class="table-responsive profile-table">
+																	<table class="table table-responsive">
+																		<tbody>
+																			<tr class="tablegrid-row">
+																				<td class="tablegrid-cell">Mode de livraison</td>
+																				<td class="tablegrid-cell"><?= $data['mode']?></td>
+																			</tr>
+																			<tr class="tablegrid-row">
+																				<td class="tablegrid-cell">Transporteur</td>
+																				<td class="tablegrid-cell"><?= $data['delivername'] ?></td>
+																			</tr>
+																			<?php
+																			if ($data['etat'] !== 'Envoyé')
+																			{
+																				?>
+																				<tr class="tablegrid-row">
+																					<td class="tablegrid-cell" colspan="2">Actions</td>
+																				</tr>
+																				<tr class="tablegrid-row">
+																					<td class="tablegrid-cell" colspan="2">
+																						<?php
+
+																						if ($data['etat'] === 'Payé')
+																						{
+																							?>
+																							<a href="index.php?do=changecustomerorderstatus&amp;status=2&amp;id=<?= $data['id'] ?>" class="btn btn-primary">Modifier l'état en « En préparation »</a>
+																							<?php
+																						}
+																						?>
+																						<?php
+																						if ($data['etat'] === 'En préparation')
+																						{
+																							?>
+																							<a href="index.php?do=changecustomerorderstatus&amp;status=3&amp;id=<?= $data['id'] ?>" class="btn btn-primary">Modifier l'état en « Envoyé »</a>
+																							<?php
+																						}
+																						?>
+																					</td>
+																				</tr>
+																				<?php
+																			}
+																			?>
+																		</tbody>
+																	</table>
+																</div>
+															</div>
+														</div>
+													</div>
 												</div>
 											</div>
 										</div>
@@ -975,8 +1278,6 @@ class ViewCustomer
 								?>
 								<!-- footer end-->
 							</div>
-
-
 						</div>
 						<!-- latest jquery-->
 						<script src="../assets/js/jquery-3.5.1.min.js"></script>
@@ -995,6 +1296,20 @@ class ViewCustomer
 
 						<!--script admin-->
 						<script src="../assets/js/admin-script.js"></script>
+
+						<?php
+						if ($_SESSION['employee']['order']['statusprepare'] === 1)
+						{
+							ViewTemplate::BackToast('Modification de commande', 'État de la commande passé à « En préparation » avec succès !');
+							unset($_SESSION['employee']['order']['statusprepare']);
+						}
+
+						if ($_SESSION['employee']['order']['statussent'] === 1)
+						{
+							ViewTemplate::BackToast('Modification de commande', 'État de la commande passé à « Envoyé » avec succès !');
+							unset($_SESSION['employee']['order']['statussent']);
+						}
+						?>
 					</body>
 				</html>
 			<?php

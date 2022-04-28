@@ -169,15 +169,108 @@ class ModelOrder extends Model
 	{
 		$db = $this->dbConnect();
 		$query = $db->prepare("
-			SELECT c.*, COUNT(d.id_commande) AS nbproduits, SUM(d.prix) AS prix, SUM(d.quantite) AS totalquantite
+			SELECT c.*, COUNT(d.id_commande) AS nbproduits, SUM(d.prix) AS prix, SUM(d.quantite) AS totalquantite, t.nom AS delivername
 			FROM commande AS c
 				INNER JOIN details_commande AS d ON (d.id_commande = c.id)
+				INNER JOIN transporteur AS t ON (t.id = c.id_transporteur)
 			WHERE c.id = ?
 		");
 		$query->bindParam(1, $this->id, \PDO::PARAM_INT);
 
 		$query->execute();
 		return $query->fetch();
+	}
+
+	/**
+	 *
+	 */
+	public function updateStatus()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			UPDATE commande SET
+				etat = ?
+			WHERE id = ?
+		");
+		$query->bindParam(1, $this->status, \PDO::PARAM_STR);
+		$query->bindParam(2, $this->id, \PDO::PARAM_INT);
+
+		return $query->execute();
+	}
+
+	/**
+	 *
+	 */
+	public function getCustomerId()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT id_client
+			FROM commande
+			WHERE id = ?
+		");
+		$query->bindParam(1, $this->id, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetch();
+	}
+
+	/**
+	 * Gets the latest orders.
+	 *
+	 * @return Returns the data for the latest orders.
+	 */
+	public function getLatestOrders()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT *
+			FROM commande
+			ORDER BY id DESC
+			LIMIT 0, 5
+		");
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
+	 * Returns the number of orders in the given customer.
+	 *
+	 * @return integer Number of orders in customer.
+	 */
+	public function getNumberOfOrdersPerCustomer()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT COUNT(*) AS nborders
+			FROM commande
+			WHERE id_client = ?
+		");
+		$query->bindParam(1, $this->id_customer, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetch();
+	}
+
+	/**
+	 *
+	 */
+	public function getAllCustomerOrders($limitlower, $perpage)
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT *
+			FROM commande
+			WHERE id_client = ?
+			LIMIT ?, ?
+		");
+		$query->bindParam(1, $this->id_customer, \PDO::PARAM_INT);
+		$query->bindParam(2, $limitlower, \PDO::PARAM_INT);
+		$query->bindParam(3, $perpage, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetchAll();
 	}
 
 	/**
