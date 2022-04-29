@@ -1,5 +1,10 @@
 <?php
 
+require_once(DIR . '/model/ModelOrder.php');
+require_once(DIR . '/model/ModelOrderDetails.php');
+use \Ecommerce\Model\ModelOrder;
+use \Ecommerce\Model\ModelOrderDetails;
+
 /**
  * Class to display HTML content about dashboard in back.
  *
@@ -24,8 +29,7 @@ class ViewOrder
 			'' => $navtitle
 		];
 
-		require_once(DIR . '/model/ModelOrder.php');
-		$orders = new \Ecommerce\Model\ModelOrder($config);
+		$orders = new ModelOrder($config);
 		$totalorders = $orders->getTotalNumberOfOrders();
 
 		// Number max per page
@@ -121,8 +125,7 @@ class ViewOrder
 
 																	foreach ($orderlist AS $key => $value)
 																	{
-																		require_once(DIR . '/model/ModelOrderDetails.php');
-																		$orderdetails = new \Ecommerce\Model\ModelOrderDetails($config);
+																		$orderdetails = new ModelOrderDetails($config);
 																		$orderdetails->set_order($value['id']);
 																		$details = $orderdetails->getOrderDetails();
 

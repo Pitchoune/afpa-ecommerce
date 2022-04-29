@@ -1,6 +1,7 @@
 <?php
 
 require_once(DIR . '/model/ModelTrademark.php');
+use \Ecommerce\Model\ModelTrademark;
 
 /**
  * Class to display HTML content about roles in back.
@@ -20,7 +21,7 @@ class ViewTrademark
 		{
 			global $config, $pagenumber;
 
-			$trademarks = new \Ecommerce\Model\ModelTrademark($config);
+			$trademarks = new ModelTrademark($config);
 
 			$pagetitle = 'Gestion des marques';
 			$navtitle = 'Liste des marques';
@@ -323,7 +324,7 @@ class ViewTrademark
 		{
 			global $config;
 
-			$trademarks = new \Ecommerce\Model\ModelTrademark($config);
+			$trademarks = new ModelTrademark($config);
 
 			$pagetitle = 'Gestion des marques';
 

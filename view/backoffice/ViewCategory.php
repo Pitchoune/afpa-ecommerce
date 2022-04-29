@@ -1,6 +1,7 @@
 <?php
 
 require_once(DIR . '/model/ModelCategory.php');
+use \Ecommerce\Model\ModelCategory;
 
 /**
  * Class to display HTML content about categories in back.
@@ -20,7 +21,7 @@ class ViewCategory
 		{
 			global $config, $pagenumber;
 
-			$categories = new \Ecommerce\Model\ModelCategory($config);
+			$categories = new ModelCategory($config);
 
 			$pagetitle = 'Gestion des catégories';
 			$navtitle = 'Liste des catégories';
@@ -308,7 +309,7 @@ class ViewCategory
 		{
 			global $config;
 
-			$categories = new \Ecommerce\Model\ModelCategory($config);
+			$categories = new ModelCategory($config);
 
 			$pagetitle = 'Gestion des catégories';
 

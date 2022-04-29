@@ -1,6 +1,7 @@
 <?php
 
 require_once(DIR . '/model/ModelDeliver.php');
+use \Ecommerce\Model\ModelDeliver;
 
 /**
  * Class to display HTML content about delivers in back.
@@ -20,7 +21,7 @@ class ViewDeliver
 		{
 			global $config, $pagenumber;
 
-			$delivers = new \Ecommerce\Model\ModelDeliver($config);
+			$delivers = new ModelDeliver($config);
 
 			$pagetitle = 'Gestion des transporteurs';
 			$navtitle = 'Liste des transporteurs';
@@ -321,7 +322,7 @@ class ViewDeliver
 		{
 			global $config;
 
-			$delivers = new \Ecommerce\Model\ModelDeliver($config);
+			$delivers = new ModelDeliver($config);
 
 			$pagetitle = 'Gestion des transporteurs';
 

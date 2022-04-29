@@ -1,5 +1,8 @@
 <?php
 
+require_once(DIR . '/model/ModelProduct.php');
+use \Ecommerce\Model\ModelProduct;
+
 /**
  * Displays the selected product page.
  *
@@ -50,8 +53,8 @@ function searchResults($query, $category, $type = '')
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelProduct.php');
-		$products = new \Ecommerce\Model\ModelProduct($config);
+
+		$products = new ModelProduct($config);
 		$products->set_name($query);
 		$products->set_ref($query);
 		$products->set_description($query);

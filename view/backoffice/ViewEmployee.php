@@ -1,6 +1,9 @@
 <?php
 
 require_once(DIR . '/model/ModelEmployee.php');
+require_once(DIR . '/model/ModelRole.php');
+use \Ecommerce\Model\ModelEmployee;
+use \Ecommerce\Model\ModelRole;
 
 /**
  * Class to display HTML content about employees in back.
@@ -175,7 +178,7 @@ class ViewEmployee
 		{
 			global $config, $pagenumber;
 
-			$employees = new \Ecommerce\Model\ModelEmployee($config);
+			$employees = new ModelEmployee($config);
 
 			$pagetitle = 'Gestion des catégories';
 			$navtitle = 'Liste des employés';
@@ -462,11 +465,10 @@ class ViewEmployee
 		{
 			global $config;
 
-			$employees = new \Ecommerce\Model\ModelEmployee($config);
+			$employees = new ModelEmployee($config);
 
 			$options = '<option value="-1" disabled>Sélectionnez un rôle</option>';
-			require_once(DIR . '/model/ModelRole.php');
-			$roles = new \Ecommerce\Model\ModelRole($config);
+			$roles = new ModelRole($config);
 			$rolelist = $roles->listAllRoles();
 
 			$pagetitle = 'Gestion des employées';
@@ -654,13 +656,13 @@ class ViewEmployee
 			'' => $navtitle
 		];
 
-		$employees = new \Ecommerce\Model\ModelEmployee($config);
+		$employees = new ModelEmployee($config);
 		$employees->set_id($_SESSION['employee']['id']);
 		$employee = $employees->getEmployeeInfosFromId();
 
 		$options = '<option value="-1" disabled>Sélectionnez un rôle</option>';
-		require_once(DIR . '/model/ModelRole.php');
-		$roles = new \Ecommerce\Model\ModelRole($config);
+
+		$roles = new ModelRole($config);
 		$rolelist = $roles->listAllRoles();
 
 		$pagetitle = 'Gestion des employées';

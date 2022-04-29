@@ -1,5 +1,6 @@
 <?php
 
+require_once(DIR . '/model/ModelProduct.php');
 use \Ecommerce\Model\ModelProduct;
 
 /**
@@ -57,8 +58,7 @@ function InsertProduct($name, $ref, $description, $quantity, $price, $category, 
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelProduct.php');
-		$products = new \Ecommerce\Model\ModelProduct($config);
+		$products = new ModelProduct($config);
 
 		// Verify name
 		if ($name === '')
@@ -206,8 +206,7 @@ function UpdateProduct($id, $name, $ref, $description, $quantity, $price, $categ
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelProduct.php');
-		$products = new \Ecommerce\Model\ModelProduct($config);
+		$products = new ModelProduct($config);
 
 		// Verify name
 		if ($name === '')
@@ -328,8 +327,7 @@ function DeleteProduct($id)
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelProduct.php');
-		$products = new \Ecommerce\Model\ModelProduct($config);
+		$products = new ModelProduct($config);
 
 		$products->set_id($id);
 

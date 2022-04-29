@@ -1,5 +1,12 @@
 <?php
 
+require_once(DIR . '/model/ModelMessage.php');
+require_once(DIR . '/model/ModelOrder.php');
+require_once(DIR . '/model/ModelOrderDetails.php');
+use \Ecommerce\Model\ModelMessage;
+use \Ecommerce\Model\ModelOrder;
+use \Ecommerce\Model\ModelOrderDetails;
+
 /**
  * Class to display HTML content about dashboard in back.
  *
@@ -121,8 +128,7 @@ class ViewDashboard
 											<div class="card-body">
 												<div class="order-timeline">
 													<?php
-													require_once(DIR . '/model/ModelMessage.php');
-													$messages = new \Ecommerce\Model\ModelMessage($config);
+													$messages = new ModelMessage($config);
 													$messages->set_type('notif');
 													$messagelist = $messages->getAllMessagesFromType();
 
@@ -173,14 +179,12 @@ class ViewDashboard
 														</thead>
 														<tbody>
 														<?php
-														require_once(DIR . '/model/ModelOrder.php');
-														$orders = new \Ecommerce\Model\ModelOrder($config);
+														$orders = new ModelOrder($config);
 														$orderlist = $orders->getLatestOrders();
 
 														foreach ($orderlist AS $key => $value)
 														{
-															require_once(DIR . '/model/ModelOrderDetails.php');
-															$orderdetails = new \Ecommerce\Model\ModelOrderDetails($config);
+															$orderdetails = new ModelOrderDetails($config);
 															$orderdetails->set_order($value['id']);
 															$orderdetail = $orderdetails->getOrderDetails();
 															$total = 0;

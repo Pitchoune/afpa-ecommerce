@@ -1,5 +1,6 @@
 <?php
 
+require_once(DIR . '/model/ModelCategory.php');
 use \Ecommerce\Model\ModelCategory;
 
 /**
@@ -51,8 +52,8 @@ function InsertCategory($title)
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelCategory.php');
-		$categories = new \Ecommerce\Model\ModelCategory($config);
+
+		$categories = new ModelCategory($config);
 
 		// Verify title
 		if ($title === '')
@@ -115,8 +116,7 @@ function UpdateCategory($id, $title)
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelCategory.php');
-		$categories = new \Ecommerce\Model\ModelCategory($config);
+		$categories = new ModelCategory($config);
 
 		// Verify title
 		if ($title === '')
@@ -159,8 +159,7 @@ function DeleteCategory($id)
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelCategory.php');
-		$categories = new \Ecommerce\Model\ModelCategory($config);
+		$categories = new ModelCategory($config);
 
 		$categories->set_id($id);
 

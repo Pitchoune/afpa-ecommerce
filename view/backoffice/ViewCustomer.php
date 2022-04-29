@@ -1,6 +1,13 @@
 <?php
 
 require_once(DIR . '/model/ModelCustomer.php');
+require_once(DIR . '/model/ModelOrder.php');
+require_once(DIR . '/model/ModelOrderDetails.php');
+require_once(DIR . '/model/ModelTrademark.php');
+use \Ecommerce\Model\ModelCustomer;
+use \Ecommerce\Model\ModelOrder;
+use \Ecommerce\Model\ModelOrderDetails;
+use \Ecommerce\Model\ModelTrademark;
 
 /**
  * Class to display HTML content about customers in back.
@@ -20,7 +27,7 @@ class ViewCustomer
 		{
 			global $config, $pagenumber;
 
-			$customers = new \Ecommerce\Model\ModelCustomer($config);
+			$customers = ModelCustomer($config);
 
 			$pagetitle = 'Gestion des clients';
 			$navtitle = 'Liste des clients';
@@ -311,7 +318,7 @@ class ViewCustomer
 		{
 			global $config;
 
-			$customers = new \Ecommerce\Model\ModelCustomer($config);
+			$customers = new ModelCustomer($config);
 
 			$pagetitle = 'Gestion des clients';
 
@@ -513,13 +520,12 @@ class ViewCustomer
 
 			$pagetitle = 'Gestion des clients';
 
-			$customers = new \Ecommerce\Model\ModelCustomer($config);
+			$customers = new ModelCustomer($config);
 			$customers->set_id($id);
 			$data = $customers->getCustomerInfosFromId();
 
 			// Grab an external value and add it into the data array filled above
-			require_once(DIR . '/model/ModelOrder.php');
-			$orders = new \Ecommerce\Model\ModelOrder($config);
+			$orders = new ModelOrder($config);
 			$orders->set_customer($data['id']);
 			$data += $orders->getNumberOfOrdersForCustomer();
 
@@ -663,8 +669,7 @@ class ViewCustomer
 
 																								foreach ($listorders AS $key => $value)
 																								{
-																									require_once(DIR . '/model/ModelOrderDetails.php');
-																									$orderdetails = new \Ecommerce\Model\ModelOrderDetails($config);
+																									$orderdetails = new ModelOrderDetails($config);
 																									$orderdetails->set_order($value['id']);
 																									$orderdetail = $orderdetails->getOrderDetails();
 
@@ -782,12 +787,11 @@ class ViewCustomer
 			'' => $navtitle
 		];
 
-		$customers = new \Ecommerce\Model\ModelCustomer($config);
+		$customers = new ModelCustomer($config);
 		$customers->set_id($id);
 		$data = $customers->getCustomerInfosFromId();
 
-		require_once(DIR . '/model/ModelOrder.php');
-		$orders = new \Ecommerce\Model\ModelOrder($config);
+		$orders = new ModelOrder($config);
 		$orders->set_customer($data['id']);
 		$totalorders = $orders->getNumberOfOrdersForCustomer();
 
@@ -885,8 +889,7 @@ class ViewCustomer
 
 																	foreach ($orderlist AS $key => $value)
 																	{
-																		require_once(DIR . '/model/ModelOrderDetails.php');
-																		$orderdetails = new \Ecommerce\Model\ModelOrderDetails($config);
+																		$orderdetails = new ModelOrderDetails($config);
 																		$orderdetails->set_order($value['id']);
 																		$details = $orderdetails->getOrderDetails();
 
@@ -1008,8 +1011,7 @@ class ViewCustomer
 			$pagetitle = 'Gestion des clients';
 
 			// Grab an external value and add it into the data array filled above
-			require_once(DIR . '/model/ModelOrder.php');
-			$orders = new \Ecommerce\Model\ModelOrder($config);
+			$orders = new ModelOrder($config);
 			$orders->set_id($id);
 
 			$data = $orders->getOrderDetails();
@@ -1019,8 +1021,7 @@ class ViewCustomer
 			if ($data)
 			{
 				// Get customer informations
-				require_once(DIR . '/model/ModelCustomer.php');
-				$customers = new \Ecommerce\Model\ModelCustomer($config);
+				$customers = new ModelCustomer($config);
 				$customers->set_id($data['id_client']);
 				$customer = $customers->getCustomerInfosFromId();
 
@@ -1141,8 +1142,7 @@ class ViewCustomer
 																	<table class="tablegrid-table">
 																		<tbody>
 																			<?php
-																			require_once(DIR . '/model/ModelOrderDetails.php');
-																			$orderdetails = new \Ecommerce\Model\ModelOrderDetails($config);
+																			$orderdetails = new ModelOrderDetails($config);
 																			$orderdetails->set_order($id);
 																			$details = $orderdetails->getOrderDetails();
 
@@ -1161,8 +1161,7 @@ class ViewCustomer
 																					$photo = "../attachments/products/" . $value['photo'];
 																				}
 
-																				require_once(DIR . '/model/ModelTrademark.php');
-																				$trademarks = new \Ecommerce\Model\ModelTrademark($config);
+																				$trademarks = new ModelTrademark($config);
 																				$trademarks->set_id($value['id_marque']);
 																				$trademark = $trademarks->listTrademarkInfos();
 																				?>

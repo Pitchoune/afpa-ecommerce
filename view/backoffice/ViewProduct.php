@@ -1,6 +1,11 @@
 <?php
 
 require_once(DIR . '/model/ModelProduct.php');
+require_once(DIR . '/model/ModelCategory.php');
+require_once(DIR . '/model/ModelTrademark.php');
+use \Ecommerce\Model\ModelProduct;
+use \Ecommerce\Model\ModelCategory;
+use \Ecommerce\Model\ModelTrademark;
 
 /**
  * Class to display HTML content about products in back.
@@ -20,7 +25,7 @@ class ViewProduct
 		{
 			global $config, $pagenumber;
 
-			$products = new \Ecommerce\Model\ModelProduct($config);
+			$products = new ModelProduct($config);
 
 			$pagetitle = 'Gestion des produits';
 			$navtitle = 'Liste des produits';
@@ -317,7 +322,7 @@ class ViewProduct
 		{
 			global $config;
 
-			$products = new \Ecommerce\Model\ModelProduct($config);
+			$products = new ModelProduct($config);
 
 			$pagetitle = 'Gestion des produits';
 
@@ -352,13 +357,11 @@ class ViewProduct
 				];
 
 				// Create a sort of cache to autobuild categories with depth status to have parent and child categories in the whole system
-				require_once(DIR . '/model/ModelCategory.php');
-				$categories = new \Ecommerce\Model\ModelCategory($config);
+				$categories = new ModelCategory($config);
 				$catlist = $categories->listAllCategories();
 
 				// Grab all existing trademarks
-				require_once(DIR . '/model/ModelTrademark.php');
-				$trademarks = new \Ecommerce\Model\ModelTrademark($config);
+				$trademarks = new ModelTrademark($config);
 				$trademarkslist = $trademarks->listAllTrademarks();
 
 				?>

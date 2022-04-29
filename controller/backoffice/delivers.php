@@ -1,5 +1,6 @@
 <?php
 
+require_once(DIR . '/model/ModelDeliver.php');
 use \Ecommerce\Model\ModelDeliver;
 
 /**
@@ -49,8 +50,7 @@ function InsertDeliver($name)
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelDeliver.php');
-		$delivers = new \Ecommerce\Model\ModelDeliver($config);
+		$delivers = new ModelDeliver($config);
 
 		// Verify name
 		if ($name === '')
@@ -145,8 +145,7 @@ function UpdateDeliver($id, $name)
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelDeliver.php');
-		$delivers = new \Ecommerce\Model\ModelDeliver($config);
+		$delivers = new ModelDeliver($config);
 
 		// Verify title
 		if ($name === '')
@@ -231,8 +230,7 @@ function DeleteDeliver($id)
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelDeliver.php');
-		$delivers = new \Ecommerce\Model\ModelDeliver($config);
+		$delivers = new ModelDeliver($config);
 
 		$delivers->set_id($id);
 

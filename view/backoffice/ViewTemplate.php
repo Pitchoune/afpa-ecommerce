@@ -1,5 +1,8 @@
 <?php
 
+require_once(DIR . '/model/ModelMessage.php');
+use \Ecommerce\Model\ModelMessage;
+
 /**
  * Class to display default HTML code for all necessary pages in back.
  *
@@ -100,8 +103,7 @@ class ViewTemplate
 						<li><a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()"><i data-feather="maximize"></i></a></li>
 						<?php
 						// Put this part of code here to have the notifications total
-						require_once(DIR . '/model/ModelMessage.php');
-						$messages = new \Ecommerce\Model\ModelMessage($config);
+						$messages = new ModelMessage($config);
 						$messages->set_type('notif');
 						$messagecount = $messages->countMessagesFromType();
 						?>

@@ -1,5 +1,6 @@
 <?php
 
+require_once(DIR . '/model/ModelRole.php');
 use \Ecommerce\Model\ModelRole;
 
 /**
@@ -51,8 +52,7 @@ function InsertRole($name)
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelRole.php');
-		$roles = new \Ecommerce\Model\ModelRole($config);
+		$roles = new ModelRole($config);
 
 		// Verify name
 		if ($name === '')
@@ -90,8 +90,7 @@ function EditRole($id)
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelRole.php');
-		$roles = new \Ecommerce\Model\ModelRole($config);
+		$roles = new ModelRole($config);
 
 		$roles->set_id($id);
 
@@ -138,8 +137,7 @@ function UpdateRole($id, $name)
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelRole.php');
-		$roles = new \Ecommerce\Model\ModelRole($config);
+		$roles = new ModelRole($config);
 
 		// Verify title
 		if ($name === '')
@@ -181,8 +179,7 @@ function UpdateRolePerms($id, $permissions)
 	// This condition different than all other is to prevent to be locked out and no one can edit them later
 	if ($config['Misc']['superadminid'] == $_SESSION['employee']['roleid'])
 	{
-		require_once(DIR . '/model/ModelRole.php');
-		$roles = new \Ecommerce\Model\ModelRole($config);
+		$roles = new ModelRole($config);
 
 		// Delete all roles from the given role
 		$roles->set_id($id);
@@ -224,8 +221,7 @@ function DeleteRole($id)
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelRole.php');
-		$roles = new \Ecommerce\Model\ModelRole($config);
+		$roles = new ModelRole($config);
 
 		$count = $roles->getTotalNumberOfRoles();
 

@@ -1,5 +1,6 @@
 <?php
 
+require_once(DIR . '/model/ModelEmployee.php');
 use \Ecommerce\Model\ModelEmployee;
 
 /**
@@ -39,8 +40,7 @@ function doLogin($email, $pass)
 	global $config;
 
 	// Enabling the model call here, useful to validate data
-	require_once(DIR . '/model/ModelEmployee.php');
-	$employees = new \Ecommerce\Model\ModelEmployee($config);
+	$employees = new ModelEmployee($config);
 
 	// Validate email
 	if (empty(trim($email)))
@@ -176,8 +176,7 @@ function InsertEmployee($firstname, $lastname, $email, $password, $role)
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelEmployee.php');
-		$employees = new \Ecommerce\Model\ModelEmployee($config);
+		$employees = new ModelEmployee($config);
 
 		// Verify firstname
 		if ($firstname === '')
@@ -273,8 +272,7 @@ function UpdateEmployee($id, $firstname, $lastname, $email, $password, $role)
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelEmployee.php');
-		$employees = new \Ecommerce\Model\ModelEmployee($config);
+		$employees = new ModelEmployee($config);
 
 		// Verify title
 		if ($firstname === '')
@@ -330,8 +328,7 @@ function DeleteEmployee($id)
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelEmployee.php');
-		$employees = new \Ecommerce\Model\ModelEmployee($config);
+		$employees = new ModelEmployee($config);
 
 		$total = $employees->getTotalNumberOfEmployees();
 
@@ -385,8 +382,7 @@ function UpdateProfile($id, $firstname, $lastname, $email, $password, $role)
 {
 	global $config;
 
-	require_once(DIR . '/model/ModelEmployee.php');
-	$employees = new \Ecommerce\Model\ModelEmployee($config);
+	$employees = new ModelEmployee($config);
 
 	// Verify firstname
 	if ($firstname === '')

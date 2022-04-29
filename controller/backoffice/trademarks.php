@@ -1,5 +1,6 @@
 <?php
 
+require_once(DIR . '/model/ModelTrademark.php');
 use \Ecommerce\Model\ModelTrademark;
 
 /**
@@ -51,8 +52,7 @@ function InsertTrademark($name)
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelTrademark.php');
-		$trademarks = new \Ecommerce\Model\ModelTrademark($config);
+		$trademarks = new ModelTrademark($config);
 
 		// Verify name
 		if ($name === '')
@@ -152,8 +152,7 @@ function UpdateTrademark($id, $name)
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelTrademark.php');
-		$trademarks = new \Ecommerce\Model\ModelTrademark($config);
+		$trademarks = new ModelTrademark($config);
 
 		// Verify title
 		if ($name === '')
@@ -238,8 +237,7 @@ function DeleteTrademark($id)
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelTrademark.php');
-		$trademarks = new \Ecommerce\Model\ModelTrademark($config);
+		$trademarks = new ModelTrademark($config);
 		$trademarks->set_id($id);
 
 		// Delete the file first

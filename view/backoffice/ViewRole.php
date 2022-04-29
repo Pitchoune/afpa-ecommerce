@@ -1,6 +1,7 @@
 <?php
 
 require_once(DIR . '/model/ModelRole.php');
+use \Ecommerce\Model\ModelRole;
 
 /**
  * Class to display HTML content about roles in back.
@@ -20,7 +21,7 @@ class ViewRole
 		{
 			global $config, $pagenumber;
 
-			$roles = new \Ecommerce\Model\ModelRole($config);
+			$roles = new ModelRole($config);
 
 			$pagetitle = 'Gestion des rôles';
 			$navtitle = 'Liste des rôles';
@@ -313,7 +314,7 @@ class ViewRole
 		{
 			global $config;
 
-			$roles = new \Ecommerce\Model\ModelRole($config);
+			$roles = new ModelRole($config);
 
 			$pagetitle = 'Gestion des rôles';
 

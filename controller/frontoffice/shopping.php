@@ -1,5 +1,14 @@
 <?php
 
+require_once(DIR . '/controller/stripe.php');
+require_once(DIR . '/model/ModelOrder.php');
+require_once(DIR . '/model/ModelOrderDetails.php');
+require_once(DIR . '/model/ModelProduct.php');
+use \Ecommerce\Stripe\Stripe;
+use \Ecommerce\Model\ModelOrder;
+use \Ecommerce\Model\ModelOrderDetails;
+use \Ecommerce\Model\ModelProduct;
+
 /**
  * Displays the cart page.
  *
@@ -58,8 +67,7 @@ function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $
 	global $config;
 
 	// Call stripe class
-	require_once(DIR . '/controller/stripe.php');
-	$stripe = new \Ecommerce\Stripe\Stripe();
+	$stripe = new Stripe();
 
 	// Set Stripe API key
 	$stripe->set_apikey($config['Stripe']['privatekey']);
@@ -88,8 +96,7 @@ function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $
 		}
 
 		// Save order
-		require_once(DIR . '/model/ModelOrder.php');
-		$orders = new \Ecommerce\Model\ModelOrder($config);
+		$orders = new ModelOrder($config);
 		$orders->set_date(date("Y-m-d H:i:s"));
 		$orders->set_status('Payé');
 		$orders->set_mode($mode);
@@ -100,8 +107,7 @@ function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $
 		if ($orderid > 0)
 		{
 			// Save the order details
-			require_once(DIR . '/model/ModelOrderDetails.php');
-			$orderdetails = new \Ecommerce\Model\ModelOrderDetails($config);
+			$orderdetails = new ModelOrderDetails($config);
 
 			$nbitems = count($item);
 			$addeditems = 0;
@@ -116,8 +122,7 @@ function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $
 				$orderdetails->saveOrderDetails();
 
 				// Decrease quantity for each product
-				require_once(DIR . '/model/ModelProduct.php');
-				$products = new \Ecommerce\Model\ModelProduct($config);
+				$products = new ModelProduct($config);
 				$products->set_id($value['id']);
 				$products->set_quantity($value['quantity']);
 				$products->setNewQuantityAfterPaidOrder();

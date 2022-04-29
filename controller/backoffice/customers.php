@@ -1,6 +1,11 @@
 <?php
 
+require_once(DIR . '/model/ModelCustomer.php');
+require_once(DIR . '/model/ModelOrder.php');
+require_once(DIR . '/model/ModelMessage.php');
 use \Ecommerce\Model\ModelCustomer;
+use \Ecommerce\Model\ModelOrder;
+use \Ecommerce\Model\ModelMessage;
 
 /**
  * Lists all customers.
@@ -58,8 +63,7 @@ function InsertCustomer($firstname, $lastname, $email, $password, $telephone, $a
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelCustomer.php');
-		$customers = new \Ecommerce\Model\ModelCustomer($config);
+		$customers = new ModelCustomer($config);
 
 		// Verify first name
 		if ($firstname === '' OR empty($firstname))
@@ -217,8 +221,7 @@ function UpdateCustomer($id, $firstname, $lastname, $email, $password, $telephon
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelCustomer.php');
-		$customers = new \Ecommerce\Model\ModelCustomer($config);
+		$customers = new ModelCustomer($config);
 
 		// Verify first name
 		if ($firstname === '')
@@ -362,8 +365,7 @@ function DeleteCustomer($id)
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelCustomer.php');
-		$customers = new \Ecommerce\Model\ModelCustomer($config);
+		$customers = new ModelCustomer($config);
 
 		$customers->set_id($id);
 
@@ -438,22 +440,18 @@ function ChangeOrderStatus($id, $status)
 			break;
 	}
 
-	require_once(DIR . '/model/ModelOrder.php');
-	$orders = new \Ecommerce\Model\ModelOrder($config);
+	$orders = new ModelOrder($config);
 	$orders->set_id($id);
 	$orders->set_status($mode);
 
 	if ($orders->updateStatus())
 	{
 		// Get customer ID
-		require_once(DIR . '/model/ModelOrder.php');
-		$orders = new \Ecommerce\Model\ModelOrder($config);
 		$orders->set_id($id);
 		$order = $orders->getCustomerId();
 
 		// Send a notification in message
-		require_once(DIR . '/model/ModelMessage.php');
-		$messages = new \Ecommerce\Model\ModelMessage($config);
+		$messages = new ModelMessage($config);
 		$messages->set_type('notif');
 		$messages->set_message('Commande ' . $id . ' marqué en préparation');
 		$messages->set_employee($_SESSION['employee']['id']);

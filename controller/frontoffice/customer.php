@@ -1,5 +1,8 @@
 <?php
 
+require_once(DIR . '/model/ModelCustomer.php');
+use \Ecommerce\Model\ModelCustomer;
+
 /**
  * Displays the register form.
  *
@@ -43,8 +46,7 @@ function doRegister($firstname, $lastname, $email, $password, $passwordconfirm)
 	}
 
 	// Enabling the model call here, useful to validate data
-	require_once(DIR . '/model/ModelCustomer.php');
-	$customer = new \Ecommerce\Model\ModelCustomer($config);
+	$customer = new ModelCustomer($config);
 
 	// Validate first name
 	if (empty(trim($firstname)))
@@ -162,8 +164,7 @@ function doLogin($email, $password)
 	}
 
 	// Enabling the model call here, useful to validate data
-	require_once(DIR . '/model/ModelCustomer.php');
-	$customer = new \Ecommerce\Model\ModelCustomer($config);
+	$customer = new ModelCustomer($config);
 
 	// Validate email
 	if (empty(trim($email)))
@@ -304,8 +305,7 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 		header('Location: index.php');
 	}
 
-	require_once(DIR . '/model/ModelCustomer.php');
-	$customers = new \Ecommerce\Model\ModelCustomer($config);
+	$customers = new ModelCustomer($config);
 
 	// Verify first name
 	if ($firstname === '')
@@ -423,8 +423,7 @@ function editPassword($email = '', $token = '')
 		// Forgot password feature after email reception with generated link to change password
 		if ($email !== '' AND $token !== '')
 		{
-			require_once(DIR . '/model/ModelCustomer.php');
-			$customers = new \Ecommerce\Model\ModelCustomer($config);
+			$customers = new ModelCustomer($config);
 			$customers->set_email($email);
 			$customerid = $customers->getCustomerId();
 
@@ -464,8 +463,7 @@ function savePassword($id, $password = '', $newpassword, $confirmpassword, $toke
 {
 	global $config;
 
-	require_once(DIR . '/model/ModelCustomer.php');
-	$customers = new \Ecommerce\Model\ModelCustomer($config);
+	$customers = new ModelCustomer($config);
 	$customers->set_id(intval($id));
 	$customer = $customers->getCustomerInfosFromId();
 
@@ -592,8 +590,7 @@ function sendPassword($email)
 		header('Location: index.php');
 	}
 
-	require_once(DIR . '/model/ModelCustomer.php');
-	$customers = new \Ecommerce\Model\ModelCustomer($config);
+	$customers = new ModelCustomer($config);
 	$customers->set_email($email);
 	$customer = $customers->getCustomerInfosFromEmail();
 
@@ -681,8 +678,7 @@ function doDeleteProfile($id, $deletion)
 		session_start();
 
 		// Delete only the customer account, not the previous orders
-		require_once(DIR . '/model/ModelCustomer.php');
-		$customers = new \Ecommerce\Model\ModelCustomer($config);
+		$customers = new ModelCustomer($config);
 		$customers->set_id($id);
 
 		if ($customers->deleteCustomer())
