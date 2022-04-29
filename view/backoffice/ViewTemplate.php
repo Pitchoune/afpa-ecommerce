@@ -479,12 +479,18 @@ class ViewTemplate
 					{
 						firstname: /^[\p{L}\s-]{2,}$/u,
 						lastname: /^[\p{L}\s-]{2,}$/u,
+						title: /^[\p{L}\s-]{2,}$/u,
+						name: /^[\p{L}\s-]{2,}$/u,
 						mail: /^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si,
 						telephone: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
 						address: /^[\d\w\-\s]{5,100}$/,
 						city: /^([a-zA-Z]+(?:[\s-][a-zA-Z]+)*){1,}$/u,
 						zipcode: /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/,
 						pass: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+						ref: /^[\p{L}\s-]{2,}$/u,
+						description: /^[\p{L}\s-]{2,}$/u,
+						quantity: /^[0-9]{2,}$/,
+						price: /^[0-9]{1,5}\.[0-9]{2}$/,
 					};
 
 					$("small").text("");
@@ -495,9 +501,9 @@ class ViewTemplate
 					// formElements.length - x to not use 'submit', 'reset' and any other 'hidden' types at the end of the form
 					for (let i = 0; i < formElements.length - <?= $number ?>; i++)
 					{
-						// radio cleaning
 						if ($(formElements[i]).attr("type") === "radio")
 						{
+							// radio cleaning
 							$("#" + $(formElements[i]).attr("aria-describedby")).html("");
 
 							if ($("input[name='" + $(formElements[i]).attr("name") + "']:checked").length === 0)
@@ -545,10 +551,21 @@ class ViewTemplate
 								$(formElements[i]).addClass("is-invalid");
 								$(formElements[i]).next().html(`<p class="invalid-text">${$(formElements[i]).attr("data-message")}</p>`);
 							}
+
+							if (parseInt(formElements[i].value) === 0)
+							{
+								error = true;
+								$(formElements[i]).addClass("is-invalid");
+								$(formElements[i]).next().html(`<p class="invalid-text">${$(formElements[i]).attr("data-message")}</p>`);
+							}
+						}
+						else if ($(formElements[i]).attr("type") === "file")
+						{
+							// Don't check files upload
 						}
 						else
 						{
-							// input text cleaning
+							// any other input cleaning
 							$(formElements[i]).removeClass("is-invalid");
 							$(formElements[i]).next().html("");
 

@@ -393,10 +393,11 @@ class ViewDeliver
 													<h5><?= $navtitle ?></h5>
 												</div>
 												<div class="card-body">
-													<form class="digital-add needs-validation" enctype="multipart/form-data" method="post" action="index.php?do=<?= $formredirect ?>">
+													<form class="digital-add" enctype="multipart/form-data" method="post" action="index.php?do=<?= $formredirect ?>">
 														<div class="form-group">
-															<label for="validationCustom01" class="col-form-label pt-0"><span>*</span> Intitulé</label>
-															<input class="form-control" id="validationCustom01" type="text" required name="name" value="<?= $deliverinfos['nom'] ?>">
+															<label for="title" class="col-form-label pt-0"><span>*</span> Intitulé</label>
+															<input type="text" class="form-control" id="title" name="name" aria-describedby="titleHelp" data-type="title" data-message="Le format de l'intitulé n'est pas valide." required value="<?= $deliverinfos['nom'] ?>">
+															<small id="titleHelp" class="form-text text-muted"></small>
 														</div>
 														<?php
 														if (Utils::cando(21))
@@ -420,7 +421,7 @@ class ViewDeliver
 																<?php
 																}
 																?>
-																<input type="submit" class="btn btn-primary" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
+																<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
 																<input type="reset" class="btn btn-light" value="Annuler"/>
 															</div>
 														</div>
@@ -459,6 +460,17 @@ class ViewDeliver
 
 						<!--script admin-->
 						<script src="../assets/js/admin-script.js"></script>
+
+						<?php
+						if ($id)
+						{
+							ViewTemplate::BackFormValidation('valider', 4, 1);
+						}
+						else
+						{
+							ViewTemplate::BackFormValidation('valider', 3, 1);
+						}
+						?>
 					</body>
 				</html>
 				<?php

@@ -39,11 +39,14 @@ function doLogin($email, $pass)
 {
 	global $config;
 
+	$email = trim(strval($email));
+	$pass = trim(strval($pass));
+
 	// Enabling the model call here, useful to validate data
 	$employees = new ModelEmployee($config);
 
 	// Validate email
-	if (empty(trim($email)))
+	if (empty($email))
 	{
 		throw new Exception('Veuillez insérer votre adresse email.');
 	}
@@ -53,19 +56,15 @@ function doLogin($email, $pass)
 	}
 
 	// Validate password
-	$uppercase = preg_match('@[A-Z]@', $pass);
-	$lowercase = preg_match('@[a-z]@', $pass);
-	$number = preg_match('@[0-9]@', $pass);
-	$specialChars = preg_match('@[^\w]@', $pass);
-
-	if (empty(trim($pass)))
+	if (empty($pass))
 	{
 		throw new Exception('Veuillez insérer un mot de passe valide.');
 	}
-	/*else if (!$uppercase OR !$lowercase OR !$number OR !$specialChars OR strlen($password) < 12)
+
+	if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $password))
 	{
-		throw new Exception('Veuillez respecter le standard requis pour le mot de passe :<ul><li>1 caractère minuscule</li><li>1 caractère majuscule</li><li>1 chiffre</li><li>caractères spéciaux</li><li>longueur de 12 caractères minimum</li></ul>)');
-	}*/
+		throw new Exception('Le format du mot de passe n\'est pas valide.');
+	}
 
 	// No error - get the employee informations to login
 	$employees->set_email($email);
@@ -176,34 +175,60 @@ function InsertEmployee($firstname, $lastname, $email, $password, $role)
 	{
 		global $config;
 
+		$firstname = trim(strval($firstname));
+		$lastname =  trim(strval($lastname));
+		$email = trim(strval($email));
+		$password  = trim(strval($password));
+		$role = trim(strval($role));
+
 		$employees = new ModelEmployee($config);
 
 		// Verify firstname
-		if ($firstname === '')
+		if ($firstname === '' OR empty($firstname))
 		{
 			throw new Exception('Le prénom est vide.');
 		}
 
+		if (!preg_match('/^[\p{L}\s-]{2,}$/u', trim($firstname)))
+		{
+			throw new Exception('Le prénom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
+		}
+
 		// Verify lastname
-		if ($lastname === '')
+		if ($lastname === '' OR empty($lastname))
 		{
 			throw new Exception('Le nom est vide.');
 		}
 
-		// Verify firstname
-		if ($firstname === '')
+		if (!preg_match('/^[\p{L}\s]{1,}$/u', $lastname))
+		{
+			throw new Exception('Le nom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
+		}
+
+		// Verify email
+		if ($email === '' OR empty($email))
 		{
 			throw new Exception('L\'adresse email est vide.');
 		}
 
+		if (!preg_match('/^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si', $email))
+		{
+			throw new Exception('L\'adresse email n\'est pas valide.');
+		}
+
 		// Verify password
-		if ($password === '')
+		if ($password === '' OR empty($password))
 		{
 			throw new Exception('Le nmot de passe est vide.');
 		}
 
+		if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $password))
+		{
+			throw new Exception('Le mot de passe n\'est pas valide.');
+		}
+
 		// Verify role
-		if ($role === '')
+		if ($role === '' OR (empty($role)))
 		{
 			throw new Exception('Le rôle est vide.');
 		}
@@ -245,6 +270,8 @@ function EditEmployee($id)
 {
 	if (Utils::cando(7))
 	{
+		$id = intval($id);
+
 		require_once(DIR . '/view/backoffice/ViewEmployee.php');
 		ViewEmployee::EmployeeAddEdit($id);
 	}
@@ -272,12 +299,71 @@ function UpdateEmployee($id, $firstname, $lastname, $email, $password, $role)
 	{
 		global $config;
 
+		$id = intval($id);
+		$firstname = trim(strval($firstname));
+		$lastname = trim(strval($lastname));
+		$email = trim(strval($email));
+		$password = trim(strval($password));
+		$role = trim(strval($role));
+
 		$employees = new ModelEmployee($config);
 
-		// Verify title
-		if ($firstname === '')
+		// Verify firstname
+		if ($firstname === '' OR empty($firstname))
+		{
+			throw new Exception('Le prénom est vide.');
+		}
+
+		if (!preg_match('/^[\p{L}\s-]{2,}$/u', trim($firstname)))
+		{
+			throw new Exception('Le prénom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
+		}
+
+		// Verify lastname
+		if ($lastname === '' OR empty($lastname))
 		{
 			throw new Exception('Le nom est vide.');
+		}
+
+		if (!preg_match('/^[\p{L}\s]{1,}$/u', $lastname))
+		{
+			throw new Exception('Le nom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
+		}
+
+		// Verify email
+		if ($email === '' OR empty($email))
+		{
+			throw new Exception('L\'adresse email est vide.');
+		}
+
+		if (!preg_match('/^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si', $email))
+		{
+			throw new Exception('L\'adresse email n\'est pas valide.');
+		}
+
+		if ($password)
+		{
+			// Verify password
+			if ($password === '')
+			{
+				throw new Exception('Le nmot de passe est vide.');
+			}
+
+			if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $password))
+			{
+				throw new Exception('Le mot de passe n\'est pas valide.');
+			}
+		}
+
+		// Verify role
+		if ($role === '' OR (empty($role)))
+		{
+			throw new Exception('Le rôle est vide.');
+		}
+
+		if ($role === '0')
+		{
+			throw new Exception('Le rôle indiqué n\'est pas valide. Ceci est sûrement dû à cause d\'une liste de rôles disponibles vide. Veuillez contacter votre responsable.');
 		}
 
 		$employees->set_id($id);
@@ -328,6 +414,8 @@ function DeleteEmployee($id)
 	{
 		global $config;
 
+		$id = intval($id);
+
 		$employees = new ModelEmployee($config);
 
 		$total = $employees->getTotalNumberOfEmployees();
@@ -367,52 +455,76 @@ function ViewProfile()
 }
 
 /**
- * Updates the given employee profileinto the database.
+ * Updates the given employee profile into the database.
  *
  * @param integer $id ID of the employee.
  * @param string $firstname First name of the employee.
  * @param string $lastname Last name of the employee.
  * @param string $email Email of the employee.
  * @param string $password Password of the employee.
- * @param integer $role Role of the employee.
  *
  * @return void
  */
-function UpdateProfile($id, $firstname, $lastname, $email, $password, $role)
+function UpdateProfile($id, $firstname, $lastname, $email, $password)
 {
 	global $config;
+
+	$id = intval($id);
+	$firstname = trim(strval($firstname));
+	$lastname = trim(strval($lastname));
+	$email = trim(strval($email));
+	$password = trim(strval($password));
 
 	$employees = new ModelEmployee($config);
 
 	// Verify firstname
-	if ($firstname === '')
+	if ($firstname === '' OR empty($firstname))
 	{
 		throw new Exception('Le prénom est vide.');
 	}
 
+	if (!preg_match('/^[\p{L}\s-]{2,}$/u', trim($firstname)))
+	{
+		throw new Exception('Le prénom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
+	}
+
 	// Verify lastname
-	if ($lastname === '')
+	if ($lastname === '' OR empty($lastname))
 	{
 		throw new Exception('Le nom est vide.');
 	}
 
+	if (!preg_match('/^[\p{L}\s]{1,}$/u', $lastname))
+	{
+		throw new Exception('Le nom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
+	}
+
 	// Verify email
-	if ($email === '')
+	if ($email === '' OR empty($email))
 	{
 		throw new Exception('L\'adresse email est vide.');
 	}
 
-	// Verify role
-	if ($role === '')
+	if (!preg_match('/^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si', $email))
 	{
-		throw new Exception('Le rôle est vide.');
+		throw new Exception('L\'adresse email n\'est pas valide.');
+	}
+
+	// Verify password
+	if ($password === '' OR empty($password))
+	{
+		throw new Exception('Le nmot de passe est vide.');
+	}
+
+	if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $password))
+	{
+		throw new Exception('Le mot de passe n\'est pas valide.');
 	}
 
 	$employees->set_id($id);
 	$employees->set_firstname($firstname);
 	$employees->set_lastname($lastname);
 	$employees->set_email($email);
-	$employees->set_role($role);
 
 	if (isset($password))
 	{

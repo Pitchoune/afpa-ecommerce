@@ -46,7 +46,7 @@ class ViewCustomer
 										<div class="row g-3">
 											<div class="col-md-12 form-group">
 												<label for="firstname">Prénom</label>
-												<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="lastname" data-message="Le format du prénom n'est pas valide." placeholder="Prénom" />
+												<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du prénom n'est pas valide." placeholder="Prénom" />
 												<small id="firstnameHelp" class="form-text text-muted"></small>
 											</div>
 										</div>

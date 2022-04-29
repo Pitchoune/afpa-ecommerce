@@ -50,6 +50,8 @@ function InsertDeliver($name)
 	{
 		global $config;
 
+		$name = trim(strval($name));
+
 		$delivers = new ModelDeliver($config);
 
 		// Verify name
@@ -58,10 +60,41 @@ function InsertDeliver($name)
 			throw new Exception('Le nom est vide.');
 		}
 
+		if (!preg_match('//', $name))
+		{
+			throw new Exception('Le nom contient des caractères non valides.');
+		}
+
 		$delivers->set_name($name);
 
 		if (Utils::cando(21))
 		{
+			// $_FILES validation
+			if (is_array($_FILES['file']))
+			{
+				if (is_array($_FILES['file']['name']))
+				{
+					$files = count($_FILES['file']['name']);
+
+					for ($index = 0; $index < $files; $index++)
+					{
+						$_FILES['file']['name']["$index"] = trim(strval($_FILES['file']['name']["$index"]));
+						$_FILES['file']['type']["$index"] = trim(strval($_FILES['file']['type']["$index"]));
+						$_FILES['file']['tmp_name']["$index"] = trim(strval($_FILES['file']['tmp_name']["$index"]));
+						$_FILES['file']['error']["$index"] = intval($_FILES['file']['error']["$index"]);
+						$_FILES['file']['size']["$index"] = intval($_FILES['file']['size']["$index"]);
+					}
+				}
+				else
+				{
+					$_FILES['name'] = trim(strval($_FILES['name']));
+					$_FILES['type'] = trim(strval($_FILES['type']));
+					$_FILES['tmp_name'] = trim(strval($_FILES['tmp_name']));
+					$_FILES['error'] = intval($_FILES['error']);
+					$_FILES['size'] = intval($_FILES['size']);
+				}
+			}
+
 			// Do the file upload
 			if (($_FILES['file']['error'] > 0 AND $_FILES['file']['error'] != 4) OR $_FILES['file']['error'] == 0)
 			{
@@ -125,6 +158,8 @@ function EditDeliver($id)
 {
 	if (Utils::cando(20))
 	{
+		$id = intval($id);
+
 		require_once(DIR . '/view/backoffice/ViewDeliver.php');
 		ViewDeliver::DeliverAddEdit($id);
 	}
@@ -145,6 +180,9 @@ function UpdateDeliver($id, $name)
 	{
 		global $config;
 
+		$id = intval($id);
+		$name = trim(strval($name));
+
 		$delivers = new ModelDeliver($config);
 
 		// Verify title
@@ -158,6 +196,32 @@ function UpdateDeliver($id, $name)
 
 		if (Utils::cando(21))
 		{
+			// $_FILES validation
+			if (is_array($_FILES['file']))
+			{
+				if (is_array($_FILES['file']['name']))
+				{
+					$files = count($_FILES['file']['name']);
+
+					for ($index = 0; $index < $files; $index++)
+					{
+						$_FILES['file']['name']["$index"] = trim(strval($_FILES['file']['name']["$index"]));
+						$_FILES['file']['type']["$index"] = trim(strval($_FILES['file']['type']["$index"]));
+						$_FILES['file']['tmp_name']["$index"] = trim(strval($_FILES['file']['tmp_name']["$index"]));
+						$_FILES['file']['error']["$index"] = intval($_FILES['file']['error']["$index"]);
+						$_FILES['file']['size']["$index"] = intval($_FILES['file']['size']["$index"]);
+					}
+				}
+				else
+				{
+					$_FILES['name'] = trim(strval($_FILES['name']));
+					$_FILES['type'] = trim(strval($_FILES['type']));
+					$_FILES['tmp_name'] = trim(strval($_FILES['tmp_name']));
+					$_FILES['error'] = intval($_FILES['error']);
+					$_FILES['size'] = intval($_FILES['size']);
+				}
+			}
+
 			// Do the file upload
 			if (($_FILES['file']['error'] > 0 AND $_FILES['file']['error'] != 4) OR $_FILES['file']['error'] == 0)
 			{
@@ -229,6 +293,8 @@ function DeleteDeliver($id)
 	if (Utils::cando(22))
 	{
 		global $config;
+
+		$id = intval($id);
 
 		$delivers = new ModelDeliver($config);
 

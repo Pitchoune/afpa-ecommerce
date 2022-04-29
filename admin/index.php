@@ -123,8 +123,7 @@ try
 			$lastname = isset($_POST['lastname']) ? filter_var($_POST['lastname'], FILTER_SANITIZE_STRING) : NULL;
 			$email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_SANITIZE_STRING) : NULL;
 			$password = isset($_POST['password']) ? filter_var($_POST['password'], FILTER_SANITIZE_STRING) : NULL;
-			$role = isset($_POST['role']) ? filter_var($_POST['role'], FILTER_VALIDATE_INT) : NULL;
-			UpdateProfile($id, $firstname, $lastname, $email, $password, $role);
+			UpdateProfile($id, $firstname, $lastname, $email, $password);
 			break;
 		// Categories
 		case 'listcategories':

@@ -407,41 +407,46 @@ class ViewProduct
 													<h5><?= $navtitle ?></h5>
 												</div>
 												<div class="card-body">
-													<form class="digital-add needs-validation" enctype="multipart/form-data" method="post" action="index.php?do=<?= $formredirect ?>">
+													<form class="digital-add" enctype="multipart/form-data" method="post" action="index.php?do=<?= $formredirect ?>">
 														<div class="form-group">
-															<label for="validationCustom01" class="col-form-label pt-0"><span>*</span> Intitulé</label>
-															<input class="form-control" id="validationCustom01" type="text" required name="name" value="<?= $productinfos['nom'] ?>">
+															<label for="name" class="col-form-label pt-0"><span>*</span> Intitulé</label>
+															<input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" data-type="name" data-message="Le format du nom n'est pas valide." value="<?= $productinfos['nom'] ?>" required />
+															<small id="nameHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
-															<label for="validationCustom02" class="col-form-label pt-0"><span>*</span> Référence</label>
-															<input class="form-control" id="validationCustom02" type="text" maxlength="10" required name="ref" value="<?= $productinfos['ref'] ?>">
+															<label for="ref" class="col-form-label pt-0"><span>*</span> Référence</label>
+															<input type="text" class="form-control" id="ref" name="ref" aria-describedby="refHelp" data-type="ref" data-message="Le format de la référence n'est pas valide." value="<?= $productinfos['ref'] ?>" maxlength="10" required />
+															<small id="refHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
-															<label for="validationCustom03" class="col-form-label pt-0"><span>*</span> Description</label>
-															<input class="form-control" id="validationCustom03" type="text" required name="description" value="<?= $productinfos['description'] ?>">
+															<label for="description" class="col-form-label pt-0"><span>*</span> Description</label>
+															<input type="text" class="form-control" id="description" name="description" aria-describedby="descriptionHelp" data-type="description" data-message="Le format de la description n'est pas valide." value="<?= $productinfos['description'] ?>" required />
+															<small id="descriptionHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
-															<label for="validationCustom04" class="col-form-label pt-0"><span>*</span> Quantité</label>
-															<input class="form-control" id="validationCustom04" type="text" required name="quantity" value="<?= $productinfos['quantite'] ?>">
+															<label for="quantity" class="col-form-label pt-0"><span>*</span> Quantité</label>
+															<input type="text" class="form-control" id="quantity" name="quantity" aria-describedby="quantityHelp" data-type="quantity" data-message="Le format de la quantité n'est pas valide." value="<?= $productinfos['quantite'] ?>" required />
+															<small id="quantityHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
-															<label for="validationCustom05" class="col-form-label pt-0"><span>*</span> Prix</label>
-															<input class="form-control" id="validationCustom05" type="text" required name="price" value="<?= $productinfos['prix'] ?>">
+															<label for="price" class="col-form-label pt-0"><span>*</span> Prix</label>
+															<input type="text" class="form-control" id="price" name="price" aria-describedby="priceHelp" data-type="price" data-message="Le format du prix n'est pas valide." value="<?= $productinfos['prix'] ?>" required />
+															<small id="priceHelp" class="form-text text-muted"></small>
 														</div>
 														<?php
 														if (Utils::cando(26))
 														{
 															?>
 															<div class="form-group">
-																<label for="validationCustom06" class="col-form-label pt-0">Photo</label>
-																<input type="file" id="validationCustom06" name="file" />
+																<label for="photo" class="col-form-label pt-0">Photo</label>
+																<input type="file" id="photo" name="file" />
 															</div>
 															<?php
 														}
 														?>
 														<div class="form-group">
 															<label class="col-form-label"><span>*</span> Catégorie</label>
-															<select class="custom-select form-control" required name="category">
+															<select class="custom-select form-control" id="" name="category" aria-describedby="selectcatHelp" data-type="selectChoose" data-message="La catégorie est obligatoire." required>
 																<option value="0" selected disabled>Sélectionnez une catégorie</option>
 																	<?php
 
@@ -452,10 +457,11 @@ class ViewProduct
 
 																	?>
 															</select>
+															<small id="selectcatHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
 															<label class="col-form-label"><span>*</span> Marque</label>
-															<select class="custom-select form-control" required name="trademark">
+															<select class="custom-select form-control" id="" name="trademark" aria-describedby="selecttrademarkHelp" data-type="selectChoose" data-message="La marque est obligatoire." required>
 																<option value="0" selected disabled>Sélectionnez une marque</option>
 																	<?php
 
@@ -466,6 +472,7 @@ class ViewProduct
 
 																	?>
 															</select>
+															<small id="selecttrademarkHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group mb-0">
 															<div class="product-buttons text-center">
@@ -478,7 +485,7 @@ class ViewProduct
 																	<?php
 																}
 																?>
-																<input type="submit" class="btn btn-primary" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
+																<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
 																<input type="reset" class="btn btn-light" value="Annuler"/>
 															</div>
 														</div>
@@ -517,6 +524,16 @@ class ViewProduct
 
 						<!--script admin-->
 						<script src="../assets/js/admin-script.js"></script>
+						<?php
+						if ($id)
+						{
+							ViewTemplate::BackFormValidation('valider', 4, 1);
+						}
+						else
+						{
+							ViewTemplate::BackFormValidation('valider', 3, 1);
+						}
+						?>
 					</body>
 				</html>
 				<?php

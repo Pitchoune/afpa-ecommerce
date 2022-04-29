@@ -399,10 +399,11 @@ class ViewRole
 															<?php
 															}
 															?>
-															<form class="digital-add needs-validation" method="post" action="index.php?do=<?= $formredirect ?>">
+															<form class="digital-add" method="post" action="index.php?do=<?= $formredirect ?>">
 																<div class="form-group">
-																	<label for="validationCustom01" class="col-form-label pt-0"><span>*</span> Intitulé</label>
-																	<input class="form-control" id="validationCustom01" type="text" required name="name" value="<?= $roleinfos['nom'] ?>">
+																	<label for="name" class="col-form-label pt-0"><span>*</span> Intitulé</label>
+																	<input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" data-type="name" data-message="Le format de l'intitulé n'est pas valide." value="<?= $roleinfos['nom'] ?>" required />
+																	<small id="nameHelp" class="form-text text-muted"></small>
 																</div>
 																<div class="form-group mb-0">
 																	<div class="product-buttons text-center">
@@ -415,7 +416,7 @@ class ViewRole
 																		<?php
 																		}
 																		?>
-																		<input type="submit" class="btn btn-primary" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
+																		<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
 																		<input type="reset" class="btn btn-light" value="Annuler"/>
 																	</div>
 																</div>
@@ -511,6 +512,16 @@ class ViewRole
 
 						<!--script admin-->
 						<script src="../assets/js/admin-script.js"></script>
+						<?php
+						if ($id)
+						{
+							ViewTemplate::BackFormValidation('valider', 4, 1);
+						}
+						else
+						{
+							ViewTemplate::BackFormValidation('valider', 3, 1);
+						}
+						?>
 					</body>
 				</html>
 				<?php

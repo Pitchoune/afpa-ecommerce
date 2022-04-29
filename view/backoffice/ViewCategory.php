@@ -386,10 +386,11 @@ class ViewCategory
 													<h5><?= $navtitle ?></h5>
 												</div>
 												<div class="card-body">
-													<form class="digital-add needs-validation" method="post" action="index.php?do=<?= $formredirect ?>">
+													<form class="digital-add" method="post" action="index.php?do=<?= $formredirect ?>">
 														<div class="form-group">
-															<label for="validationCustom01" class="col-form-label pt-0"><span>*</span> Intitulé</label>
-															<input class="form-control" id="validationCustom01" type="text" required name="title" value="<?= $categoryinfos['nom'] ?>">
+															<label for="title" class="col-form-label pt-0"><span>*</span> Intitulé</label>
+															<input type="text" class="form-control" id="title" name="title" aria-describedby="titleHelp" data-type="title" data-message="Le format de l'intitulé n'est pas valide." required value="<?= $categoryinfos['nom'] ?>">
+															<small id="titleHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group mb-0">
 															<div class="product-buttons text-center">
@@ -402,7 +403,7 @@ class ViewCategory
 																<?php
 																}
 																?>
-																<input type="submit" class="btn btn-primary" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
+																<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
 																<input type="reset" class="btn btn-light" value="Annuler"/>
 															</div>
 														</div>
@@ -441,6 +442,17 @@ class ViewCategory
 
 						<!--script admin-->
 						<script src="../assets/js/admin-script.js"></script>
+
+						<?php
+						if ($id)
+						{
+							ViewTemplate::BackFormValidation('valider', 4, 1);
+						}
+						else
+						{
+							ViewTemplate::BackFormValidation('valider', 3, 1);
+						}
+						?>
 					</body>
 				</html>
 				<?php

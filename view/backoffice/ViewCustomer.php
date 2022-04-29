@@ -389,44 +389,44 @@ class ViewCustomer
 													<h5><?= $navtitle ?></h5>
 												</div>
 												<div class="card-body">
-													<form class="digital-add needs-validation" enctype="multipart/form-data" method="post" action="index.php?do=<?= $formredirect ?>">
+													<form class="digital-add" enctype="multipart/form-data" method="post" action="index.php?do=<?= $formredirect ?>">
 														<div class="form-group">
-															<label for="validationCustom01" class="col-form-label pt-0"><span>*</span> Prénom</label>
+															<label for="firstname" class="col-form-label pt-0"><span>*</span> Prénom</label>
 															<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du nom n'est pas valide." placeholder="Insérez votre nom" value="<?= $customerinfos['nom'] ?>" required />
 															<small id="firstnameHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
-															<label for="validationCustom02" class="col-form-label pt-0"><span>*</span> Nom</label>
+															<label for="lastname" class="col-form-label pt-0"><span>*</span> Nom</label>
 															<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du prénom n'est pas valide." placeholder="Insérez votre prénom" value="<?= $customerinfos['prenom'] ?>" required />
 															<small id="lastnameHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
-															<label for="validationCustom03" class="col-form-label pt-0"><span>*</span> Email</label>
+															<label for="mail" class="col-form-label pt-0"><span>*</span> Email</label>
 															<input type="text" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." placeholder="Insérez votre adresse email" value="<?= $customerinfos['mail'] ?>" required />
 															<small id="emailHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
-															<label for="" class="col-form-label pt-0"><span>*</span> Mot de passe</label>
+															<label for="password" class="col-form-label pt-0"><span>*</span> Mot de passe</label>
 															<input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" data-type="password" data-message="Le format du mot de passe n'est pas valide." required />
 															<small id="passwordHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
-															<label for="validationCustom04" class="col-form-label pt-0"><span>*</span> Téléphone</label>
+															<label for="telephone" class="col-form-label pt-0"><span>*</span> Téléphone</label>
 															<input type="text" class="form-control" id="telephone" name="telephone" aria-describedby="telephoneHelp" data-type="telephone" data-message="Le format du numéro de téléphone n'est pas valide." placeholder="Insérez votre téléphone" value="<?= $customerinfos['tel'] ?>" required />
 															<small id="telephoneHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
-															<label for="validationCustom05" class="col-form-label pt-0"><span>*</span> Adresse</label>
+															<label for="address" class="col-form-label pt-0"><span>*</span> Adresse</label>
 															<input type="text" class="form-control" id="address" name="address" aria-describedby="addressHelp" data-type="address" data-message="Le format de l'adresse postale n'est pas valide." placeholder="Adresse" value="<?= $customerinfos['adresse'] ?>" required />
 															<small id="addressHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
-															<label for="validationCustom06" class="col-form-label pt-0"><span>*</span> Ville</label>
+															<label for="city" class="col-form-label pt-0"><span>*</span> Ville</label>
 															<input type="text" class="form-control" id="city" name="city" aria-describedby="cityHelp" data-type="city" data-message="Le format de la ville n'est pas valide." placeholder="Ville" value="<?= $customerinfos['ville'] ?>" required />
 															<small id="cityHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
-															<label for="validationCustom07" class="col-form-label pt-0"><span>*</span> Code postal</label>
+															<label for="zipcode" class="col-form-label pt-0"><span>*</span> Code postal</label>
 															<input type="text" class="form-control" id="zipcode" name="zipcode" aria-describedby="zipcodeHelp" data-type="zipcode" data-message="Le format du code postal n'est pas valide." placeholder="Code postal" value="<?= $customerinfos['code_post'] ?>" required />
 															<small id="zipcodeHelp" class="form-text text-muted"></small>
 														</div>

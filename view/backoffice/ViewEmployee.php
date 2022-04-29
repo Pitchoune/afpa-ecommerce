@@ -467,7 +467,28 @@ class ViewEmployee
 
 			$employees = new ModelEmployee($config);
 
-			$options = '<option value="-1" disabled>Sélectionnez un rôle</option>';
+			if ($id)
+			{
+				$employees->set_id($id);
+				$employeeinfos = $employees->listEmployeeInfos();
+				$navtitle = 'Modifier un employé';
+				$formredirect = 'updateemployee';
+				$options = '<option value="0" disabled>Sélectionnez un rôle</option>';
+			}
+			else
+			{
+				$employeeinfos = [
+					'nom' => '',
+					'prenom' => '',
+					'mail' => '',
+					'role' => ''
+				];
+
+				$navtitle = 'Ajouter un employé';
+				$formredirect = 'insertemployee';
+				$options = '<option value="0" selected disabled>Sélectionnez un rôle</option>';
+			}
+
 			$roles = new ModelRole($config);
 			$rolelist = $roles->listAllRoles();
 
@@ -483,26 +504,6 @@ class ViewEmployee
 			else
 			{
 				$options .= '<option value="0" disabled>Il n\'y a pas de rôle à lister.</option>';
-			}
-
-			if ($id)
-			{
-				$employees->set_id($id);
-				$employeeinfos = $employees->listEmployeeInfos();
-				$navtitle = 'Modifier un employé';
-				$formredirect = 'updateemployee';
-			}
-			else
-			{
-				$employeeinfos = [
-					'nom' => '',
-					'prenom' => '',
-					'mail' => '',
-					'role' => ''
-				];
-
-				$navtitle = 'Ajouter un employé';
-				$formredirect = 'insertemployee';
 			}
 
 			if ($employeeinfos)
@@ -556,28 +557,33 @@ class ViewEmployee
 													<h5><?= $navtitle ?></h5>
 												</div>
 												<div class="card-body">
-													<form class="digital-add needs-validation" method="post" action="index.php?do=<?= $formredirect ?>">
+													<form class="digital-add" method="post" action="index.php?do=<?= $formredirect ?>">
 														<div class="form-group">
-															<label for="validationCustom01" class="col-form-label pt-0"><span>*</span> Nom</label>
-															<input class="form-control" id="validationCustom01" type="text" required name="firstname" value="<?= $employeeinfos['nom'] ?>">
+															<label for="firstname" class="col-form-label pt-0"><span>*</span> Prénom</label>
+															<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du nom n'est pas valide." value="<?= $employeeinfos['nom'] ?>" required />
+															<small id="firstnameHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
-															<label for="validationCustom02" class="col-form-label pt-0"><span>*</span> Prénom</label>
-															<input class="form-control" id="validationCustom02" type="text" required name="lastname" value="<?= $employeeinfos['prenom'] ?>">
+															<label for="lastname" class="col-form-label pt-0"><span>*</span> Nom</label>
+															<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du prénom n'est pas valide." value="<?= $employeeinfos['prenom'] ?>" required />
+															<small id="lastnameHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
-															<label for="validationCustom03" class="col-form-label pt-0"><span>*</span> Adresse email</label>
-															<input class="form-control" id="validationCustom03" type="email" required name="email" value="<?= $employeeinfos['mail'] ?>">
+															<label for="mail" class="col-form-label pt-0"><span>*</span> Adresse email</label>
+															<input type="email" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." value="<?= $employeeinfos['mail'] ?>" required />
+															<small id="emailHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
-															<label for="validationCustom04" class="col-form-label pt-0"><span>*</span> Mot de passe</label>
-															<input class="form-control" id="validationCustom04" type="password" name="password">
+															<label for="password" class="col-form-label pt-0"><span>*</span> Mot de passe</label>
+															<input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" data-type="password" data-message="Le format du mot de passe n'est pas valide." />
+															<small id="passwordHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
 															<label class="col-form-label"><span>*</span> Role</label>
-															<select class="custom-select form-control" required name="role">
+															<select class="custom-select form-control" id="selectChoose" name="role" aria-describedby="selectHelp" data-type="selectChoose" data-message="La sélection du rôle est obligatoire." required>
 															<?= $options ?>
 															</select>
+															<small id="selectHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group mb-0">
 															<div class="text-center">
@@ -590,7 +596,7 @@ class ViewEmployee
 																<?php
 																}
 																?>
-																<input type="submit" class="btn btn-primary" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
+																<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
 																<input type="reset" class="btn btn-light" value="Annuler"/>
 															</div>
 														</div>
@@ -629,6 +635,17 @@ class ViewEmployee
 
 						<!--script admin-->
 						<script src="../assets/js/admin-script.js"></script>
+
+						<?php
+						if ($id)
+						{
+							ViewTemplate::BackFormValidation('valider', 4, 1);
+						}
+						else
+						{
+							ViewTemplate::BackFormValidation('valider', 3, 1);
+						}
+						?>
 					</body>
 				</html>
 				<?php
@@ -660,7 +677,7 @@ class ViewEmployee
 		$employees->set_id($_SESSION['employee']['id']);
 		$employee = $employees->getEmployeeInfosFromId();
 
-		$options = '<option value="-1" disabled>Sélectionnez un rôle</option>';
+		$options = '<option value="0" disabled>Sélectionnez un rôle</option>';
 
 		$roles = new ModelRole($config);
 		$rolelist = $roles->listAllRoles();
@@ -722,34 +739,32 @@ class ViewEmployee
 													<h5><?= $navtitle ?></h5>
 												</div>
 												<div class="card-body">
-													<form class="digital-add needs-validation" method="post" action="index.php?do=updateprofile">
+													<form class="digital-add" method="post" action="index.php?do=updateprofile">
 														<div class="form-group">
-															<label for="validationCustom01" class="col-form-label pt-0"><span>*</span> Nom</label>
-															<input class="form-control" id="validationCustom01" type="text" required name="firstname" value="<?= $employee['nom'] ?>">
+															<label for="firstname" class="col-form-label pt-0"><span>*</span> Nom</label>
+															<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du nom n'est pas valide." value="<?= $employee['nom'] ?>" required />
+															<small id="firstnameHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
 															<label for="validationCustom02" class="col-form-label pt-0"><span>*</span> Prénom</label>
-															<input class="form-control" id="validationCustom02" type="text" required name="lastname" value="<?= $employee['prenom'] ?>">
+															<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du prénom n'est pas valide." value="<?= $employee['prenom'] ?>" required />
+															<small id="lastnameHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
 															<label for="validationCustom03" class="col-form-label pt-0"><span>*</span> Adresse email</label>
-															<input class="form-control" id="validationCustom03" type="email" required name="email" value="<?= $employee['mail'] ?>">
+															<input type="email" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." value="<?= $employeeinfos['mail'] ?>" required />
+															<small id="emailHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group">
 															<label for="validationCustom04" class="col-form-label pt-0"><span>*</span> Mot de passe</label>
-															<input class="form-control" id="validationCustom04" type="password" name="password">
-														</div>
-														<div class="form-group">
-															<label class="col-form-label"><span>*</span> Role</label>
-															<select class="custom-select form-control" required name="role">
-															<?= $options ?>
-															</select>
+															<input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" data-type="password" data-message="Le format du mot de passe n'est pas valide." />
+															<small id="passwordHelp" class="form-text text-muted"></small>
 														</div>
 														<div class="form-group mb-0">
 															<div class="text-center">
 																<input type="hidden" name="do" value="updateprofile" />
 																<input type="hidden" name="id" value="<?= $employee['id'] ?>" />
-																<input type="submit" class="btn btn-primary" value="Modifier" />
+																<input type="submit" class="btn btn-primary" id="valider" value="Modifier" />
 																<input type="reset" class="btn btn-light" value="Annuler"/>
 															</div>
 														</div>
@@ -788,6 +803,10 @@ class ViewEmployee
 
 				<!--script admin-->
 				<script src="../assets/js/admin-script.js"></script>
+
+				<?php
+				ViewTemplate::BackFormValidation('valider', 4, 1);
+				?>
 			</body>
 		</html>
 		<?php

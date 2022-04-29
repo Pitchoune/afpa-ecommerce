@@ -58,6 +58,14 @@ function InsertProduct($name, $ref, $description, $quantity, $price, $category, 
 	{
 		global $config;
 
+		$name = trim(strval($name));
+		$ref = trim(strval($ref));
+		$description = trim(strval($description));
+		$quantity = intval($quantity);
+		$price = trim(strval($price));
+		$category = intval($category);
+		$trademark = intval($trademark);
+
 		$products = new ModelProduct($config);
 
 		// Verify name
@@ -66,10 +74,20 @@ function InsertProduct($name, $ref, $description, $quantity, $price, $category, 
 			throw new Exception('L\'intitulé est vide.');
 		}
 
+		if (!preg_match('/^[\p{L}\s-]{2,}$/u', $name))
+		{
+			throw new Exception('L\'intitulé peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
+		}
+
 		// Verify ref
 		if ($ref === '')
 		{
 			throw new Exception('La référence est vide.');
+		}
+
+		if (!preg_match('/^[\p{L}\s-]{2,}$/u', $ref))
+		{
+			throw new Exception('La référence peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
 		}
 
 		// Verify description
@@ -78,16 +96,31 @@ function InsertProduct($name, $ref, $description, $quantity, $price, $category, 
 			throw new Exception('La description est vide.');
 		}
 
+		if (!preg_match('/^[\p{L}\s-]{2,}$/u', $description))
+		{
+			throw new Exception('La description peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
+		}
+
 		// Verify quantity
 		if ($quantity === '')
 		{
 			throw new Exception('La quantité est vide.');
 		}
 
+		if (!preg_match('/^[0-9]{2,}$/', $quantity))
+		{
+			throw new Exception('La description peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
+		}
+
 		// Verify price
 		if ($price === '')
 		{
 			throw new Exception('Le prix est vide.');
+		}
+
+		if (!preg_match('/^[0-9]{1,5}\.[0-9]{2}$/', $price))
+		{
+			throw new Exception('Le prix peut contenir uniquement des chiffres.');
 		}
 
 		// Verify category
@@ -112,6 +145,32 @@ function InsertProduct($name, $ref, $description, $quantity, $price, $category, 
 
 		if (Utils::cando(16))
 		{
+			// $_FILES validation
+			if (is_array($_FILES['file']))
+			{
+				if (is_array($_FILES['file']['name']))
+				{
+					$files = count($_FILES['file']['name']);
+
+					for ($index = 0; $index < $files; $index++)
+					{
+						$_FILES['file']['name']["$index"] = trim(strval($_FILES['file']['name']["$index"]));
+						$_FILES['file']['type']["$index"] = trim(strval($_FILES['file']['type']["$index"]));
+						$_FILES['file']['tmp_name']["$index"] = trim(strval($_FILES['file']['tmp_name']["$index"]));
+						$_FILES['file']['error']["$index"] = intval($_FILES['file']['error']["$index"]);
+						$_FILES['file']['size']["$index"] = intval($_FILES['file']['size']["$index"]);
+					}
+				}
+				else
+				{
+					$_FILES['name'] = trim(strval($_FILES['name']));
+					$_FILES['type'] = trim(strval($_FILES['type']));
+					$_FILES['tmp_name'] = trim(strval($_FILES['tmp_name']));
+					$_FILES['error'] = intval($_FILES['error']);
+					$_FILES['size'] = intval($_FILES['size']);
+				}
+			}
+
 			// Do the file upload
 			if (($_FILES['file']['error'] > 0 AND $_FILES['file']['error'] != 4) OR $_FILES['file']['error'] == 0)
 			{
@@ -177,6 +236,8 @@ function EditProduct($id)
 {
 	if (Utils::cando(25))
 	{
+		$id = intval($id);
+
 		require_once(DIR . '/view/backoffice/ViewProduct.php');
 		ViewProduct::ProductAddEdit($id);
 	}
@@ -206,6 +267,15 @@ function UpdateProduct($id, $name, $ref, $description, $quantity, $price, $categ
 	{
 		global $config;
 
+		$id = intval($id);
+		$name = trim(strval($name));
+		$ref = trim(strval($ref));
+		$description = trim(strval($description));
+		$quantity = intval($quantity);
+		$price = trim(strval($price));
+		$category = intval($category);
+		$trademark = intval($trademark);
+
 		$products = new ModelProduct($config);
 
 		// Verify name
@@ -214,10 +284,20 @@ function UpdateProduct($id, $name, $ref, $description, $quantity, $price, $categ
 			throw new Exception('L\'intitulé est vide.');
 		}
 
+		if (!preg_match('/^[\p{L}\s-]{2,}$/u', $name))
+		{
+			throw new Exception('L\'intitulé peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
+		}
+
 		// Verify ref
 		if ($ref === '')
 		{
 			throw new Exception('La référence est vide.');
+		}
+
+		if (!preg_match('/^[\p{L}\s-]{2,}$/u', $ref))
+		{
+			throw new Exception('La référence peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
 		}
 
 		// Verify description
@@ -226,16 +306,31 @@ function UpdateProduct($id, $name, $ref, $description, $quantity, $price, $categ
 			throw new Exception('La description est vide.');
 		}
 
+		if (!preg_match('/^[\p{L}\s-]{2,}$/u', $description))
+		{
+			throw new Exception('La description peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
+		}
+
 		// Verify quantity
 		if ($quantity === '')
 		{
 			throw new Exception('La quantité est vide.');
 		}
 
+		if (!preg_match('/^[0-9]{2,}$/', $quantity))
+		{
+			throw new Exception('La description peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
+		}
+
 		// Verify price
 		if ($price === '')
 		{
 			throw new Exception('Le prix est vide.');
+		}
+
+		if (!preg_match('/^[0-9]{1,5}\.[0-9]{2}$/', $price))
+		{
+			throw new Exception('Le prix peut contenir uniquement des chiffres.');
 		}
 
 		// Verify category
@@ -261,6 +356,32 @@ function UpdateProduct($id, $name, $ref, $description, $quantity, $price, $categ
 
 		if (Utils::cando(16))
 		{
+			// $_FILES validation
+			if (is_array($_FILES['file']))
+			{
+				if (is_array($_FILES['file']['name']))
+				{
+					$files = count($_FILES['file']['name']);
+
+					for ($index = 0; $index < $files; $index++)
+					{
+						$_FILES['file']['name']["$index"] = trim(strval($_FILES['file']['name']["$index"]));
+						$_FILES['file']['type']["$index"] = trim(strval($_FILES['file']['type']["$index"]));
+						$_FILES['file']['tmp_name']["$index"] = trim(strval($_FILES['file']['tmp_name']["$index"]));
+						$_FILES['file']['error']["$index"] = intval($_FILES['file']['error']["$index"]);
+						$_FILES['file']['size']["$index"] = intval($_FILES['file']['size']["$index"]);
+					}
+				}
+				else
+				{
+					$_FILES['name'] = trim(strval($_FILES['name']));
+					$_FILES['type'] = trim(strval($_FILES['type']));
+					$_FILES['tmp_name'] = trim(strval($_FILES['tmp_name']));
+					$_FILES['error'] = intval($_FILES['error']);
+					$_FILES['size'] = intval($_FILES['size']);
+				}
+			}
+
 			// Do the file upload
 			if (($_FILES['file']['error'] > 0 AND $_FILES['file']['error'] != 4) OR $_FILES['file']['error'] == 0)
 			{
@@ -326,6 +447,8 @@ function DeleteProduct($id)
 	if (Utils::cando(27))
 	{
 		global $config;
+
+		$id = intval($id);
 
 		$products = new ModelProduct($config);
 

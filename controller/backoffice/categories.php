@@ -52,6 +52,7 @@ function InsertCategory($title)
 	{
 		global $config;
 
+		$title = trim(strval($title));
 
 		$categories = new ModelCategory($config);
 
@@ -59,6 +60,11 @@ function InsertCategory($title)
 		if ($title === '')
 		{
 			throw new Exception('Le titre est vide.');
+		}
+
+		if (!preg_match('/^[\p{L}\s-]{2,}$/u', $title))
+		{
+			throw new Exception('L\'intitulé de la catégorie contient des caractères interdits.');
 		}
 
 		$categories->set_name($title);
@@ -116,6 +122,8 @@ function UpdateCategory($id, $title)
 	{
 		global $config;
 
+		$title = trim(strval($title));
+
 		$categories = new ModelCategory($config);
 
 		// Verify title
@@ -158,6 +166,8 @@ function DeleteCategory($id)
 	if (Utils::cando(12))
 	{
 		global $config;
+
+		$id = intval($id);
 
 		$categories = new ModelCategory($config);
 

@@ -395,18 +395,19 @@ class ViewTrademark
 													<h5><?= $navtitle ?></h5>
 												</div>
 												<div class="card-body">
-													<form class="digital-add needs-validation" enctype="multipart/form-data" method="post" action="index.php?do=<?= $formredirect ?>">
+													<form class="digital-add" enctype="multipart/form-data" method="post" action="index.php?do=<?= $formredirect ?>">
 														<div class="form-group">
-															<label for="validationCustom01" class="col-form-label pt-0"><span>*</span> Intitulé</label>
-															<input class="form-control" id="validationCustom01" type="text" required name="name" value="<?= $trademarkinfos['nom'] ?>">
+															<label for="name" class="col-form-label pt-0"><span>*</span> Intitulé</label>
+															<input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" data-type="name" data-message="Le format de l'intitulé n'est pas valide." value="<?= $trademarkinfos['nom'] ?>" required />
+															<small id="nameHelp" class="form-text text-muted"></small>
 														</div>
 														<?php
 														if (Utils::cando(16))
 														{
 															?>
 															<div class="form-group">
-																<label for="validationCustom02" class="col-form-label pt-0"><span>*</span> Logo</label>
-																<input type="file" id="validationCustom02" name="file" />
+																<label for="photo" class="col-form-label pt-0"><span>*</span> Logo</label>
+																<input type="file" id="photo" name="file" />
 															</div>
 															<?php
 														}
@@ -422,7 +423,7 @@ class ViewTrademark
 																<?php
 																}
 																?>
-																<input type="submit" class="btn btn-primary" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
+																<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
 																<input type="reset" class="btn btn-light" value="Annuler"/>
 															</div>
 														</div>
@@ -461,6 +462,16 @@ class ViewTrademark
 
 						<!--script admin-->
 						<script src="../assets/js/admin-script.js"></script>
+						<?php
+						if ($id)
+						{
+							ViewTemplate::BackFormValidation('valider', 4, 1);
+						}
+						else
+						{
+							ViewTemplate::BackFormValidation('valider', 3, 1);
+						}
+						?>
 					</body>
 				</html>
 				<?php

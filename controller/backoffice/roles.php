@@ -52,6 +52,8 @@ function InsertRole($name)
 	{
 		global $config;
 
+		$name = trim(strval($name));
+
 		$roles = new ModelRole($config);
 
 		// Verify name
@@ -89,6 +91,8 @@ function EditRole($id)
 	if (Utils::cando(3))
 	{
 		global $config;
+
+		$id = intval($id);
 
 		$roles = new ModelRole($config);
 
@@ -137,6 +141,9 @@ function UpdateRole($id, $name)
 	{
 		global $config;
 
+		$id = intval($id);
+		$name = trim(strval($name));
+
 		$roles = new ModelRole($config);
 
 		// Verify title
@@ -174,6 +181,10 @@ function UpdateRole($id, $name)
 function UpdateRolePerms($id, $permissions)
 {
 	global $config;
+
+	$id = intval($id);
+
+	(is_array($permissions) ? $permissions : []);
 
 	// Only the superadmin can edit roles, it's role ID is to be specified in the config.php file for $config['Misc']['superadminid']
 	// This condition different than all other is to prevent to be locked out and no one can edit them later
@@ -220,6 +231,8 @@ function DeleteRole($id)
 	if (Utils::cando(4))
 	{
 		global $config;
+
+		$id = intval($id);
 
 		$roles = new ModelRole($config);
 

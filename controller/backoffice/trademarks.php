@@ -52,6 +52,8 @@ function InsertTrademark($name)
 	{
 		global $config;
 
+		$name = trim(strval($name));
+
 		$trademarks = new ModelTrademark($config);
 
 		// Verify name
@@ -64,6 +66,32 @@ function InsertTrademark($name)
 
 		if (Utils::cando(16))
 		{
+			// $_FILES validation
+			if (is_array($_FILES['file']))
+			{
+				if (is_array($_FILES['file']['name']))
+				{
+					$files = count($_FILES['file']['name']);
+
+					for ($index = 0; $index < $files; $index++)
+					{
+						$_FILES['file']['name']["$index"] = trim(strval($_FILES['file']['name']["$index"]));
+						$_FILES['file']['type']["$index"] = trim(strval($_FILES['file']['type']["$index"]));
+						$_FILES['file']['tmp_name']["$index"] = trim(strval($_FILES['file']['tmp_name']["$index"]));
+						$_FILES['file']['error']["$index"] = intval($_FILES['file']['error']["$index"]);
+						$_FILES['file']['size']["$index"] = intval($_FILES['file']['size']["$index"]);
+					}
+				}
+				else
+				{
+					$_FILES['name'] = trim(strval($_FILES['name']));
+					$_FILES['type'] = trim(strval($_FILES['type']));
+					$_FILES['tmp_name'] = trim(strval($_FILES['tmp_name']));
+					$_FILES['error'] = intval($_FILES['error']);
+					$_FILES['size'] = intval($_FILES['size']);
+				}
+			}
+
 			// Do the file upload
 			if (($_FILES['file']['error'] > 0 AND $_FILES['file']['error'] != 4) OR $_FILES['file']['error'] == 0)
 			{
@@ -129,6 +157,8 @@ function EditTrademark($id)
 {
 	if (Utils::cando(15))
 	{
+		$id = intval($id);
+
 		require_once(DIR . '/view/backoffice/ViewTrademark.php');
 		ViewTrademark::TrademarkAddEdit($id);
 	}
@@ -152,6 +182,9 @@ function UpdateTrademark($id, $name)
 	{
 		global $config;
 
+		$id = intval($id);
+		$name = trim(strval($name));
+
 		$trademarks = new ModelTrademark($config);
 
 		// Verify title
@@ -165,6 +198,32 @@ function UpdateTrademark($id, $name)
 
 		if (Utils::cando(16))
 		{
+			// $_FILES validation
+			if (is_array($_FILES['file']))
+			{
+				if (is_array($_FILES['file']['name']))
+				{
+					$files = count($_FILES['file']['name']);
+
+					for ($index = 0; $index < $files; $index++)
+					{
+						$_FILES['file']['name']["$index"] = trim(strval($_FILES['file']['name']["$index"]));
+						$_FILES['file']['type']["$index"] = trim(strval($_FILES['file']['type']["$index"]));
+						$_FILES['file']['tmp_name']["$index"] = trim(strval($_FILES['file']['tmp_name']["$index"]));
+						$_FILES['file']['error']["$index"] = intval($_FILES['file']['error']["$index"]);
+						$_FILES['file']['size']["$index"] = intval($_FILES['file']['size']["$index"]);
+					}
+				}
+				else
+				{
+					$_FILES['name'] = trim(strval($_FILES['name']));
+					$_FILES['type'] = trim(strval($_FILES['type']));
+					$_FILES['tmp_name'] = trim(strval($_FILES['tmp_name']));
+					$_FILES['error'] = intval($_FILES['error']);
+					$_FILES['size'] = intval($_FILES['size']);
+				}
+			}
+
 			// Do the file upload
 			if (($_FILES['file']['error'] > 0 AND $_FILES['file']['error'] != 4) OR $_FILES['file']['error'] == 0)
 			{
@@ -236,6 +295,8 @@ function DeleteTrademark($id)
 	if (Utils::cando(17))
 	{
 		global $config;
+
+		$id = intval($id);
 
 		$trademarks = new ModelTrademark($config);
 		$trademarks->set_id($id);

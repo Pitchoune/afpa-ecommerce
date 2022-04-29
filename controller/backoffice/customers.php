@@ -63,6 +63,15 @@ function InsertCustomer($firstname, $lastname, $email, $password, $telephone, $a
 	{
 		global $config;
 
+		$firstname = trim(strval($firstname));
+		$lastname = trim(strval($lastname));
+		$email = trim(strval($email));
+		$password = trim(strval($password));
+		$telephone = trim(strval($telephone));
+		$address = trim(strval($address));
+		$city = trim(strval($city));
+		$zipcode = trim(strval($zipcode));
+
 		$customers = new ModelCustomer($config);
 
 		// Verify first name
@@ -191,6 +200,8 @@ function EditCustomer($id)
 {
 	if (Utils::cando(30))
 	{
+		$id = intval($id);
+
 		require_once(DIR . '/view/backoffice/ViewCustomer.php');
 		ViewCustomer::CustomerAddEdit($id);
 	}
@@ -220,6 +231,16 @@ function UpdateCustomer($id, $firstname, $lastname, $email, $password, $telephon
 	if (Utils::cando(30))
 	{
 		global $config;
+
+		$id = intval($id);
+		$firstname = trim(strval($firstname));
+		$lastname = trim(strval($lastname));
+		$email = trim(strval($email));
+		$password = trim(strval(password));
+		$telephone = trim(strval(telephone));
+		$address = trim(strval(address));
+		$city = trim(strval(city));
+		$zipcode = trim(strval(zipcode));
 
 		$customers = new ModelCustomer($config);
 
@@ -364,6 +385,8 @@ function DeleteCustomer($id)
 	if (Utils::cando(34))
 	{
 		global $config;
+
+		$id = intval($id);
 
 		$customers = new ModelCustomer($config);
 
