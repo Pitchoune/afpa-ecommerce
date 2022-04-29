@@ -758,8 +758,8 @@
   {
     $.notify({
       icon: 'fa fa-check',
-      title: 'Success!',
-      message: 'Item Successfully added to your cart'
+      title: 'Ajout au panier',
+      message: 'Produit ajouté au panier avec succès !'
     },{
       element: 'body',
       position: null,
@@ -1037,7 +1037,7 @@ var shoppingCart = (function()
   {
     this.name = name;
     this.price = price;
-    this.count = count;
+    this.count = parseInt(count);
     this.photo = photo;
     this.id = id;
   }
@@ -1087,7 +1087,7 @@ var shoppingCart = (function()
   {
     for (var i in cart)
     {
-      if (cart(i).name === name)
+      if (cart[i].name === name)
       {
         cart[i].count = count;
         break;
@@ -1131,7 +1131,7 @@ var shoppingCart = (function()
       totalCount += cart[item].count;
     }
 
-    return parseInt(totalCount);
+    return totalCount;
   }
 
   // Total cart value

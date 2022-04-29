@@ -462,8 +462,8 @@ class ModelProduct extends Model
 	{
 		$db = $this->dbConnect();
 		$query = $db->prepare("
-			UPDATE product SET
-				quantity = ?
+			UPDATE produit SET
+				quantite = ?
 			WHERE id = ?
 		");
 		$query->bindParam(1, $this->quantity, \PDO::PARAM_INT);
@@ -473,7 +473,12 @@ class ModelProduct extends Model
 	}
 
 	/**
+	 * Returns the selected products from a specific range of values.
 	 *
+	 * @param integer $min Minimum value for the limit.
+	 * @param integer $max Number of items to return.
+	 *
+	 * @return mixed Returns an array of values if done, else false if it fails.
 	 */
 	public function getLatestNewProductsFromSpecificRange($min, $max)
 	{

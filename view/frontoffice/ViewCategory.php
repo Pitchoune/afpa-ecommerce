@@ -30,7 +30,7 @@ class ViewCategory
 		$totalproducts = $products->getTotalNumberOfProductsForSpecificCategory();
 
 		// Number max per page
-		$perpage = 2;
+		$perpage = 24;
 
 		Utils::sanitize_pageresults($totalproducts['nbproducts'], $pagenumber, $perpage, 200, 20);
 
