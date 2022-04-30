@@ -65,7 +65,7 @@ if (in_array($do, ['viewcategory']))
 	require_once(DIR . '/controller/frontoffice/categories.php');
 }
 
-if (in_array($do, ['viewcart', 'viewcheckout', 'placeorder', 'paymentprocess']))
+if (in_array($do, ['viewcart', 'viewcheckout', 'placeorder', 'paymentprocess', 'paymentsuccess']))
 {
 	require_once(DIR . '/controller/frontoffice/shopping.php');
 }

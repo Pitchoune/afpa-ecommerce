@@ -95,9 +95,11 @@ function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $
 				break;
 		}
 
+		$date = date("Y-m-d H:i:s");
+
 		// Save order
 		$orders = new ModelOrder($config);
-		$orders->set_date(date("Y-m-d H:i:s"));
+		$orders->set_date($date);
 		$orders->set_status('Payé');
 		$orders->set_mode($mode);
 		$orders->set_customer($_SESSION['user']['id']);
@@ -121,6 +123,11 @@ function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $
 				$orderdetails->set_quantity(intval($value['quantity']));
 				$orderdetails->saveOrderDetails();
 
+				// Save the product into the session for a payment success on the resume page
+				$_SESSION['user']['order']['item'][$value['id']]['id'] = $value['id'];
+				$_SESSION['user']['order']['item'][$value['id']]['price'] = $value['price'];
+				$_SESSION['user']['order']['item'][$value['id']]['quantity'] = $value['quantity'];
+
 				// Decrease quantity for each product
 				$products = new ModelProduct($config);
 				$products->set_id($value['id']);
@@ -133,9 +140,12 @@ function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $
 			if ($nbitems === $addeditems)
 			{
 				// Save order is successful in $_SESSION
-				$_SESSION['order']['paid'] = 1;
+				$_SESSION['user']['order']['paid'] = 1;
+				$_SESSION['user']['order']['id'] = $orderid;
+				$_SESSION['user']['order']['price'] = $price;
+				$_SESSION['user']['order']['date'] = $date;
 
-				header('Location: index.php');
+				header('Location: index.php?do=paymentsuccess');
 			}
 		}
 		else
@@ -145,6 +155,18 @@ function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $
 			header('Location: index.php?do=placeorder');
 		}
 	}
+}
+
+/**
+ * Displays the success payment page.
+ *
+ * @return void
+ */
+function PaymentSuccess()
+{
+	// We generate HTML code from the view
+	require_once(DIR . '/view/frontoffice/ViewShopping.php');
+	ViewShopping::PaymentSuccess();
 }
 
 ?>

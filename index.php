@@ -159,6 +159,9 @@ try
 			$item = isset($_POST['item']) ? $_POST['item'] : NULL;
 			paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $item);
 			break;
+		case 'paymentsuccess':
+			PaymentSuccess();
+			break;
 	}
 }
 catch(Exception $e)

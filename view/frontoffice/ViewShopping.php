@@ -1,6 +1,9 @@
 <?php
 
 require_once(DIR . '/model/ModelCustomer.php');
+require_once(DIR . '/model/ModelProduct.php');
+use \Ecommerce\Model\ModelCustomer;
+use \Ecommerce\Model\ModelProduct;
 
 /**
  * Class to display HTML content about shopping in front.
@@ -127,7 +130,7 @@ class ViewShopping
 		{
 			$pagetitle = 'Vérification de la commande';
 
-			$customers = new \Ecommerce\Model\ModelCustomer($config);
+			$customers = new ModelCustomer($config);
 			$customers->set_id($_SESSION['user']['id']);
 			$customer = $customers->getCustomerInfosFromId();
 
@@ -330,7 +333,7 @@ class ViewShopping
 
 			$pagetitle = 'Paiement';
 
-			$customers = new \Ecommerce\Model\ModelCustomer($config);
+			$customers = new ModelCustomer($config);
 			$customers->set_id($_SESSION['user']['id']);
 			$customer = $customers->getCustomerInfosFromId();
 
@@ -485,6 +488,209 @@ class ViewShopping
 		else
 		{
 			throw new Exception('Vous ne pouvez pas accéder à cette page en étant non identifié. Veuillez vous identifier ou vous inscrire.');
+		}
+	}
+
+	/**
+	 * Returns the HTMl code to display the success payment page.
+	 *
+	 * @return void
+	 */
+	public static function PaymentSuccess()
+	{
+		if ($_SESSION['user']['order']['paid'] === 1)
+		{
+			global $config;
+
+			$pagetitle = 'Commande effectuée !';
+
+			$date = strtotime($_SESSION['user']['order']['date']);
+			$deliverydate = strtotime("+7 days", $date);
+
+			$customers = new ModelCustomer($config);
+			$customers->set_id($_SESSION['user']['id']);
+			$customer = $customers->getCustomerInfosFromId();
+
+			$products = new ModelProduct($config);
+
+			?>
+			<!DOCTYPE html>
+			<html>
+				<head>
+					<?php
+					ViewTemplate::FrontHead($pagetitle);
+					?>
+				</head>
+
+				<body class="bg-light">
+
+					<?php
+					ViewTemplate::FrontHeader();
+					?>
+
+					<!-- thank-you section start -->
+					<section class="section-big-py-space light-layout">
+						<div class="container">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="success-text"><i class="fa fa-check-circle" aria-hidden="true"></i>
+										<h2>Merci</h2>
+										<p>Le paiement a été effectuée avec succès et votre commande va rapidement être préparée</p>
+										<p>Commande #<?= $_SESSION['user']['order']['id'] ?></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<!-- Section ends -->
+
+					<!-- order-detail section start -->
+					<section class="section-big-py-space mt--5 b-g-light">
+						<div class="custom-container">
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="product-order">
+										<h3>Détails de votre commande</h3>
+										<?php
+										foreach ($_SESSION['user']['order']['item'] AS $key => $value)
+										{
+											$products->set_id($value['id']);
+											$product = $products->listProductInfosFromId();
+
+											if (empty($product['photo']))
+											{
+												$product['photo'] = 'assets/images/nophoto.jpg';
+											}
+											else
+											{
+												$product['photo'] = 'attachments/products/' . $product['photo'];
+											}
+											?>
+											<div class="row product-order-detail">
+												<div class="col-3"><img src="<?= $product['photo'] ?>" alt="" class="img-fluid "></div>
+												<div class="col-3 order_detail">
+													<div>
+														<h4>Produit</h4>
+														<h5><?= $product['nom'] ?></h5></div>
+												</div>
+												<div class="col-3 order_detail">
+													<div>
+														<h4>Quantité</h4>
+														<h5><?= $value['quantity'] ?></h5></div>
+												</div>
+												<div class="col-3 order_detail">
+													<div>
+														<h4>Prix</h4>
+														<h5><?= $value['price'] ?> &euro;</h5></div>
+												</div>
+											</div>
+											<?php
+										}
+										?>
+										<div class="total-sec">
+											<ul>
+												<li>Sous-total <span><?= $_SESSION['user']['order']['price'] ?> &euro;</span></li>
+												<li>Livraison <span>Gratuite</span></li>
+											</ul>
+										</div>
+										<div class="final-total">
+											<h3>total <span><?= $_SESSION['user']['order']['price'] ?> &euro;</span></h3></div>
+									</div>
+								</div>
+								<div class="col-lg-6">
+									<div class="row order-success-sec">
+										<div class="col-sm-6">
+											<h4>Résumé</h4>
+											<ul class="order-detail">
+												<li>Commande #<?= $_SESSION['user']['order']['id'] ?></li>
+												<li>Date de commande: <?= $_SESSION['user']['order']['date'] ?></li>
+												<li>Total de la commande : <?= $_SESSION['user']['order']['price'] ?> &euro;</li>
+											</ul>
+										</div>
+										<div class="col-sm-6">
+											<h4>Adresse de livraison</h4>
+											<ul class="order-detail">
+												<li><?= $customer['prenom'] ?> <?= $customer['nom'] ?></li>
+												<li><?= $customer['adresse'] ?></li>
+												<li><?= $customer['code_post'] ?> <?= $customer['ville'] ?></li>
+												<li><?= $customer['tel'] ?></li>
+											</ul>
+										</div>
+										<div class="col-sm-12 payment-mode">
+											<h4>Méthode de paiement</h4>
+											<p>Carte bancaire</p>
+										</div>
+										<div class="col-md-12">
+											<div class="delivery-sec">
+												<h3>Estimation de la livraison</h3>
+												<h2><?= date("d F Y", $deliverydate) ?></h2></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<!-- Section ends -->
+
+					<?php
+					ViewTemplate::FrontFooter();
+					?>
+
+					<!-- latest jquery-->
+					<script src="assets/js/jquery-3.5.1.min.js" ></script>
+
+					<!-- slick js-->
+					<script src="assets/js/slick.js"></script>
+
+					<!-- popper js-->
+					<script src="assets/js/popper.min.js" ></script>
+					<script src="assets/js/bootstrap-notify.min.js"></script>
+
+					<!-- menu js-->
+					<script src="assets/js/menu.js"></script>
+
+					<!-- Bootstrap js-->
+					<script src="assets/js/bootstrap.js"></script>
+
+					<!-- tool tip js -->
+					<script src="assets/js/tippy-popper.min.js"></script>
+					<script src="assets/js/tippy-bundle.iife.min.js"></script>
+
+					<!-- father icon -->
+					<script src="assets/js/feather.min.js"></script>
+					<script src="assets/js/feather-icon.js"></script>
+
+					<!-- Theme js-->
+					<script src="assets/js/script.js" ></script>
+
+					<?php
+					if ($_SESSION['user']['order']['confirmpaid'] === 1)
+					{
+						unset($_SESSION['user']['order']);
+					}
+					else
+					{
+						$_SESSION['user']['order']['confirmpaid'] = 1;
+						?>
+						<script>
+						// Empty cart
+						$(window).on('load', function()
+						{
+							shoppingCart.clearCart();
+							location.reload();
+						});
+						</script>
+						<?php
+					}
+					?>
+
+				</body>
+			</html>
+			<?php
+		}
+		else
+		{
+			throw new Exception('Vous n\'avez pas l\'autorisation d\'être sur cette page.');
 		}
 	}
 }
