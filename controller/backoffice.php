@@ -44,42 +44,42 @@ else
 // Include it for all, use everywhere
 require_once(DIR . '/controller/Utils.php');
 
-if (in_array($do, ['listroles', 'addrole', 'insertrole', 'editrole', 'updaterole', 'updateroleperms', 'deleterole']))
+if (in_array($do, ['listroles', 'addrole', 'insertrole', 'editrole', 'updaterole', 'updateroleperms', 'deleterole', 'killrole']))
 {
 	require_once(DIR . '/controller/backoffice/roles.php');
 }
 
-if (in_array($do, ['index', 'login', 'dologin', 'logout', 'listemployees', 'addemployee', 'insertemployee', 'editemployee', 'updateemployee', 'deleteemployee', 'profile', 'updateprofile']))
+if (in_array($do, ['index', 'login', 'dologin', 'logout', 'listemployees', 'addemployee', 'insertemployee', 'editemployee', 'updateemployee', 'deleteemployee', 'killemployee', 'profile', 'updateprofile']))
 {
 	require_once(DIR . '/controller/backoffice/employees.php');
 }
 
-if (in_array($do, ['listcategories', 'addcategory', 'insertcategory', 'editcategory', 'updatecategory', 'deletecategory']))
+if (in_array($do, ['listcategories', 'addcategory', 'insertcategory', 'editcategory', 'updatecategory', 'deletecategory', 'killcategory']))
 {
 	require_once(DIR . '/controller/backoffice/categories.php');
 }
 
-if (in_array($do, ['listtrademarks', 'addtrademark', 'inserttrademark', 'edittrademark', 'updatetrademark', 'deletetrademark']))
+if (in_array($do, ['listtrademarks', 'addtrademark', 'inserttrademark', 'edittrademark', 'updatetrademark', 'deletetrademark', 'killtrademark']))
 {
 	require_once(DIR . '/controller/backoffice/trademarks.php');
 }
 
-if (in_array($do, ['listdelivers', 'adddeliver', 'insertdeliver', 'editdeliver', 'updatedeliver', 'deletedeliver']))
+if (in_array($do, ['listdelivers', 'adddeliver', 'insertdeliver', 'editdeliver', 'updatedeliver', 'deletedeliver', 'killdeliver']))
 {
 	require_once(DIR . '/controller/backoffice/delivers.php');
 }
 
-if (in_array($do, ['listproducts', 'addproduct', 'insertproduct', 'editproduct', 'updateproduct', 'deleteproduct']))
+if (in_array($do, ['listproducts', 'addproduct', 'insertproduct', 'editproduct', 'updateproduct', 'deleteproduct', 'killproduct']))
 {
 	require_once(DIR . '/controller/backoffice/products.php');
 }
 
-if (in_array($do, ['listcustomers', 'addcustomer', 'insertcustomer', 'editcustomer', 'updatecustomer', 'deletecustomer', 'viewcustomerprofile', 'viewcustomerallorders', 'viewcustomerorderdetails', 'changecustomerorderstatus']))
+if (in_array($do, ['listcustomers', 'addcustomer', 'insertcustomer', 'editcustomer', 'updatecustomer', 'deletecustomer', 'killcustomer', 'viewcustomerprofile', 'viewcustomerallorders', 'viewcustomerorderdetails', 'changecustomerorderstatus']))
 {
 	require_once(DIR . '/controller/backoffice/customers.php');
 }
 
-if (in_array($do, ['listmessages', 'addmessage', 'insertmessage', 'editmessage', 'updatemessage', 'deletemessage']))
+if (in_array($do, ['listmessages', 'addmessage', 'insertmessage', 'editmessage', 'updatemessage', 'deletemessage', 'killmessage']))
 {
 	require_once(DIR . '/controller/backoffice/messages.php');
 }

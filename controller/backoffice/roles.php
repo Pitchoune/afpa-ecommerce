@@ -219,6 +219,23 @@ function UpdateRolePerms($id, $permissions)
 	}
 }
 
+function DeleteRole($id)
+{
+	if (Utils::cando(4))
+	{
+		global $config;
+
+		$id = intval($id);
+
+		require_once(DIR . '/view/backoffice/ViewRole.php');
+		ViewRole::RoleDeleteConfirmation($id);
+	}
+	else
+	{
+		throw new Exception('Vous n\'êtes pas autorisé à supprimer des rôles.');
+	}
+}
+
 /**
  * Deletes the given role.
  *
@@ -226,7 +243,7 @@ function UpdateRolePerms($id, $permissions)
  *
  * @return void
  */
-function DeleteRole($id)
+function KillRole($id)
 {
 	if (Utils::cando(4))
 	{

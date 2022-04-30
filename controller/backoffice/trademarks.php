@@ -283,6 +283,23 @@ function UpdateTrademark($id, $name)
 	}
 }
 
+function DeleteTrademark($id)
+{
+	if (Utils::cando(17))
+	{
+		global $config;
+
+		$id = intval($id);
+
+		require_once(DIR . '/view/backoffice/ViewTrademark.php');
+		ViewTrademark::TrademarkDeleteConfirmation($id);
+	}
+	else
+	{
+		throw new Exception('Vous n\'êtes pas autorisé à supprimer des marques.');
+	}
+}
+
 /**
  * Deletes the given trademark.
  *
@@ -290,7 +307,7 @@ function UpdateTrademark($id, $name)
  *
  * @return void
  */
-function DeleteTrademark($id)
+function KillTrademark($id)
 {
 	if (Utils::cando(17))
 	{

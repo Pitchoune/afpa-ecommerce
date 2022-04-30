@@ -536,5 +536,111 @@ class ViewRole
 			throw new Exception('Vous n\'êtes pas autorisé à ajouter ou à modifier des rôles.');
 		}
 	}
+
+	/**
+	 * Returns the HTML code to display the delete role form.
+	 *
+	 * @param integer $id ID of the role to delete.
+	 *
+	 * @return void
+	 */
+	public static function RoleDeleteConfirmation($id)
+	{
+		global $config;
+
+		$id = intval($id);
+
+		$roles = new ModelRole($config);
+
+		$pagetitle = 'Gestion des rôles';
+		$navtitle = 'Supprimer le rôle';
+
+		$roles->set_id($id);
+		$role = $roles->listRoleInfos();
+
+		$navbits = [
+			'index.php?do=listroles' => $pagetitle,
+			'' => $navtitle
+		];
+
+		?>
+		<!DOCTYPE html>
+		<html>
+			<head>
+				<?php
+				ViewTemplate::BackHead($pagetitle);
+				?>
+			</head>
+
+			<body>
+				<div class="page-wrapper">
+
+					<!-- Page Header Start-->
+					<?php
+					ViewTemplate::BackHeader();
+					?>
+					<!-- Page Header Ends -->
+
+					<!-- Page Body Start-->
+					<div class="page-body-wrapper">
+
+						<!-- Page Sidebar Start-->
+						<?php
+						ViewTemplate::Sidebar();
+						?>
+						<!-- Page Sidebar Ends-->
+
+						<div class="page-body">
+
+							<!-- Container-fluid starts-->
+							<?php
+							ViewTemplate::Breadcrumb($pagetitle, $navbits);
+							?>
+							<!-- Container-fluid ends-->
+
+							<?php
+							$data = [
+								'id' => $id,
+								'redirect' => 'killrole',
+								'typetext' => 'le rôle',
+								'itemname' => $role['nom'],
+								'navtitle' => $navtitle
+							];
+
+							ViewTemplate::PrintDeleteConfirmation($data);
+							?>
+
+						</div>
+
+						<!-- footer start-->
+						<?php
+						ViewTemplate::BackFooter();
+						?>
+						<!-- footer end-->
+					</div>
+
+
+				</div>
+				<!-- latest jquery-->
+				<script src="../assets/js/jquery-3.5.1.min.js"></script>
+
+				<!-- Bootstrap js-->
+				<script src="../assets/js/popper.min.js"></script>
+				<script src="../assets/js/bootstrap.js"></script>
+
+				<!-- feather icon js-->
+				<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
+				<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
+
+				<!-- Sidebar jquery-->
+				<script src="../assets/js/sidebar-menu.js"></script>
+				<script src="../assets/js/slick.js"></script>
+
+				<!--script admin-->
+				<script src="../assets/js/admin-script.js"></script>
+			</body>
+		</html>
+		<?php
+	}
 }
 ?>

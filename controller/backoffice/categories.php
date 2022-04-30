@@ -154,6 +154,23 @@ function UpdateCategory($id, $title)
 	}
 }
 
+function DeleteCategory($id)
+{
+	if (Utils::cando(12))
+	{
+		global $config;
+
+		$id = intval($id);
+
+		require_once(DIR . '/view/backoffice/ViewCategory.php');
+		ViewCategory::CategoryDeleteConfirmation($id);
+	}
+	else
+	{
+		throw new Exception('Vous n\'êtes pas autorisé à supprimer des catégories.');
+	}
+}
+
 /**
  * Deletes the given category.
  *
@@ -161,7 +178,7 @@ function UpdateCategory($id, $title)
  *
  * @return void
  */
-function DeleteCategory($id)
+function KillCategory($id)
 {
 	if (Utils::cando(12))
 	{

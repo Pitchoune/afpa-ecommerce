@@ -373,6 +373,23 @@ function UpdateCustomer($id, $firstname, $lastname, $email, $password, $telephon
 	}
 }
 
+function DeleteCustomer($id)
+{
+	if (Utils::cando(34))
+	{
+		global $config;
+
+		$id = intval($id);
+
+		require_once(DIR . '/view/backoffice/ViewCustomer.php');
+		ViewCustomer::CustomerDeleteConfirmation($id);
+	}
+	else
+	{
+		throw new Exception('Vous n\'êtes pas autorisé à supprimer des clients.');
+	}
+}
+
 /**
  * Deletes the given customer.
  *
@@ -380,7 +397,7 @@ function UpdateCustomer($id, $firstname, $lastname, $email, $password, $telephon
  *
  * @return void
  */
-function DeleteCustomer($id)
+function KillCustomer($id)
 {
 	if (Utils::cando(34))
 	{

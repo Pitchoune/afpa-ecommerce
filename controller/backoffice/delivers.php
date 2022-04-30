@@ -281,6 +281,23 @@ function UpdateDeliver($id, $name)
 	}
 }
 
+function DeleteDeliver($id)
+{
+	if (Utils::cando(22))
+	{
+		global $config;
+
+		$id = intval($id);
+
+		require_once(DIR . '/view/backoffice/ViewDeliver.php');
+		ViewDeliver::DeliverDeleteConfirmation($id);
+	}
+	else
+	{
+		throw new Exception('Vous n\'êtes pas autorisé à supprimer des transporteurs.');
+	}
+}
+
 /**
  * Deletes the given deliver.
  *
@@ -288,7 +305,7 @@ function UpdateDeliver($id, $name)
  *
  * @return void
  */
-function DeleteDeliver($id)
+function KillDeliver($id)
 {
 	if (Utils::cando(22))
 	{

@@ -401,6 +401,23 @@ function UpdateEmployee($id, $firstname, $lastname, $email, $password, $role)
 	}
 }
 
+function DeleteEmployee($id)
+{
+	if (Utils::cando(8))
+	{
+		global $config;
+
+		$id = intval($id);
+
+		require_once(DIR . '/view/backoffice/ViewEmployee.php');
+		ViewEmployee::EmployeeDeleteConfirmation($id);
+	}
+	else
+	{
+		throw new Exception('Vous n\'êtes pas autorisé à supprimer des employés.');
+	}
+}
+
 /**
  * Deletes the given employee from the database.
  *
@@ -408,7 +425,7 @@ function UpdateEmployee($id, $firstname, $lastname, $email, $password, $role)
  *
  * @return void
  */
-function DeleteEmployee($id)
+function KillEmployee($id)
 {
 	if (Utils::cando(8))
 	{

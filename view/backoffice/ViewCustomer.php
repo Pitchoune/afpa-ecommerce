@@ -506,6 +506,112 @@ class ViewCustomer
 	}
 
 	/**
+	 * Returns the HTML code to display the delete customer form.
+	 *
+	 * @param integer $id ID of the customer to delete
+	 *
+	 * @return void
+	 */
+	public static function CustomerDeleteConfirmation($id)
+	{
+		global $config;
+
+		$id = intval($id);
+
+		$customers = new ModelCustomer($config);
+
+		$pagetitle = 'Gestion des clients';
+		$navtitle = 'Supprimer le client';
+
+		$customers->set_id($id);
+		$customer = $customers->getCustomerInfosFromId();
+
+		$navbits = [
+			'index.php?do=listcustomers' => $pagetitle,
+			'' => $navtitle
+		];
+
+		?>
+		<!DOCTYPE html>
+		<html>
+			<head>
+				<?php
+				ViewTemplate::BackHead($pagetitle);
+				?>
+			</head>
+
+			<body>
+				<div class="page-wrapper">
+
+					<!-- Page Header Start-->
+					<?php
+					ViewTemplate::BackHeader();
+					?>
+					<!-- Page Header Ends -->
+
+					<!-- Page Body Start-->
+					<div class="page-body-wrapper">
+
+						<!-- Page Sidebar Start-->
+						<?php
+						ViewTemplate::Sidebar();
+						?>
+						<!-- Page Sidebar Ends-->
+
+						<div class="page-body">
+
+							<!-- Container-fluid starts-->
+							<?php
+							ViewTemplate::Breadcrumb($pagetitle, $navbits);
+							?>
+							<!-- Container-fluid ends-->
+
+							<?php
+							$data = [
+								'id' => $id,
+								'redirect' => 'killcustomer',
+								'typetext' => 'le client',
+								'itemname' => $customer['prenom'] . ' ' . $customer['nom'],
+								'navtitle' => $navtitle
+							];
+
+							ViewTemplate::PrintDeleteConfirmation($data);
+							?>
+
+						</div>
+
+						<!-- footer start-->
+						<?php
+						ViewTemplate::BackFooter();
+						?>
+						<!-- footer end-->
+					</div>
+
+
+				</div>
+				<!-- latest jquery-->
+				<script src="../assets/js/jquery-3.5.1.min.js"></script>
+
+				<!-- Bootstrap js-->
+				<script src="../assets/js/popper.min.js"></script>
+				<script src="../assets/js/bootstrap.js"></script>
+
+				<!-- feather icon js-->
+				<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
+				<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
+
+				<!-- Sidebar jquery-->
+				<script src="../assets/js/sidebar-menu.js"></script>
+				<script src="../assets/js/slick.js"></script>
+
+				<!--script admin-->
+				<script src="../assets/js/admin-script.js"></script>
+			</body>
+		</html>
+		<?php
+	}
+
+	/**
 	 * Returns the HTML code to display the customer profile
 	 *
 	 * @param integer $id, ID of the customer.

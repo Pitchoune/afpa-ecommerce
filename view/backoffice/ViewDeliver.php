@@ -485,5 +485,111 @@ class ViewDeliver
 			throw new Exception('Vous n\'êtes pas autorisé à ajouter ou modifier des transporteurs.');
 		}
 	}
+
+	/**
+	 * Returns the HTML code to display the delete deliver form.
+	 *
+	 * @param integer $id ID of the deliver to delete.
+	 *
+	 * @return void
+	 */
+	public static function DeliverDeleteConfirmation($id)
+	{
+		global $config;
+
+		$id = intval($id);
+
+		$delivers = new ModelDeliver($config);
+
+		$pagetitle = 'Gestion des transporteurs';
+		$navtitle = 'Supprimer le transporteur';
+
+		$delivers->set_id($id);
+		$deliver = $delivers->listDeliverInfos();
+
+		$navbits = [
+			'index.php?do=listdelivers' => $pagetitle,
+			'' => $navtitle
+		];
+
+		?>
+		<!DOCTYPE html>
+		<html>
+			<head>
+				<?php
+				ViewTemplate::BackHead($pagetitle);
+				?>
+			</head>
+
+			<body>
+				<div class="page-wrapper">
+
+					<!-- Page Header Start-->
+					<?php
+					ViewTemplate::BackHeader();
+					?>
+					<!-- Page Header Ends -->
+
+					<!-- Page Body Start-->
+					<div class="page-body-wrapper">
+
+						<!-- Page Sidebar Start-->
+						<?php
+						ViewTemplate::Sidebar();
+						?>
+						<!-- Page Sidebar Ends-->
+
+						<div class="page-body">
+
+							<!-- Container-fluid starts-->
+							<?php
+							ViewTemplate::Breadcrumb($pagetitle, $navbits);
+							?>
+							<!-- Container-fluid ends-->
+
+							<?php
+							$data = [
+								'id' => $id,
+								'redirect' => 'killdeliver',
+								'typetext' => 'le transporteur',
+								'itemname' => $deliver['nom'],
+								'navtitle' => $navtitle
+							];
+
+							ViewTemplate::PrintDeleteConfirmation($data);
+							?>
+
+						</div>
+
+						<!-- footer start-->
+						<?php
+						ViewTemplate::BackFooter();
+						?>
+						<!-- footer end-->
+					</div>
+
+
+				</div>
+				<!-- latest jquery-->
+				<script src="../assets/js/jquery-3.5.1.min.js"></script>
+
+				<!-- Bootstrap js-->
+				<script src="../assets/js/popper.min.js"></script>
+				<script src="../assets/js/bootstrap.js"></script>
+
+				<!-- feather icon js-->
+				<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
+				<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
+
+				<!-- Sidebar jquery-->
+				<script src="../assets/js/sidebar-menu.js"></script>
+				<script src="../assets/js/slick.js"></script>
+
+				<!--script admin-->
+				<script src="../assets/js/admin-script.js"></script>
+			</body>
+		</html>
+		<?php
+	}
 }
 ?>

@@ -381,58 +381,58 @@ class ViewTrademark
 
 								<div class="page-body">
 
-								<!-- Container-fluid starts-->
-								<?php
-								ViewTemplate::Breadcrumb($pagetitle, $navbits);
-								?>
-								<!-- Container-fluid ends-->
+									<!-- Container-fluid starts-->
+									<?php
+									ViewTemplate::Breadcrumb($pagetitle, $navbits);
+									?>
+									<!-- Container-fluid ends-->
 
-								<div class="container-fluid">
-									<div class="row product-adding">
-										<div class="col">
-											<div class="card">
-												<div class="card-header">
-													<h5><?= $navtitle ?></h5>
-												</div>
-												<div class="card-body">
-													<form class="digital-add" enctype="multipart/form-data" method="post" action="index.php?do=<?= $formredirect ?>">
-														<div class="form-group">
-															<label for="name" class="col-form-label pt-0"><span>*</span> Intitulé</label>
-															<input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" data-type="name" data-message="Le format de l'intitulé n'est pas valide." value="<?= $trademarkinfos['nom'] ?>" required />
-															<small id="nameHelp" class="form-text text-muted"></small>
-														</div>
-														<?php
-														if (Utils::cando(16))
-														{
-															?>
+									<div class="container-fluid">
+										<div class="row product-adding">
+											<div class="col">
+												<div class="card">
+													<div class="card-header">
+														<h5><?= $navtitle ?></h5>
+													</div>
+													<div class="card-body">
+														<form class="digital-add" enctype="multipart/form-data" method="post" action="index.php?do=<?= $formredirect ?>">
 															<div class="form-group">
-																<label for="photo" class="col-form-label pt-0"><span>*</span> Logo</label>
-																<input type="file" id="photo" name="file" />
+																<label for="name" class="col-form-label pt-0"><span>*</span> Intitulé</label>
+																<input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" data-type="name" data-message="Le format de l'intitulé n'est pas valide." value="<?= $trademarkinfos['nom'] ?>" required />
+																<small id="nameHelp" class="form-text text-muted"></small>
 															</div>
 															<?php
-														}
-														?>
-														<div class="form-group mb-0">
-															<div class="product-buttons text-center">
-																<input type="hidden" name="do" value="<?= $formredirect ?>" />
-																<?php
-																if ($id)
-																{
+															if (Utils::cando(16))
+															{
 																?>
-																<input type="hidden" name="id" value="<?= $id ?>" />
+																<div class="form-group">
+																	<label for="photo" class="col-form-label pt-0"><span>*</span> Logo</label>
+																	<input type="file" id="photo" name="file" />
+																</div>
 																<?php
-																}
-																?>
-																<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
-																<input type="reset" class="btn btn-light" value="Annuler"/>
+															}
+															?>
+															<div class="form-group mb-0">
+																<div class="product-buttons text-center">
+																	<input type="hidden" name="do" value="<?= $formredirect ?>" />
+																	<?php
+																	if ($id)
+																	{
+																	?>
+																	<input type="hidden" name="id" value="<?= $id ?>" />
+																	<?php
+																	}
+																	?>
+																	<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
+																	<input type="reset" class="btn btn-light" value="Annuler"/>
+																</div>
 															</div>
-														</div>
-													</form>
+														</form>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-								</div>
 
 								</div>
 
@@ -485,6 +485,112 @@ class ViewTrademark
 		{
 			throw new Exception('Vous n\'êtes pas autorisé à ajouter ou modifier des marques.');
 		}
+	}
+
+	/**
+	 * Returns the HTML code to display the delete trademark form.
+	 *
+	 * @param integer $id ID of the trademark to delete.
+	 *
+	 * @return void
+	 */
+	public static function TrademarkDeleteConfirmation($id)
+	{
+		global $config;
+
+		$id = intval($id);
+
+		$trademarks = new ModelTrademark($config);
+
+		$pagetitle = 'Gestion des marques';
+		$navtitle = 'Supprimer la marque';
+
+		$trademarks->set_id($id);
+		$trademark = $trademarks->listTrademarkInfos();
+
+		$navbits = [
+			'index.php?do=listtrademarks' => $pagetitle,
+			'' => $navtitle
+		];
+
+		?>
+		<!DOCTYPE html>
+		<html>
+			<head>
+				<?php
+				ViewTemplate::BackHead($pagetitle);
+				?>
+			</head>
+
+			<body>
+				<div class="page-wrapper">
+
+					<!-- Page Header Start-->
+					<?php
+					ViewTemplate::BackHeader();
+					?>
+					<!-- Page Header Ends -->
+
+					<!-- Page Body Start-->
+					<div class="page-body-wrapper">
+
+						<!-- Page Sidebar Start-->
+						<?php
+						ViewTemplate::Sidebar();
+						?>
+						<!-- Page Sidebar Ends-->
+
+						<div class="page-body">
+
+							<!-- Container-fluid starts-->
+							<?php
+							ViewTemplate::Breadcrumb($pagetitle, $navbits);
+							?>
+							<!-- Container-fluid ends-->
+
+							<?php
+							$data = [
+								'id' => $id,
+								'redirect' => 'killtrademark',
+								'typetext' => 'la marque',
+								'itemname' => $trademark['nom'],
+								'navtitle' => $navtitle
+							];
+
+							ViewTemplate::PrintDeleteConfirmation($data);
+							?>
+
+						</div>
+
+						<!-- footer start-->
+						<?php
+						ViewTemplate::BackFooter();
+						?>
+						<!-- footer end-->
+					</div>
+
+
+				</div>
+				<!-- latest jquery-->
+				<script src="../assets/js/jquery-3.5.1.min.js"></script>
+
+				<!-- Bootstrap js-->
+				<script src="../assets/js/popper.min.js"></script>
+				<script src="../assets/js/bootstrap.js"></script>
+
+				<!-- feather icon js-->
+				<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
+				<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
+
+				<!-- Sidebar jquery-->
+				<script src="../assets/js/sidebar-menu.js"></script>
+				<script src="../assets/js/slick.js"></script>
+
+				<!--script admin-->
+				<script src="../assets/js/admin-script.js"></script>
+			</body>
+		</html>
+		<?php
 	}
 }
 ?>

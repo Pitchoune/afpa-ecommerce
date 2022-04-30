@@ -82,6 +82,10 @@ try
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
 			DeleteRole($id);
 			break;
+		case 'killrole':
+			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
+			KillRole($id);
+			break;
 		// Employees
 		case 'listemployees':
 			ListEmployees();
@@ -113,6 +117,10 @@ try
 		case 'deleteemployee':
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
 			DeleteEmployee($id);
+			break;
+		case 'killemployee':
+			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
+			KillEmployee($id);
 			break;
 		case 'profile':
 			ViewProfile();
@@ -149,6 +157,10 @@ try
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
 			DeleteCategory($id);
 			break;
+		case 'killcategory':
+			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
+			KillCategory($id);
+			break;
 		// Trademarks
 		case 'listtrademarks':
 			ListTrademarks();
@@ -173,6 +185,10 @@ try
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
 			DeleteTrademark($id);
 			break;
+		case 'killtrademark':
+			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
+			KillTrademark($id);
+			break;
 		// Delivers
 		case 'listdelivers':
 			ListDelivers();
@@ -196,6 +212,10 @@ try
 		case 'deletedeliver':
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
 			DeleteDeliver($id);
+			break;
+		case 'killdeliver':
+			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
+			KillDeliver($id);
 			break;
 		// Products
 		case 'listproducts':
@@ -232,6 +252,10 @@ try
 		case 'deleteproduct':
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
 			DeleteProduct($id);
+			break;
+		case 'killproduct':
+			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
+			KillProduct($id);
 			break;
 		// Customers
 		case 'listcustomers':
@@ -270,6 +294,10 @@ try
 		case 'deletecustomer':
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
 			DeleteCustomer($id);
+			break;
+		case 'killcustomer':
+			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
+			KillCustomer($id);
 			break;
 		case 'viewcustomerprofile':
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;

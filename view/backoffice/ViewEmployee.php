@@ -661,6 +661,117 @@ class ViewEmployee
 		}
 	}
 
+	/**
+	 * Returns the HTML code to display the delete employee form.
+	 *
+	 * @param integer $id ID of the employee to delete.
+	 *
+	 * @return void
+	 */
+	public static function EmployeeDeleteConfirmation($id)
+	{
+		global $config;
+
+		$id = intval($id);
+
+		$employees = new ModelEmployee($config);
+
+		$pagetitle = 'Gestion des employés';
+		$navtitle = 'Supprimer l\'employé';
+
+		$employees->set_id($id);
+		$employee = $employees->listEmployeeInfos();
+
+		$navbits = [
+			'index.php?do=listemployees' => $pagetitle,
+			'' => $navtitle
+		];
+
+		?>
+		<!DOCTYPE html>
+		<html>
+			<head>
+				<?php
+				ViewTemplate::BackHead($pagetitle);
+				?>
+			</head>
+
+			<body>
+				<div class="page-wrapper">
+
+					<!-- Page Header Start-->
+					<?php
+					ViewTemplate::BackHeader();
+					?>
+					<!-- Page Header Ends -->
+
+					<!-- Page Body Start-->
+					<div class="page-body-wrapper">
+
+						<!-- Page Sidebar Start-->
+						<?php
+						ViewTemplate::Sidebar();
+						?>
+						<!-- Page Sidebar Ends-->
+
+						<div class="page-body">
+
+							<!-- Container-fluid starts-->
+							<?php
+							ViewTemplate::Breadcrumb($pagetitle, $navbits);
+							?>
+							<!-- Container-fluid ends-->
+
+							<?php
+							$data = [
+								'id' => $id,
+								'redirect' => 'killemployee',
+								'typetext' => 'l\'employé',
+								'itemname' => $employee['prenom'] . ' ' . $employee['nom'],
+								'navtitle' => $navtitle
+							];
+
+							ViewTemplate::PrintDeleteConfirmation($data);
+							?>
+
+						</div>
+
+						<!-- footer start-->
+						<?php
+						ViewTemplate::BackFooter();
+						?>
+						<!-- footer end-->
+					</div>
+
+
+				</div>
+				<!-- latest jquery-->
+				<script src="../assets/js/jquery-3.5.1.min.js"></script>
+
+				<!-- Bootstrap js-->
+				<script src="../assets/js/popper.min.js"></script>
+				<script src="../assets/js/bootstrap.js"></script>
+
+				<!-- feather icon js-->
+				<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
+				<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
+
+				<!-- Sidebar jquery-->
+				<script src="../assets/js/sidebar-menu.js"></script>
+				<script src="../assets/js/slick.js"></script>
+
+				<!--script admin-->
+				<script src="../assets/js/admin-script.js"></script>
+			</body>
+		</html>
+		<?php
+	}
+
+	/**
+	 * Returns the HTML code to display the current employee profile.
+	 *
+	 * @return void
+	 */
 	public static function ViewProfile()
 	{
 		global $config;

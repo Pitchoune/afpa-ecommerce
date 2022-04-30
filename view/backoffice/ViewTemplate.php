@@ -395,7 +395,7 @@ class ViewTemplate
 									}
 
 									?>
-									<li class="<?= $elementtype; ?>"><?php isset($nav_url) ? '<a href="index.php?do=' . $nav_url . '">' : '' ?><?= $nav_title ?><?php isset($nav_url) ? '</a>' : '' ?></li>
+									<li class="<?= $elementtype; ?>"><?= !empty($nav_url) ? '<a href="index.php?do=' . $nav_url . '">' : '' ?><?= $nav_title ?><?= !empty($nav_url) ? '</a>' : '' ?></li>
 									<?php
 								}
 							}
@@ -587,6 +587,47 @@ class ViewTemplate
 					}
 				});
 			</script>
+		<?php
+	}
+
+	/**
+	 * Returns the HTML code to display the backoffice delete confirmation.
+	 *
+	 * @param array $data Array of informations to use in the delete confirmation form.
+	 *
+	 * @return void
+	 */
+	public static function PrintDeleteConfirmation($data = [])
+	{
+		?>
+		<div class="container-fluid">
+			<div class="row product-adding">
+				<div class="col">
+					<div class="card">
+						<div class="card-header">
+							<h5><?= $data['navtitle'] ?> « <?= $data['itemname'] ?> »</h5>
+						</div>
+						<div class="card-body">
+							<form class="digital-add" method="post" action="index.php?do=<?= $data['redirect'] ?>">
+								<div class="form-group">
+									<div>Êtes-vous <strong>certain</strong> de vouloir supprimer <?= $data['typetext'] ?> « <?= $data['itemname'] ?> » ?<br />
+										<small>(id : <?= $data['id'] ?>)</small>
+										<br /><br />Cette action est irréversible.</div>
+								</div>
+
+								<div class="form-group mb-0">
+									<div class="product-buttons text-center">
+										<input type="hidden" name="do" value="<?= $data['redirect'] ?>" />
+										<input type="hidden" name="id" value="<?= $data['id'] ?>" />
+										<input type="submit" class="btn btn-primary" value="Supprimer" />
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<?php
 	}
 }

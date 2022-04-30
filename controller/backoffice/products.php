@@ -435,6 +435,23 @@ function UpdateProduct($id, $name, $ref, $description, $quantity, $price, $categ
 	}
 }
 
+function DeleteProduct($id)
+{
+	if (Utils::cando(27))
+	{
+		global $config;
+
+		$id = intval($id);
+
+		require_once(DIR . '/view/backoffice/ViewProduct.php');
+		ViewProduct::ProductDeleteConfirmation($id);
+	}
+	else
+	{
+		throw new Exception('Vous n\'êtes pas autorisé à supprimer des produits.');
+	}
+}
+
 /**
  * Deletes the given product.
  *
@@ -442,7 +459,7 @@ function UpdateProduct($id, $name, $ref, $description, $quantity, $price, $categ
  *
  * @return void
  */
-function DeleteProduct($id)
+function KillProduct($id)
 {
 	if (Utils::cando(27))
 	{
