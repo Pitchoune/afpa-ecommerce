@@ -27,7 +27,7 @@ class ViewCustomer
 		{
 			global $config, $pagenumber;
 
-			$customers = ModelCustomer($config);
+			$customers = new ModelCustomer($config);
 
 			$pagetitle = 'Gestion des clients';
 			$navtitle = 'Liste des clients';
