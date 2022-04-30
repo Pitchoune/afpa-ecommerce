@@ -1,6 +1,7 @@
 <?php
 
 require_once(DIR . '/model/ModelCustomer.php');
+use \Ecommerce\Model\ModelCustomer;
 
 /**
  * Class to display HTML content about customers in front.
@@ -234,7 +235,7 @@ class ViewCustomer
 
 		$pagetitle = 'Tableau de bord';
 
-		$customer = new \Ecommerce\Model\ModelCustomer($config);
+		$customer = new ModelCustomer($config);
 		$customer->set_id($_SESSION['user']['id']);
 		$data = $customer->getCustomerInfosFromId();
 
@@ -388,7 +389,7 @@ class ViewCustomer
 
 		$pagetitle = 'Modifier mon profil';
 
-		$customer = new \Ecommerce\Model\ModelCustomer($config);
+		$customer = new ModelCustomer($config);
 		$customer->set_id($_SESSION['user']['id']);
 		$data = $customer->getCustomerInfosFromId();
 
@@ -550,7 +551,7 @@ class ViewCustomer
 
 		$pagetitle = 'Modifier mon mot de passe';
 
-		$customer = new \Ecommerce\Model\ModelCustomer($config);
+		$customer = new ModelCustomer($config);
 
 		if ($id)
 		{
@@ -699,7 +700,7 @@ class ViewCustomer
 
 		$pagetitle = 'Mot de passe oublié';
 
-		$customer = new \Ecommerce\Model\ModelCustomer($config);
+		$customer = new ModelCustomer($config);
 
 		if ($id)
 		{
@@ -815,7 +816,7 @@ class ViewCustomer
 
 		$pagetitle = 'Suppression de compte';
 
-		$customer = new \Ecommerce\Model\ModelCustomer($config);
+		$customer = new ModelCustomer($config);
 		$customer->set_id($_SESSION['user']['id']);
 
 		$data = $customer->getCustomerInfosFromId();
@@ -917,11 +918,11 @@ class ViewCustomer
 	 */
 	public static function DisplayOrders()
 	{
-		global $config;
+		global $config, $pagenumber;
 
 		$pagetitle = 'Liste des commandes';
 
-		$customer = new \Ecommerce\Model\ModelCustomer($config);
+		$customer = new ModelCustomer($config);
 		$customer->set_id($_SESSION['user']['id']);
 
 		$data = $customer->getCustomerInfosFromId();
@@ -929,7 +930,32 @@ class ViewCustomer
 		require_once(DIR . '/model/ModelOrder.php');
 		$orderlist = new \Ecommerce\Model\ModelOrder($config);
 		$orderlist->set_customer($data['id']);
-		$orders = $orderlist->getCustomerOrders();
+		$totalorders = $orderlist->getNumberOfOrdersForCustomer();
+
+		// Number max per page
+		$perpage = 10;
+
+		Utils::sanitize_pageresults($totalorders['nborders'], $pagenumber, $perpage, 200, 20);
+
+		$limitlower = ($pagenumber - 1) * $perpage;
+		$limitupper = ($pagenumber) * $perpage;
+
+		if ($limitupper > $totalorders['nborders'])
+		{
+			$limitupper = $totalorders['nborders'];
+
+			if ($limitlower > $totalorders['nborders'])
+			{
+				$limitlower = ($totalorders['nborders'] - $perpage) - 1;
+			}
+		}
+
+		if ($limitlower < 0)
+		{
+			$limitlower = 0;
+		}
+
+		$orders = $orderlist->getAllCustomerOrders($limitlower, $perpage);
 
 		?>
 			<!DOCTYPE html>
@@ -1022,6 +1048,9 @@ class ViewCustomer
 								</div>
 							</div>
 						</div>
+						<?php
+						Utils::construct_page_nav($pagenumber, $perpage, $totalorders['nborders'], 'index.php?do=vieworders', 'front');
+						?>
 					</section>
 					<!--section end-->
 
@@ -1071,7 +1100,7 @@ class ViewCustomer
 	{
 		global $config;
 
-		$customer = new \Ecommerce\Model\ModelCustomer($config);
+		$customer = new ModelCustomer($config);
 		$customer->set_id($_SESSION['user']['id']);
 
 		$data = $customer->getCustomerInfosFromId();
