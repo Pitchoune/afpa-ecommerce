@@ -1,5 +1,8 @@
 <?php
 
+require_once(DIR . '/model/ModelCategory.php');
+use \Ecommerce\Model\ModelCategory;
+
 /**
  * Class to display default HTML code for all necessary pages in front.
  *
@@ -52,8 +55,7 @@ class ViewTemplate
 	{
 		global $config;
 
-		require_once(DIR . '/model/ModelCategory.php');
-		$categories = new \Ecommerce\Model\ModelCategory($config);
+		$categories = new ModelCategory($config);
 		$listcategories = $categories->listAllCategories();
 
 		// Create 2 lists of categories without the same values to fill a 'more categories' part with a link to display them.
@@ -415,7 +417,7 @@ class ViewTemplate
 									<div class="footer-contant">
 										<ul>
 											<li><a href="javascript:void(0)">about us</a></li>
-											<li><a href="javascript:void(0)">contact us</a></li>
+											<li><a href="index.php?do=contact">contact us</a></li>
 											<li><a href="javascript:void(0)">terms &amp; conditions</a></li>
 											<li><a href="javascript:void(0)">returns &amp; exchanges</a></li>
 											<li><a href="javascript:void(0)">shipping &amp; delivery</a></li>
@@ -470,7 +472,7 @@ class ViewTemplate
 			<a href="javascript:void(0)" class="overlay" onclick="closeCart()"></a>
 			<div class="cart-inner">
 				<div class="cart_top">
-					<h3>my cart</h3>
+					<h3>Mon panier</h3>
 					<div class="close-cart">
 						<a href="javascript:void(0)" onclick="closeCart()"><i class="fa fa-times" aria-hidden="true"></i></a>
 					</div>
@@ -480,12 +482,12 @@ class ViewTemplate
 
 					</ul>
 					<ul class="cart_total">
-						<li>subtotal : <span class="total-cart"></span></li>
+						<li>sous-total : <span class="total-cart"></span></li>
 						<li><div class="total">total<span class="total-cart"></span></div></li>
 						<li>
 							<div class="buttons">
-								<a href="index.php?do=viewcart" class="btn btn-solid btn-sm">view cart</a>
-								<a href="index.php?do=viewcheckout" class="btn btn-solid btn-sm">checkout</a>
+								<a href="index.php?do=viewcart" class="btn btn-solid btn-sm">Afficher le panier</a>
+								<a href="index.php?do=viewcheckout" class="btn btn-solid btn-sm">Passer la commande</a>
 							</div>
 						</li>
 					</ul>
@@ -630,6 +632,7 @@ class ViewTemplate
 					{
 						firstname: /^[\p{L}\s-]{2,}$/u,
 						lastname: /^[\p{L}\s-]{2,}$/u,
+						message: /^[\p{L}\s-]{2,}$/u,
 						mail: /^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si,
 						telephone: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
 						address: /^[\d\w\-\s]{5,100}$/,
@@ -691,6 +694,22 @@ class ViewTemplate
 							$(formElements[i]).next().html("");
 
 							if (formElements[i].value === "")
+							{
+								error = true;
+								$(formElements[i]).addClass("is-invalid");
+								$(formElements[i]).next().html(`<p class="invalid-text">${$(formElements[i]).attr("data-message")}</p>`);
+							}
+						}
+						else if ($(formElements[i]).prop("tagName").toLowerCase() === "textarea")
+						{
+							// textarea cleaning
+							$(formElements[i]).removeClass("is-invalid");
+							$(formElements[i]).next().html("");
+
+							const type = $(formElements[i]).attr("id");
+							const pattern = regexListe[type];
+
+							if (pattern.test(formElements[i].value) === false)
 							{
 								error = true;
 								$(formElements[i]).addClass("is-invalid");

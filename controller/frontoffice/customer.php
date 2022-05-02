@@ -15,8 +15,7 @@ function register()
 {
 	if ($_SESSION['user']['loggedin'])
 	{
-		$_SESSION['nonallowed'] = 1;
-		header('Location: index.php');
+		throw new Exception('Vous êtes déjà identifié. Vous ne pouvez pas vous inscrire.');
 	}
 
 	// We generate HTML code from the view
@@ -726,6 +725,24 @@ function viewOrder($id)
 
 	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
 	ViewCustomer::DisplayOrder($id);
+}
+
+/**
+ *
+ */
+function viewMessages()
+{
+	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
+	ViewCustomer::viewMessages();
+}
+
+/**
+ *
+ */
+function viewMessage($id)
+{
+	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
+	ViewCustomer::viewMessage($id);
 }
 
 ?>

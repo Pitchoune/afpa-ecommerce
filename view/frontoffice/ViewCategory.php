@@ -1,6 +1,9 @@
 <?php
 
 require_once(DIR . '/model/ModelCategory.php');
+require_once(DIR . '/model/ModelProduct.php');
+use \Ecommerce\Model\ModelCategory;
+use \Ecommerce\Model\ModelProduct;
 
 /**
  * Class to display HTML content about categories in front.
@@ -20,12 +23,11 @@ class ViewCategory
 	{
 		global $config, $pagenumber;
 
-		$categories = new \Ecommerce\Model\ModelCategory($config);
+		$categories = new ModelCategory($config);
 
 		$categories->set_id($id);
 
-		require_once(DIR . '/model/ModelProduct.php');
-		$products = new \Ecommerce\Model\ModelProduct($config);
+		$products = new ModelProduct($config);
 		$products->set_category($id);
 		$totalproducts = $products->getTotalNumberOfProductsForSpecificCategory();
 
@@ -142,25 +144,18 @@ class ViewCategory
 
 														<div class="product-wrapper-grid product">
 															<div class="row">
-
-															<?php
-
-															// require_once(DIR . '/model/ModelProduct.php');
-															// $products = new \Ecommerce\Model\ModelProduct($config);
-															// $products->set_category($category['id']);
-															// $product = $products->listProductInfosFromCategory();
-
-															foreach ($product AS $key => $value)
-															{
-																if (empty($value['photo']))
+																<?php
+																foreach ($product AS $key => $value)
 																{
-																	$value['photo'] = 'assets/images/nophoto.jpg';
-																}
-																else
-																{
-																	$value['photo'] = 'attachments/products/' . $value['photo'];
-																}
-															?>
+																	if (empty($value['photo']))
+																	{
+																		$value['photo'] = 'assets/images/nophoto.jpg';
+																	}
+																	else
+																	{
+																		$value['photo'] = 'attachments/products/' . $value['photo'];
+																	}
+																?>
 																<div class="col-xl-2 col-lg-3 col-md-4 col-6 col-grid-box">
 																	<div class="product-box">
 																		<div class="product-imgbox">

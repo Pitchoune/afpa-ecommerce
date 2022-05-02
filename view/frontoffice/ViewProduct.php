@@ -1,7 +1,9 @@
 <?php
 
 require_once(DIR . '/model/ModelProduct.php');
-
+require_once(DIR . '/model/ModelTrademark.php');
+use \Ecommerce\Model\ModelProduct;
+use \Ecommerce\Model\ModelTrademark;
 /**
  * Class to display HTML content about products in front.
  *
@@ -21,7 +23,7 @@ class ViewProduct
 	{
 		global $config;
 
-		$products = new \Ecommerce\Model\ModelProduct($config);
+		$products = new ModelProduct($config);
 
 		if ($id)
 		{
@@ -65,8 +67,7 @@ class ViewProduct
 						$product['photo'] = 'attachments/products/' . $product['photo'];
 					}
 
-					require_once(DIR . '/model/ModelTrademark.php');
-					$trademarks = new \Ecommerce\Model\ModelTrademark($config);
+					$trademarks = new ModelTrademark($config);
 					$trademarks->set_id($product['id_marque']);
 					$trademark = $trademarks->listTrademarkInfos();
 					?>
@@ -231,7 +232,7 @@ class ViewProduct
 
 		$pagetitle = 'Résultats de la recherche';
 
-		$products = new \Ecommerce\Model\ModelProduct($config);
+		$products = new ModelProduct($config);
 		$products->set_name($query);
 		$products->set_ref($query);
 		$products->set_description($query);

@@ -510,7 +510,7 @@ function ChangeOrderStatus($id, $status)
 				break;
 		}
 
-		if ($messages->saveNewNotification())
+		if ($messages->saveNewMessage())
 		{
 			header('Location: index.php?do=viewcustomerorderdetails&id=' . $id);
 		}

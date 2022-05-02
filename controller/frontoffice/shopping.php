@@ -162,7 +162,7 @@ function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $
  *
  * @return void
  */
-function PaymentSuccess()
+function paymentSuccess()
 {
 	// We generate HTML code from the view
 	require_once(DIR . '/view/frontoffice/ViewShopping.php');

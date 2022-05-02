@@ -11375,7 +11375,7 @@ ul.sosiyal.sosiyal-inverse li:hover {
 }
 .contact-page .theme-form textarea {
   padding: 17px 25px;
-  margin-bottom: 30px;
+  /* margin-bottom: 30px; */
   height: inherit;
 }
 .contact-page .form-control {
@@ -11383,6 +11383,7 @@ ul.sosiyal.sosiyal-inverse li:hover {
 }
 .contact-page .btn {
   text-transform: uppercase;
+  margin-top: 30px;
 }
 
 .qty-box .input-group {

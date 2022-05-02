@@ -82,7 +82,7 @@ class ModelMessage extends Model
 	 *
 	 * @return mixed Returns saved message ID or false if there is an error.
 	 */
-	public function saveNewNotification()
+	public function saveNewMessage()
 	{
 		$db = $this->dbConnect();
 		$query = $db->prepare("
@@ -120,6 +120,69 @@ class ModelMessage extends Model
 	}
 
 	/**
+	 * Returns all messages from a specific type for a specific customer.
+	 *
+	 * @param integer $limitlower Minimum value for the limit.
+	 * @param integer $perpage Number of items to return.
+	 *
+	 * @return mixed Returns the requested content or false if there is an error.
+	 */
+	public function getAllMessagesFromCustomer($limitlower, $perpage)
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT *
+			FROM message
+			WHERE id_client = ?
+			LIMIT ?, ?
+		");
+		$query->bindParam(1, $this->id_customer, \PDO::PARAM_INT);
+		$query->bindParam(2, $limitlower, \PDO::PARAM_INT);
+		$query->bindParam(3, $perpage, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
+	 * Returns the first message from a discussion.
+	 *
+	 * @return mixed Returns the requested content or false if there is an error.
+	 */
+	public function getFirstMessageFromDiscussion()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT *
+			FROM message
+			WHERE id = ?
+		");
+		$query->bindParam(1, $this->id, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetch();
+	}
+
+	/**
+	 * Returns the requested reply from a discussion.
+	 *
+	 * @return mixed Returns the requested content or false if there is an error.
+	 */
+	public function getMessageFromDiscussion()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT *
+			FROM message
+			WHERE precedent_id = ?
+		");
+		$query->bindParam(1, $this->previous_id, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetch();
+	}
+
+	/**
 	 * Returns the number of messages from a certain type.
 	 *
 	 * @return mixed Returns the requested content or false if there is an error.
@@ -133,6 +196,46 @@ class ModelMessage extends Model
 			WHERE type = ?
 		");
 		$query->bindParam(1, $this->type, \PDO::PARAM_STR);
+
+		$query->execute();
+		return $query->fetch();
+	}
+
+	/**
+	 * Returns the number of messages from a certain type for a specific customer.
+	 *
+	 * @return mixed Returns the requested content or false if there is an error.
+	 */
+	public function countMessagesFromCustomer()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT COUNT(*) AS nbmessages
+			FROM message
+			WHERE id_client = ?
+		");
+		$query->bindParam(1, $this->id_customer, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetch();
+	}
+
+	/**
+	 * Returns the number of messages from a certain discussion.
+	 *
+	 * @return mixed Returns the requested content or false if there is an error.
+	 */
+	public function countMessagesFromDiscussion()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT COUNT(*) AS nbmessages
+			FROM message
+			WHERE id = ?
+				OR precedent_id = ?
+		");
+		$query->bindParam(1, $this->id, \PDO::PARAM_INT);
+		$query->bindParam(2, $this->id, \PDO::PARAM_INT);
 
 		$query->execute();
 		return $query->fetch();

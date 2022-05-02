@@ -116,6 +116,13 @@ try
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
 			viewOrder($id);
 			break;
+		case 'viewmessages':
+			viewMessages();
+			break;
+		case 'viewmessage':
+			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
+			viewMessage($id);
+			break;
 		case 'logout':
 			doLogout();
 			break;
@@ -134,7 +141,7 @@ try
 		// Categories
 		case 'viewcategory':
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
-			ViewCategory($id);
+			viewCategory($id);
 			break;
 		// Shopping
 		case 'viewcart':
@@ -160,7 +167,20 @@ try
 			paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $item);
 			break;
 		case 'paymentsuccess':
-			PaymentSuccess();
+			paymentSuccess();
+			break;
+		// Contact
+		case 'contact':
+			viewContact();
+			break;
+		case 'sendcontact':
+			$firstname = isset($_POST['firstname']) ? filter_var($_POST['firstname'], FILTER_SANITIZE_STRING) : NULL;
+			$lastname = isset($_POST['lastname']) ? filter_var($_POST['lastname'], FILTER_SANITIZE_STRING) : NULL;
+			$email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) : NULL;
+			$telephone = isset($_POST['telephone']) ? filter_var($_POST['telephone'], FILTER_SANITIZE_STRING) : NULL;
+			$message = isset($_POST['message']) ? filter_var($_POST['message'], FILTER_SANITIZE_STRING) : NULL;
+			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
+			sendContact($firstname, $lastname, $email, $telephone, $message, $id);
 			break;
 	}
 }

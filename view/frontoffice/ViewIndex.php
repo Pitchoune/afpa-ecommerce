@@ -1,5 +1,7 @@
 <?php
 
+require_once(DIR . '/model/ModelProduct.php');
+require_once(DIR . '/model/ModelOrderDetails.php');
 use \Ecommerce\Model\ModelProduct;
 use \Ecommerce\Model\ModelOrderDetails;
 
@@ -59,7 +61,6 @@ class ViewIndex
 														<div>
 															<div class="media-banner media-banner-1 border-0">
 																<?php
-																require_once(DIR . '/model/ModelOrderDetails.php');
 																$orderdetails = new ModelOrderDetails($config);
 																$bestsellinglist = $orderdetails->getBestSellingProductsFromSpecificRange(($i + $i * 2), 3);
 
@@ -128,7 +129,6 @@ class ViewIndex
 														<div>
 															<div class="media-banner media-banner-1 border-0">
 																<?php
-																require_once(DIR . '/model/ModelProduct.php');
 																$products = new ModelProduct($config);
 																$productlist = $products->getLatestNewProductsFromSpecificRange(($i + $i * 2), 3);
 
@@ -210,13 +210,6 @@ class ViewIndex
 					<script src="assets/js/script.js" ></script>
 
 					<?php
-
-					if ($_SESSION['nonallowed'] === 1)
-					{
-						ViewTemplate::FrontNotify('Erreur', 'Vous ne pouvez pas accéder à cette partie.', 'danger');
-						unset($_SESSION['nonallowed']);
-					}
-
 					if ($_SESSION['userregistered'] === 1)
 					{
 						ViewTemplate::FrontNotify('Inscription', 'Vous vous êtes inscrit avec succès !', 'success');
@@ -239,6 +232,12 @@ class ViewIndex
 					{
 						ViewTemplate::FrontNotify('Suppression de compte', 'Votre compte utilisateur a été supprimé avec succès !', 'success');
 						unset($_SESSION['customerremoved']);
+					}
+
+					if ($_SESSION['user']['contact'] === 1)
+					{
+						ViewTemplate::FrontNotify('Nous contacter', 'Votre message a été envoyé à notre équipe avec succès !', 'success');
+						unset($_SESSION['user']['contact']);
 					}
 					?>
 

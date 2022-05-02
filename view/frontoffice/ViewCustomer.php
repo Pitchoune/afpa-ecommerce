@@ -1,7 +1,15 @@
 <?php
 
 require_once(DIR . '/model/ModelCustomer.php');
+require_once(DIR . '/model/ModelOrder.php');
+require_once(DIR . '/model/ModelOrderDetails.php');
+require_once(DIR . '/model/ModelTrademark.php');
+require_once(DIR . '/model/ModelMessage.php');
 use \Ecommerce\Model\ModelCustomer;
+use \Ecommerce\Model\ModelOrder;
+use \Ecommerce\Model\ModelOrderDetails;
+use \Ecommerce\Model\ModelTrademark;
+use \Ecommerce\Model\ModelMessage;
 
 /**
  * Class to display HTML content about customers in front.
@@ -270,6 +278,7 @@ class ViewCustomer
 										<ul>
 											<li class="active"><a href="index.php?do=profile">Tableau de bord</a></li>
 											<li><a href="index.php?do=vieworders">Mes commandes</a></li>
+											<li><a href="index.php?do=viewmessages">Mes messages</a></li>
 											<li><a href="index.php?do=editprofile">Mon compte</a></li>
 											<li><a href="index.php?do=editpassword">Modifier mon mot de passe</a></li>
 											<li><a href="index.php?do=deleteprofile">Supprimer mon compte</a></li>
@@ -927,8 +936,8 @@ class ViewCustomer
 
 		$data = $customer->getCustomerInfosFromId();
 
-		require_once(DIR . '/model/ModelOrder.php');
-		$orderlist = new \Ecommerce\Model\ModelOrder($config);
+
+		$orderlist = new ModelOrder($config);
 		$orderlist->set_customer($data['id']);
 		$totalorders = $orderlist->getNumberOfOrdersForCustomer();
 
@@ -998,8 +1007,7 @@ class ViewCustomer
 												$orderlist->set_id($value['id']);
 												$orderdetail = $orderlist->getOrderDetails();
 
-												require_once(DIR . '/model/ModelOrderDetails.php');
-												$orderdetails = new \Ecommerce\Model\ModelOrderDetails($config);
+												$orderdetails = new ModelOrderDetails($config);
 												$orderdetails->set_order($value['id']);
 												$ordercontent = $orderdetails->getOrderDetails();
 
@@ -1107,8 +1115,7 @@ class ViewCustomer
 
 		if ($data['id'] === $_SESSION['user']['id'])
 		{
-			require_once(DIR . '/model/ModelOrderDetails.php');
-			$orderdetails = new \Ecommerce\Model\ModelOrderDetails($config);
+			$orderdetails = new ModelOrderDetails($config);
 			$orderdetails->set_order(intval($id));
 			$orderdetail = $orderdetails->getOrderDetails();
 
@@ -1167,8 +1174,7 @@ class ViewCustomer
 																				$value['photo'] = 'attachments/products/' . $value['photo'];
 																			}
 
-																			require_once(DIR . '/model/ModelTrademark.php');
-																			$trademarks = new \Ecommerce\Model\ModelTrademark($config);
+																			$trademarks = new ModelTrademark($config);
 																			$trademarks->set_id($value['id_marque']);
 																			$trademark = $trademarks->listTrademarkInfos();
 																			?>
@@ -1260,6 +1266,301 @@ class ViewCustomer
 		else
 		{
 			throw new Exception('Vous n\'êtes pas autorisé à afficher cette page.');
+		}
+	}
+
+	/**
+	 * Returns the HTMl code to display the customer messages.
+	 *
+	 * @return void
+	 */
+	public static function ViewMessages()
+	{
+		if (!empty($_SESSION['user']['id']))
+		{
+			global $config, $pagenumber;
+
+			$pagetitle = 'Liste des messages';
+
+			$customer = new ModelCustomer($config);
+			$customer->set_id($_SESSION['user']['id']);
+
+			$data = $customer->getCustomerInfosFromId();
+
+			$messagelist = new ModelMessage($config);
+			$messagelist->set_customer($data['id']);
+			$messagelist->set_type('contact', 'notif');
+			$totalmessages = $messagelist->countMessagesFromCustomer();
+
+			// Number max per page
+			$perpage = 10;
+
+			Utils::sanitize_pageresults($totalmessages['nbmessages'], $pagenumber, $perpage, 200, 20);
+
+			$limitlower = ($pagenumber - 1) * $perpage;
+			$limitupper = ($pagenumber) * $perpage;
+
+			if ($limitupper > $totalmessages['nbmessages'])
+			{
+				$limitupper = $totalmessages['nbmessages'];
+
+				if ($limitlower > $totalmessages['nbmessages'])
+				{
+					$limitlower = ($totalmessages['nbmessages'] - $perpage) - 1;
+				}
+			}
+
+			if ($limitlower < 0)
+			{
+				$limitlower = 0;
+			}
+
+			$messages = $messagelist->getAllMessagesFromCustomer($limitlower, $perpage);
+
+			?>
+				<!DOCTYPE html>
+				<html>
+					<head>
+						<?php
+						ViewTemplate::FrontHead($pagetitle);
+						?>
+					</head>
+
+					<body class="bg-light">
+
+						<?php
+						ViewTemplate::FrontHeader();
+						?>
+
+						<?php
+						ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'viewmessages' => $pagetitle]);
+						?>
+
+						<!--section start-->
+						<section class="cart-section order-history section-big-py-space">
+							<div class="custom-container">
+								<div class="row">
+									<div class="col-sm-12">
+										<table class="table cart-table table-responsive-xs">
+											<thead>
+											<tr class="table-head">
+												<th scope="col">message</th>
+												<th scope="col">état</th>
+											</tr>
+											</thead>
+											<tbody>
+												<?php
+
+												foreach ($messages AS $key => $value)
+												{
+													if ($value['precedent_id'] === NULL)
+													{
+														if (strlen($value['message']) > 40)
+														{
+															$value['shortmessage'] = substr($value['message'], 0, 40) . '...';
+														}
+														else
+														{
+															$value['shortmessage'] = $value['message'];
+														}
+													?>
+													<tr>
+														<td>
+															<a href="javascript:void(0)"><span class="dark-data"><?= $value['shortmessage'] ?></span></a>
+														</td>
+														<td>
+															<?= ($value['type'] == 'contact' ? '<span class="dark-data"><a href="index.php?do=viewmessage&amp;id=' . $value['id'] . '">Afficher la conversation</a></span>' : '&nbsp;') ?>
+														</td>
+													</tr>
+													<?php
+													}
+												}
+												?>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							<?php
+							Utils::construct_page_nav($pagenumber, $perpage, $totalmessages['nbmessages'], 'index.php?do=viewmessages', 'front');
+							?>
+						</section>
+						<!--section end-->
+
+						<?php
+						ViewTemplate::FrontFooter();
+						?>
+
+						<!-- latest jquery-->
+						<script src="assets/js/jquery-3.5.1.min.js" ></script>
+
+						<!-- slick js-->
+						<script src="assets/js/slick.js"></script>
+
+						<!-- popper js-->
+						<script src="assets/js/popper.min.js" ></script>
+						<script src="assets/js/bootstrap-notify.min.js"></script>
+
+						<!-- menu js-->
+						<script src="assets/js/menu.js"></script>
+
+						<!-- Bootstrap js-->
+						<script src="assets/js/bootstrap.js"></script>
+
+						<!-- tool tip js -->
+						<script src="assets/js/tippy-popper.min.js"></script>
+						<script src="assets/js/tippy-bundle.iife.min.js"></script>
+
+						<!-- father icon -->
+						<script src="assets/js/feather.min.js"></script>
+						<script src="assets/js/feather-icon.js"></script>
+
+						<!-- Theme js-->
+						<script src="assets/js/script.js" ></script>
+					</body>
+				</html>
+			<?php
+		}
+		else
+		{
+			throw new Exception('Vous devez vous identifier avant de pouvoir consulter vos messages.');
+		}
+	}
+
+	/**
+	 *
+	 */
+	public static function ViewMessage($id)
+	{
+		if (!empty($_SESSION['user']['id']))
+		{
+			global $config;
+
+			$pagetitle = 'Conversation';
+
+			$customer = new ModelCustomer($config);
+			$customer->set_id($_SESSION['user']['id']);
+
+			$data = $customer->getCustomerInfosFromId();
+
+			$messagelist = new ModelMessage($config);
+			$messagelist->set_id($id);
+			$messagelist->set_previous($id);
+
+			$totalmessages = 0;
+
+			do
+			{
+				$messagelist->set_previous($$value['id']);
+				$totalmessages++;
+			}
+			while ($value = $messagelist->countMessagesFromDiscussion());
+
+			echo $totalmessages;exit;exit;exit;exit;exit;exit;exit;
+
+			$firstmessage = $messagelist->getFirstMessageFromDiscussion();
+			?>
+				<!DOCTYPE html>
+				<html>
+					<head>
+						<?php
+						ViewTemplate::FrontHead($pagetitle);
+						?>
+					</head>
+
+					<body class="bg-light">
+
+						<?php
+						ViewTemplate::FrontHeader();
+						?>
+
+						<?php
+						ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'viewmessages' => 'Liste des messages', 'viewmessage&amp;id=' => $pagetitle]);
+						?>
+
+						<!--section start-->
+						<section class="cart-section order-history section-big-py-space">
+							<div class="custom-container">
+								<div class="row">
+									<div class="col-sm-12">
+										<table class="table cart-table table-responsive-xs">
+											<thead>
+											<tr class="table-head">
+												<th scope="col">interlocuteur</th>
+												<th scope="col">message</th>
+											</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td><?= $value['id_employe'] ?></td>
+													<td>
+														<a href="javascript:void(0)"><span class="dark-data"><?= $firstmessage['message'] ?></span></a>
+													</td>
+												</tr>
+												<?php
+												$nbmessages = 1;
+
+												do
+												{
+													$messagelist->set_previous($firstmessage['id']);
+													$message = $messagelist->getMessageFromDiscussion();
+													$nbmessages++;
+													?>
+													<tr>
+														<td><?= $message['id_employe'] ?></td>
+														<td>
+															<a href="javascript:void(0)"><span class="dark-data"><?= $message['message'] ?></span></a>
+														</td>
+													</tr>
+													<?php
+												}
+												while ($nbmessages < $totalmessages['nbmessages']);
+												?>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</section>
+						<!--section end-->
+
+						<?php
+						ViewTemplate::FrontFooter();
+						?>
+
+						<!-- latest jquery-->
+						<script src="assets/js/jquery-3.5.1.min.js" ></script>
+
+						<!-- slick js-->
+						<script src="assets/js/slick.js"></script>
+
+						<!-- popper js-->
+						<script src="assets/js/popper.min.js" ></script>
+						<script src="assets/js/bootstrap-notify.min.js"></script>
+
+						<!-- menu js-->
+						<script src="assets/js/menu.js"></script>
+
+						<!-- Bootstrap js-->
+						<script src="assets/js/bootstrap.js"></script>
+
+						<!-- tool tip js -->
+						<script src="assets/js/tippy-popper.min.js"></script>
+						<script src="assets/js/tippy-bundle.iife.min.js"></script>
+
+						<!-- father icon -->
+						<script src="assets/js/feather.min.js"></script>
+						<script src="assets/js/feather-icon.js"></script>
+
+						<!-- Theme js-->
+						<script src="assets/js/script.js" ></script>
+					</body>
+				</html>
+			<?php
+		}
+		else
+		{
+			throw new Exception('Vous devez vous identifier avant de pouvoir consulter vos messages.');
 		}
 	}
 }

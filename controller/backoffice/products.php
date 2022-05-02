@@ -435,6 +435,9 @@ function UpdateProduct($id, $name, $ref, $description, $quantity, $price, $categ
 	}
 }
 
+/**
+ *
+ */
 function DeleteProduct($id)
 {
 	if (Utils::cando(27))

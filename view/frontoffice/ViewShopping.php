@@ -2,8 +2,10 @@
 
 require_once(DIR . '/model/ModelCustomer.php');
 require_once(DIR . '/model/ModelProduct.php');
+require_once(DIR . '/model/ModelDeliver.php');
 use \Ecommerce\Model\ModelCustomer;
 use \Ecommerce\Model\ModelProduct;
+use \Ecommerce\Model\ModelDeliver;
 
 /**
  * Class to display HTML content about shopping in front.
@@ -234,8 +236,7 @@ class ViewShopping
 															<select name="deliver" id="deliver">
 																<option value="0" selected disabled>Sélectionnez un transporteur</option>
 																<?php
-																require_once(DIR . '/model/ModelDeliver.php');
-																$delivers = new \Ecommerce\Model\ModelDeliver($config);
+																$delivers = new ModelDeliver($config);
 																$deliverlist = $delivers->listAllDelivers();
 
 																foreach ($deliverlist AS $key => $value)
