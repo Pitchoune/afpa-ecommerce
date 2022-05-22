@@ -196,7 +196,7 @@ class Utils
 		$total = number_format($results);
 		$totalpages = ceil($results / $perpage);
 
-		$firstaddress = $prevaddress = $nextaddress = $lastaddress;
+		$firstaddress = $prevaddress = $nextaddress = $lastaddress = '';
 
 		if ($pagenumber > 1)
 		{

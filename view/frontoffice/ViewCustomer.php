@@ -1055,10 +1055,10 @@ class ViewCustomer
 									</table>
 								</div>
 							</div>
+							<?php
+							Utils::construct_page_nav($pagenumber, $perpage, $totalorders['nborders'], 'index.php?do=vieworders', 'front');
+							?>
 						</div>
-						<?php
-						Utils::construct_page_nav($pagenumber, $perpage, $totalorders['nborders'], 'index.php?do=vieworders', 'front');
-						?>
 					</section>
 					<!--section end-->
 
@@ -1444,21 +1444,11 @@ class ViewCustomer
 			$data = $customer->getCustomerInfosFromId();
 
 			$messagelist = new ModelMessage($config);
-			$messagelist->set_id($id);
 			$messagelist->set_previous($id);
 
 			$totalmessages = 0;
 
-			do
-			{
-				$messagelist->set_previous($$value['id']);
-				$totalmessages++;
-			}
-			while ($value = $messagelist->countMessagesFromDiscussion());
-
-			echo $totalmessages;exit;exit;exit;exit;exit;exit;exit;
-
-			$firstmessage = $messagelist->getFirstMessageFromDiscussion();
+			$messageids = $messagelist->getMessageIdsFromDiscussion();
 			?>
 				<!DOCTYPE html>
 				<html>
@@ -1491,30 +1481,17 @@ class ViewCustomer
 											</tr>
 											</thead>
 											<tbody>
-												<tr>
-													<td><?= $value['id_employe'] ?></td>
-													<td>
-														<a href="javascript:void(0)"><span class="dark-data"><?= $firstmessage['message'] ?></span></a>
-													</td>
-												</tr>
 												<?php
-												$nbmessages = 1;
-
-												do
+												foreach ($messageids AS $key => $value)
 												{
-													$messagelist->set_previous($firstmessage['id']);
+													$messagelist->set_id($value['id']);
 													$message = $messagelist->getMessageFromDiscussion();
-													$nbmessages++;
 													?>
 													<tr>
-														<td><?= $message['id_employe'] ?></td>
-														<td>
-															<a href="javascript:void(0)"><span class="dark-data"><?= $message['message'] ?></span></a>
-														</td>
+														<td><?= $message['id'] ?></td>
 													</tr>
 													<?php
 												}
-												while ($nbmessages < $totalmessages['nbmessages']);
 												?>
 											</tbody>
 										</table>

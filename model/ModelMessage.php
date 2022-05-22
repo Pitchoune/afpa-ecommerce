@@ -145,11 +145,11 @@ class ModelMessage extends Model
 	}
 
 	/**
-	 * Returns the first message from a discussion.
+	 * Returns the requested reply from a discussion.
 	 *
 	 * @return mixed Returns the requested content or false if there is an error.
 	 */
-	public function getFirstMessageFromDiscussion()
+	public function getMessageFromDiscussion()
 	{
 		$db = $this->dbConnect();
 		$query = $db->prepare("
@@ -164,22 +164,31 @@ class ModelMessage extends Model
 	}
 
 	/**
-	 * Returns the requested reply from a discussion.
+	 * Returns all the IDs from a discussion.
 	 *
 	 * @return mixed Returns the requested content or false if there is an error.
 	 */
-	public function getMessageFromDiscussion()
+	public function getMessageIdsFromDiscussion()
 	{
 		$db = $this->dbConnect();
 		$query = $db->prepare("
-			SELECT *
-			FROM message
-			WHERE precedent_id = ?
+			(
+			  SELECT m.id
+			  FROM message AS m
+			  WHERE m.id = ?
+			)
+			UNION
+			(
+			  SELECT m.id
+			  FROM message AS m
+			  INNER JOIN message AS n ON (m.precedent_id = n.id)
+			)
+
 		");
 		$query->bindParam(1, $this->previous_id, \PDO::PARAM_INT);
 
 		$query->execute();
-		return $query->fetch();
+		return $query->fetchAll();
 	}
 
 	/**
