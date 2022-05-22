@@ -40,11 +40,11 @@ class ViewCustomer
 
 				<?php
 				ViewTemplate::FrontHeader();
-				?>
 
-				<?php
 				ViewTemplate::FrontBreadcrumb($pagetitle, ['register' => $pagetitle]);
 				?>
+
+				<!-- register -->
 				<section class="login-page section-big-py-space b-g-light">
 					<div class="custom-container">
 						<div class="row">
@@ -85,7 +85,7 @@ class ViewCustomer
 												<label for="passwordconfirm">Confirmation du mot de passe</label>
 												<input type="password" class="form-control" id="passwordconfirm" name="passwordconfirm" placeholder="Confirmez le mot de passe" />
 											</div>
-											<div class="col-md-12 form-group"><input type="submit" id="valider" class="btn btn-normal" value="S'inscrire" /></div>
+											<div class="col-md-12 form-group"><input type="submit" id="validate" class="btn btn-normal" value="S'inscrire" /></div>
 										</div>
 										<div class="row g-3">
 											<div class="col-md-12 ">
@@ -98,39 +98,12 @@ class ViewCustomer
 						</div>
 					</div>
 				</section>
+				<!-- / register -->
+
 				<?php
 				ViewTemplate::FrontFooter();
-				?>
 
-				<!-- latest jquery-->
-				<script src="assets/js/jquery-3.5.1.min.js" ></script>
-
-				<!-- slick js-->
-				<script src="assets/js/slick.js"></script>
-
-				<!-- popper js-->
-				<script src="assets/js/popper.min.js" ></script>
-				<script src="assets/js/bootstrap-notify.min.js"></script>
-
-				<!-- menu js-->
-				<script src="assets/js/menu.js"></script>
-
-				<!-- Bootstrap js-->
-				<script src="assets/js/bootstrap.js"></script>
-
-				<!-- tool tip js -->
-				<script src="assets/js/tippy-popper.min.js"></script>
-				<script src="assets/js/tippy-bundle.iife.min.js"></script>
-
-				<!-- father icon -->
-				<script src="assets/js/feather.min.js"></script>
-				<script src="assets/js/feather-icon.js"></script>
-
-				<!-- Theme js-->
-				<script src="assets/js/script.js" ></script>
-
-				<?php
-				ViewTemplate::FrontFormValidation('valider', 2, 1);
+				ViewTemplate::FrontFormValidation('validate', 2, 1);
 				?>
 			</body>
 		</html>
@@ -159,12 +132,11 @@ class ViewCustomer
 
 				<?php
 				ViewTemplate::FrontHeader();
-				?>
 
-				<?php
 				ViewTemplate::FrontBreadcrumb($pagetitle, ['login' => $pagetitle]);
 				?>
 
+				<!-- login -->
 				<section class="login-page section-big-py-space b-g-light">
 					<div class="custom-container">
 						<div class="row">
@@ -182,7 +154,7 @@ class ViewCustomer
 											<input type="password" class="form-control" id="password" name="password" aria-describedby="password" data-message="Le format du mot de passe n'est pas valide." placeholder="Insérez votre mot de passe" autocomplete="on">
 											<small id="password" class="form-text text-muted"></small>
 										</div>
-										<input type="submit" class="btn btn-normal" id="valider" value="S'identifier" />
+										<input type="submit" class="btn btn-normal" id="validate" value="S'identifier" />
 										<a class="float-end txt-default mt-2" href="index.php?do=forgotpassword">Oubli de votre mot de passe ?</a>
 									</form>
 									<p class="mt-3">Inscrivez-vous gratuitement sur notre boutique. L'inscription est rapide et facile. Ceci vous permettra d'effectuer vos achats depuis notre boutique. Pour commencer, cliquez sur « Créez votre compte ».</p>
@@ -192,40 +164,12 @@ class ViewCustomer
 						</div>
 					</div>
 				</section>
+				<!-- / login -->
 
 				<?php
 				ViewTemplate::FrontFooter();
-				?>
 
-				<!-- latest jquery-->
-				<script src="assets/js/jquery-3.5.1.min.js" ></script>
-
-				<!-- slick js-->
-				<script src="assets/js/slick.js"></script>
-
-				<!-- popper js-->
-				<script src="assets/js/popper.min.js" ></script>
-				<script src="assets/js/bootstrap-notify.min.js"></script>
-
-				<!-- menu js-->
-				<script src="assets/js/menu.js"></script>
-
-				<!-- Bootstrap js-->
-				<script src="assets/js/bootstrap.js"></script>
-
-				<!-- tool tip js -->
-				<script src="assets/js/tippy-popper.min.js"></script>
-				<script src="assets/js/tippy-bundle.iife.min.js"></script>
-
-				<!-- father icon -->
-				<script src="assets/js/feather.min.js"></script>
-				<script src="assets/js/feather-icon.js"></script>
-
-				<!-- Theme js-->
-				<script src="assets/js/script.js" ></script>
-
-				<?php
-				ViewTemplate::FrontFormValidation('valider', 2, 1);
+				ViewTemplate::FrontFormValidation('validate', 2, 1);
 				?>
 			</body>
 		</html>
@@ -260,20 +204,20 @@ class ViewCustomer
 
 				<?php
 				ViewTemplate::FrontHeader();
-				?>
 
-				<?php
 				ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => $pagetitle]);
 				?>
 
-				<!-- section start -->
+				<!-- dashboard -->
 				<section class="section-big-py-space b-g-light">
 					<div class="container">
 						<div class="row">
 							<div class="col-lg-3">
 								<div class="account-sidebar"><a class="popup-btn">Mon compte</a></div>
 								<div class="dashboard-left">
-									<div class="collection-mobile-back"><span class="filter-back"><i class="fa fa-angle-left" aria-hidden="true"></i> back</span></div>
+									<div class="collection-mobile-back">
+										<span class="filter-back">Fermer</span>
+									</div>
 									<div class="block-content ">
 										<ul>
 											<li class="active"><a href="index.php?do=profile">Tableau de bord</a></li>
@@ -324,7 +268,7 @@ class ViewCustomer
 															else
 															{
 																?>
-																<address>You have not set a default billing address.<br><a href="javascript:void(0)">Edit Address</a></address>
+																<address>Vous n'avez pas défini d'adresse.<br /><a href="javascript:void(0)">Modifier l'adresse</a></address>
 																<?php
 															}
 															?>
@@ -339,40 +283,10 @@ class ViewCustomer
 						</div>
 					</div>
 				</section>
-				<!-- section end -->
+				<!-- / dashboard -->
 
 				<?php
 				ViewTemplate::FrontFooter();
-				?>
-
-				<!-- latest jquery-->
-				<script src="assets/js/jquery-3.5.1.min.js" ></script>
-
-				<!-- slick js-->
-				<script src="assets/js/slick.js"></script>
-
-				<!-- popper js-->
-				<script src="assets/js/popper.min.js" ></script>
-				<script src="assets/js/bootstrap-notify.min.js"></script>
-
-				<!-- menu js-->
-				<script src="assets/js/menu.js"></script>
-
-				<!-- Bootstrap js-->
-				<script src="assets/js/bootstrap.js"></script>
-
-				<!-- tool tip js -->
-				<script src="assets/js/tippy-popper.min.js"></script>
-				<script src="assets/js/tippy-bundle.iife.min.js"></script>
-
-				<!-- father icon -->
-				<script src="assets/js/feather.min.js"></script>
-				<script src="assets/js/feather-icon.js"></script>
-
-				<!-- Theme js-->
-				<script src="assets/js/script.js" ></script>
-
-				<?php
 
 				if ($_SESSION['profile']['edit'] === 1)
 				{
@@ -415,13 +329,11 @@ class ViewCustomer
 
 					<?php
 					ViewTemplate::FrontHeader();
-					?>
 
-					<?php
 					ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'editprofile' => $pagetitle]);
 					?>
 
-					<!-- personal detail section start -->
+					<!-- personal details -->
 					<section class="contact-page register-page section-big-py-space b-g-light">
 						<div class="custom-container">
 							<form action="index.php?do=saveprofile" method="post">
@@ -488,7 +400,7 @@ class ViewCustomer
 												</div>
 												<div class="col-md-12">
 													<input type="hidden" name="id" value="<?= $data['id'] ?>" />
-													<button class="btn btn-sm btn-normal" type="submit" id="valider">Enregistrer les modifications</button>
+													<button class="btn btn-sm btn-normal" type="submit" id="validate">Enregistrer les modifications</button>
 													<button class="btn btn-sm btn-danger" type="reset">Réinitialiser</button>
 												</div>
 											</div>
@@ -498,40 +410,10 @@ class ViewCustomer
 							</form>
 						</div>
 					</section>
-					<!-- Section ends -->
+					<!-- / personal details -->
 
 					<?php
 					ViewTemplate::FrontFooter();
-					?>
-
-					<!-- latest jquery-->
-					<script src="assets/js/jquery-3.5.1.min.js" ></script>
-
-					<!-- slick js-->
-					<script src="assets/js/slick.js"></script>
-
-					<!-- popper js-->
-					<script src="assets/js/popper.min.js" ></script>
-					<script src="assets/js/bootstrap-notify.min.js"></script>
-
-					<!-- menu js-->
-					<script src="assets/js/menu.js"></script>
-
-					<!-- Bootstrap js-->
-					<script src="assets/js/bootstrap.js"></script>
-
-					<!-- tool tip js -->
-					<script src="assets/js/tippy-popper.min.js"></script>
-					<script src="assets/js/tippy-bundle.iife.min.js"></script>
-
-					<!-- father icon -->
-					<script src="assets/js/feather.min.js"></script>
-					<script src="assets/js/feather-icon.js"></script>
-
-					<!-- Theme js-->
-					<script src="assets/js/script.js" ></script>
-
-					<?php
 
 					if ($_SESSION['profile']['edit'] === 1)
 					{
@@ -539,7 +421,7 @@ class ViewCustomer
 						unset($_SESSION['profile']['edit']);
 					}
 
-					ViewTemplate::FrontFormValidation('valider', 3, 1);
+					ViewTemplate::FrontFormValidation('validate', 3, 1);
 					?>
 				</body>
 			</html>
@@ -586,13 +468,11 @@ class ViewCustomer
 
 					<?php
 					ViewTemplate::FrontHeader();
-					?>
 
-					<?php
 					ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'editpassword' => $pagetitle]);
 					?>
 
-					<!-- personal detail section start -->
+					<!-- password change -->
 					<section class="contact-page register-page section-big-py-space b-g-light">
 						<div class="custom-container">
 							<form action="index.php?do=savepassword" method="post">
@@ -631,7 +511,7 @@ class ViewCustomer
 												<div class="col-md-12">
 													<input type="hidden" name="id" value="<?= $data['id'] ?>" />
 													<?= ($token ? '<input type="hidden" name="token" value="' . $token['token'] . '" />' : '') ?>
-													<button class="btn btn-sm btn-normal" id="valider" type="submit">Enregistrer les modifications</button>
+													<button class="btn btn-sm btn-normal" id="validate" type="submit">Enregistrer les modifications</button>
 													<button class="btn btn-sm btn-danger" type="reset">Réinitialiser</button>
 												</div>
 											</div>
@@ -641,40 +521,10 @@ class ViewCustomer
 							</form>
 						</div>
 					</section>
-					<!-- Section ends -->
+					<!-- / password change -->
 
 					<?php
 					ViewTemplate::FrontFooter();
-					?>
-
-					<!-- latest jquery-->
-					<script src="assets/js/jquery-3.5.1.min.js" ></script>
-
-					<!-- slick js-->
-					<script src="assets/js/slick.js"></script>
-
-					<!-- popper js-->
-					<script src="assets/js/popper.min.js" ></script>
-					<script src="assets/js/bootstrap-notify.min.js"></script>
-
-					<!-- menu js-->
-					<script src="assets/js/menu.js"></script>
-
-					<!-- Bootstrap js-->
-					<script src="assets/js/bootstrap.js"></script>
-
-					<!-- tool tip js -->
-					<script src="assets/js/tippy-popper.min.js"></script>
-					<script src="assets/js/tippy-bundle.iife.min.js"></script>
-
-					<!-- father icon -->
-					<script src="assets/js/feather.min.js"></script>
-					<script src="assets/js/feather-icon.js"></script>
-
-					<!-- Theme js-->
-					<script src="assets/js/script.js" ></script>
-
-					<?php
 
 					if ($_SESSION['password']['edit'] === 1)
 					{
@@ -682,16 +532,7 @@ class ViewCustomer
 						unset($_SESSION['password']['edit']);
 					}
 
-					if ($token)
-					{
-						$removeitem = 4;
-					}
-					else
-					{
-						$removeitem = 3;
-					}
-
-					ViewTemplate::FrontFormValidation('valider', $removeitem, 1);
+					ViewTemplate::FrontFormValidation('validate', $token ? 4 : 3, 1);
 					?>
 				</body>
 			</html>
@@ -735,13 +576,11 @@ class ViewCustomer
 
 					<?php
 					ViewTemplate::FrontHeader();
-					?>
 
-					<?php
 					ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'forgotpassword' => $pagetitle]);
 					?>
 
-					<!--section start-->
+					<!-- forgot password -->
 					<section class="login-page pwd-page section-big-py-space b-g-light">
 						<div class="container">
 							<div class="row">
@@ -766,40 +605,10 @@ class ViewCustomer
 							</div>
 						</div>
 					</section>
-					<!--Section ends-->
+					<!-- / forgot password -->
 
 					<?php
 					ViewTemplate::FrontFooter();
-					?>
-
-					<!-- latest jquery-->
-					<script src="assets/js/jquery-3.5.1.min.js" ></script>
-
-					<!-- slick js-->
-					<script src="assets/js/slick.js"></script>
-
-					<!-- popper js-->
-					<script src="assets/js/popper.min.js" ></script>
-					<script src="assets/js/bootstrap-notify.min.js"></script>
-
-					<!-- menu js-->
-					<script src="assets/js/menu.js"></script>
-
-					<!-- Bootstrap js-->
-					<script src="assets/js/bootstrap.js"></script>
-
-					<!-- tool tip js -->
-					<script src="assets/js/tippy-popper.min.js"></script>
-					<script src="assets/js/tippy-bundle.iife.min.js"></script>
-
-					<!-- father icon -->
-					<script src="assets/js/feather.min.js"></script>
-					<script src="assets/js/feather-icon.js"></script>
-
-					<!-- Theme js-->
-					<script src="assets/js/script.js" ></script>
-
-					<?php
 
 					if ($_SESSION['password']['forgot'] === 1)
 					{
@@ -843,9 +652,7 @@ class ViewCustomer
 
 					<?php
 					ViewTemplate::FrontHeader();
-					?>
 
-					<?php
 					ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'deleteprofile' => $pagetitle]);
 					?>
 
@@ -876,36 +683,6 @@ class ViewCustomer
 
 					<?php
 					ViewTemplate::FrontFooter();
-					?>
-
-					<!-- latest jquery-->
-					<script src="assets/js/jquery-3.5.1.min.js" ></script>
-
-					<!-- slick js-->
-					<script src="assets/js/slick.js"></script>
-
-					<!-- popper js-->
-					<script src="assets/js/popper.min.js" ></script>
-					<script src="assets/js/bootstrap-notify.min.js"></script>
-
-					<!-- menu js-->
-					<script src="assets/js/menu.js"></script>
-
-					<!-- Bootstrap js-->
-					<script src="assets/js/bootstrap.js"></script>
-
-					<!-- tool tip js -->
-					<script src="assets/js/tippy-popper.min.js"></script>
-					<script src="assets/js/tippy-bundle.iife.min.js"></script>
-
-					<!-- father icon -->
-					<script src="assets/js/feather.min.js"></script>
-					<script src="assets/js/feather-icon.js"></script>
-
-					<!-- Theme js-->
-					<script src="assets/js/script.js" ></script>
-
-					<?php
 
 					if ($_SESSION['password']['forgot'] === 1)
 					{
@@ -933,38 +710,39 @@ class ViewCustomer
 
 		$customer = new ModelCustomer($config);
 		$customer->set_id($_SESSION['user']['id']);
-
 		$data = $customer->getCustomerInfosFromId();
-
 
 		$orderlist = new ModelOrder($config);
 		$orderlist->set_customer($data['id']);
 		$totalorders = $orderlist->getNumberOfOrdersForCustomer();
 
-		// Number max per page
-		$perpage = 10;
-
-		Utils::sanitize_pageresults($totalorders['nborders'], $pagenumber, $perpage, 200, 20);
-
-		$limitlower = ($pagenumber - 1) * $perpage;
-		$limitupper = ($pagenumber) * $perpage;
-
-		if ($limitupper > $totalorders['nborders'])
+		if ($totalorders['nborders'] > 0)
 		{
-			$limitupper = $totalorders['nborders'];
+			// Number max per page
+			$perpage = 10;
 
-			if ($limitlower > $totalorders['nborders'])
+			Utils::sanitize_pageresults($totalorders['nborders'], $pagenumber, $perpage, 200, 20);
+
+			$limitlower = ($pagenumber - 1) * $perpage;
+			$limitupper = ($pagenumber) * $perpage;
+
+			if ($limitupper > $totalorders['nborders'])
 			{
-				$limitlower = ($totalorders['nborders'] - $perpage) - 1;
+				$limitupper = $totalorders['nborders'];
+
+				if ($limitlower > $totalorders['nborders'])
+				{
+					$limitlower = ($totalorders['nborders'] - $perpage) - 1;
+				}
 			}
-		}
 
-		if ($limitlower < 0)
-		{
-			$limitlower = 0;
-		}
+			if ($limitlower < 0)
+			{
+				$limitlower = 0;
+			}
 
-		$orders = $orderlist->getAllCustomerOrders($limitlower, $perpage);
+			$orders = $orderlist->getAllCustomerOrders($limitlower, $perpage);
+		}
 
 		?>
 			<!DOCTYPE html>
@@ -979,119 +757,113 @@ class ViewCustomer
 
 					<?php
 					ViewTemplate::FrontHeader();
-					?>
 
-					<?php
-					ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'vieworders' => $pagetitle]);
-					?>
+					if ($totalorders['nborders'] > 0)
+					{
+						ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'vieworders' => $pagetitle]);
+						?>
 
-					<!--section start-->
-					<section class="cart-section order-history section-big-py-space">
-						<div class="custom-container">
-							<div class="row">
-								<div class="col-sm-12">
-									<table class="table cart-table table-responsive-xs">
-										<thead>
-										<tr class="table-head">
-											<th scope="col">description</th>
-											<th scope="col">prix</th>
-											<th scope="col">détails</th>
-											<th scope="col">état</th>
-										</tr>
-										</thead>
-										<tbody>
-											<?php
-
-											foreach ($orders AS $key => $value)
-											{
-												$orderlist->set_id($value['id']);
-												$orderdetail = $orderlist->getOrderDetails();
-
-												$orderdetails = new ModelOrderDetails($config);
-												$orderdetails->set_order($value['id']);
-												$ordercontent = $orderdetails->getOrderDetails();
-
-												$totalprice = 0;
-
-												foreach ($ordercontent AS $key2 => $data)
-												{
-													$totalprice += $data['prix'] * $data['quantite'];
-												}
-
-												?>
-												<tr>
-													<td>
-														<a href="javascript:void(0)">Commande #: <span class="dark-data"><?= $orderdetail['id'] ?></span></a>
-														<div class="mobile-cart-content row">
-															<div class="col-xs-3">
-																<span>Nombre de produits : <?= $orderdetail['nbproduits'] ?></span>
-															</div>
-															<div class="col-xs-3">
-																<span>Quantité totale: <?= $orderdetail['totalquantite'] ?></span>
-															</div>
-														</div>
-													</td>
-													<td>
-														<h4><?= number_format($totalprice, 2) ?> &euro;</h4>
-													</td>
-													<td>
-														<span>Nombre de produits : <?= $orderdetail['nbproduits'] ?></span>
-														<br />
-														<span>Quantité totale: <?= $orderdetail['totalquantite'] ?></span>
-													</td>
-													<td>
-														<div class="responsive-data">
-															<h4 class="price"><?= number_format($totalprice, 2) ?> &euro;</h4>
-														</div>
-														<span class="dark-data"><?= $value['etat'] ?></span>
-														<br />
-														<span class="dark-data"><a href="index.php?do=vieworder&amp;id=<?= $value['id'] ?>">Afficher la commande</a></span>
-													</td>
-												</tr>
+						<!-- orders history -->
+						<section class="cart-section order-history section-big-py-space">
+							<div class="custom-container">
+								<div class="row">
+									<div class="col-sm-12">
+										<table class="table cart-table table-responsive-xs">
+											<thead>
+											<tr class="table-head">
+												<th scope="col">description</th>
+												<th scope="col">prix</th>
+												<th scope="col">détails</th>
+												<th scope="col">état</th>
+											</tr>
+											</thead>
+											<tbody>
 												<?php
-											}
-											?>
-										</tbody>
-									</table>
+
+												foreach ($orders AS $key => $value)
+												{
+													$orderlist->set_id($value['id']);
+													$orderdetail = $orderlist->getOrderDetails();
+
+													$orderdetails = new ModelOrderDetails($config);
+													$orderdetails->set_order($value['id']);
+													$ordercontent = $orderdetails->getOrderDetails();
+
+													$totalprice = 0;
+
+													foreach ($ordercontent AS $key2 => $data)
+													{
+														$totalprice += $data['prix'] * $data['quantite'];
+													}
+
+													?>
+													<tr>
+														<td>
+															<a href="javascript:void(0)">Commande #: <span class="dark-data"><?= $orderdetail['id'] ?></span></a>
+															<div class="mobile-cart-content row">
+																<div class="col-xs-3">
+																	<span>Nombre de produits : <?= $orderdetail['nbproduits'] ?></span>
+																</div>
+																<div class="col-xs-3">
+																	<span>Quantité totale: <?= $orderdetail['totalquantite'] ?></span>
+																</div>
+															</div>
+														</td>
+														<td>
+															<h4><?= number_format($totalprice, 2) ?> &euro;</h4>
+														</td>
+														<td>
+															<span>Nombre de produits : <?= $orderdetail['nbproduits'] ?></span>
+															<br />
+															<span>Quantité totale: <?= $orderdetail['totalquantite'] ?></span>
+														</td>
+														<td>
+															<div class="responsive-data">
+																<h4 class="price"><?= number_format($totalprice, 2) ?> &euro;</h4>
+															</div>
+															<span class="dark-data"><?= $value['etat'] ?></span>
+															<br />
+															<span class="dark-data"><a href="index.php?do=vieworder&amp;id=<?= $value['id'] ?>">Afficher la commande</a></span>
+														</td>
+													</tr>
+													<?php
+												}
+												?>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<?php
+								Utils::construct_page_nav($pagenumber, $perpage, $totalorders['nborders'], 'index.php?do=vieworders', 'front');
+								?>
+							</div>
+						</section>
+						<!-- / orders history -->
+
+						<?php
+					}
+					else
+					{
+						ViewTemplate::FrontBreadcrumb('Erreur', '', false);
+
+						?>
+						<section class="login-page section-big-py-space b-g-light">
+							<div class="custom-container">
+								<div class="row">
+									<div class="col-xl-4 col-lg-6 col-md-8 offset-xl-4 offset-lg-3 offset-md-2">
+										<div class="theme-card">
+											<div>Aucune commande trouvée.</div>
+										</div>
+									</div>
 								</div>
 							</div>
-							<?php
-							Utils::construct_page_nav($pagenumber, $perpage, $totalorders['nborders'], 'index.php?do=vieworders', 'front');
-							?>
-						</div>
-					</section>
-					<!--section end-->
+						</section>
+						<?php
+					}
 
-					<?php
 					ViewTemplate::FrontFooter();
 					?>
 
-					<!-- latest jquery-->
-					<script src="assets/js/jquery-3.5.1.min.js" ></script>
-
-					<!-- slick js-->
-					<script src="assets/js/slick.js"></script>
-
-					<!-- popper js-->
-					<script src="assets/js/popper.min.js" ></script>
-					<script src="assets/js/bootstrap-notify.min.js"></script>
-
-					<!-- menu js-->
-					<script src="assets/js/menu.js"></script>
-
-					<!-- Bootstrap js-->
-					<script src="assets/js/bootstrap.js"></script>
-
-					<!-- tool tip js -->
-					<script src="assets/js/tippy-popper.min.js"></script>
-					<script src="assets/js/tippy-bundle.iife.min.js"></script>
-
-					<!-- father icon -->
-					<script src="assets/js/feather.min.js"></script>
-					<script src="assets/js/feather-icon.js"></script>
-
-					<!-- Theme js-->
-					<script src="assets/js/script.js" ></script>
 				</body>
 			</html>
 		<?php
@@ -1140,19 +912,19 @@ class ViewCustomer
 						ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'vieworders' => 'Liste des commandes', 'vieworder' => $pagetitle]);
 						?>
 
-						<!--order tracking start-->
+						<!-- order details -->
 						<section class="order-tracking section-big-my-space">
 							<div class="container" >
 								<div class="row">
 									<div class="col-md-12">
-										<div id="msform">
+										<div>
 											<fieldset>
 												<div class="container p-0">
-													<div class="row shpping-block">
+													<div class="row shipping-block">
 														<div class="col-lg-8">
 															<div class="order-tracking-contain order-tracking-box">
 																<div class="tracking-group">
-																	<div class="delevery-code">
+																	<div class="delivery-code">
 																		<h4>Commande #<?= intval($id) ?></h4>
 																	</div>
 																</div>
@@ -1161,6 +933,7 @@ class ViewCustomer
 																	<ul class="may-product">
 																		<?php
 																		$totalprice = 0;
+
 																		foreach ($orderdetail AS $key => $value)
 																		{
 																			$totalprice += $value['prix'] * $value['quantite'];
@@ -1213,8 +986,8 @@ class ViewCustomer
 																	</li>
 																	<li class="pt-0">
 																		<div class="buttons">
-																			<a href="javascript:void(0)" class="btn btn-solid btn-sm btn-block mt-1">Faire une réclamation</a>
-																			<a href="javascript:void(0)" class="btn btn-solid btn-sm btn-block mt-1">Exporter ma facture</a>
+																			<a href="javascript:void(0)" class="btn btn-normal btn-sm btn-block">Faire une réclamation</a>
+																			<a href="javascript:void(0)" class="btn btn-normal btn-sm btn-block">Exporter ma facture</a>
 																		</div>
 																	</li>
 																</ul>
@@ -1228,37 +1001,12 @@ class ViewCustomer
 								</div>
 							</div>
 						</section>
+						<!-- / order details -->
 
 						<?php
 						ViewTemplate::FrontFooter();
 						?>
 
-						<!-- latest jquery-->
-						<script src="assets/js/jquery-3.5.1.min.js" ></script>
-
-						<!-- slick js-->
-						<script src="assets/js/slick.js"></script>
-
-						<!-- popper js-->
-						<script src="assets/js/popper.min.js" ></script>
-						<script src="assets/js/bootstrap-notify.min.js"></script>
-
-						<!-- menu js-->
-						<script src="assets/js/menu.js"></script>
-
-						<!-- Bootstrap js-->
-						<script src="assets/js/bootstrap.js"></script>
-
-						<!-- tool tip js -->
-						<script src="assets/js/tippy-popper.min.js"></script>
-						<script src="assets/js/tippy-bundle.iife.min.js"></script>
-
-						<!-- father icon -->
-						<script src="assets/js/feather.min.js"></script>
-						<script src="assets/js/feather-icon.js"></script>
-
-						<!-- Theme js-->
-						<script src="assets/js/script.js" ></script>
 					</body>
 				</html>
 			<?php
@@ -1391,32 +1139,6 @@ class ViewCustomer
 						ViewTemplate::FrontFooter();
 						?>
 
-						<!-- latest jquery-->
-						<script src="assets/js/jquery-3.5.1.min.js" ></script>
-
-						<!-- slick js-->
-						<script src="assets/js/slick.js"></script>
-
-						<!-- popper js-->
-						<script src="assets/js/popper.min.js" ></script>
-						<script src="assets/js/bootstrap-notify.min.js"></script>
-
-						<!-- menu js-->
-						<script src="assets/js/menu.js"></script>
-
-						<!-- Bootstrap js-->
-						<script src="assets/js/bootstrap.js"></script>
-
-						<!-- tool tip js -->
-						<script src="assets/js/tippy-popper.min.js"></script>
-						<script src="assets/js/tippy-bundle.iife.min.js"></script>
-
-						<!-- father icon -->
-						<script src="assets/js/feather.min.js"></script>
-						<script src="assets/js/feather-icon.js"></script>
-
-						<!-- Theme js-->
-						<script src="assets/js/script.js" ></script>
 					</body>
 				</html>
 			<?php
@@ -1505,32 +1227,6 @@ class ViewCustomer
 						ViewTemplate::FrontFooter();
 						?>
 
-						<!-- latest jquery-->
-						<script src="assets/js/jquery-3.5.1.min.js" ></script>
-
-						<!-- slick js-->
-						<script src="assets/js/slick.js"></script>
-
-						<!-- popper js-->
-						<script src="assets/js/popper.min.js" ></script>
-						<script src="assets/js/bootstrap-notify.min.js"></script>
-
-						<!-- menu js-->
-						<script src="assets/js/menu.js"></script>
-
-						<!-- Bootstrap js-->
-						<script src="assets/js/bootstrap.js"></script>
-
-						<!-- tool tip js -->
-						<script src="assets/js/tippy-popper.min.js"></script>
-						<script src="assets/js/tippy-bundle.iife.min.js"></script>
-
-						<!-- father icon -->
-						<script src="assets/js/feather.min.js"></script>
-						<script src="assets/js/feather-icon.js"></script>
-
-						<!-- Theme js-->
-						<script src="assets/js/script.js" ></script>
 					</body>
 				</html>
 			<?php

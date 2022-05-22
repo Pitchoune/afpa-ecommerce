@@ -31,8 +31,7 @@ If you imported e-commerce-data.sql, you can login into ./admin/index.php with t
 
 ## Known issues:
 
-- GDPR works only if you are setting up an installation online, it won't work locally (GeoIP2 don't like 127.0.0.1).
-- Sending email for the forgot password feature should work, not tested yet.
+- GDPR works only if you are setting up an installation online, it won't work locally (GeoIP2 doesn't like 127.0.0.1).
 
 Enjoy!
 
@@ -42,11 +41,11 @@ Enjoy!
 
 ### Front and back template
 
-Template used: Bigdeal - eCommerce Bootstrap 4 & 5 HTML + Admin Template
+Inspired by template "Bigdeal - eCommerce Bootstrap 4 & 5 HTML + Admin Template"
 
 By PixelStrap ( https://themeforest.net/user/pixelstrap )
 
-Link: https://themeforest.net/item/bigdeal-ecommerce-html-template/24809149
+https://themeforest.net/item/bigdeal-ecommerce-html-template/24809149
 
 ### Cart system
 
@@ -55,3 +54,7 @@ https://codepen.io/chrisachinga/pen/MWwrZLJ
 ### Payment process with Stripe
 
 https://www.youtube.com/watch?v=VU_f2HJAP5A
+
+### Admin permissions system
+
+https://code-boxx.com/php-user-role-management-system/

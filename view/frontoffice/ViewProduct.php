@@ -51,10 +51,6 @@ class ViewProduct
 
 				<?php
 				ViewTemplate::FrontHeader();
-				?>
-
-				<?php
-				ViewTemplate::FrontBreadcrumb('Produit « ' . $product['nom'] . ' »', ['viewcategory&amp;id=' . $product['id_categorie'] => $product['category'], 'viewproduct&amp;id=' . $product['id'] => 'Produit « ' . $product['nom'] . ' »']);
 
 				if ($product)
 				{
@@ -70,19 +66,21 @@ class ViewProduct
 					$trademarks = new ModelTrademark($config);
 					$trademarks->set_id($product['id_marque']);
 					$trademark = $trademarks->listTrademarkInfos();
+
+					ViewTemplate::FrontBreadcrumb('Produit « ' . $product['nom'] . ' »', ['viewcategory&amp;id=' . $product['id_categorie'] => $product['category'], 'viewproduct&amp;id=' . $product['id'] => 'Produit « ' . $product['nom'] . ' »']);
 					?>
 
-					<!-- section start -->
+					<!-- product -->
 					<section class="section-big-pt-space b-g-light">
 						<div class="collection-wrapper">
 							<div class="custom-container">
 								<div class="row">
 									<div class="col-lg-5">
 										<div class="product-slick no-arrow">
-											<div><img src="<?= $product['photo'] ?>" alt="" class="img-fluid image_zoom_cls-0"></div>
+											<div><img src="<?= $product['photo'] ?>" alt="" class="img-fluid"></div>
 										</div>
 									</div>
-									<div class="col-lg-7 rtl-text">
+									<div class="col-lg-7">
 										<div class="product-right">
 											<div class="pro-group">
 												<h2><?= $trademark['nom'] ?> - <?= $product['nom'] ?></h2>
@@ -90,20 +88,20 @@ class ViewProduct
 													<li><?= $product['prix'] ?> &euro;</li>
 												</ul>
 											</div>
-											<div id="selectSize" class="pro-group addeffect-section product-description border-product mb-0">
+											<div class="pro-group addeffect-section product-description border-product mb-0">
 												<h6 class="product-title">Quantité</h6>
 												<div class="qty-box">
 													<div class="input-group">
-														<button class="qty-minus"></button>
+														<button class="qty-minus" data-name="<?= $product['nom'] ?>"></button>
 														<input class="qty-adj form-control" type="number" value="1" />
-														<button class="qty-plus"></button>
+														<button class="qty-plus" data-name="<?= $product['nom'] ?>"></button>
 													</div>
 												</div>
 												<div class="product-buttons">
-													<a href="javascript:void(0)" data-name="<?= $product['nom'] ?>" data-price="<?= $product['prix'] ?>" data-photo="<?= $product['photo'] ?>" data-id="<?= $product['id'] ?>" id="cartEffect" class="btn cart-btn btn-normal tooltip-top add-to-cart" data-tippy-content="Ajouter au panier">
+													<button data-name="<?= $product['nom'] ?>" data-price="<?= $product['prix'] ?>" data-photo="<?= $product['photo'] ?>" data-id="<?= $product['id'] ?>" id="cartEffect" class="btn cart-btn btn-normal tooltip-top add-to-cart">
 														<i class="fa fa-shopping-cart"></i>
 														Ajouter au panier
-													</a>
+													</button>
 												</div>
 											</div>
 											<div class="pro-group">
@@ -114,7 +112,7 @@ class ViewProduct
 														Livraison gratuite
 													</li>
 													<li>
-														<svg  viewBox="0 0 512 512"  xmlns="http://www.w3.org/2000/svg"><path d="m410 0c8.285156 0 15 6.714844 15 15v199.027344c52.363281 26.195312 87 79.976562 87 140.722656 0 86.84375-70.40625 157.25-157.25 157.25-60.746094 0-114.527344-34.636719-140.722656-87h-199.027344c-8.285156 0-15-6.714844-15-15v-395c0-8.285156 6.714844-15 15-15zm-126 30v84.0625c0 10.785156-11.507812 19.085938-22.746094 12.84375l-48.753906-24.773438-49.761719 25.289063c-9.988281 5.058594-21.710937-2.324219-21.703125-13.359375l-.035156-84.0625h-111v365h172.703125c-14.519531-54.976562 1.808594-112.394531 40.855469-151.441406s96.464844-55.375 151.441406-40.855469v-172.703125zm23 391h69.996094c15.984375 0 30.488281-6.511719 40.988281-17.015625 11.039063-11.035156 17.015625-25.332031 17.015625-41.980469 0-31.96875-26.035156-58.003906-58.003906-58.003906h-41.683594l8.804688-8.820312c13.871093-13.953126-7.339844-35.042969-21.210938-21.09375l-34.402344 34.464843c-5.824218 5.855469-5.800781 15.328125.058594 21.152344l34.46875 34.402344c13.949219 13.871093 35.042969-7.339844 21.09375-21.210938l-8.914062-8.894531h41.785156c16.242187 0 28.003906 12.984375 28.003906 28.996094 0 15.40625-12.597656 28.003906-28.003906 28.003906h-69.996094c-8.285156 0-15 6.714844-15 15s6.714844 15 15 15zm-42.230469-156.230469c-49.691406 49.695313-49.691406 130.269531 0 179.960938 49.695313 49.695312 130.269531 49.695312 179.960938 0 49.695312-49.691407 49.695312-130.265625 0-179.960938-49.691407-49.691406-130.269531-49.691406-179.960938 0zm-10.769531-234.769531h-83v59.65625l34.726562-17.648438c4.097657-2.078124 9.09375-2.246093 13.511719-.019531l34.761719 17.667969zm0 0" fill-rule="evenodd"/></svg>
+														<svg  viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="m410 0c8.285156 0 15 6.714844 15 15v199.027344c52.363281 26.195312 87 79.976562 87 140.722656 0 86.84375-70.40625 157.25-157.25 157.25-60.746094 0-114.527344-34.636719-140.722656-87h-199.027344c-8.285156 0-15-6.714844-15-15v-395c0-8.285156 6.714844-15 15-15zm-126 30v84.0625c0 10.785156-11.507812 19.085938-22.746094 12.84375l-48.753906-24.773438-49.761719 25.289063c-9.988281 5.058594-21.710937-2.324219-21.703125-13.359375l-.035156-84.0625h-111v365h172.703125c-14.519531-54.976562 1.808594-112.394531 40.855469-151.441406s96.464844-55.375 151.441406-40.855469v-172.703125zm23 391h69.996094c15.984375 0 30.488281-6.511719 40.988281-17.015625 11.039063-11.035156 17.015625-25.332031 17.015625-41.980469 0-31.96875-26.035156-58.003906-58.003906-58.003906h-41.683594l8.804688-8.820312c13.871093-13.953126-7.339844-35.042969-21.210938-21.09375l-34.402344 34.464843c-5.824218 5.855469-5.800781 15.328125.058594 21.152344l34.46875 34.402344c13.949219 13.871093 35.042969-7.339844 21.09375-21.210938l-8.914062-8.894531h41.785156c16.242187 0 28.003906 12.984375 28.003906 28.996094 0 15.40625-12.597656 28.003906-28.003906 28.003906h-69.996094c-8.285156 0-15 6.714844-15 15s6.714844 15 15 15zm-42.230469-156.230469c-49.691406 49.695313-49.691406 130.269531 0 179.960938 49.695313 49.695312 130.269531 49.695312 179.960938 0 49.695312-49.691407 49.695312-130.265625 0-179.960938-49.691407-49.691406-130.269531-49.691406-179.960938 0zm-10.769531-234.769531h-83v59.65625l34.726562-17.648438c4.097657-2.078124 9.09375-2.246093 13.511719-.019531l34.761719 17.667969zm0 0" fill-rule="evenodd"/></svg>
 														Retour sous 10 jours
 													</li>
 													<li>
@@ -126,11 +124,11 @@ class ViewProduct
 											<div class="pro-group pb-0">
 												<h6 class="product-title">Partager</h6>
 												<ul class="product-social">
-													<li><a href="javascript:void(0)"><i class="fa fa-facebook"></i></a></li>
-													<li><a href="javascript:void(0)"><i class="fa fa-google-plus"></i></a></li>
-													<li><a href="javascript:void(0)"><i class="fa fa-twitter"></i></a></li>
-													<li><a href="javascript:void(0)"><i class="fa fa-instagram"></i></a></li>
-													<li><a href="javascript:void(0)"><i class="fa fa-rss"></i></a></li>
+													<li><a href="javascript:void(0)"><i class="fab fa-facebook-f"></i></a></li>
+													<li><a href="javascript:void(0)"><i class="fab fa-google-plus-g"></i></a></li>
+													<li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
+													<li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
+													<li><a href="javascript:void(0)"><i class="fas fa-rss"></i></a></li>
 												</ul>
 											</div>
 										</div>
@@ -139,21 +137,18 @@ class ViewProduct
 							</div>
 						</div>
 					</section>
-					<!-- Section ends -->
 
-
-					<!-- product-tab starts -->
-					<section class=" tab-product  tab-exes ">
+					<section class="tab-product tab-exes">
 						<div class="custom-container">
 							<div class="row">
 								<div class="col-sm-12 col-lg-12 ">
-								   <div class=" creative-card creative-inner">
+								   <div class="creative-card creative-inner">
 									   <ul class="nav nav-tabs nav-material" id="top-tab" role="tablist">
 										   <li class="nav-item"><a class="nav-link active" id="top-home-tab" data-bs-toggle="tab" href="#top-home" role="tab" aria-selected="true">Description</a>
 											   <div class="material-border"></div>
 										   </li>
 									   </ul>
-									   <div class="tab-content nav-material" id="top-tabContent">
+									   <div class="tab-content nav-material">
 										   <div class="tab-pane fade show active" id="top-home" role="tabpanel" aria-labelledby="top-home-tab">
 											   <p><?= $product['description'] ?></p>
 										   </div>
@@ -163,12 +158,13 @@ class ViewProduct
 							</div>
 						</div>
 					</section>
-					<!-- product-tab ends -->
+					<!-- / product -->
 
 					<?php
 					}
 					else
 					{
+						ViewTemplate::FrontBreadcrumb('Erreur', '', false);
 						?>
 						<section class="login-page section-big-py-space b-g-light">
 							<div class="custom-container">
@@ -186,33 +182,6 @@ class ViewProduct
 
 					ViewTemplate::FrontFooter();
 					?>
-
-					<!-- latest jquery-->
-					<script src="assets/js/jquery-3.5.1.min.js" ></script>
-
-					<!-- slick js-->
-					<script src="assets/js/slick.js"></script>
-
-					<!-- popper js-->
-					<script src="assets/js/popper.min.js" ></script>
-					<script src="assets/js/bootstrap-notify.min.js"></script>
-
-					<!-- menu js-->
-					<script src="assets/js/menu.js"></script>
-
-					<!-- Bootstrap js-->
-					<script src="assets/js/bootstrap.js"></script>
-
-					<!-- tool tip js -->
-					<script src="assets/js/tippy-popper.min.js"></script>
-					<script src="assets/js/tippy-bundle.iife.min.js"></script>
-
-					<!-- father icon -->
-					<script src="assets/js/feather.min.js"></script>
-					<script src="assets/js/feather-icon.js"></script>
-
-					<!-- Theme js-->
-					<script src="assets/js/script.js" ></script>
 				</body>
 			</html>
 		<?php
@@ -272,44 +241,62 @@ class ViewProduct
 					?>
 					<!-- product section start -->
 					<section class="section-big-py-space ratio_asos b-g-light">
-						<div class="custom-container">
-							<div class="row search-product related-pro1">
-								<?php
-								foreach ($product AS $key => $value)
-								{
-									?>
-									<div class="col-xl-3 col-md-4 col-sm-6">
-										<div class="product">
-											<div class="product-box">
-												<div class="product-imgbox">
-													<div class="product-front">
-														<img src="attachments/products/<?= $value['photo'] ?>" class="img-fluid" alt="product">
-													</div>
-												</div>
-												<div class="product-detail detail-center">
-													<div class="detail-title">
-														<div class="detail-left">
-															<a href="index.php?do=viewproduct&amp;id=<?= $value['id'] ?>">
-																<h6 class="price-title">
-																	<?= $value['nom'] ?>
-																</h6>
-															</a>
-														</div>
-														<div class="detail-right">
-															<div class="price">
-																<div class="price">
-																	<?= $value['prix'] ?> &euro;
+						<div class="collection-wrapper">
+							<div class="custom-container">
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="collection-product-wrapper">
+											<div class="product-wrapper-grid product">
+												<div class="row">
+													<?php
+													foreach ($product AS $key => $value)
+													{
+														if (empty($value['photo']))
+														{
+															$value['photo'] = 'assets/images/nophoto.jpg';
+														}
+														else
+														{
+															$value['photo'] = 'attachments/products/' . $value['photo'];
+														}
+														?>
+														<div class="col-xl-3 col-md-4 col-sm-6">
+															<div class="product">
+																<div class="product-box">
+																	<div class="product-imgbox">
+																		<div class="product-front">
+																			<img src="<?= $value['photo'] ?>" class="img-fluid" alt="product">
+																		</div>
+																	</div>
+																	<div class="product-detail detail-center">
+																		<div class="detail-title">
+																			<div class="detail-left">
+																				<a href="index.php?do=viewproduct&amp;id=<?= $value['id'] ?>">
+																					<h6 class="price-title">
+																						<?= $value['nom'] ?>
+																					</h6>
+																				</a>
+																			</div>
+																			<div class="detail-right">
+																				<div class="price">
+																					<div class="price">
+																						<?= $value['prix'] ?> &euro;
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
 																</div>
 															</div>
 														</div>
-													</div>
+														<?php
+													}
+													?>
 												</div>
 											</div>
 										</div>
 									</div>
-									<?php
-								}
-								?>
+								</div>
 							</div>
 						</div>
 					</section>
@@ -335,33 +322,6 @@ class ViewProduct
 
 				ViewTemplate::FrontFooter();
 				?>
-
-				<!-- latest jquery-->
-				<script src="assets/js/jquery-3.5.1.min.js" ></script>
-
-				<!-- slick js-->
-				<script src="assets/js/slick.js"></script>
-
-				<!-- popper js-->
-				<script src="assets/js/popper.min.js" ></script>
-				<script src="assets/js/bootstrap-notify.min.js"></script>
-
-				<!-- menu js-->
-				<script src="assets/js/menu.js"></script>
-
-				<!-- Bootstrap js-->
-				<script src="assets/js/bootstrap.js"></script>
-
-				<!-- tool tip js -->
-				<script src="assets/js/tippy-popper.min.js"></script>
-				<script src="assets/js/tippy-bundle.iife.min.js"></script>
-
-				<!-- father icon -->
-				<script src="assets/js/feather.min.js"></script>
-				<script src="assets/js/feather-icon.js"></script>
-
-				<!-- Theme js-->
-				<script src="assets/js/script.js" ></script>
 			</body>
 		</html>
 	<?php

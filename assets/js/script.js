@@ -1,1026 +1,535 @@
-/*-----------------------------------------------------------------------------------
- Template Name:Bigdeal
- Template URI: themes.pixelstrap.com/bigdeal
- Description: This is E-commerce website
- Author: Pixelstrap
- Author URI: https://themeforest.net/user/pixelstrap
- ----------------------------------------------------------------------------------- */
-// 01. Slick slider
-// 02. header js
-// 03. footer js
-// 04. Image to background js
-// 05  toggle nav
-// 06  navbar mobile nav
-// 07  menu js
-// 08. Product page
-// 09. category page
-// 10. Product page Quantity Counter
-// 11. filter sidebar js
-// 12. Filter js
-// 13. tab js
-// 14. RTL & Dark Light
-// 15. Add to cart
-// 16. Add to wishlist
-// 17. Tap on Top
-// 18. loader
-// 19. add to cart sidebar js
-// 20. Color Picker
-// 21. Add to cart quantity Counter
-
-
-(function($) {
-  "use strict";
-  /*=====================
-   01. Slick slider
-   ==========================*/
-
-
-
-
-
-  $('.testimonial-top-slide').slick({
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: false,
-    fade: true,
-    asNavFor: '.testimonial-bottom-slide'
-  });
-
-  $('.testimonial-bottom-slide').slick({
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    asNavFor: '.testimonial-top-slide',
-    focusOnSelect: true,
-    centerPadding: '50px',
-  });
-
-  $('.brand-slide12').slick({
-    dots: false,
-    infinite: true,
-    speed: 300,
-    slidesToShow: 12,
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 1680,
-        settings: {
-          slidesToShow: 10,
-          slidesToScroll: 1,
-          infinite: true
-        }
-      },
-      {
-        breakpoint: 1470,
-        settings: {
-          slidesToShow: 9,
-          slidesToScroll: 1,
-          infinite: true
-        }
-      },
-      {
-        breakpoint: 1368,
-        settings: {
-          slidesToShow: 8,
-          slidesToScroll: 1,
-          infinite: true
-        }
-      },
-      {
-        breakpoint: 1199,
-        settings: {
-          slidesToShow: 7,
-          slidesToScroll: 1,
-          infinite: true
-        }
-      },
-      {
-        breakpoint: 992,
-        settings: {
-          slidesToShow: 6,
-          slidesToScroll: 1,
-          infinite: true
-        }
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 5,
-          slidesToScroll: 1,
-          infinite: true
-        }
-      },
-      {
-        breakpoint: 576,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 1,
-          infinite: true
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          infinite: true
-        }
-      },
-      {
-        breakpoint: 360,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          infinite: true
-        }
-      },
-    ]
-  });
-
-
-  $('.brand-slide3').slick({
-    dots: false,
-    infinite: true,
-    speed: 300,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    rows: 2,
-    className: "center",
-    responsive: [
-      {
-        breakpoint: 1200,
-        settings: {
-          rows:1,
-          slidesToShow: 7,
-          slidesToScroll: 1,
-          infinite: true
-        }
-      },
-      {
-        breakpoint: 1024,
-        settings: {
-          rows:1,
-          slidesToShow: 5,
-          slidesToScroll: 1,
-          infinite: true
-        }
-      },
-      {
-        breakpoint: 800,
-        settings: {
-          rows:1,
-          slidesToShow: 4,
-          slidesToScroll: 1,
-          infinite: true
-        }
-      },
-      {
-        breakpoint: 650,
-        settings: {
-          rows:1,
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          infinite: true
-        }
-      },
-    ]
-  });
-
-  $('.hotdeal-slide3').slick({
-    dots: false,
-    infinite: true,
-    speed: 300,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    responsive: [
-      {
-        breakpoint: 1600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          infinite: true
-        }
-      },
-      {
-        breakpoint: 1200,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          infinite: true
-        }
-      },
-      {
-        breakpoint:890,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          infinite: true
-        }
-      },
-       {
-        breakpoint: 576,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          infinite: true
-        }
-      },
-    ]
-  });
-
-
-  $('.pro-top-slide').slick({
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: false,
-    fade: true,
-    asNavFor: '.pro-bottom-slide'
-  });
-
-  $('.pro-bottom-slide').slick({
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    asNavFor: '.pro-top-slide',
-    dots: false,
-    focusOnSelect: true
-  });
-
-
-  $('.feature-slide').slick({
-    dots: false,
-    infinite: true,
-    speed: 300,
-    slidesToShow: 10,
-    slidesToScroll: 2,
-    responsive: [
-      {
-        breakpoint: 1470,
-        settings: {
-          slidesToShow: 9,
-          slidesToScroll: 2
-        }
-      },
-      {
-        breakpoint: 992,
-        settings: {
-          slidesToShow: 8,
-          slidesToScroll: 2
-        }
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 7,
-          slidesToScroll: 2
-        }
-      },
-      {
-        breakpoint: 576,
-        settings: {
-          slidesToShow: 6,
-          slidesToScroll: 2
-        }
-      },
-      {
-        breakpoint:481,
-        settings: {
-          slidesToShow: 5,
-          slidesToScroll: 2
-        }
-      },
-    ]
-  });
-
-  /*=====================
-   02. header js
-   ==========================*/
-
-  $('.pro-up').hide();
-  $('.mor-slide-open').slideUp();
-  $('.mor-slide-click').on('click', function (){
-    $('.mor-slide-open').slideToggle();
-    $('.pro-up').toggle();
-    $('.pro-down').toggle();
-  });
-
-  $('.category-toggle').on('click', function(e) {
-      $('.show').slideToggle()
-      $('.category-heandle').toggleClass('open')
-      $('.collapse-category').toggleClass('open')
-  });
-
-  $('.category-toggle').on('click', function(e) {
-      $('.hide').slideToggle()
-  });
-
-  $('.mobilecat-toggle').on('click', function(e) {
-    $('.collapse-category').toggleClass('open')
-      });
-      $('.back-btn').on('click', function(e) {
-        $('.collapse-category').toggleClass('open')
-  });
-
-  // mobile search //
-  $('.search-overlay').hide();
-  $('.close-mobile-search').on('click', function (){
-    $('.search-overlay').fadeOut();
-  })
-  $('.mobile-search').on('click', function (){
-    $('.search-overlay').show();
-  });
-
-
-  $('.mobile-search').on('click', function (){
-    $('.searchbar-input').addClass('open');
-  });
-
-  $('.close-searchbar').on('click', function (){
-    $('.searchbar-input').removeClass('open');
-  });
-
-  // sticky header //
-  $(window).scroll(function() {
-      if ($(this).scrollTop() > 200) {
-          $('header').addClass("sticky");
-      } else {
-          $('header').removeClass("sticky");
-      }
-  });
-
-  // header category //
-  var contentwidth = jQuery(window).width();
-  if ((contentwidth) < '1200') {
-    jQuery('.cat-title').on('click', function () {
-      jQuery(this).parents('li').siblings().children('.collapse-mega').slideUp('normal');
-      jQuery(this).parent().siblings().children('.collapse-mega').slideUp('normal');
-      jQuery(this).parent().siblings().children('.collapse-mega').children().find('.collapse-mega').slideUp('normal');
-      jQuery(this).parents('li').siblings().children('.sub-collapse').slideUp('normal');
-      jQuery(this).parent().siblings().children('.sub-collapse').slideUp('normal');
-      jQuery(this).parent().siblings().children('.sub-collapse').children().find('.sub-collapse').slideUp('normal');
-
-      if (jQuery(this).next().is(':hidden') == true) {
-        jQuery(this).addClass('active');
-        jQuery(this).next().slideDown('normal');
-      }
-    });
-
-    jQuery('.sub-collapse').hide();
-    jQuery('.collapse-mega').hide();
-  }
-
-  $('span.sub-arrow').on('click',function(){
-    $('.categoryone .collapse-mega .mega-box ul').removeClass('open');
-    $(this).parent().next().toggleClass('open');
-  });
-
-  /*=====================
-   03.footer js
-   ==========================*/
-  var contentwidth = jQuery(window).width();
-  if ((contentwidth) < '767') {
-    jQuery('.footer-title h5').append('<span class="according-menu"></span>');
-    jQuery('.footer-title').on('click', function () {
-      jQuery('.footer-title').removeClass('active');
-      jQuery('.footer-contant').slideUp('normal');
-
-      if (jQuery(this).next().is(':hidden') == true) {
-        jQuery(this).addClass('active');
-        jQuery(this).next().slideDown('normal');
-      }
-    });
-    jQuery('.footer-contant').hide();
-  } else {
-    jQuery('.footer-contant').show();
-  }
-
-  /*=====================
-   04. Image to background js
-   ==========================*/
-  $('.bg-top').parent().addClass('b-top');
-  $('.bg-bottom').parent().addClass('b-bottom');
-  $('.bg-center').parent().addClass('b-center');
-  $('.bg_size_content').parent().addClass('b_size_content');
-  $('.bg-img').parent().addClass('bg-size');
-
-  jQuery('.bg-img').each(function() {
-    var el = $(this),
-      src = el.attr('src'),
-      parent = el.parent();
-
-    parent.css({
-      'background-image': 'url(' + src + ')',
-      'background-size': 'cover',
-      'background-position': 'center',
-      'display' : 'block'
-    });
-
-    el.hide();
-  });
-
-  /*=====================
-   05 toggle nav
-   ==========================*/
-  $('.toggle-nav').on('click', function () {
-    $('.sm-horizontal').css("right","0px");
-  });
-  $(".mobile-back").on('click', function (){
-    $('.sm-horizontal').css("right","-410px");
-  });
-
-  /*=====================
-   06 navbar mobile nav
-   ==========================*/
-  $('.sm-nav-btn').on('click',function(){
-    $('.nav-slide').css("left","0px");
-  });
-
-  $(".nav-sm-back").on('click', function (){
-    $('.nav-slide').css("left","-410px");
-  });
-
-  $('.toggle-nav-desc').on('click', function () {
-    $('.desc-horizontal').css("right","0px");
-  });
-
-  $(".desc-back").on('click', function (){
-    $('.desc-horizontal').css("right","-410px");
-  });
-
-  /*=====================
-   07 menu js
-   ==========================*/
-
-  function openNav() {
-    document.getElementById("mySidenav").classList.add('open-side');
-  }
-
-  function closeNav() {
-    document.getElementById("mySidenav").classList.remove('open-side');
-  }
-
-  $(function() {
-    $('#main-menu').smartmenus({
-      subMenusSubOffsetX: 1,
-      subMenusSubOffsetY: -8
-    });
-    $('#sub-menu').smartmenus({
-      subMenusSubOffsetX: 1,
-      subMenusSubOffsetY: -8
-    });
-  });
-
-  /*=====================
-   09. category page
-   ==========================*/
-  $('.collapse-block-title').on('click', function(e) {
-    e.preventDefault;
-    var speed = 300;
-    var thisItem = $(this).parent(),
-      nextLevel = $(this).next('.collection-collapse-block-content');
-    if (thisItem.hasClass('open')){
-      thisItem.removeClass('open');
-      nextLevel.slideUp(speed);
-    }
-    else {
-      thisItem.addClass('open');
-      nextLevel.slideDown(speed);
-    }
-  });
-
-  $('.color-selector ul li > div').on('click', function(e) {
-    $(".color-selector ul li > div").removeClass("active");
-    $(this).addClass("active");
-  });
-
-  $('.image-swatch li ').on('click', function(e) {
-    $(".image-swatch li ").removeClass("active");
-    $(this).addClass("active");
-  });
-
-   $('.show-offer').on('click', function(e) {
-    $(".offer-sider").slideToggle();
-    $(".more-offer").fadeToggle();
-    $(".less-offer").fadeToggle();
-  });
-
-  $('.size-box ul li').on('click', function(e) {
-    $(".size-box ul li").removeClass("active");
-    $('#selectSize').removeClass('cartMove');
-    $(this).addClass("active");
-    $(this).parent().addClass('selected');
-  });
-
-  // Animation effect on the cart svg in 'add to cart' button
-  $('#cartEffect').on('click', function(e) {
-    if ($("#selectSize .size-box ul").hasClass('selected')){
-        $('#cartEffect').text("Added to bag ");
-        $('.added-notification').addClass("show");
-        setTimeout(function(){
-            $('.added-notification').removeClass("show");
-        },5000);
-    } else {
-        $('#selectSize').addClass('cartMove');
-    }
-  });
-
-  //list layout view
-  $('.list-layout-view').on('click', function(e) {
-    $('.collection-grid-view').css('opacity', '0');
-    $('.product-wrapper-grid').css('opacity', '0.2');
-    $('.shop-cart-ajax-loader').css('display', 'block');
-    $('.product-wrapper-grid').addClass('list-view');
-    $('.product-wrapper-grid').children().children().removeClass();
-    $('.product-wrapper-grid').children().children().addClass('col-lg-12');
-
-    setTimeout(function(){
-      $('.product-wrapper-grid').css('opacity', '1');
-      $('.shop-cart-ajax-loader').css('display', 'none');
-    }, 500);
-  });
-
-  //grid layout view
-  $('.grid-layout-view').on('click', function(e) {
-    $('.collection-grid-view').css('opacity', '1');
-    $('.product-wrapper-grid').removeClass('list-view');
-    $('.product-wrapper-grid').children().children().removeClass();
-    $('.product-wrapper-grid').children().children().addClass('col-lg-3');
-  });
-
-  $('.product-2-layout-view').on('click', function(e) {
-    if($('.product-wrapper-grid').hasClass('list-view')) {}
-    else{
-      $('.product-wrapper-grid').children().children().removeClass();
-      $('.product-wrapper-grid').children().children().addClass('col-lg-6');
-    }
-  });
-
-  $('.product-3-layout-view').on('click', function(e) {
-    if($('.product-wrapper-grid').hasClass("list-view")) {}
-    else{
-      $(".product-wrapper-grid").children().children().removeClass();
-      $(".product-wrapper-grid").children().children().addClass("col-lg-4");
-    }
-  });
-
-  $('.product-4-layout-view').on('click', function(e) {
-    if($('.product-wrapper-grid').hasClass("list-view")) {}
-    else{
-      $(".product-wrapper-grid").children().children().removeClass();
-      $(".product-wrapper-grid").children().children().addClass("col-lg-3");
-    }
-  });
-  $('.product-6-layout-view').on('click', function(e) {
-    if($('.product-wrapper-grid').hasClass("list-view")) {}
-    else{
-      $(".product-wrapper-grid").children().children().removeClass();
-      $(".product-wrapper-grid").children().children().addClass("col-lg-2");
-    }
-  });
-
-  /*=====================
-   10. Product page Quantity Counter
-   ==========================*/
-
-  var qtyDecs = document.querySelectorAll(".qty-minus");
-  var qtyIncs = document.querySelectorAll(".qty-plus");
-  qtyDecs.forEach((qtyDec) => {
-    qtyDec.addEventListener("click",function(e){
-      if(e.target.nextElementSibling.value > 0){
-        e.target.nextElementSibling.value--;
-      } else {
-        // delete the item, etc
-      }
-    })
-  })
-  qtyIncs.forEach((qtyDec) => {
-    qtyDec.addEventListener("click",function(e){
-      e.target.previousElementSibling.value++;
-    })
-  })
-
-  /*=====================
-    13. Tab js
-   ==========================*/
-  // media product slide 5
-  // Content on tabs
-  $("#tab-7").css("display", "Block");
-  $(".default").css("display", "Block");
-  $(".tabs li a").on('click', function () {
-    event.preventDefault();
-    $('.tab_product_slider').slick('unslick');
-    $('.media-slide-5').slick('unslick');
-    $(this).parent().parent().find("li").removeClass("current");
-    $(this).parent().addClass("current");
-    var currunt_href = $(this).attr("href");
-    $('#' + currunt_href).show();
-    $(this).parent().parent().parent().find(".tab-content").not('#' + currunt_href).css("display", "none");
-    $('.media-slide-5').slick({
-      autoplay: true,
-      autoplaySpeed: 1000,
-      dots: false,
-      infinite: true,
-      speed: 1000,
-      slidesToShow: 5,
-      centerPadding: '15px',
-      responsive: [
-        {
-          breakpoint: 1470,
-          settings: {
-            slidesToShow: 4,
-            slidesToScroll: 4,
-            infinite: true
-          }
-        },
-        {
-          breakpoint: 992,
-          settings: {
-            slidesToShow: 3,
-            slidesToScroll: 3,
-            infinite: true
-          }
-        },
-        {
-          breakpoint: 820,
-          settings: {
-            slidesToShow: 2,
-            slidesToScroll: 2,
-            infinite: true
-          }
-        },
-        {
-          breakpoint: 576,
-          settings: {
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            infinite: true
-          }
-        }
-      ]
-    });
-  });
-
-  // Content not on tabs
-  $('.media-slide-5').slick({
-    autoplay: true,
-    autoplaySpeed: 3000,
-    dots: false,
-    infinite: true,
-    speed: 10000,
-    slidesToShow: 5,
-    centerPadding: '15px',
-    responsive: [
-      {
-        breakpoint: 1470,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 4,
-          infinite: true
-        }
-      },
-      {
-        breakpoint: 992,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true
-        }
-      },
-      {
-        breakpoint: 820,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          infinite: true
-        }
-      },
-      {
-        breakpoint: 576,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          infinite: true
-        }
-      }
-    ]
-  });
-
-  /*=====================
-   14. RTL & Dark Light
-   ==========================*/
-
-  $('<div class="theme-pannel-main"><ul><li id="rtl_btn"><a href="javascript:void(0)" class="btn setting_btn"><span class="rtl-txt">Rtl</span></a></li><li id="ltr_btn"><a href="javascript:void(0)" class="btn setting_btn"><span class="rtl-txt">Ltr</span></a></li><li class="sidebar-btn dark-light-btn"><a href="javascript:void(0)" class="dark-light"><span class="theme-layout-version">Dark</span></a></li></ul></div><div class="color-picker"></div>').appendTo($('body'));
-  (function() {
-  })();
-  $('#ltr_btn').hide();
-
-  $("#ltr_btn").on('click', function (){
-    $('body').addClass('ltr');
-    $('body').removeClass('rtl');
-    $('#ltr_btn').hide();
-    $('#rtl_btn').show();
-  });
-
-  $("#rtl_btn").on('click', function (){
-    $('body').addClass('rtl');
-    $('body').removeClass('ltr');
-    $('#rtl_btn').hide();
-    $('#ltr_btn').show();
-  });
-
-  $(".setting_buttons li").on('click', function (){
-    $(this).addClass('active').siblings().removeClass('active');
-  });
-
-  $(".color-picker li").on('click', function (){
-    $(this).addClass('active').siblings().removeClass('active');
-  });
-
-  // dark layout //
-  var body_event = $("body");
-  body_event.on("click", ".theme-layout-version" , function(){
-    $(this).toggleClass('dark');
-    $('body').removeClass('dark');
-
-    if ($('.theme-layout-version').hasClass('dark')){
-      $('.theme-layout-version').text('Light');
-      $('body').addClass('dark');
-    } else {
-      $('#theme-dark').remove();
-      $('.theme-layout-version').text('Dark');
-    }
-
-    return false;
-  });
-
-  /*=====================
-   15. Add to cart
-   ==========================*/
-  $('.add-to-cart').on('click', function()
-  {
-    $.notify({
-      icon: 'fa fa-check',
-      title: 'Ajout au panier',
-      message: 'Produit ajouté au panier avec succès !'
-    },{
-      element: 'body',
-      position: null,
-      type: "success",
-      allow_dismiss: true,
-      newest_on_top: false,
-      showProgressbar: true,
-      placement: {
-        from: "bottom",
-        align: "right"
-      },
-      offset: 20,
-      spacing: 10,
-      z_index: 1031,
-      delay: 5000,
-      animate: {
-        enter: 'animated fadeInDown',
-        exit: 'animated fadeOutUp'
-      },
-      icon_type: 'class',
-      template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-        '<button type="button" aria-hidden="true" class="btn-close" data-notify="dismiss"></button>' +
-        '<span data-notify="icon"></span> ' +
-        '<span data-notify="title">{1}</span> ' +
-        '<span data-notify="message">{2}</span>' +
-        '<div class="progress" data-notify="progressbar">' +
-        '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
-        '</div>' +
-        '<a href="{3}" target="{4}" data-notify="url"></a>' +
-        '</div>'
-    });
-  });
-
-  /*=====================
-   17. tap on top
-   ==========================*/
-
-  $(window).on('scroll', function() {
-    if ($(this).scrollTop() > 600) {
-      $('.tap-top').addClass('top-cls');
-    } else {
-      $('.tap-top').removeClass('top-cls');
-    }
-  });
-
-  $('<div class="tap-top" style="display: block;"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 285 285" style="enable-background:new 0 0 285 285;" xml:space="preserve"><g><path d="M88.4,87.996c2.525-2.146,2.832-5.933,0.687-8.458C82.801,72.144,79.34,62.719,79.34,53c0-22.607,18.393-41,41-41c22.607,0,41,18.393,41,41c0,9.729-3.467,19.161-9.761,26.557c-2.148,2.523-1.843,6.311,0.681,8.458c1.129,0.961,2.511,1.431,3.886,1.431c1.698,0,3.386-0.717,4.572-2.111C168.858,77.77,173.34,65.576,173.34,53c0-29.225-23.775-53-53-53c-29.225,0-53,23.775-53,53c0,12.563,4.476,24.748,12.602,34.31C82.089,89.835,85.873,90.141,88.4,87.996z"/><path d="M120.186,41.201c13.228,0,23.812,8.105,27.313,19.879c0.761-2.562,1.176-5.271,1.176-8.08c0-15.649-12.685-28.335-28.335-28.335c-15.648,0-28.334,12.686-28.334,28.335c0,2.623,0.364,5.16,1.031,7.571C96.691,49.076,107.152,41.201,120.186,41.201z"/><path d="M234.21,169.856c-3.769-22.452-19.597-26.04-27.034-26.462c-2.342-0.133-4.516-1.32-5.801-3.282c-5.388-8.225-12.609-10.4-18.742-10.4c-4.405,0-8.249,1.122-10.449,1.932c-0.275,0.102-0.559,0.15-0.837,0.15c-0.87,0-1.701-0.47-2.163-1.262c-5.472-9.387-13.252-11.809-19.822-11.809c-3.824,0-7.237,0.82-9.548,1.564c-0.241,0.077-0.764,0.114-1.001,0.114c-1.256,0-2.637-1.03-2.637-2.376V69.753c0-11.035-8.224-16.552-16.5-16.552c-8.276,0-16.5,5.517-16.5,16.552v84.912c0,4.989-3.811,8.074-7.918,8.074c-2.495,0-4.899-1.138-6.552-3.678l-7.937-12.281c-3.508-5.788-8.576-8.188-13.625-8.189c-11.412-0.001-22.574,12.258-14.644,25.344l62.491,119.692c0.408,0.782,1.225,1.373,2.108,1.373h87.757c1.253,0,2.289-1.075,2.365-2.325l2.196-35.816c0.025-0.413,0.162-0.84,0.39-1.186C231.591,212.679,237.828,191.414,234.21,169.856z"/></g></svg></div>').appendTo($('body'));
-    (function() {
-    })();
-  $('.tap-top').on('click', function() {
-    $("html, body").animate({
-      scrollTop: 0
-    }, 600);
-    return false;
-  });
-
-  /*=====================
-     18. loader
-     ==========================*/
-
-  $('.loader-wrapper').fadeOut('slow', function() {
-    $(this).remove();
-  });
-
-  /*=====================
-   19. cart sidebar js
-   ==========================*/
-  function openCart() {
-    document.getElementById("cart_side").classList.add('open-side');
-  }
-
-  function closeCart() {
-    document.getElementById("cart_side").classList.remove('open-side');
-  }
-
-  $(window).on('scroll', function() {
-    if ($(this).scrollTop() > 800) {
-      $('.bottom-cart-sticky').addClass('open-cart');
-    } else {
-      $('.bottom-cart-sticky').removeClass('open-cart');
-    }
-  });
-
-    /*=============
-     23. Tooltip js
-    ===============*/
-    tippy('.tooltip-top', {
-      content: 'My tooltip!',
-      placement: 'top',
-    });
-
-    tippy('.tooltip-left', {
-      content: 'My tooltip!',
-      placement: 'left',
-    });
-
-    tippy('.tooltip-right', {
-      content: 'My tooltip!',
-      placement: 'right',
-    });
-
-    tippy('.tooltip-bottom', {
-      content: 'My tooltip!',
-      placement: 'bottom',
-    });
-
-
-    /*=====================
-     26. Cookiebar
-     ==========================*/
-    const apiUrl = 'https://yrg.ovh/mvc/controller/geoip.php';
-    const cookieName = 'EcommerceCookiePolicyInformed';
-    const cookieExpireDays = 365;
-
-    function setCookie(cname, cvalue, exdays)
-    {
-      let d = new Date();
-      d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-      var expires = "expires=" + d.toUTCString();
-      document.cookie = cname + "=" + cvalue + "; " + expires + "; path=/";
-    }
-
-    function getCookie(cname)
-    {
-      var name = cname + "=";
-      var ca = document.cookie.split(';');
-
-      for (var i = 0; i < ca.length; i++)
-      {
-        var c = ca[i];
-
-        while (c.charAt(0) == ' ')
-        {
-          c = c.substring(1);
-        }
-
-        if (c.indexOf(name) != -1)
-        {
-          return c.substring(name.length, c.length);
-        }
-      }
-      return "";
-    }
-
-    function showCookieNotice()
-    {
-      window.setTimeout(function(){
-          $(".cookie-bar").addClass('show')
-      }, 5000);
-
-      $('.cookie-bar .btn, .cookie-bar .btn-close').on('click', function(){
-          $(".cookie-bar").removeClass('show')
-      });
-    }
-
-    function needCookieNotice(callback)
-    {
-      function success(result)
-      {
-        // check result and if we're in the EU, then call callback
-        // from https://www.gov.uk/vat-eu-country-codes-vat-numbers-and-vat-in-other-languages
-        var EUCountryCodes = ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','EL','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE','ZZ'];
-
-        if (result)
-        {
-          var isoCode = (result + '').toUpperCase();
-
-          if (EUCountryCodes.indexOf(isoCode) != -1)
-          {
-            // cookie notice is needed, call callback
-            callback()
-          }
-        }
-        else
-        {
-          console.log("Result from API: '" + result + "'. Let's show the notice!");
-          callback();
-        }
-      }
-
-      function error(e)
-      {
-        // there was an error, since we don't know if we're in the EU
-        // the err on the safe side and show the message
-        if (console && console.log && typeof(console.log) == 'function')
-        {
-          console.log('GeoLoc: ' + e);
-        }
-        callback();
-      }
-
-      function getIsoCode(url)
-      {
-        $.get(
-          url,
-          function(data, statusText, xhr)
-          {
-            var status = xhr.status;
-
-            if (status == 200)
-            {
-              let response = xhr.responseJSON;
-              success(response.isoCode);
-            }
-            else
-            {
-              error('HTTP Status: ' + status);
-            }
-          },
-          'json'
-        );
-      };
-
-      getIsoCode(apiUrl);
-    }
-
-    try
-    {
-      if (!getCookie(cookieName))
-      {
-        needCookieNotice(function()
-        {
-          showCookieNotice();
-
-          $('.cookie-accept').click(function()
-          {
-            setCookie(cookieName, '1', cookieExpireDays);
-          });
-        });
-      }
-    }
-    catch(e){}
-})(jQuery);
+$(document).ready(function()
+{
+	// ************************************************
+	// Visibility of the search input if less than 1200px
+	// ************************************************
+
+	$('.search-overlay').hide();
+
+	$('.close-mobile-search').on('click', function()
+	{
+		$('.search-overlay').fadeOut();
+	});
+
+	$('.mobile-search').on('click', function()
+	{
+		$('.search-overlay').show();
+		$('.searchbar-input').addClass('open');
+	});
+
+	$('.close-searchbar').on('click', function()
+	{
+		$('.searchbar-input').removeClass('open');
+	});
+
+	// ************************************************
+	// Display sticky header
+	// ************************************************
+
+	$(window).scroll(function()
+	{
+		// Make the header sticky if we are x pixels down from the top of the page
+		if ($(this).scrollTop() > 200)
+		{
+			$('header').addClass('sticky');
+		}
+		else
+		{
+			$('header').removeClass('sticky');
+		}
+	});
+
+	// ************************************************
+	// Footer redesign on-the-fly
+	// ************************************************
+
+	if ($(window).width() < 767)
+	{
+		// On page load only...
+		$('.footer-title h5').append('<span class="according-menu"></span>');
+
+		$('.footer-title').on('click', function ()
+		{
+			$('.footer-title').removeClass('active');
+			$('.footer-content').slideUp('normal');
+
+			if ($(this).next().is(':hidden') == true)
+			{
+				$(this).addClass('active');
+				$(this).next().slideDown('normal');
+			}
+		});
+
+		$('.footer-content').hide();
+	}
+	else
+	{
+		$('.footer-content').show();
+	}
+
+	// ************************************************
+	// Categories listing from responsive
+	// ************************************************
+
+	$('.toggle-nav').on('click', function()
+	{
+		// Show categories in the right sidebar
+		$('.sm-horizontal').css('right', '0px');
+	});
+
+	$('.mobile-back').on('click', function()
+	{
+		// Hide categories in the right sidebar
+		$('.sm-horizontal').css('right', '-410px');
+	});
+
+	// ************************************************
+	// Smartmenus to show the categories with resolution
+	// less than 1200px in the right of the window
+	// ************************************************
+
+	$(function()
+	{
+		$('#main-menu').smartmenus({
+			subMenusSubOffsetX: 1,
+			subMenusSubOffsetY: -8
+		});
+	});
+
+	// ************************************************
+	// Cart effect on the cart 'svg' in 'Add to cart' button
+	// ************************************************
+
+	$('#cartEffect').on('click', function(e)
+	{
+		// Change button text
+		$('#cartEffect').html('<i class="fa fa-shopping-cart"></i> Ajouté au panier !');
+
+		// Reset text after x seconds
+		setTimeout(function()
+		{
+			$('#cartEffect').html('<i class="fa fa-shopping-cart"></i> Ajouter au panier');
+		}, 5000);
+	});
+
+	// ************************************************
+	// Categories listing - change design on-the-fly
+	// ************************************************
+
+	// List layout view
+	$('.list-layout-view').on('click', function(e)
+	{
+		// Hide all grid stuff
+		$('.collection-grid-view').children().css('opacity', '0');
+		$('.product-wrapper-grid').css('opacity', '0.2');
+		$('.shop-cart-ajax-loader').css('display', 'block');
+		$('.product-wrapper-grid').addClass('list-view');
+		$('.product-wrapper-grid').children().children().removeClass();
+		$('.product-wrapper-grid').children().children().addClass('col-lg-12');
+
+		setTimeout(function()
+		{
+			$('.product-wrapper-grid').css('opacity', '1');
+			$('.shop-cart-ajax-loader').css('display', 'none');
+		}, 500);
+	});
+
+	// Grid layout view - general
+	$('.grid-layout-view').on('click', function(e)
+	{
+		$('.collection-grid-view').children().css('opacity', '1');
+		$('.product-wrapper-grid').removeClass('list-view');
+		$('.product-wrapper-grid').children().children().removeClass();
+		$('.product-wrapper-grid').children().children().addClass('col-lg-3');
+	});
+
+	// Grid layout view - 2 products per line
+	$('.product-2-layout-view').on('click', function(e)
+	{
+		if (!$('.product-wrapper-grid').hasClass('list-view'))
+		{
+			$('.product-wrapper-grid').children().children().removeClass();
+			$('.product-wrapper-grid').children().children().addClass('col-lg-6');
+		}
+	});
+
+	// Grid layout view - 3 products per line
+	$('.product-3-layout-view').on('click', function(e)
+	{
+		if (!$('.product-wrapper-grid').hasClass("list-view"))
+		{
+			$('.product-wrapper-grid').children().children().removeClass();
+			$('.product-wrapper-grid').children().children().addClass('col-lg-4');
+		}
+	});
+
+	// Grid layout view - 4 products per line
+	$('.product-4-layout-view').on('click', function(e)
+	{
+		if (!$('.product-wrapper-grid').hasClass("list-view"))
+		{
+			$('.product-wrapper-grid').children().children().removeClass();
+			$('.product-wrapper-grid').children().children().addClass('col-lg-3');
+		}
+	});
+
+	// Grid layout view - 6 products per line
+	$('.product-6-layout-view').on('click', function(e)
+	{
+		if (!$('.product-wrapper-grid').hasClass('list-view'))
+		{
+			$('.product-wrapper-grid').children().children().removeClass();
+			$('.product-wrapper-grid').children().children().addClass('col-lg-2');
+		}
+	});
+
+	// ************************************************
+	// Update quantity on -/+ click
+	// ************************************************
+
+	var qtyDecs = document.querySelectorAll('.qty-minus');
+	var qtyIncs = document.querySelectorAll('.qty-plus');
+
+	qtyDecs.forEach((qtyDec) => {
+		qtyDec.addEventListener('click', function(e)
+		{
+			if (e.target.nextElementSibling.value == 1)
+			{
+				// If 1 was displayed, don't go to 0
+				e.target.nextElementSiblingValue = 1;
+			}
+			else if (e.target.nextElementSibling.value > 0)
+			{
+				// For each '-' click, decrement quantity value
+				e.target.nextElementSibling.value--;
+			}
+		});
+	});
+
+	qtyIncs.forEach((qtyDec) => {
+		qtyDec.addEventListener('click', function(e)
+		{
+			// For each '+' click, increment quantity value
+			e.target.previousElementSibling.value++;
+		});
+	});
+
+	// ************************************************
+	// Dashboard menu on resolution < 991px
+	// ************************************************
+
+	$('.account-sidebar').on('click', function(e)
+	{
+		$('.dashboard-left').css('left', '0');
+	});
+
+	$('.filter-back').on('click', function(e)
+	{
+		$('.dashboard-left').css('left', '-365px');
+	});
+
+	// ************************************************
+	// Slick bands on homepage for best sellers and new products
+	// ************************************************
+
+	$('.default').css('display', 'block');
+
+	$('.media-slide-5').slick({
+		autoplay: true,
+		autoplaySpeed: 1000,
+		dots: false,
+		infinite: true,
+		speed: 1000,
+		slidesToShow: 5,
+		centerPadding: '15px',
+		responsive: [
+			{
+			breakpoint: 1470,
+				settings: {
+					slidesToShow: 4,
+					slidesToScroll: 4,
+					infinite: true
+				}
+			},
+			{
+			breakpoint: 992,
+				settings: {
+					slidesToShow: 3,
+					slidesToScroll: 3,
+					infinite: true
+				}
+			},
+			{
+			breakpoint: 820,
+				settings: {
+					slidesToShow: 2,
+					slidesToScroll: 2,
+					infinite: true
+				}
+			},
+			{
+			breakpoint: 576,
+				settings: {
+					slidesToShow: 1,
+					slidesToScroll: 1,
+					infinite: true
+				}
+			}
+		]
+	});
+
+	// ************************************************
+	// Back to top
+	// ************************************************
+
+	$(window).on('scroll', function()
+	{
+		if ($(this).scrollTop() > 600)
+		{
+			$('.tap-top').addClass('top-cls');
+		}
+		else
+		{
+			$('.tap-top').removeClass('top-cls');
+		}
+	});
+
+	$('<div class="tap-top" style="display: block;"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 285 285" style="enable-background:new 0 0 285 285;" xml:space="preserve"><g><path d="M88.4,87.996c2.525-2.146,2.832-5.933,0.687-8.458C82.801,72.144,79.34,62.719,79.34,53c0-22.607,18.393-41,41-41c22.607,0,41,18.393,41,41c0,9.729-3.467,19.161-9.761,26.557c-2.148,2.523-1.843,6.311,0.681,8.458c1.129,0.961,2.511,1.431,3.886,1.431c1.698,0,3.386-0.717,4.572-2.111C168.858,77.77,173.34,65.576,173.34,53c0-29.225-23.775-53-53-53c-29.225,0-53,23.775-53,53c0,12.563,4.476,24.748,12.602,34.31C82.089,89.835,85.873,90.141,88.4,87.996z"/><path d="M120.186,41.201c13.228,0,23.812,8.105,27.313,19.879c0.761-2.562,1.176-5.271,1.176-8.08c0-15.649-12.685-28.335-28.335-28.335c-15.648,0-28.334,12.686-28.334,28.335c0,2.623,0.364,5.16,1.031,7.571C96.691,49.076,107.152,41.201,120.186,41.201z"/><path d="M234.21,169.856c-3.769-22.452-19.597-26.04-27.034-26.462c-2.342-0.133-4.516-1.32-5.801-3.282c-5.388-8.225-12.609-10.4-18.742-10.4c-4.405,0-8.249,1.122-10.449,1.932c-0.275,0.102-0.559,0.15-0.837,0.15c-0.87,0-1.701-0.47-2.163-1.262c-5.472-9.387-13.252-11.809-19.822-11.809c-3.824,0-7.237,0.82-9.548,1.564c-0.241,0.077-0.764,0.114-1.001,0.114c-1.256,0-2.637-1.03-2.637-2.376V69.753c0-11.035-8.224-16.552-16.5-16.552c-8.276,0-16.5,5.517-16.5,16.552v84.912c0,4.989-3.811,8.074-7.918,8.074c-2.495,0-4.899-1.138-6.552-3.678l-7.937-12.281c-3.508-5.788-8.576-8.188-13.625-8.189c-11.412-0.001-22.574,12.258-14.644,25.344l62.491,119.692c0.408,0.782,1.225,1.373,2.108,1.373h87.757c1.253,0,2.289-1.075,2.365-2.325l2.196-35.816c0.025-0.413,0.162-0.84,0.39-1.186C231.591,212.679,237.828,191.414,234.21,169.856z"/></g></svg></div>').appendTo($('body'));
+		(function() {
+		})();
+
+	$('.tap-top').on('click', function()
+	{
+		$('html, body').animate({
+			scrollTop: 0
+		}, 600);
+
+		return false;
+	});
+
+	// ************************************************
+	// Page loader
+	// ************************************************
+
+	$('.loader-wrapper').fadeOut('slow', function()
+	{
+		// Once the document is fully loaded, remove the loader
+		$(this).remove();
+	});
+
+	// ************************************************
+	// GDPR system
+	// ************************************************
+
+	const apiUrl = 'https://yrg.ovh/mvc/controller/geoip.php';
+	const cookieName = 'EcommerceCookiePolicyInformed';
+	const cookieExpireDays = 365;
+
+	// Creates cookie
+	function setCookie(cname, cvalue, exdays)
+	{
+		let d = new Date();
+		d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+		var expires = "expires=" + d.toUTCString();
+		document.cookie = cname + "=" + cvalue + "; " + expires + "; path=/";
+	}
+
+	// Gets the requested cookie content
+	function getCookie(cname)
+	{
+		var name = cname + "=";
+		var ca = document.cookie.split(';');
+
+		for (var i = 0; i < ca.length; i++)
+		{
+			var c = ca[i];
+
+			while (c.charAt(0) == ' ')
+			{
+				c = c.substring(1);
+			}
+
+			if (c.indexOf(name) != -1)
+			{
+				return c.substring(name.length, c.length);
+			}
+		}
+
+		return "";
+	}
+
+	// Displays the cookie notice
+	function showCookieNotice()
+	{
+		window.setTimeout(function()
+		{
+			$('.cookie-bar').addClass('show')
+		}, 5000);
+
+		$('.cookie-bar .btn, .cookie-bar .btn-close').on('click', function()
+		{
+			$('.cookie-bar').removeClass('show')
+		});
+	}
+
+	function needCookieNotice(callback)
+	{
+		function success(result)
+		{
+			// check result and if we're in the EU, then call callback
+			// from https://www.gov.uk/vat-eu-country-codes-vat-numbers-and-vat-in-other-languages
+			var EUCountryCodes = ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','EL','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE','ZZ'];
+
+			if (result)
+			{
+				var isoCode = (result + '').toUpperCase();
+
+				if (EUCountryCodes.indexOf(isoCode) != -1)
+				{
+					// cookie notice is needed, call callback
+					callback();
+				}
+			}
+			else
+			{
+				console.log("Result from API: '" + result + "'. Let's show the notice!");
+				callback();
+			}
+		}
+
+		function error(e)
+		{
+			// there was an error, since we don't know if we're in the EU
+			// the err on the safe side and show the message
+			if (console && console.log && typeof(console.log) == 'function')
+			{
+				console.log('GeoLoc error: ' + e);
+			}
+			callback();
+		}
+
+		function getIsoCode(url)
+		{
+			// Do an AJAX query to GeoIP2 to get the ISO code
+			$.get(
+				url,
+				function(data, statusText, xhr)
+				{
+					var status = xhr.status;
+
+					if (status == 200)
+					{
+						let response = xhr.responseJSON;
+						success(response.isoCode);
+					}
+					else
+					{
+						error('HTTP Status: ' + status);
+					}
+				},
+				'json'
+			);
+		};
+
+		getIsoCode(apiUrl);
+	}
+
+	try
+	{
+		if (!getCookie(cookieName))
+		{
+			// No cookie? display the notice
+			needCookieNotice(function()
+			{
+				showCookieNotice();
+
+				$('.cookie-accept').click(function()
+				{
+					// If accepted, create the cookie
+					setCookie(cookieName, '1', cookieExpireDays);
+				});
+			});
+		}
+	}
+	catch(e){}
+
+	// ************************************************
+	// Predictive search
+	// ************************************************
+
+	// Execute the requested code each time the pressed key in the search input is up'd
+	$('.autosuggest').keyup(function()
+	{
+		// Do the search only if there is any character - do nothing if all was removed
+		if ($(this).val().length >= 1)
+		{
+			// Get the search query
+			var search_term = $(this).val();
+
+			// Do the AJAX query
+			$.get(
+				'index.php?do=search',
+				{
+					query: search_term,
+					category: 0,
+					type: 'json'
+				},
+				function(data)
+				{
+					// On positive results, create the list of search results
+					let new_ul = [];
+
+					data.forEach(obj => {
+						new_ul.push(`<li class="list-group-item"><a href="index.php?do=viewproduct&id=${obj.id}">${obj.nom}</a></li>`);
+					})
+
+					$('.list-group').html(new_ul.join(''));
+					$('.list-group').removeClass('hide');
+				},
+				'json'
+			);
+		}
+		else
+		{
+			// Nothing in the search query, hide the search results list
+			$('.list-group').html('');
+			$('.list-group').addClass('hide');
+		}
+	});
+
+	$(document).click(function()
+	{
+		// If there is any click on the page out of the search results, hide results
+		if (!$('.autosuggest').is(':hover'))
+		{
+			$('.list-group').html('');
+			$('.list-group').addClass('hide');
+		}
+	})
+});
+
+// ************************************************
+// Functions to manage cart and account options visible or not
+// ************************************************
 
 function openCart()
 {
-  document.getElementById("cart_side").classList.add('open-side');
+	document.getElementById('cart_side').classList.add('open-side');
 }
 
 function closeCart()
 {
-  document.getElementById("cart_side").classList.remove('open-side');
+	document.getElementById('cart_side').classList.remove('open-side');
 }
 
 function openAccount()
 {
-  document.getElementById("myAccount").classList.add('open-side');
+	document.getElementById('myAccount').classList.add('open-side');
 }
 
 function closeAccount()
 {
-  document.getElementById("myAccount").classList.remove('open-side');
-}
-
-function openSetting()
-{
-  document.getElementById("mySetting").classList.add('open-side');
-}
-
-function closeSetting()
-{
-  document.getElementById("mySetting").classList.remove('open-side');
+	document.getElementById('myAccount').classList.remove('open-side');
 }
 
 // ************************************************
@@ -1029,146 +538,162 @@ function closeSetting()
 
 var shoppingCart = (function()
 {
-  // Private methods and properties
-  cart = [];
+	// Private methods and properties
+	cart = [];
 
-  // Constructor
-  function Item(name, price, count, photo, id)
-  {
-    this.name = name;
-    this.price = price;
-    this.count = parseInt(count);
-    this.photo = photo;
-    this.id = id;
-  }
+	// Constructor
+	function Item(name, price, count, photo, id)
+	{
+		this.name = name;
+		this.price = price;
+		this.count = parseInt(count);
+		this.photo = photo;
+		this.id = id;
+	}
 
-  // Save cart
-  function saveCart()
-  {
-    sessionStorage.setItem('shoppingCart', JSON.stringify(cart));
-  }
+	// Save cart
+	function saveCart()
+	{
+		sessionStorage.setItem('shoppingCart', JSON.stringify(cart));
+	}
 
-  // Load cart
-  function loadCart()
-  {
-    cart = JSON.parse(sessionStorage.getItem('shoppingCart'));
-  }
+	// Load cart
+	function loadCart()
+	{
+		cart = JSON.parse(sessionStorage.getItem('shoppingCart'));
+	}
 
-  if (sessionStorage.getItem('shoppingCart') != null)
-  {
-    loadCart();
-  }
+	if (sessionStorage.getItem('shoppingCart') != null)
+	{
+		loadCart();
+	}
 
-  // =============================
-  // Public methods and properties
-  // =============================
-  var obj = {};
+	// =============================
+	// Public methods and properties
+	// =============================
+	var obj = {};
 
-  // Add to cart
-  obj.addItemToCart = function(name, price, count, photo, id)
-  {
-    for (var item in cart)
-    {
-      if (cart[item].name === name)
-      {
-        cart[item].count ++;
-        saveCart();
-        return;
-      }
-    }
+	// Add new item to cart
+	obj.addNewItemToCart = function(name, price, count, photo, id)
+	{
+		for (var item in cart)
+		{
+			if (cart[item].name === name)
+			{
+				cart[item].count = parseInt(cart[item].count) + parseInt(count);
+				saveCart();
+				return;
+			}
+		}
 
-    var item = new Item(name, price, count, photo, id);
-    cart.push(item);
-    saveCart();
-  }
+		var item = new Item(name, price, count, photo, id);
+		cart.push(item);
+		saveCart();
+	}
 
-  // Set count from item
-  obj.setCountForItem = function(name, count)
-  {
-    for (var i in cart)
-    {
-      if (cart[i].name === name)
-      {
-        cart[i].count = count;
-        break;
-      }
-    }
-  }
+	// Add to cart
+	obj.addItemToCart = function(name)
+	{
+		for (var item in cart)
+		{
+			if (cart[item].name === name)
+			{
+				cart[item].count++;
+				saveCart();
+				return;
+			}
+		}
+	}
 
-  // Remove item from cart
-  obj.removeItemFromCart = function(name)
-  {
-    for (var item in cart)
-    {
-      if (cart[item].name === name)
-      {
-        cart[item].count --;
+	// Set count from item
+	obj.setCountForItem = function(name, count)
+	{
+		for (var i in cart)
+		{
+			if (cart[i].name === name)
+			{
+				cart[i].count = parseInt(cart[i].count) + parseInt(count);
+				break;
+			}
+		}
+	}
 
-        if (cart[item].count === 0)
-        {
-          cart.splice(item, 1);
-        }
-        break;
-      }
-    }
-    saveCart();
-  }
+	// Remove item from cart
+	obj.removeItemFromCart = function(name)
+	{
+		for (var item in cart)
+		{
+			if (cart[item].name === name)
+			{
+				cart[item].count --;
 
-  // Clear completely the cart - used when user has clicked on checkout and the order has been save in the db as not paid
-  obj.clearCart = function()
-  {
-    cart = [];
-    saveCart();
-  }
+				if (cart[item].count === 0)
+				{
+					cart.splice(item, 1);
+				}
+				break;
+			}
+		}
 
-  // Total count of items in cart
-  obj.totalCount = function()
-  {
-    var totalCount = 0;
+		saveCart();
+	}
 
-    for (var item in cart)
-    {
-      totalCount += cart[item].count;
-    }
+	// Clear completely the cart - used when user has clicked on checkout and the order has been save in the db as not paid
+	obj.clearCart = function()
+	{
+		cart = [];
+		saveCart();
+	}
 
-    return totalCount;
-  }
+	// Total count of items in cart
+	obj.totalCount = function()
+	{
+		var totalCount = 0;
 
-  // Total cart value
-  obj.totalCart = function()
-  {
-    var totalCart = 0;
+		for (var item in cart)
+		{
+			totalCount += cart[item].count;
+		}
 
-    for (var item in cart)
-    {
-      totalCart += cart[item].price * cart[item].count;
-    }
+		return totalCount;
+	}
 
-    return totalCart.toFixed(2);
-  }
+	// Total cart value
+	obj.totalCart = function()
+	{
+		var totalCart = 0;
 
-  // List cart
-  obj.listCart = function()
-  {
-    var cartCopy = [];
+		for (var item in cart)
+		{
+			totalCart += cart[item].price * cart[item].count;
+		}
 
-    for (i in cart)
-    {
-      item = cart[i];
-      itemCopy = {};
+		return totalCart.toFixed(2);
+	}
 
-      for (p in item)
-      {
-        itemCopy[p] = item[p];
-      }
+	// List cart
+	obj.listCart = function()
+	{
+		var cartCopy = [];
 
-      itemCopy.total = (item.price * item.count).toFixed(2);
-      cartCopy.push(itemCopy);
-    }
-    return cartCopy;
-  }
+		for (i in cart)
+		{
+			item = cart[i];
+			itemCopy = {};
 
-  return obj;
+			for (p in item)
+			{
+				itemCopy[p] = item[p];
+			}
+
+			itemCopy.total = (item.price * item.count).toFixed(2);
+			cartCopy.push(itemCopy);
+		}
+
+		return cartCopy;
+	}
+
+	return obj;
 })();
 
 // *****************************************
@@ -1178,204 +703,202 @@ var shoppingCart = (function()
 // Add item
 $('.add-to-cart').click(function(e)
 {
-  e.preventDefault();
-  var name = $(this).data('name');
-  var price = $(this).data('price');
-  var count = $('.qty-adj').val();
-  var photo = $(this).data('photo');
-  var id = $(this).data('id');
+	e.preventDefault();
 
-  shoppingCart.addItemToCart(name, price, count, photo, id);
-  displayCart();
+	// Get product informations
+	var name = $(this).data('name');
+	var price = $(this).data('price');
+	var count = $('.qty-adj').val();
+	var photo = $(this).data('photo');
+	var id = $(this).data('id');
+
+	// Add product into cart
+	shoppingCart.addNewItemToCart(name, price, count, photo, id);
+
+	// Update cart
+	displayCart();
 });
 
 function displayCart()
 {
-  var cartArray = shoppingCart.listCart();
-  var output1 = output2 = output3 = output4 = "";
+	var cartArray = shoppingCart.listCart();
+	var output1 = output2 = output3 = output4 = "";
 
-  for (var i in cartArray)
-  {
-    // Cart in top
-    output1 += "<li>"
-    + "<div class='media'>"
-    + "<a href='index.php?do=viewproduct&amp;id=" + cartArray[i].id + "'><img src='" + cartArray[i].photo + "' class='me-3' alt='" + cartArray[i].name + "' /></a>"
-    + "<div class='media-body'>"
-    + "<a href='index.php?do=viewproduct&amp;id=" + cartArray[i].id + "'><h4>" + cartArray[i].name + "</h4></a>"
-    + "<h6>" + cartArray[i].price + " &euro;</h6>"
-    + "<div class='addit-box'>"
-    + "<div class='qty-box'>"
-    + "<div class='input-group'>"
-    + "<button class='qty-minus' data-name='" + cartArray[i].name + "'></button>"
-    + "<input class='qty-adj form-control' type='number' value='" + cartArray[i].count + "' />"
-    + "<button class='qty-plus' data-name='" + cartArray[i].name + "'></button>"
-    + "</div>"
-    + "</div>"
-    + "<div class='pro-add'>"
-    + "<a href='#' data-bs-toggle='modal' data-bs-target='#edit-product'><i data-feather='edit'></i></a>"
-    + "<a href='#'><i data-feather='trash-2'></i></a>"
-    + "</div>"
-    + "</div>"
-    + "</div>"
-    + "</li>";
+	for (var i in cartArray)
+	{
+		// Cart in top
+		output1 += "<li>"
+		+ "<div class='media'>"
+		+ "<a href='index.php?do=viewproduct&amp;id=" + cartArray[i].id + "'><img src='" + cartArray[i].photo + "' class='me-3' alt='" + cartArray[i].name + "' /></a>"
+		+ "<div class='media-body'>"
+		+ "<a href='index.php?do=viewproduct&amp;id=" + cartArray[i].id + "'><h4>" + cartArray[i].name + "</h4></a>"
+		+ "<h6>" + cartArray[i].price + " &euro;</h6>"
+		+ "<div class='addit-box'>"
+		+ "<div class='qty-box'>"
+		+ "<div class='input-group'>"
+		+ "<button class='qty-minus' data-name='" + cartArray[i].name + "'></button>"
+		+ "<input type='number' name='quantity' class='qty-adj form-control' value='" + cartArray[i].count + "' />"
+		+ "<button class='qty-plus' data-name='" + cartArray[i].name + "'></button>"
+		+ "</div>"
+		+ "</div>"
+		+ "</div>"
+		+ "</div>"
+		+ "</li>";
 
-    // Cart page
-    output2 += "<tr>"
-    + "<td>"
-    + "<a href='index.php?do=viewproduct&amp;id=" + cartArray[i].id + "'>"
-    + "<img src='" + cartArray[i].photo + "' alt='" + cartArray[i].name + "' class='' />"
-    + "</a>"
-    + "</td>"
-    + "<td><a href='index.php?do=viewproduct&amp;id=" + cartArray[i].id + "'>" + cartArray[i].name + "</a>"
-    + "<div class='mobile-cart-content'>"
-    + "<div class='col-xs-3'>"
-    + "<div class='qty-box'>"
-    + "<div class='input-group'>"
-    + "<input type='text' name='quantity' class='form-control input-number' value='" + cartArray[i].count + "' disabled />"
-    + "</div>"
-    + "</div>"
-    + "</div>"
-    + "<div class='col-xs-3'>"
-    + "<h2 class='td-color'>" + cartArray[i].price + " &euro;</h2>"
-    + "</div>"
-    + "</div>"
-    + "</td>"
-    + "<td>"
-    + "<h2>" + cartArray[i].price + " &euro;</h2>"
-    + "</td>"
-    + "<td>"
-    + "<div class='qty-box'>"
-    + "<div class='input-group'>"
-    + "<input type='number' name='quantity' class='form-control input-number' value='" + cartArray[i].count + "' disabled />"
-    + "</div>"
-    + "</div>"
-    + "</td>"
-    + "<td>"
-    + "<h2 class='td-color'>" + (cartArray[i].price * cartArray[i].count).toFixed(2) + " &euro;</h2>"
-    + "<input type='hidden' name='id' value='" + cartArray[i].id + "' />"
-    + "</td>"
-    + "</tr>";
+		// Cart page
+		output2 += "<tr>"
+		+ "<td>"
+		+ "<a href='index.php?do=viewproduct&amp;id=" + cartArray[i].id + "'>"
+		+ "<img src='" + cartArray[i].photo + "' alt='" + cartArray[i].name + "' class='' />"
+		+ "</a>"
+		+ "</td>"
+		+ "<td><a href='index.php?do=viewproduct&amp;id=" + cartArray[i].id + "'>" + cartArray[i].name + "</a>"
+		+ "<div class='mobile-cart-content'>"
+		+ "<div class='col-xs-3'>"
+		+ "<div class='qty-box'>"
+		+ "<div class='input-group'>"
+		+ "<button class='qty-minus' data-name='" + cartArray[i].name + "'></button>"
+		+ "<input type='number' class='qty-adj form-control' value='" + cartArray[i].count + "' data-name='" + cartArray[i].name + "' />"
+		+ "<button class='qty-plus' data-name='" + cartArray[i].name + "'></button>"
+		+ "</div>"
+		+ "</div>"
+		+ "</div>"
+		+ "<div class='col-xs-3'>"
+		+ "<h2 class='td-color'>" + cartArray[i].price + " &euro;</h2>"
+		+ "</div>"
+		+ "</div>"
+		+ "<div class='mobile-cart-content'>"
+		+ "<div class='col-xs-3'>"
+		+ "<h2 class='total-color'>Total :</h2>"
+		+ "</div>"
+		+ "<div class='col-xs-3'>"
+		+ "<h2 class='td-color'>" + (cartArray[i].price * cartArray[i].count).toFixed(2) + " &euro;</h2>"
+		+ "</div>"
+		+ "</div>"
+		+ "</td>"
+		+ "<td>"
+		+ "<h2>" + cartArray[i].price + " &euro;</h2>"
+		+ "</td>"
+		+ "<td>"
+		+ "<div class='qty-box'>"
+		+ "<div class='input-group'>"
+		+ "<button class='qty-minus' data-name='" + cartArray[i].name + "'></button>"
+		+ "<input type='number' class='qty-adj form-control' value='" + cartArray[i].count + "' data-name='" + cartArray[i].name + "' />"
+		+ "<button class='qty-plus' data-name='" + cartArray[i].name + "'></button>"
+		+ "</div>"
+		+ "</div>"
+		+ "</td>"
+		+ "<td>"
+		+ "<h2 class='td-color'>" + (cartArray[i].price * cartArray[i].count).toFixed(2) + " &euro;</h2>"
+		+ "<input type='hidden' name='id' value='" + cartArray[i].id + "' />"
+		+ "</td>"
+		+ "</tr>";
 
-    // Checkout page
-    output3 += "<li>" + cartArray[i].name + " x " + cartArray[i].count + "<span>" + (cartArray[i].price * cartArray[i].count).toFixed(2) + " &euro;</span></li>"
+		// Checkout page
+		output3 += "<li>" + cartArray[i].name + " x " + cartArray[i].count + "<span>" + (cartArray[i].price * cartArray[i].count).toFixed(2) + " &euro;</span></li>"
 
-    // Payment page, to have informations to enter into order details
-    output4 += "<input type='hidden' name='item[" + i + "][id]' value='" + cartArray[i].id + "' />"
-    + "<input type='hidden' name='item[" + i + "][price]' value='" + cartArray[i].price + "' />"
-    + "<input type='hidden' name='item[" + i + "][quantity]' value='" + cartArray[i].count + "' />";
-  }
+		// Payment page, to have informations to enter into order details
+		output4 += "<input type='hidden' name='item[" + i + "][id]' value='" + cartArray[i].id + "' />"
+		+ "<input type='hidden' name='item[" + i + "][price]' value='" + cartArray[i].price + "' />"
+		+ "<input type='hidden' name='item[" + i + "][quantity]' value='" + cartArray[i].count + "' />";
+	}
 
-  // Cart in top sidebar
-  $('.cart_product').html(output1);
+	// Cart in top sidebar
+	$('.cart_product').html(output1);
 
-  // Full cart page
-  $('.cart_list').html(output2);
+	// Full cart page
+	$('.cart_list').html(output2);
 
-  // List of products in checkout
-  $('.qty').html(output3);
+	// List of products in checkout
+	$('.qty').html(output3);
 
-  // Value of each item and their quantities from sessionStorage to HTML/PHP form
-  $('.hiddeninput').html(output4);
+	// Value of each item and their quantities from sessionStorage to HTML/PHP form
+	$('.hiddeninput').html(output4);
 
-  // Total price everywhere
-  $('.total-cart').html(shoppingCart.totalCart() + ' &euro;');
+	// Total price everywhere
+	$('.total-cart').html(shoppingCart.totalCart() + ' &euro;');
 
-  // Add total price value in hidden field for the payment process
-  $('.novisibleprice').val(shoppingCart.totalCart());
+	// Add total price value in hidden field for the payment process
+	$('.novisibleprice').val(shoppingCart.totalCart());
 
-  // Number of items in the cart
-  $('.total-count').html(shoppingCart.totalCount());
+	// Number of items in the cart
+	$('.total-count').html(shoppingCart.totalCount());
 
-  // Define an other way to interact if there is 0 items in the cart
-  if (shoppingCart.totalCount() === 0)
-  {
-    // Cart in top sidebar
-    $('.cart_product').html('<li class="emptycart text-center">Vous n\'avez aucun produit dans votre panier.</li>');
+	// Define an other way to interact if there is 0 items in the cart
+	if (shoppingCart.totalCount() === 0)
+	{
+		// Cart in top sidebar
+		$('.cart_product').html('<li class="emptycart text-center">Vous n\'avez aucun produit dans votre panier.</li>');
 
-    // Full cart page
-    $('.cart_list').html('<tr><td colspan="5">Vous n\'avez aucun produit dans votre panier.</td></tr>');
+		// Full cart page
+		$('.cart_list').html('<tr><td colspan="5">Vous n\'avez aucun produit dans votre panier.</td></tr>');
 
-    // Button to place order
-    $('.submitcheckoutbutton').attr('disabled', true);
+		// Button to place order
+		$('.submitcheckoutbutton').attr('disabled', true);
 
-    // List of products in checkout
-    $('.qty').html('<li>Vous n\'avez pas d\'articles dans votre panier, vous ne pouvez pas procéder au paiement.</li>');
+		// List of products in checkout
+		$('.qty').html('<li>Vous n\'avez pas d\'articles dans votre panier, vous ne pouvez pas procéder au paiement.</li>');
 
-    // Deliver list in checkout
-    $('#deliver').attr('disabled', true);
-  }
+		// Deliver list in checkout
+		$('#deliver').attr('disabled', true);
+
+		// Deliver mode in checkout
+		$('#delivermode').attr('disabled', true);
+	}
 }
+
+// Cart popup
 
 // -1 item count
 $('.cart_product').on('click', '.qty-minus', function(e)
 {
-  var name = $(this).data('name');
-  shoppingCart.removeItemFromCart(name);
-  displayCart();
-})
+	var name = $(this).data('name');
+	shoppingCart.removeItemFromCart(name);
+	displayCart();
+});
 
 // +1 item count
 $('.cart_product').on('click', '.qty-plus', function(e)
 {
-  var name = $(this).data('name');
-  shoppingCart.addItemToCart(name);
-  displayCart();
-})
+	var name = $(this).data('name');
+	shoppingCart.addItemToCart(name);
+	displayCart();
+});
 
 // Item count input
 $('.cart_product').on('change', '.qty-adj', function(e)
 {
-  var name = $(this).data('name');
-  var count = Number($(this).val());
-  shoppingCart.setCountForItem(name, count);
-  displayCart();
-})
+	var name = $(this).data('name');
+	var count = Number($(this).val());
+	shoppingCart.setCountForItem(name, count);
+	displayCart();
+});
+
+// Cart page
+
+// -1 item count
+$('.cart_list').on('click', '.qty-minus', function(e)
+{
+	var name = $(this).data('name');
+	shoppingCart.removeItemFromCart(name);
+	displayCart();
+});
+
+// +1 item count
+$('.cart_list').on('click', '.qty-plus', function(e)
+{
+	var name = $(this).data('name');
+	shoppingCart.addItemToCart(name);
+	displayCart();
+});
+
+// Item count input
+$('.cart_list').on('change', '.qty-adj', function(e)
+{
+	var name = $(this).data('name');
+	var count = Number($(this).val());
+	shoppingCart.setCountForItem(name, count);
+	displayCart();
+});
 
 displayCart();
-
-
-// Autosuggest search results
-$(document).ready(function()
-{
-  $('.autosuggest').keyup(function()
-  {
-    if ($(this).val().length >= 1)
-    {
-      var search_term = $(this).val();
-
-      $.get(
-        'index.php?do=search',
-        {
-          query: search_term,
-          category: 0,
-          type: 'json'
-        },
-        function(data)
-        {
-          let new_ul = [];
-
-          data.forEach(obj => {
-            new_ul.push(`<li class="list-group-item"><a href="index.php?do=viewproduct&id=${obj.id}">${obj.nom}</a></li>`);
-          })
-
-          $('.list-group').html(new_ul.join(""));
-          $('.list-group').removeClass('hide');
-        },
-        'json'
-      );
-    }
-    else
-    {
-      $('.list-group').html('');
-      $('.list-group').addClass('hide');
-    }
-  });
-  $(document).click(function()
-  {
-    if (!$('.autosuggest').is(":hover"))
-    {
-      $('.list-group').html('');
-      $('.list-group').addClass('hide');
-    }
-  })
-});
