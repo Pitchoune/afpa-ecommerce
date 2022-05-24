@@ -721,25 +721,7 @@ class ViewCustomer
 			// Number max per page
 			$perpage = 10;
 
-			Utils::sanitize_pageresults($totalorders['nborders'], $pagenumber, $perpage, 200, 20);
-
-			$limitlower = ($pagenumber - 1) * $perpage;
-			$limitupper = ($pagenumber) * $perpage;
-
-			if ($limitupper > $totalorders['nborders'])
-			{
-				$limitupper = $totalorders['nborders'];
-
-				if ($limitlower > $totalorders['nborders'])
-				{
-					$limitlower = ($totalorders['nborders'] - $perpage) - 1;
-				}
-			}
-
-			if ($limitlower < 0)
-			{
-				$limitlower = 0;
-			}
+			$limitlower = Utils::define_pagination_values($totalorders['nborders'], $pagenumber, $perpage);
 
 			$orders = $orderlist->getAllCustomerOrders($limitlower, $perpage);
 		}
@@ -1043,25 +1025,7 @@ class ViewCustomer
 			// Number max per page
 			$perpage = 10;
 
-			Utils::sanitize_pageresults($totalmessages['nbmessages'], $pagenumber, $perpage, 200, 20);
-
-			$limitlower = ($pagenumber - 1) * $perpage;
-			$limitupper = ($pagenumber) * $perpage;
-
-			if ($limitupper > $totalmessages['nbmessages'])
-			{
-				$limitupper = $totalmessages['nbmessages'];
-
-				if ($limitlower > $totalmessages['nbmessages'])
-				{
-					$limitlower = ($totalmessages['nbmessages'] - $perpage) - 1;
-				}
-			}
-
-			if ($limitlower < 0)
-			{
-				$limitlower = 0;
-			}
+			$limitlower = Utils::define_pagination_values($totalmessages['nbmessages'], $pagenumber, $perpage);
 
 			$messages = $messagelist->getAllMessagesFromCustomer($limitlower, $perpage);
 
@@ -1092,8 +1056,8 @@ class ViewCustomer
 										<table class="table cart-table table-responsive-xs">
 											<thead>
 											<tr class="table-head">
-												<th scope="col">message</th>
-												<th scope="col">état</th>
+												<th scope="col">Message</th>
+												<th scope="col">État</th>
 											</tr>
 											</thead>
 											<tbody>
@@ -1128,10 +1092,10 @@ class ViewCustomer
 										</table>
 									</div>
 								</div>
+								<?php
+								Utils::construct_page_nav($pagenumber, $perpage, $totalmessages['nbmessages'], 'index.php?do=viewmessages', 'front');
+								?>
 							</div>
-							<?php
-							Utils::construct_page_nav($pagenumber, $perpage, $totalmessages['nbmessages'], 'index.php?do=viewmessages', 'front');
-							?>
 						</section>
 						<!--section end-->
 

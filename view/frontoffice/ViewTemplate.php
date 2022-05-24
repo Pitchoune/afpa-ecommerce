@@ -24,21 +24,21 @@ class ViewTemplate
 		<link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-		<!-- Google fonts -->
+		<!-- google fonts -->
 		<link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&display=swap" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
 
-		<!-- Font awesome css -->
+		<!-- font awesome css -->
 		<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
 
-		<!-- Slick slider css -->
+		<!-- slick slider css -->
 		<link rel="stylesheet" type="text/css" href="assets/css/slick.css">
 		<link rel="stylesheet" type="text/css" href="assets/css/slick-theme.css">
 
-		<!-- Bootstrap css -->
+		<!-- bootstrap css -->
 		<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
 
-		<!-- Theme css -->
+		<!-- theme css -->
 		<link rel="stylesheet" type="text/css" href="assets/css/style.css" media="screen" id="color">
 		<?php
 	}
@@ -53,22 +53,31 @@ class ViewTemplate
 		global $config;
 
 		$categories = new ModelCategory($config);
-		$listcategories = $categories->listAllCategories();
+		$listcategories = $categories->listAllCategoriesWithoutParents();
 
-		// Create 2 lists of categories without the same values to fill a 'more categories' part with a link to display them.
-		$category1 = $category2 = '';
+		// Create a list of categories without parents as root categories.
+		$category = '';
 
-		for ($i = 0; $i < (count($listcategories) <= 9 ? count($listcategories) : 9); $i++)
+		foreach ($listcategories AS $cat1)
 		{
-			$category1 .= '<li> <a href="index.php?do=viewcategory&amp;id=' . $listcategories[$i]['id'] . '"><img src="assets/images/layout-1/nav-img/0' . ($i + 1) . '.png" alt="category-product"> ' . $listcategories[$i]['nom'] .'</a></li>';
-		}
+			$category .= '<li><a class="dark-item-menu" href="index.php?do=viewcategory&amp;id=' . $cat1['id'] . '">' . $cat1['nom'] .'</a>';
 
-		if (isset($listcategories) AND count($listcategories) > 10)
-		{
-			for ($i = 10; $i < count($listcategories); $i++)
+			$categories->set_parentid($cat1['id']);
+			$listsubcategories = $categories->listChildrenCategoryInfos();
+
+			if ($listsubcategories)
 			{
-				$category2 .= '<li> <a href="index.php?do=viewcategory&amp;id=' . $listcategories[$i]['id'] . '"><img src="assets/images/layout-1/nav-img/' . ($i + 1) . '.png" alt="category-product"> ' . $listcategories[$i]['nom'] .'</a></li>';
+				$category .= '<ul>';
+
+				foreach ($listsubcategories AS $cat2)
+				{
+					$category .= '<li><a href="index.php?do=viewcategory&amp;id=' . $cat2['id'] . '">' . $cat2['nom'] .'</a>';
+				}
+
+				$category .= '</ul>';
 			}
+
+			$category .= '</li>';
 		}
 
 		?>
@@ -202,30 +211,7 @@ class ViewTemplate
 											<li>
 												<div class="mobile-back text-right">Fermer<i class="fa fa-angle-right ps-2" aria-hidden="true"></i></div>
 											</li>
-											<li>
-												<a class="dark-menu-item" href="#">NES</a>
-											</li>
-											<li>
-												<a class="dark-menu-item" href="#">SNES</a>
-											</li>
-											<li>
-												<a class="dark-menu-item" href="#">N64</a>
-											</li>
-											<li>
-												<a class="dark-menu-item" href="#">GameCube</a>
-											</li>
-											<li>
-												<a class="dark-menu-item" href="#">Wii</a>
-											</li>
-											<li>
-												<a class="dark-menu-item" href="#">Wii U</a>
-											</li>
-											<li>
-												<a class="dark-menu-item" href="#">Switch</a>
-											</li>
-											<li>
-												<a class="dark-menu-item" href="#">Minis</a>
-											</li>
+											<?= $category ?>
 										</ul>
 									</nav>
 								</div>
@@ -519,9 +505,9 @@ class ViewTemplate
 
 		<!-- cookie bar -->
 		<div class="cookie-bar">
-			<p>We use cookies to improve our site and your shopping experience. By continuing to browse our site you accept our cookie policy.</p>
-			<a href="javascript:void(0)" class="btn btn-solid btn-xs cookie-accept">accept</a>
-			<a href="javascript:void(0)" class="btn btn-solid btn-xs">decline</a>
+			<p>Nous utilisons des cookies pour améliorer notre site ainsi que votre expérience d'achat. En continuant, vous acceptez notre politique sur les cookies.</p>
+			<a href="javascript:void(0)" class="btn btn-solid btn-xs cookie-accept">Accepter</a>
+			<a href="javascript:void(0)" class="btn btn-solid btn-xs">Refuser</a>
 		</div>
 		<!-- / cookie bar -->
 
@@ -539,6 +525,9 @@ class ViewTemplate
 
 		<!-- font awesome js -->
 		<script src="assets/js/fontawesome.js"></script>
+
+		<!-- bootstrap-notify js -->
+		<script src="assets/js/bootstrap-notify.min.js"></script>
 
 		<!-- theme js-->
 		<script src="assets/js/script.js"></script>

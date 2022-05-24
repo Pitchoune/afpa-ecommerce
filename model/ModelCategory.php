@@ -26,19 +26,28 @@ class ModelCategory extends Model
 	private $name;
 
 	/**
+	 * The parent ID of the category.
+	 *
+	 * @var integer
+	 */
+	private $parent_id;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param array $config Database informations.
 	 * @param integer $id The ID of the category.
 	 * @param string $name The name of the category.
+	 * @param integer $parent_id Parent ID of the category.
 	 *
 	 * @return void
 	 */
-	public function __construct($config, $id = null, $name = null)
+	public function __construct($config, $id = null, $name = null, $parent_id = null)
 	{
 		$this->config = $config;
 		$this->id = $id;
 		$this->name = $name;
+		$this->parent_id = $parent_id;
 	}
 
 	/**
@@ -52,6 +61,24 @@ class ModelCategory extends Model
 		$query = $db->prepare("
 			SELECT *
 			FROM categorie
+		");
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
+	 * Returns an array of all categories without parents.
+	 *
+	 * @return array Categories informations.
+	 */
+	public function listAllCategoriesWithoutParents()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT *
+			FROM categorie
+			WHERE parent_id IS NULL
 		");
 
 		$query->execute();
@@ -116,13 +143,31 @@ class ModelCategory extends Model
 	}
 
 	/**
+	 * Returns the informations of the children categories.
+	 *
+	 * @return array Informations of the category.
+	 */
+	public function listChildrenCategoryInfos()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT *
+			FROM categorie
+			WHERE parent_id = ?
+		");
+		$query->bindParam(1, $this->parent_id, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
 	 * Saves the existing specified category with updated data.
 	 *
 	 * @return void
 	 */
 	public function saveEditCategory()
 	{
-
 		$db = $this->dbConnect();
 		$query = $db->prepare("
 			UPDATE categorie SET
@@ -241,6 +286,18 @@ class ModelCategory extends Model
 	}
 
 	/**
+	 * Defines the parent ID.
+	 *
+	 * @param string $parent_id Parent ID of the category.
+	 *
+	 * @return void
+	 */
+	public function set_parentid($parent_id)
+	{
+		$this->parent_id = $parent_id;
+	}
+
+	/**
 	 * Returns the ID of the category.
 	 *
 	 * @return integer ID of the category.
@@ -258,5 +315,15 @@ class ModelCategory extends Model
 	public function get_name()
 	{
 		return $this->name;
+	}
+
+	/**
+	 * Returns the parent ID of the category.
+	 *
+	 * @return string Name of the category.
+	 */
+	public function get_parentid()
+	{
+		return $this->parent_id;
 	}
 }

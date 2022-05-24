@@ -156,16 +156,50 @@ class Utils
 	 *
 	 * @return voir
 	 */
-	public static function printr($value, $exit = 0)
+	public static function printr($value, $exit = false)
 	{
 		echo '<div><pre>';
 		print_r($value);
 		echo '</pre></div>';
 
-		if ($exit == 1)
+		if ($exit)
 		{
 			exit;
 		}
+	}
+
+	/**
+	 * Defines the limit lower for the query for the pagination.
+	 *
+	 * @param integer $totalitems Total number of items in the database.
+	 * @param integer $pagenumber Number of the current page.
+	 * @param integer $perpage Number of items per page to display
+	 *
+	 * @return integer Lower limit value to query the database for pagination.
+	 */
+	public static function define_pagination_values($totalitems, $pagenumber = 1, $perpage = 20)
+	{
+		Utils::sanitize_pageresults($totalitems, $pagenumber, $perpage, 200, 20);
+
+		$limitlower = ($pagenumber - 1) * $perpage;
+		$limitupper = ($pagenumber) * $perpage;
+
+		if ($limitupper > $totalitems)
+		{
+			$limitupper = $totalitems;
+
+			if ($limitlower > $totalitems)
+			{
+				$limitlower = ($totalitems - $perpage) - 1;
+			}
+		}
+
+		if ($limitlower < 0)
+		{
+			$limitlower = 0;
+		}
+
+		return $limitlower;
 	}
 
 	/**

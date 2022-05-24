@@ -3457,6 +3457,7 @@ footer .subfooter.footer-border {
     font-size: 14px;
     font-weight: 400;
     padding: 5px 25px;
+    text-transform: none;
   }
   .categories-menu ul a:hover:before, .categories-menu ul a:hover:hover:before, .categories-menu ul a:focus:hover:before, .categories-menu ul a:active:hover:before, .categories-menu ul a.highlighted:hover:before {
     width: 50px;

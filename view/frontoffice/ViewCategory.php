@@ -34,25 +34,7 @@ class ViewCategory
 		// Number max per page
 		$perpage = 24;
 
-		Utils::sanitize_pageresults($totalproducts['nbproducts'], $pagenumber, $perpage, 200, 20);
-
-		$limitlower = ($pagenumber - 1) * $perpage;
-		$limitupper = ($pagenumber) * $perpage;
-
-		if ($limitupper > $totalproducts['nbproducts'])
-		{
-			$limitupper = $totalproducts['nbproducts'];
-
-			if ($limitlower > $totalproducts['nbproducts'])
-			{
-				$limitlower = ($totalproducts['nbproducts'] - $perpage) - 1;
-			}
-		}
-
-		if ($limitlower < 0)
-		{
-			$limitlower = 0;
-		}
+		$limitlower = Utils::define_pagination_values($totalproducts['nbproducts'], $pagenumber, $perpage);
 
 		$category = $categories->listCategoryInfos();
 		$product = $products->getSomeProductsForSpecificCategory($limitlower, $perpage);

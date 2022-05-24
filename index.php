@@ -8,7 +8,7 @@ error_reporting(E_ALL & ~E_NOTICE);
 
 // Sanitize do= values, others required per page are sanitized when necessary
 $do = isset($_REQUEST['do']) ? filter_var($_REQUEST['do'], FILTER_SANITIZE_STRING) : NULL;
-	$pagenumber = isset($_REQUEST['page']) ? filter_var($_REQUEST['page'], FILTER_VALIDATE_INT) : NULL;
+$pagenumber = isset($_REQUEST['page']) ? filter_var($_REQUEST['page'], FILTER_VALIDATE_INT) : intval(1);
 
 // Force to go to the index if there is no routing defined
 if (empty($do) OR !isset($do))
