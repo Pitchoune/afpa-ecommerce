@@ -436,18 +436,53 @@ class ModelProduct extends Model
 	 *
 	 * @return mixed Array of data if found or false if there is nothing found.
 	 */
-	public function getSomeProductsForSpecificCategory($limitlower, $perpage)
+	public function getSomeProductsForSpecificCategory($limitlower, $perpage, $sortby)
 	{
+		$pp = $this->white_list($perpage, [24, 50, 100], 'Le nombre de produits par page n\'est pas valide.');
+		$direction = $this->white_list($sortby, ['ASC', 'DESC'], 'L\'ordre de tri n\'est pas valide.');
+
 		$db = $this->dbConnect($config);
 		$query = $db->prepare("
 			SELECT *
 			FROM produit
 			WHERE id_categorie = ?
+			ORDER BY nom $direction
 			LIMIT ?, ?
 		");
 		$query->bindParam(1, $this->id_category, \PDO::PARAM_INT);
 		$query->bindParam(2, $limitlower, \PDO::PARAM_INT);
-		$query->bindParam(3, $perpage, \PDO::PARAM_INT);
+		$query->bindParam(3, $pp, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
+	 * Returns some of the products following the defined limit.
+	 *
+	 * @param string $idslist List of child categories to get products.
+	 * @param integer $limitlower Minimum value for the limit.
+	 * @param integer $perpage Number of items to return.
+	 * @param string $sortby Direction to sort data.
+	 *
+	 * @return mixed Array of data if found or false if there is nothing found.
+	 */
+	public function getSomeProductsForSpecificCategories($idslist, $limitlower, $perpage, $sortby)
+	{
+		$pp = $this->white_list($perpage, [24, 50, 100], 'Le nombre de produits par page n\'est pas valide.');
+		$direction = $this->white_list($sortby, ['ASC', 'DESC'], 'L\'ordre de tri n\'est pas valide.');
+
+		$db = $this->dbConnect($config);
+		$query = $db->prepare("
+			SELECT *
+			FROM produit
+			WHERE find_in_set(cast(id_categorie AS char), :idslist)
+			ORDER BY nom $direction
+			LIMIT :limitlower, :perpage
+		");
+		$query->bindParam(':idslist', $idslist, \PDO::PARAM_STR);
+		$query->bindParam(':limitlower', $limitlower, \PDO::PARAM_INT);
+		$query->bindParam(':perpage', $pp, \PDO::PARAM_INT);
 
 		$query->execute();
 		return $query->fetchAll();

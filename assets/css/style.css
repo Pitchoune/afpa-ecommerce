@@ -316,7 +316,7 @@ header {
   background-color: #ffffff;
   border-bottom: 1px solid #dddddd;
 }
-.sticky .category-header .menu-block .dark-menu-item {
+.sticky .category-header .menu-block .dark-item-menu {
   padding-top: 5px !important;
   padding-bottom: 5px !important;
 }
@@ -355,7 +355,7 @@ header {
   width: 15px;
   height: 15px;
 }
-.sticky .category-header .navbar-menu .menu-block .categories-menu .dark-menu-item {
+.sticky .category-header .navbar-menu .menu-block .categories-menu .dark-item-menu {
   color: #303030;
 }
 .sticky .category-header .navbar-menu .category-right {
@@ -457,7 +457,7 @@ header {
 .category-header .navbar-menu .menu-block .categories-menu li .label-nav:before {
   border-top: 5px solid #e60012;
 }
-.category-header .navbar-menu .menu-block .categories-menu .dark-menu-item {
+.category-header .navbar-menu .menu-block .categories-menu .dark-item-menu {
   padding-top: 25px;
   padding-bottom: 25px;
   color: #FFFFFF;
@@ -3371,6 +3371,20 @@ footer .subfooter.footer-border {
 .categories-menu a:hover {
   color: #e60012;
 }
+.categories-menu a .sub-arrow {
+  position: absolute;
+  top: 50%;
+  margin-top: -16px;
+  left: auto;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  overflow: hidden;
+  font: bold 0.5 monospace !important;
+  text-align: center;
+  text-shadow: none;
+  border-radius: 8px;
+}
 .categories-menu > li:last-child > a, .categories-menu > li:last-child > *:not(ul) a, .categories-menu > li:last-child > ul, .categories-menu > li:last-child > ul > li:last-child > a, .categories-menu > li:last-child > ul > li:last-child > *:not(ul) a, .categories-menu > li:last-child > ul > li:last-child > ul, .categories-menu > li:last-child > ul > li:last-child > ul > li:last-child > a, .categories-menu > li:last-child > ul > li:last-child > ul > li:last-child > *:not(ul) a, .categories-menu > li:last-child > ul > li:last-child > ul > li:last-child > ul, .categories-menu > li:last-child > ul > li:last-child > ul > li:last-child > ul > li:last-child > a, .categories-menu > li:last-child > ul > li:last-child > ul > li:last-child > ul > li:last-child > *:not(ul) a, .categories-menu > li:last-child > ul > li:last-child > ul > li:last-child > ul > li:last-child > ul, .categories-menu > li:last-child > ul > li:last-child > ul > li:last-child > ul > li:last-child > ul > li:last-child > a, .categories-menu > li:last-child > ul > li:last-child > ul > li:last-child > ul > li:last-child > ul > li:last-child > *:not(ul) a, .categories-menu > li:last-child > ul > li:last-child > ul > li:last-child > ul > li:last-child > ul > li:last-child > ul {
   border-radius: 0 0 0 0;
 }
@@ -3426,10 +3440,6 @@ footer .subfooter.footer-border {
     width: 14em !important;
     padding: 15px 0px 15px 0px;
     background: #ffffff;
-    border: 5px solid #f2f8f9;
-  }
-  .categories-menu ul ul {
-    background: white;
     border: 5px solid #f2f8f9;
   }
   .categories-menu ul li {
@@ -3514,6 +3524,40 @@ footer .subfooter.footer-border {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+  }
+
+  .categories-menu a.highlighted .sub-arrow:before {
+    content: "-";
+  }
+  .categories-menu a .sub-arrow {
+    right: 0;
+  }
+  .categories-menu a .sub-arrow:before {
+    content: "+";
+  }
+  .categories-menu > li > a {
+    font-weight: 700;
+  }
+  .categories-menu > li > a:hover, .categories-menu > li > a:focus, .categories-menu > li > a:active {
+    font-weight: 700;
+  }
+  .categories-menu li a {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+  .categories-menu li a:hover {
+    padding: 10px 15px;
+  }
+  .categories-menu li ul li a {
+    padding: 5px 35px;
+    font-size: 14px;
+    color: #444444;
+    font-weight: 400;
+  }
+  .categories-menu li ul li a:hover {
+    color: #e60012 !important;
+    font-size: 14px;
+    padding: 5px 35px;
   }
 
   .main-menu.border-section {
@@ -3746,7 +3790,7 @@ footer .subfooter.footer-border {
   .category-header {
     height: 0;
   }
-  .category-header .navbar-menu .menu-block .categories-menu .dark-menu-item {
+  .category-header .navbar-menu .menu-block .categories-menu .dark-item-menu {
     color: #444444;
     padding: 10px 15px;
   }

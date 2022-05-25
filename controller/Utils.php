@@ -210,10 +210,11 @@ class Utils
 	 * @param integer $results Total number of items found.
 	 * @param string $address Base address to append the page number.
 	 * @param string $type Type of page navigation. Valid values: 'back', 'front'.
+	 * @param string $address2 Part of the URL to add after. It can be the sorting direction or the number of elements per page.
 	 *
 	 * @return string Page navigation HTML
 	 */
-	public static function construct_page_nav($pagenumber, $perpage, $results, $address, $type = 'back')
+	public static function construct_page_nav($pagenumber, $perpage, $results, $address, $type = 'back', $address2 = '')
 	{
 		$curpage = 0;
 		$pagenavarr = array();
@@ -222,13 +223,13 @@ class Utils
 		$lastlink = '';
 		$nextlink = '';
 
-		if ($results <= $perpage)
-		{
-			return '';
-		}
-
 		$total = number_format($results);
 		$totalpages = ceil($results / $perpage);
+
+		if ($results <= $perpage)
+		{
+			$totalpages = 1;
+		}
 
 		$firstaddress = $prevaddress = $nextaddress = $lastaddress = '';
 
@@ -289,13 +290,13 @@ class Utils
 			if ($pagenumber != 1)
 			{
 				$firstnumbers = self::fetch_start_end_total_array(1, $perpage, $results);
-				$firstaddress = $address . '&page=1';
+				$firstaddress = $address . '&page=1' . $address2;
 			}
 
 			if ($pagenumber != $totalpages)
 			{
 				$lastnumbers = self::fetch_start_end_total_array($totalpages, $perpage, $results);
-				$lastaddress = $address . '&page=' . $totalpages;
+				$lastaddress = $address . '&page=' . $totalpages . $address2;
 			}
 
 			if (abs($curpage - $pagenumber) >= 3 AND 3 != 0)
@@ -323,7 +324,7 @@ class Utils
 			}
 			else
 			{
-				// if appropriate, hide the elipses
+				// if appropriate, hide the ellipses
 				if ($curpage == 1)
 				{
 					$show_prior_elipsis = 0;
@@ -339,11 +340,11 @@ class Utils
 
 					if ($type === 'back')
 					{
-						$pagenavarr[] = '<span class="tablegrid-pager-page tablegrid-pager-current-page"><a href="' . $address . '&page=' . $curpage . '" title="Affichage des résultats ' . $numbers['first'] .' à ' . $numbers['last'] .' sur ' . $total . '">' . $curpage .'</a></span>';
+						$pagenavarr[] = '<span class="tablegrid-pager-page tablegrid-pager-current-page"><a href="' . $address . '&page=' . $curpage . $address2 . '" title="Affichage des résultats ' . $numbers['first'] .' à ' . $numbers['last'] .' sur ' . $total . '">' . $curpage .'</a></span>';
 					}
 					else if ($type === 'front')
 					{
-						$pagenavarr[] = '<li class="page-item"><a class="page-link" href="' . $address . '&page=' . $curpage . '" title="Affichage des résultats ' . $numbers['first'] .' à ' . $numbers['last'] .' sur ' . $total . '">' . $curpage .'</a></li>';
+						$pagenavarr[] = '<li class="page-item"><a class="page-link" href="' . $address . '&page=' . $curpage . $address2 . '" title="Affichage des résultats ' . $numbers['first'] .' à ' . $numbers['last'] .' sur ' . $total . '">' . $curpage .'</a></li>';
 					}
 				}
 				else
@@ -352,11 +353,11 @@ class Utils
 
 					if ($type === 'back')
 					{
-						$pagenavarr[] = '<span class="tablegrid-pager-page"><a href="' . $address . '&page=' . $curpage . '" title="Affichage des résultats ' . $pagenumbers['first'] .' à ' . $pagenumbers['last'] .' sur ' . $total . '">' . $curpage .'</a></a></span>';
+						$pagenavarr[] = '<span class="tablegrid-pager-page"><a href="' . $address . '&page=' . $curpage . $address2 . '" title="Affichage des résultats ' . $pagenumbers['first'] .' à ' . $pagenumbers['last'] .' sur ' . $total . '">' . $curpage .'</a></a></span>';
 					}
 					else if ($type === 'front')
 					{
-						$pagenavarr[] = '<li class="page-item"><a class="page-link" href="' . $address . '&page=' . $curpage . '" title="Affichage des résultats ' . $pagenumbers['first'] .' à ' . $pagenumbers['last'] .' sur ' . $total . '">' . $curpage .'</a></a></li>';
+						$pagenavarr[] = '<li class="page-item"><a class="page-link" href="' . $address . '&page=' . $curpage . $address2 . '" title="Affichage des résultats ' . $pagenumbers['first'] .' à ' . $pagenumbers['last'] .' sur ' . $total . '">' . $curpage .'</a></a></li>';
 					}
 				}
 			}
@@ -411,6 +412,33 @@ class Utils
 		}
 
 		echo $return;
+	}
+
+	/**
+	 *
+	 */
+	public static function parse_url($url, $component = -1)
+	{
+		// Taken from /rfc3986#section-2
+		$safechars =array(':', '/', '?', '#', '[', ']', '@', '!', '$', '&', '\'' ,'(', ')', '*', '+', ',', ';', '=');
+		$trans = array('%3A', '%2F', '%3F', '%23', '%5B', '%5D', '%40', '%21', '%24', '%26', '%27', '%28', '%29', '%2A', '%2B', '%2C', '%3B', '%3D');
+		$encodedurl = str_replace($trans, $safechars, urlencode($url));
+
+		$parsed = @parse_url($encodedurl, $component);
+
+		if (is_array($parsed))
+		{
+			foreach ($parsed AS $index => $element)
+			{
+				$parsed[$index] = urldecode($element);
+			}
+		}
+		else
+		{
+			$parsed = urldecode($parsed);
+		}
+
+		return $parsed;
 	}
 
 	/**

@@ -141,7 +141,9 @@ try
 		// Categories
 		case 'viewcategory':
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
-			viewCategory($id);
+			$perpage = isset($_GET['pp']) ? filter_var($_GET['pp'], FILTER_VALIDATE_INT) : NULL;
+			$sortby = isset($_GET['sortby']) ? filter_var($_GET['sortby'], FILTER_SANITIZE_STRING) : NULL;
+			viewCategory($id, $perpage, $sortby);
 			break;
 		// Shopping
 		case 'viewcart':

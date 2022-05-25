@@ -44,13 +44,42 @@ class Model
 		catch(PDOException $e)
 		{
 			$errorMessage = $e->getMessage();
+
 			require_once(DIR . '/view/backoffice/ViewError.php');
+
 			if ($do == 'dologin')
 			{
 				ViewError::DisplayLoggedOutError($errorMessage);
 				exit;
 			}
+
 			ViewError::DisplayLoggedInError($errorMessage);
+		}
+	}
+
+	/**
+	 * Checks if the given value is in the allowed data.
+	 *
+	 * @param mixed $value The data to validate. Can be a string, an integer, an array, etc.
+	 * @param array $allowed Allowed data to verify. Composed of an array with valid values.
+	 * @param string $message Error message to display if the value doesn't match the allowed values.
+	 */
+	protected function white_list(&$value, $allowed, $message)
+	{
+		if ($value === null)
+		{
+			return $allowed[0];
+		}
+
+		$key = array_search($value, $allowed, true);
+
+		if ($key === false)
+		{
+			throw new Exception($message);
+		}
+		else
+		{
+			return $value;
 		}
 	}
 }

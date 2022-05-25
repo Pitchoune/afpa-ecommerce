@@ -143,6 +143,25 @@ class ModelCategory extends Model
 	}
 
 	/**
+	 * Returns the parent name of the current category.
+	 *
+	 * @return array Informations of the category.
+	 */
+	public function getParentName()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT nom
+			FROM categorie
+			WHERE id = ?
+		");
+		$query->bindParam(1, $this->id, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetch();
+	}
+
+	/**
 	 * Returns the informations of the children categories.
 	 *
 	 * @return array Informations of the category.
@@ -256,6 +275,25 @@ class ModelCategory extends Model
 		$query->bindParam(1, $this->id, \PDO::PARAM_INT);
 		$query->bindParam(2, $limitlower, \PDO::PARAM_INT);
 		$query->bindParam(3, $perpage, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
+	 * Returns the parent IDs of the current child categories.
+	 *
+	 * @return mixed Array of data if found or false if there is nothing found.
+	 */
+	public function getChildCategoriesIds()
+	{
+		$db = $this->dbConnect($config);
+		$query = $db->prepare("
+			SELECT id
+			FROM categorie
+			WHERE parent_id = ?
+		");
+		$query->bindParam(1, $this->id, \PDO::PARAM_INT);
 
 		$query->execute();
 		return $query->fetchAll();

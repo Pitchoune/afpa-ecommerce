@@ -229,6 +229,39 @@ $(document).ready(function()
 	});
 
 	// ************************************************
+	// Reload category page with new choice in URL (per page and sort by options)
+	// ************************************************
+
+	$('#perpage').on('change', function()
+	{
+		let regex = /(\?|&)pp=[0-9]+/;
+		let location = window.location.href;
+
+		if (regex.test(location))
+		{
+			window.location = location.replace(regex, '') + '&pp=' + $(this).val();
+		}
+		else
+		{
+			window.location = window.location.href + '&pp=' + $(this).val();
+		}
+	});
+
+	$('#sortby').on('change', function() {
+		let regex = /(\?|&)sortby=[a-zA-Z]+/;
+		let location = window.location.href;
+
+		if (regex.test(location))
+		{
+			window.location = location.replace(regex, '') + '&sortby=' + $(this).val();
+		}
+		else
+		{
+			window.location = window.location.href + '&sortby=' + $(this).val();
+		}
+	});
+
+	// ************************************************
 	// Slick bands on homepage for best sellers and new products
 	// ************************************************
 

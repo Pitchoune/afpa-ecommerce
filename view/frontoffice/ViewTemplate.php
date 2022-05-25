@@ -48,7 +48,7 @@ class ViewTemplate
 	 *
 	 * @return void
 	 */
-	public static function FrontHeader()
+	public static function FrontHeader($address = '')
 	{
 		global $config;
 
@@ -60,7 +60,7 @@ class ViewTemplate
 
 		foreach ($listcategories AS $cat1)
 		{
-			$category .= '<li><a class="dark-item-menu" href="index.php?do=viewcategory&amp;id=' . $cat1['id'] . '">' . $cat1['nom'] .'</a>';
+			$category .= '<li><a class="dark-item-menu" href="javascript:void(0)">' . $cat1['nom'] .'</a>';
 
 			$categories->set_parentid($cat1['id']);
 			$listsubcategories = $categories->listChildrenCategoryInfos();
@@ -71,7 +71,7 @@ class ViewTemplate
 
 				foreach ($listsubcategories AS $cat2)
 				{
-					$category .= '<li><a href="index.php?do=viewcategory&amp;id=' . $cat2['id'] . '">' . $cat2['nom'] .'</a>';
+					$category .= '<li><a href="index.php?do=viewcategory&amp;id=' . $cat2['id'] . $address . '">' . $cat2['nom'] .'</a>';
 				}
 
 				$category .= '</ul>';
