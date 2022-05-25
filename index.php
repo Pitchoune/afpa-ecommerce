@@ -63,8 +63,8 @@ try
 			$password = isset($_POST['password']) ? filter_var($_POST['password'], FILTER_SANITIZE_STRING) : NULL;
 			doLogin($email, $password);
 			break;
-		case 'profile':
-			viewProfile();
+		case 'dashboard':
+			viewDashboard();
 			break;
 		case 'editprofile':
 			editProfile();

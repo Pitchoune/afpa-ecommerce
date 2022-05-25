@@ -491,7 +491,7 @@ class ViewTemplate
 				?>
 				<div class="setting-block">
 					<div class="setting-element">Mon compte</div>
-					<div class="setting-element"><a href="index.php?do=profile">Tableau de bord</a></div>
+					<div class="setting-element"><a href="index.php?do=dashboard">Tableau de bord</a></div>
 					<div class="setting-element"><a href="index.php?do=editprofile">Modifier mon profil</a></div>
 					<div class="setting-element"><a href="index.php?do=editpassword">Modifier mon mot de passe</a></div>
 					<div class="setting-element"><a href="index.php?do=logout">Se déconnecter</a></div>

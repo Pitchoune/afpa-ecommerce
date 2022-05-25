@@ -151,7 +151,7 @@ class ModelCategory extends Model
 	{
 		$db = $this->dbConnect();
 		$query = $db->prepare("
-			SELECT nom
+			SELECT id, nom
 			FROM categorie
 			WHERE id = ?
 		");

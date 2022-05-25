@@ -1,9 +1,5 @@
 <?php
 
-require_once(DIR . '/model/ModelProduct.php');
-require_once(DIR . '/model/ModelTrademark.php');
-use \Ecommerce\Model\ModelProduct;
-use \Ecommerce\Model\ModelTrademark;
 /**
  * Class to display HTML content about products in front.
  *
@@ -14,30 +10,15 @@ class ViewProduct
 	/**
 	 * Returns the HTMl code to display the product page.
 	 *
-	 * @param integer $id ID of the product.
-	 * @param string $ref Reference of the product.
+	 * @param string $pagetitle Title of the page.
+	 * @param array $product Product informations.
+	 * @param array $trademark Product trademark informations.
+	 * @param array $navbits Array of navigation informations in the breadcrumb.
 	 *
 	 * @return void
 	 */
-	public static function DisplayProduct($id = '', $ref = '')
+	public static function DisplayProduct($pagetitle, $product, $trademark, $navbits)
 	{
-		global $config;
-
-		$products = new ModelProduct($config);
-
-		if ($id)
-		{
-			$products->set_id($id);
-			$product = $products->listProductInfosFromId();
-		}
-		else if ($ref)
-		{
-			$products->set_ref($ref);
-			$product = $products->listProductInfosFromRef();
-		}
-
-		$pagetitle = 'Visualisation du produit : « ' . $product['nom'] . ' »';
-
 		?>
 		<!DOCTYPE html>
 		<html>
@@ -54,20 +35,7 @@ class ViewProduct
 
 				if ($product)
 				{
-					if (empty($product['photo']))
-					{
-						$product['photo'] = 'assets/images/nophoto.jpg';
-					}
-					else
-					{
-						$product['photo'] = 'attachments/products/' . $product['photo'];
-					}
-
-					$trademarks = new ModelTrademark($config);
-					$trademarks->set_id($product['id_marque']);
-					$trademark = $trademarks->listTrademarkInfos();
-
-					ViewTemplate::FrontBreadcrumb('Produit « ' . $product['nom'] . ' »', ['viewcategory&amp;id=' . $product['id_categorie'] => $product['category'], 'viewproduct&amp;id=' . $product['id'] => 'Produit « ' . $product['nom'] . ' »']);
+					ViewTemplate::FrontBreadcrumb('Produit « ' . $product['nom'] . ' »', $navbits);
 					?>
 
 					<!-- product -->
@@ -190,34 +158,13 @@ class ViewProduct
 	/**
 	 * Returns the HTML form to search into products.
 	 *
-	 * @param string $query Search query.
-	 * @param integer $category ID of the category to search.
+	 * @param string $pagetitle Title of the page.
+	 * @param array $product Products list from the search results.
 	 *
 	 * @return void
 	 */
-	public static function SearchResults($query, $category)
+	public static function SearchResults($pagetitle, $product)
 	{
-		global $config;
-
-		$pagetitle = 'Résultats de la recherche';
-
-		$products = new ModelProduct($config);
-		$products->set_name($query);
-		$products->set_ref($query);
-		$products->set_description($query);
-
-		if ($category !== 0)
-		{
-			// Search in a specific category
-			$products->set_category($category);
-			$product = $products->searchProductsWithCategory();
-		}
-		else
-		{
-			// Search despite the category (in all categories)
-			$product = $products->searchProductsWithoutCategory();
-		}
-
 		?>
 		<!DOCTYPE html>
 		<html>
@@ -231,9 +178,7 @@ class ViewProduct
 
 				<?php
 				ViewTemplate::FrontHeader();
-				?>
 
-				<?php
 				ViewTemplate::FrontBreadcrumb($pagetitle, ['search' => $pagetitle]);
 
 				if ($product)

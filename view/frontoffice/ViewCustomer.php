@@ -1,15 +1,9 @@
 <?php
 
-require_once(DIR . '/model/ModelCustomer.php');
-require_once(DIR . '/model/ModelOrder.php');
 require_once(DIR . '/model/ModelOrderDetails.php');
 require_once(DIR . '/model/ModelTrademark.php');
-require_once(DIR . '/model/ModelMessage.php');
-use \Ecommerce\Model\ModelCustomer;
-use \Ecommerce\Model\ModelOrder;
 use \Ecommerce\Model\ModelOrderDetails;
 use \Ecommerce\Model\ModelTrademark;
-use \Ecommerce\Model\ModelMessage;
 
 /**
  * Class to display HTML content about customers in front.
@@ -35,15 +29,12 @@ class ViewCustomer
 				ViewTemplate::FrontHead($pagetitle);
 				?>
 			</head>
-
 			<body class="bg-light">
-
 				<?php
 				ViewTemplate::FrontHeader();
 
 				ViewTemplate::FrontBreadcrumb($pagetitle, ['register' => $pagetitle]);
 				?>
-
 				<!-- register -->
 				<section class="login-page section-big-py-space b-g-light">
 					<div class="custom-container">
@@ -99,7 +90,6 @@ class ViewCustomer
 					</div>
 				</section>
 				<!-- / register -->
-
 				<?php
 				ViewTemplate::FrontFooter();
 
@@ -127,15 +117,12 @@ class ViewCustomer
 				ViewTemplate::FrontHead($pagetitle);
 				?>
 			</head>
-
 			<body class="bg-light">
-
 				<?php
 				ViewTemplate::FrontHeader();
 
 				ViewTemplate::FrontBreadcrumb($pagetitle, ['login' => $pagetitle]);
 				?>
-
 				<!-- login -->
 				<section class="login-page section-big-py-space b-g-light">
 					<div class="custom-container">
@@ -165,7 +152,6 @@ class ViewCustomer
 					</div>
 				</section>
 				<!-- / login -->
-
 				<?php
 				ViewTemplate::FrontFooter();
 
@@ -179,17 +165,13 @@ class ViewCustomer
 	/**
 	 * Returns the HTML form to display the customer dashboard.
 	 *
+	 * @param array $data Logged-in user data.
+	 *
 	 * @return void
 	 */
-	public static function CustomerDashboard()
+	public static function CustomerDashboard($data)
 	{
-		global $config;
-
 		$pagetitle = 'Tableau de bord';
-
-		$customer = new ModelCustomer($config);
-		$customer->set_id($_SESSION['user']['id']);
-		$data = $customer->getCustomerInfosFromId();
 
 		?>
 		<!DOCTYPE html>
@@ -199,15 +181,12 @@ class ViewCustomer
 				ViewTemplate::FrontHead($pagetitle);
 				?>
 			</head>
-
 			<body class="bg-light">
-
 				<?php
 				ViewTemplate::FrontHeader();
 
-				ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => $pagetitle]);
+				ViewTemplate::FrontBreadcrumb($pagetitle, ['dashboard' => $pagetitle]);
 				?>
-
 				<!-- dashboard -->
 				<section class="section-big-py-space b-g-light">
 					<div class="container">
@@ -284,7 +263,6 @@ class ViewCustomer
 					</div>
 				</section>
 				<!-- / dashboard -->
-
 				<?php
 				ViewTemplate::FrontFooter();
 
@@ -295,7 +273,6 @@ class ViewCustomer
 				}
 
 				?>
-
 			</body>
 		</html>
 	<?php
@@ -304,17 +281,13 @@ class ViewCustomer
 	/**
 	 * Returns the HTML form to allow the customer to edit their profile.
 	 *
+	 * @param array $data Logged-in user data.
+	 *
 	 * @return void
 	 */
-	public static function CustomerProfile()
+	public static function CustomerProfile($data)
 	{
-		global $config;
-
 		$pagetitle = 'Modifier mon profil';
-
-		$customer = new ModelCustomer($config);
-		$customer->set_id($_SESSION['user']['id']);
-		$data = $customer->getCustomerInfosFromId();
 
 		?>
 			<!DOCTYPE html>
@@ -324,15 +297,12 @@ class ViewCustomer
 					ViewTemplate::FrontHead($pagetitle);
 					?>
 				</head>
-
 				<body class="bg-light">
-
 					<?php
 					ViewTemplate::FrontHeader();
 
-					ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'editprofile' => $pagetitle]);
+					ViewTemplate::FrontBreadcrumb($pagetitle, ['dashboard' => 'Tableau de bord', 'editprofile' => $pagetitle]);
 					?>
-
 					<!-- personal details -->
 					<section class="contact-page register-page section-big-py-space b-g-light">
 						<div class="custom-container">
@@ -411,7 +381,6 @@ class ViewCustomer
 						</div>
 					</section>
 					<!-- / personal details -->
-
 					<?php
 					ViewTemplate::FrontFooter();
 
@@ -431,30 +400,14 @@ class ViewCustomer
 	/**
 	 * Returns the HTML form to edit customer password.
 	 *
-	 * @param integer $id ID of the customer.
+	 * @param array $data Logged-in user data.
 	 * @param string $token Generated token of the customer to change password if forgotten.
 	 *
 	 * @return void
 	 */
-	public static function CustomerPassword($id = '', $token = '')
+	public static function CustomerPassword($data, $token = '')
 	{
-		global $config;
-
 		$pagetitle = 'Modifier mon mot de passe';
-
-		$customer = new ModelCustomer($config);
-
-		if ($id)
-		{
-			$customer->set_id($id);
-		}
-		else
-		{
-			$customer->set_id($_SESSION['user']['id']);
-		}
-
-		$data = $customer->getCustomerInfosFromId();
-
 		?>
 			<!DOCTYPE html>
 			<html>
@@ -463,21 +416,18 @@ class ViewCustomer
 					ViewTemplate::FrontHead($pagetitle);
 					?>
 				</head>
-
 				<body class="bg-light">
-
 					<?php
 					ViewTemplate::FrontHeader();
 
-					ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'editpassword' => $pagetitle]);
+					ViewTemplate::FrontBreadcrumb($pagetitle, ['dashboard' => 'Tableau de bord', 'editpassword' => $pagetitle]);
 					?>
-
 					<!-- password change -->
 					<section class="contact-page register-page section-big-py-space b-g-light">
 						<div class="custom-container">
 							<form action="index.php?do=savepassword" method="post">
 								<div class="row">
-									<div class="col-lg-6">
+									<div class="col-lg-6 col-md-8 offset-lg-3 offset-md-2">
 										<h3 class="mb-3 spc-responsive">MOT DE PASSE</h3>
 										<div class="theme-form">
 											<div class="row">
@@ -522,7 +472,6 @@ class ViewCustomer
 						</div>
 					</section>
 					<!-- / password change -->
-
 					<?php
 					ViewTemplate::FrontFooter();
 
@@ -542,26 +491,13 @@ class ViewCustomer
 	/**
 	 * Returns the HTML form to change the password if forgotten.
 	 *
+	 * @param array $data Logged-in user data.
+	 *
 	 * @return void
 	 */
-	public static function CustomerForgotPassword()
+	public static function CustomerForgotPassword($data)
 	{
-		global $config;
-
 		$pagetitle = 'Mot de passe oublié';
-
-		$customer = new ModelCustomer($config);
-
-		if ($id)
-		{
-			$customer->set_id($id);
-		}
-		else
-		{
-			$customer->set_id($_SESSION['user']['id']);
-		}
-
-		$data = $customer->getCustomerInfosFromId();
 
 		?>
 			<!DOCTYPE html>
@@ -577,7 +513,7 @@ class ViewCustomer
 					<?php
 					ViewTemplate::FrontHeader();
 
-					ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'forgotpassword' => $pagetitle]);
+					ViewTemplate::FrontBreadcrumb($pagetitle, ['dashboard' => 'Tableau de bord', 'forgotpassword' => $pagetitle]);
 					?>
 
 					<!-- forgot password -->
@@ -626,18 +562,13 @@ class ViewCustomer
 	/**
 	 * Returns the HTML code to display the delete profile form.
 	 *
+	 * @param array $data Logged-in user data.
+	 *
 	 * @return void
 	 */
-	public static function CustomerDeleteProfile()
+	public static function CustomerDeleteProfile($data)
 	{
-		global $config;
-
 		$pagetitle = 'Suppression de compte';
-
-		$customer = new ModelCustomer($config);
-		$customer->set_id($_SESSION['user']['id']);
-
-		$data = $customer->getCustomerInfosFromId();
 
 		?>
 			<!DOCTYPE html>
@@ -653,7 +584,7 @@ class ViewCustomer
 					<?php
 					ViewTemplate::FrontHeader();
 
-					ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'deleteprofile' => $pagetitle]);
+					ViewTemplate::FrontBreadcrumb($pagetitle, ['dashboard' => 'Tableau de bord', 'deleteprofile' => $pagetitle]);
 					?>
 
 					<!--section start-->
@@ -699,32 +630,19 @@ class ViewCustomer
 
 	/**
 	 * Returns the HTML code to display the customers orders page.
-	  *
-	  * @return void
+	 *
+	 * @param array $orders List of orders to display.
+	 * @param object $orderlist Order object.
+	 * @param array $totalorders Total number of orders.
+	 * @param integer $perpage Number of orders to display per page.
+	 *
+	 * @return void
 	 */
-	public static function DisplayOrders()
+	public static function DisplayOrders($orders, $orderlist, $totalorders, $perpage)
 	{
 		global $config, $pagenumber;
 
 		$pagetitle = 'Liste des commandes';
-
-		$customer = new ModelCustomer($config);
-		$customer->set_id($_SESSION['user']['id']);
-		$data = $customer->getCustomerInfosFromId();
-
-		$orderlist = new ModelOrder($config);
-		$orderlist->set_customer($data['id']);
-		$totalorders = $orderlist->getNumberOfOrdersForCustomer();
-
-		if ($totalorders['nborders'] > 0)
-		{
-			// Number max per page
-			$perpage = 10;
-
-			$limitlower = Utils::define_pagination_values($totalorders['nborders'], $pagenumber, $perpage);
-
-			$orders = $orderlist->getAllCustomerOrders($limitlower, $perpage);
-		}
 
 		?>
 			<!DOCTYPE html>
@@ -734,15 +652,13 @@ class ViewCustomer
 					ViewTemplate::FrontHead($pagetitle);
 					?>
 				</head>
-
 				<body class="bg-light">
-
 					<?php
 					ViewTemplate::FrontHeader();
 
 					if ($totalorders['nborders'] > 0)
 					{
-						ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'vieworders' => $pagetitle]);
+						ViewTemplate::FrontBreadcrumb($pagetitle, ['dashboard' => 'Tableau de bord', 'vieworders' => $pagetitle]);
 						?>
 
 						<!-- orders history -->
@@ -781,7 +697,7 @@ class ViewCustomer
 													?>
 													<tr>
 														<td>
-															<a href="javascript:void(0)">Commande #: <span class="dark-data"><?= $orderdetail['id'] ?></span></a>
+															<a href="index.php?do=vieworder&amp;id=<?= $value['id'] ?>">Commande #: <span class="dark-data"><?= $orderdetail['id'] ?></span></a>
 															<div class="mobile-cart-content row">
 																<div class="col-xs-3">
 																	<span>Nombre de produits : <?= $orderdetail['nbproduits'] ?></span>
@@ -804,8 +720,6 @@ class ViewCustomer
 																<h4 class="price"><?= number_format($totalprice, 2) ?> &euro;</h4>
 															</div>
 															<span class="dark-data"><?= $value['etat'] ?></span>
-															<br />
-															<span class="dark-data"><a href="index.php?do=vieworder&amp;id=<?= $value['id'] ?>">Afficher la commande</a></span>
 														</td>
 													</tr>
 													<?php
@@ -858,145 +772,122 @@ class ViewCustomer
 	 *
 	 * @return void
 	 */
-	public static function DisplayOrder($id)
+	public static function DisplayOrder($id, $orderdetail)
 	{
 		global $config;
 
-		$customer = new ModelCustomer($config);
-		$customer->set_id($_SESSION['user']['id']);
+		$pagetitle = 'Commande #' . intval($id);
 
-		$data = $customer->getCustomerInfosFromId();
+		?>
+			<!DOCTYPE html>
+			<html>
+				<head>
+					<?php
+					ViewTemplate::FrontHead($pagetitle);
+					?>
+				</head>
+				<body class="bg-light">
+					<?php
+					ViewTemplate::FrontHeader();
 
-		if ($data['id'] === $_SESSION['user']['id'])
-		{
-			$orderdetails = new ModelOrderDetails($config);
-			$orderdetails->set_order(intval($id));
-			$orderdetail = $orderdetails->getOrderDetails();
-
-			$pagetitle = 'Commande #' . intval($id);
-
-			?>
-				<!DOCTYPE html>
-				<html>
-					<head>
-						<?php
-						ViewTemplate::FrontHead($pagetitle);
-						?>
-					</head>
-
-					<body class="bg-light">
-
-						<?php
-						ViewTemplate::FrontHeader();
-						?>
-
-						<?php
-						ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'vieworders' => 'Liste des commandes', 'vieworder' => $pagetitle]);
-						?>
-
-						<!-- order details -->
-						<section class="order-tracking section-big-my-space">
-							<div class="container" >
-								<div class="row">
-									<div class="col-md-12">
-										<div>
-											<fieldset>
-												<div class="container p-0">
-													<div class="row shipping-block">
-														<div class="col-lg-8">
-															<div class="order-tracking-contain order-tracking-box">
-																<div class="tracking-group">
-																	<div class="delivery-code">
-																		<h4>Commande #<?= intval($id) ?></h4>
-																	</div>
-																</div>
-																<div class="tracking-group pb-0">
-																	<h4 class="tracking-title">Liste des produits</h4>
-																	<ul class="may-product">
-																		<?php
-																		$totalprice = 0;
-
-																		foreach ($orderdetail AS $key => $value)
-																		{
-																			$totalprice += $value['prix'] * $value['quantite'];
-
-																			if (empty($value['photo']))
-																			{
-																				$value['photo'] = 'assets/images/nophoto.jpg';
-																			}
-																			else
-																			{
-																				$value['photo'] = 'attachments/products/' . $value['photo'];
-																			}
-
-																			$trademarks = new ModelTrademark($config);
-																			$trademarks->set_id($value['id_marque']);
-																			$trademark = $trademarks->listTrademarkInfos();
-																			?>
-																			<li>
-																				<div class="media">
-																					<img src="<?= $value['photo'] ?>" class="img-fluid" alt="" />
-																					<div class="media-body">
-																						<h3><a href="index.php?do=viewproduct&amp;id=<?= $value['id_produit'] ?>"><?= $trademark['nom'] ?> - <?= $value['nom'] ?></a></h3>
-																						<h5>Prix à l'unité : <?= number_format($value['prix'], 2) ?> &euro;</h5>
-																						<h5>Quantité : <?= $value['quantite'] ?></h5>
-																						<br />
-																						<h4><?= number_format($value['prix'] * $value['quantite'], 2) ?> &euro;</h4>
-																					</div>
-																				</div>
-																			</li>
-																			<?php
-																		}
-																		?>
-																	</ul>
+					ViewTemplate::FrontBreadcrumb($pagetitle, ['dashboard' => 'Tableau de bord', 'vieworders' => 'Liste des commandes', 'vieworder' => $pagetitle]);
+					?>
+					<!-- order details -->
+					<section class="order-tracking section-big-my-space">
+						<div class="container" >
+							<div class="row">
+								<div class="col-md-12">
+									<div>
+										<fieldset>
+											<div class="container p-0">
+												<div class="row shipping-block">
+													<div class="col-lg-8">
+														<div class="order-tracking-contain order-tracking-box">
+															<div class="tracking-group">
+																<div class="delivery-code">
+																	<h4>Commande #<?= intval($id) ?></h4>
 																</div>
 															</div>
-														</div>
-														<div class="col-lg-4">
-															<div class="order-tracking-sidebar order-tracking-box">
-																<ul class="cart_total">
-																	<li>
-																		subtotal : <span><?= number_format($totalprice, 2) ?> &euro;</span>
-																	</li>
-																	<li>
-																		shipping <span>free</span>
-																	</li>
-																	<li>
-																		<div class="total">
-																			total<span><?= number_format($totalprice, 2) ?> &euro;</span>
-																		</div>
-																	</li>
-																	<li class="pt-0">
-																		<div class="buttons">
-																			<a href="javascript:void(0)" class="btn btn-normal btn-sm btn-block">Faire une réclamation</a>
-																			<a href="javascript:void(0)" class="btn btn-normal btn-sm btn-block">Exporter ma facture</a>
-																		</div>
-																	</li>
+															<div class="tracking-group pb-0">
+																<h4 class="tracking-title">Liste des produits</h4>
+																<ul class="may-product">
+																	<?php
+																	$totalprice = 0;
+
+																	foreach ($orderdetail AS $key => $value)
+																	{
+																		$totalprice += $value['prix'] * $value['quantite'];
+
+																		if (empty($value['photo']))
+																		{
+																			$value['photo'] = 'assets/images/nophoto.jpg';
+																		}
+																		else
+																		{
+																			$value['photo'] = 'attachments/products/' . $value['photo'];
+																		}
+
+																		$trademarks = new ModelTrademark($config);
+																		$trademarks->set_id($value['id_marque']);
+																		$trademark = $trademarks->listTrademarkInfos();
+																		?>
+																		<li>
+																			<div class="media">
+																				<img src="<?= $value['photo'] ?>" class="img-fluid" alt="" />
+																				<div class="media-body">
+																					<h3><a href="index.php?do=viewproduct&amp;id=<?= $value['id_produit'] ?>"><?= $trademark['nom'] ?> - <?= $value['nom'] ?></a></h3>
+																					<h5>Prix à l'unité : <?= number_format($value['prix'], 2) ?> &euro;</h5>
+																					<h5>Quantité : <?= $value['quantite'] ?></h5>
+																					<br />
+																					<h4><?= number_format($value['prix'] * $value['quantite'], 2) ?> &euro;</h4>
+																				</div>
+																			</div>
+																		</li>
+																		<?php
+																	}
+																	?>
 																</ul>
 															</div>
 														</div>
 													</div>
+													<div class="col-lg-4">
+														<div class="order-tracking-sidebar order-tracking-box">
+															<ul class="cart_total">
+																<li>
+																	Sous-total : <span><?= number_format($totalprice, 2) ?> &euro;</span>
+																</li>
+																<li>
+																	Livraison :<span>Gratuit</span>
+																</li>
+																<li>
+																	<div class="total">
+																		Total :<span><?= number_format($totalprice, 2) ?> &euro;</span>
+																	</div>
+																</li>
+																<li class="pt-0">
+																	<div class="buttons">
+																		<a href="javascript:void(0)" class="btn btn-normal btn-sm btn-block">Faire une réclamation</a>
+																		<a href="javascript:void(0)" class="btn btn-normal btn-sm btn-block">Exporter ma facture</a>
+																	</div>
+																</li>
+															</ul>
+														</div>
+													</div>
 												</div>
-											</fieldset>
-										</div>
+											</div>
+										</fieldset>
 									</div>
 								</div>
 							</div>
-						</section>
-						<!-- / order details -->
-
-						<?php
-						ViewTemplate::FrontFooter();
-						?>
-
-					</body>
-				</html>
-			<?php
-		}
-		else
-		{
-			throw new Exception('Vous n\'êtes pas autorisé à afficher cette page.');
-		}
+						</div>
+					</section>
+					<!-- / order details -->
+					<?php
+					ViewTemplate::FrontFooter();
+					?>
+				</body>
+			</html>
+		<?php
 	}
 
 	/**
@@ -1004,113 +895,84 @@ class ViewCustomer
 	 *
 	 * @return void
 	 */
-	public static function ViewMessages()
+	public static function ViewMessages($messages, $perpage)
 	{
-		if (!empty($_SESSION['user']['id']))
-		{
-			global $config, $pagenumber;
+		global $pagenumber;
 
-			$pagetitle = 'Liste des messages';
+		$pagetitle = 'Liste des messages';
 
-			$customer = new ModelCustomer($config);
-			$customer->set_id($_SESSION['user']['id']);
+		?>
+			<!DOCTYPE html>
+			<html>
+				<head>
+					<?php
+					ViewTemplate::FrontHead($pagetitle);
+					?>
+				</head>
+				<body class="bg-light">
 
-			$data = $customer->getCustomerInfosFromId();
+					<?php
+					ViewTemplate::FrontHeader();
 
-			$messagelist = new ModelMessage($config);
-			$messagelist->set_customer($data['id']);
-			$messagelist->set_type('contact', 'notif');
-			$totalmessages = $messagelist->countMessagesFromCustomer();
+					ViewTemplate::FrontBreadcrumb($pagetitle, ['dashboard' => 'Tableau de bord', 'viewmessages' => $pagetitle]);
+					?>
+					<!-- messages -->
+					<section class="cart-section order-history section-big-py-space">
+						<div class="custom-container">
+							<div class="row">
+								<div class="col-sm-12">
+									<table class="table cart-table table-responsive-xs">
+										<thead>
+										<tr class="table-head">
+											<th scope="col">Message</th>
+											<th scope="col">État</th>
+										</tr>
+										</thead>
+										<tbody>
+											<?php
 
-			// Number max per page
-			$perpage = 10;
-
-			$limitlower = Utils::define_pagination_values($totalmessages['nbmessages'], $pagenumber, $perpage);
-
-			$messages = $messagelist->getAllMessagesFromCustomer($limitlower, $perpage);
-
-			?>
-				<!DOCTYPE html>
-				<html>
-					<head>
-						<?php
-						ViewTemplate::FrontHead($pagetitle);
-						?>
-					</head>
-
-					<body class="bg-light">
-
-						<?php
-						ViewTemplate::FrontHeader();
-						?>
-
-						<?php
-						ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'viewmessages' => $pagetitle]);
-						?>
-
-						<!--section start-->
-						<section class="cart-section order-history section-big-py-space">
-							<div class="custom-container">
-								<div class="row">
-									<div class="col-sm-12">
-										<table class="table cart-table table-responsive-xs">
-											<thead>
-											<tr class="table-head">
-												<th scope="col">Message</th>
-												<th scope="col">État</th>
-											</tr>
-											</thead>
-											<tbody>
-												<?php
-
-												foreach ($messages AS $key => $value)
+											foreach ($messages AS $key => $value)
+											{
+												if ($value['precedent_id'] === NULL)
 												{
-													if ($value['precedent_id'] === NULL)
+													if (strlen($value['message']) > 40)
 													{
-														if (strlen($value['message']) > 40)
-														{
-															$value['shortmessage'] = substr($value['message'], 0, 40) . '...';
-														}
-														else
-														{
-															$value['shortmessage'] = $value['message'];
-														}
-													?>
-													<tr>
-														<td>
-															<a href="javascript:void(0)"><span class="dark-data"><?= $value['shortmessage'] ?></span></a>
-														</td>
-														<td>
-															<?= ($value['type'] == 'contact' ? '<span class="dark-data"><a href="index.php?do=viewmessage&amp;id=' . $value['id'] . '">Afficher la conversation</a></span>' : '&nbsp;') ?>
-														</td>
-													</tr>
-													<?php
+														$value['shortmessage'] = substr($value['message'], 0, 40) . '...';
 													}
-												}
+													else
+													{
+														$value['shortmessage'] = $value['message'];
+													}
 												?>
-											</tbody>
-										</table>
-									</div>
+												<tr>
+													<td>
+														<a href="javascript:void(0)"><span class="dark-data"><?= $value['shortmessage'] ?></span></a>
+													</td>
+													<td>
+														<?= ($value['type'] == 'contact' ? '<span class="dark-data"><a href="index.php?do=viewmessage&amp;id=' . $value['id'] . '">Afficher la conversation</a></span>' : '&nbsp;') ?>
+													</td>
+												</tr>
+												<?php
+												}
+											}
+											?>
+										</tbody>
+									</table>
 								</div>
-								<?php
-								Utils::construct_page_nav($pagenumber, $perpage, $totalmessages['nbmessages'], 'index.php?do=viewmessages', 'front');
-								?>
 							</div>
-						</section>
-						<!--section end-->
+							<?php
+							Utils::construct_page_nav($pagenumber, $perpage, $totalmessages['nbmessages'], 'index.php?do=viewmessages', 'front');
+							?>
+						</div>
+					</section>
+					<!-- / messages -->
+					<?php
+					ViewTemplate::FrontFooter();
+					?>
 
-						<?php
-						ViewTemplate::FrontFooter();
-						?>
-
-					</body>
-				</html>
-			<?php
-		}
-		else
-		{
-			throw new Exception('Vous devez vous identifier avant de pouvoir consulter vos messages.');
-		}
+				</body>
+			</html>
+		<?php
 	}
 
 	/**
@@ -1151,7 +1013,7 @@ class ViewCustomer
 						?>
 
 						<?php
-						ViewTemplate::FrontBreadcrumb($pagetitle, ['profile' => 'Tableau de bord', 'viewmessages' => 'Liste des messages', 'viewmessage&amp;id=' => $pagetitle]);
+						ViewTemplate::FrontBreadcrumb($pagetitle, ['dashboard' => 'Tableau de bord', 'viewmessages' => 'Liste des messages', 'viewmessage&amp;id=' => $pagetitle]);
 						?>
 
 						<!--section start-->

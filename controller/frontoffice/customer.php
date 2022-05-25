@@ -1,13 +1,18 @@
 <?php
 
 require_once(DIR . '/model/ModelCustomer.php');
+require_once(DIR . '/model/ModelOrder.php');
+require_once(DIR . '/model/ModelOrderDetails.php');
+require_once(DIR . '/model/ModelTrademark.php');
+require_once(DIR . '/model/ModelMessage.php');
 use \Ecommerce\Model\ModelCustomer;
+use \Ecommerce\Model\ModelOrder;
+use \Ecommerce\Model\ModelOrderDetails;
+use \Ecommerce\Model\ModelTrademark;
+use \Ecommerce\Model\ModelMessage;
 
 /**
  * Displays the register form.
- *
- * The parameters here are required only in case of error, to refill the
- * form with user-entered values.
  *
  * @return void
  */
@@ -44,31 +49,37 @@ function doRegister($firstname, $lastname, $email, $password, $passwordconfirm)
 		header('Location: index.php');
 	}
 
+	$firstname = trim(strval($firstname));
+	$lastname = trim(strval($lastname));
+	$email = trim(strval($email));
+	$password = trim(strval($password));
+	$passwordconfirm = trim(strval($passwordconfirm));
+
 	// Enabling the model call here, useful to validate data
 	$customer = new ModelCustomer($config);
 
 	// Validate first name
-	if (empty(trim($firstname)))
+	if (empty($firstname))
 	{
 		throw new Exception('Veuillez insérer votre prénom.');
 	}
-	else if (!preg_match('/^[\p{L}\s]{2,}$/u', trim($firstname)))
+	else if (!preg_match('/^[\p{L}\s]{2,}$/u', $firstname))
 	{
 		throw new Exception('Le prénom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
 	}
 
 	// Validate last name
-	if (empty(trim($lastname)))
+	if (empty($lastname))
 	{
 		throw new Exception('Veuillez insérer votre nom.');
 	}
-	else if (!preg_match('/^[\p{L}\s]{2,}$/u', trim($lastname)))
+	else if (!preg_match('/^[\p{L}\s]{2,}$/u', $lastname))
 	{
 		throw new Exception('Le nom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
 	}
 
 	// Validate email
-	if (empty(trim($email)))
+	if (empty($email))
 	{
 		throw new Exception('Veuillez insérer votre adresse email.');
 	}
@@ -88,7 +99,7 @@ function doRegister($firstname, $lastname, $email, $password, $passwordconfirm)
 	}
 
 	// Validate password
-	if (empty(trim($password)))
+	if (empty($password))
 	{
 		throw new Exception('Veuillez insérer un mot de passe.');
 	}
@@ -96,13 +107,9 @@ function doRegister($firstname, $lastname, $email, $password, $passwordconfirm)
 	{
 		throw new Exception('Les mots de passe ne correspondent pas.');
 	}
-	else if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', trim($password)))
+	else if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $password))
 	{
 		throw new Exception('Le mot de passe utilise des caractères interdits. Il doit contenir des caractères minuscules, majuscules, des chiffres et des caractères spéciaux, sur 8 caractères de long. Veuillez recommencer.');
-	}
-	else
-	{
-		$password = trim($password);
 	}
 
 	$hashedpassword = password_hash($password, PASSWORD_DEFAULT);
@@ -162,11 +169,14 @@ function doLogin($email, $password)
 		header('Location: index.php');
 	}
 
+	$email = trim(strval($email));
+	$password = trim(strval($password));
+
 	// Enabling the model call here, useful to validate data
 	$customer = new ModelCustomer($config);
 
 	// Validate email
-	if (empty(trim($email)))
+	if (empty($email))
 	{
 		throw new Exception('Veuillez insérer votre adresse email.');
 	}
@@ -186,11 +196,11 @@ function doLogin($email, $password)
 	}
 
 	// Validate password
-	if (empty(trim($password)))
+	if (empty($password))
 	{
 		throw new Exception('Veuillez insérer un mot de passe.');
 	}
-	else if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', trim($password)))
+	else if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $password))
 	{
 		throw new Exception('Le mot de passe utilise des caractères interdits. Il doit contenir des caractères minuscules, majuscules, des chiffres et des caractères spéciaux, sur 8 caractères de long. Veuillez recommencer.');
 	}
@@ -251,7 +261,7 @@ function doLogout()
  *
  * @return void
  */
-function viewProfile()
+function viewDashboard()
 {
 	if (!$_SESSION['user']['loggedin'])
 	{
@@ -259,8 +269,14 @@ function viewProfile()
 		header('Location: index.php');
 	}
 
+	global $config;
+
+	$customer = new ModelCustomer($config);
+	$customer->set_id($_SESSION['user']['id']);
+	$data = $customer->getCustomerInfosFromId();
+
 	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
-	ViewCustomer::CustomerDashboard();
+	ViewCustomer::CustomerDashboard($data);
 }
 
 /**
@@ -276,8 +292,14 @@ function editProfile()
 		header('Location: index.php');
 	}
 
+	global $config;
+
+	$customer = new ModelCustomer($config);
+	$customer->set_id($_SESSION['user']['id']);
+	$data = $customer->getCustomerInfosFromId();
+
 	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
-	ViewCustomer::CustomerProfile();
+	ViewCustomer::CustomerProfile($data);
 }
 
 /**
@@ -443,8 +465,21 @@ function editPassword($email = '', $token = '')
 		}
 	}
 
+	$customer = new ModelCustomer($config);
+
+	if ($customerid['id'])
+	{
+		$customer->set_id($customerid['id']);
+	}
+	else
+	{
+		$customer->set_id($_SESSION['user']['id']);
+	}
+
+	$data = $customer->getCustomerInfosFromId();
+
 	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
-	ViewCustomer::CustomerPassword($customerid['id'], $savedtoken);
+	ViewCustomer::CustomerPassword($data, $savedtoken);
 }
 
 /**
@@ -568,8 +603,23 @@ function forgotPassword()
 		header('Location: index.php');
 	}
 
+	global $config;
+
+	$customer = new ModelCustomer($config);
+
+	if ($id)
+	{
+		$customer->set_id($id);
+	}
+	else
+	{
+		$customer->set_id($_SESSION['user']['id']);
+	}
+
+	$data = $customer->getCustomerInfosFromId();
+
 	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
-	ViewCustomer::CustomerForgotPassword();
+	ViewCustomer::CustomerForgotPassword($data);
 }
 
 /**
@@ -646,8 +696,15 @@ function deleteProfile()
 		header('Location: index.php');
 	}
 
+	global $config;
+
+	$customer = new ModelCustomer($config);
+	$customer->set_id($_SESSION['user']['id']);
+
+	$data = $customer->getCustomerInfosFromId();
+
 	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
-	ViewCustomer::CustomerDeleteProfile();
+	ViewCustomer::CustomerDeleteProfile($data);
 }
 
 /**
@@ -706,8 +763,28 @@ function viewOrders()
 		header('Location: index.php');
 	}
 
+	global $config, $pagenumber;
+
+	$customer = new ModelCustomer($config);
+	$customer->set_id($_SESSION['user']['id']);
+	$data = $customer->getCustomerInfosFromId();
+
+	$orderlist = new ModelOrder($config);
+	$orderlist->set_customer($data['id']);
+	$totalorders = $orderlist->getNumberOfOrdersForCustomer();
+
+	if ($totalorders['nborders'] > 0)
+	{
+		// Number max per page
+		$perpage = 10;
+
+		$limitlower = Utils::define_pagination_values($totalorders['nborders'], $pagenumber, $perpage);
+
+		$orders = $orderlist->getAllCustomerOrders($limitlower, $perpage);
+	}
+
 	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
-	ViewCustomer::DisplayOrders();
+	ViewCustomer::DisplayOrders($orders, $orderlist, $totalorders, $perpage);
 }
 
 /**
@@ -723,8 +800,26 @@ function viewOrder($id)
 		header('Location: index.php');
 	}
 
+	global $config;
+
+	$customer = new ModelCustomer($config);
+	$customer->set_id($_SESSION['user']['id']);
+
+	$data = $customer->getCustomerInfosFromId();
+
+	if ($data['id'] === $_SESSION['user']['id'])
+	{
+		$orderdetails = new ModelOrderDetails($config);
+		$orderdetails->set_order(intval($id));
+		$orderdetail = $orderdetails->getOrderDetails();
+	}
+	else
+	{
+		throw new Exception('Vous n\'êtes pas autorisé à afficher cette page.');
+	}
+
 	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
-	ViewCustomer::DisplayOrder($id);
+	ViewCustomer::DisplayOrder($id, $orderdetail);
 }
 
 /**
@@ -732,8 +827,33 @@ function viewOrder($id)
  */
 function viewMessages()
 {
+	if (!$_SESSION['user']['loggedin'])
+	{
+		$_SESSION['nonallowed'] = 1;
+		header('Location: index.php');
+	}
+
+	global $config, $pagenumber;
+
+	$customer = new ModelCustomer($config);
+	$customer->set_id($_SESSION['user']['id']);
+
+	$data = $customer->getCustomerInfosFromId();
+
+	$messagelist = new ModelMessage($config);
+	$messagelist->set_customer($data['id']);
+	$messagelist->set_type('contact', 'notif');
+	$totalmessages = $messagelist->countMessagesFromCustomer();
+
+	// Number max per page
+	$perpage = 10;
+
+	$limitlower = Utils::define_pagination_values($totalmessages['nbmessages'], $pagenumber, $perpage);
+
+	$messages = $messagelist->getAllMessagesFromCustomer($limitlower, $perpage);
+
 	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
-	ViewCustomer::viewMessages();
+	ViewCustomer::viewMessages($messages, $perpage);
 }
 
 /**

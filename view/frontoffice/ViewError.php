@@ -26,17 +26,12 @@ class ViewError
 				ViewTemplate::FrontHead($pagetitle);
 				?>
 			</head>
-
 			<body class="bg-light">
-
 				<?php
 				ViewTemplate::FrontHeader();
-				?>
 
-				<?php
 				ViewTemplate::FrontBreadcrumb('Erreur', '');
 				?>
-
 				<section class="login-page section-big-py-space b-g-light">
 					<div class="custom-container">
 						<div class="row">
@@ -48,42 +43,13 @@ class ViewError
 						</div>
 					</div>
 				</section>
-
 				<?php
 				ViewTemplate::FrontFooter();
 				?>
-
-				<!-- latest jquery-->
-				<script src="assets/js/jquery-3.5.1.min.js" ></script>
-
-				<!-- slick js-->
-				<script src="assets/js/slick.js"></script>
-
-				<!-- popper js-->
-				<script src="assets/js/popper.min.js" ></script>
-				<script src="assets/js/bootstrap-notify.min.js"></script>
-
-				<!-- menu js-->
-				<script src="assets/js/menu.js"></script>
-
-				<!-- Bootstrap js-->
-				<script src="assets/js/bootstrap.js"></script>
-
-				<!-- tool tip js -->
-				<script src="assets/js/tippy-popper.min.js"></script>
-				<script src="assets/js/tippy-bundle.iife.min.js"></script>
-
-				<!-- father icon -->
-				<script src="assets/js/feather.min.js"></script>
-				<script src="assets/js/feather-icon.js"></script>
-
-				<!-- Theme js-->
-				<script src="assets/js/script.js" ></script>
 			</body>
 		</html>
 		<?php
 	}
 }
-
 
 ?>

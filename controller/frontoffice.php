@@ -50,7 +50,7 @@ if (in_array($do, ['index']))
 	require_once(DIR . '/controller/frontoffice/index.php');
 }
 
-if (in_array($do, ['register', 'doregister', 'login', 'dologin', 'profile', 'editprofile', 'saveprofile', 'editpassword', 'savepassword', 'forgotpassword', 'sendpassword', 'deleteprofile', 'dodeleteprofile', 'vieworders', 'vieworder', 'viewmessages', 'viewmessage', 'logout']))
+if (in_array($do, ['register', 'doregister', 'login', 'dologin', 'dashboard', 'editprofile', 'saveprofile', 'editpassword', 'savepassword', 'forgotpassword', 'sendpassword', 'deleteprofile', 'dodeleteprofile', 'vieworders', 'vieworder', 'viewmessages', 'viewmessage', 'logout']))
 {
 	require_once(DIR . '/controller/frontoffice/customer.php');
 }

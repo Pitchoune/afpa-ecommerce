@@ -193,9 +193,10 @@ class ModelProduct extends Model
 	{
 		$db = $this->dbConnect();
 		$query = $db->prepare("
-			SELECT *
-			FROM produit
-			WHERE ref = ?
+			SELECT p.*, c.nom AS category
+			FROM produit AS p
+				INNER JOIN categorie AS c ON (c.id = p.id_categorie)
+			WHERE p.ref = ?
 		");
 		$query->bindParam(1, $this->ref, \PDO::PARAM_STR);
 
@@ -353,7 +354,9 @@ class ModelProduct extends Model
 	}
 
 	/**
+	 * Returns the latest 15 new products inserted into the database.
 	 *
+	 * @return mixed Returns the products list if there is any result to return, else false if it fails.
 	 */
 	public function getNewProductsList()
 	{
@@ -433,6 +436,7 @@ class ModelProduct extends Model
 	 *
 	 * @param integer $limitlower Minimum value for the limit.
 	 * @param integer $perpage Number of items to return.
+	 * @param string $sortby Direction to sort data.
 	 *
 	 * @return mixed Array of data if found or false if there is nothing found.
 	 */
