@@ -12,15 +12,24 @@ use \Ecommerce\Model\ModelMessage;
  */
 function viewContact()
 {
+	global $config;
+
+	if ($_SESSION['user']['id'])
+	{
+		$customers = new ModelCustomer($config);
+		$customers->set_id($_SESSION['user']['id']);
+		$customer = $customers->getCustomerInfosFromId();
+	}
+
 	// We generate HTML code from the view
 	require_once(DIR . '/view/frontoffice/ViewContact.php');
-	ViewContact::DisplayContactForm();
+	ViewContact::DisplayContactForm($customer);
 }
 
 /**
  *
  */
-function sendContact($firstname, $lastname, $email, $telephone, $message, $id = '')
+function sendContact($firstname, $lastname, $email, $telephone, $title, $message, $id = '')
 {
 	global $config;
 
@@ -28,6 +37,7 @@ function sendContact($firstname, $lastname, $email, $telephone, $message, $id = 
 	$lastname = trim(strval($lastname));
 	$email = trim(strval($email));
 	$telephone = trim(strval($telephone));
+	$title = trim(strval($title));
 	$message = trim(strval($message));
 	$id = intval($id);
 
@@ -81,21 +91,36 @@ function sendContact($firstname, $lastname, $email, $telephone, $message, $id = 
 		throw new Exception('Le format du téléphone n\'est pas valide.');
 	}
 
+	// Verify title
+	if ($title === '' OR empty($title))
+	{
+		throw new Exception('Veuillez remplir l\'intitulé.');
+	}
+
+	if (!preg_match('/^[\p{L}\s-[:punct:]]{2,}$/u', $title))
+	{
+		throw new Exception('Le format de l\'intitulé n\'est pas valide.');
+	}
+
 	// Verify message
 	if ($message === '' OR empty($message))
 	{
 		throw new Exception('Veuillez remplir le message.');
 	}
 
-	if (!preg_match('/^[\p{L}\s]{2,}$/u', $message))
+	if (!preg_match('/^[\p{L}\s-[:punct:]]{2,}$/u', $message))
 	{
 		throw new Exception('Le format du message n\'est pas valide.');
 	}
 
+	$date = date("Y-m-d H:i:s");
+
 	// Save the message
 	$messages = new ModelMessage($config);
 	$messages->set_type('contact');
+	$messages->set_title($title);
 	$messages->set_message($message);
+	$messages->set_date($date);
 	$messages->set_previous(NULL);
 	$messages->set_customer($_SESSION['user']['id']);
 	$messages->set_employee(NULL);

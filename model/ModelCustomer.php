@@ -168,6 +168,25 @@ class ModelCustomer extends Model
 	}
 
 	/**
+	 * Returns the customer firstname and lastname.
+	 *
+	 * @return array Firstname and lastname of the customer.
+	 */
+	public function getCustomerFirstAndLastName()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT prenom, nom
+			FROM client
+			WHERE id = ?
+		");
+		$query->bindParam(1, $this->id, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetch();
+	}
+
+	/**
 	 * Returns the customer informations from the email address.
 	 *
 	 * @return array Informations of the customer.

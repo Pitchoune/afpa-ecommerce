@@ -123,6 +123,12 @@ try
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
 			viewMessage($id);
 			break;
+		case 'sendreply':
+			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
+			$latestid = isset($_POST['latestid']) ? filter_var($_POST['latestid'], FILTER_VALIDATE_INT) : NULL;
+			$message = isset($_POST['message']) ? filter_var($_POST['message'], FILTER_SANITIZE_STRING) : NULL;
+			addReplyToMessage($id, $latestid, $message);
+			break;
 		case 'logout':
 			doLogout();
 			break;
@@ -180,9 +186,10 @@ try
 			$lastname = isset($_POST['lastname']) ? filter_var($_POST['lastname'], FILTER_SANITIZE_STRING) : NULL;
 			$email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) : NULL;
 			$telephone = isset($_POST['telephone']) ? filter_var($_POST['telephone'], FILTER_SANITIZE_STRING) : NULL;
+			$title = isset($_POST['title']) ? filter_var($_POST['title'], FILTER_SANITIZE_STRING) : NULL;
 			$message = isset($_POST['message']) ? filter_var($_POST['message'], FILTER_SANITIZE_STRING) : NULL;
 			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
-			sendContact($firstname, $lastname, $email, $telephone, $message, $id);
+			sendContact($firstname, $lastname, $email, $telephone, $title, $message, $id);
 			break;
 	}
 }

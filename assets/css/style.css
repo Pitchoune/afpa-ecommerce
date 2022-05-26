@@ -141,11 +141,12 @@ ul {
   margin-bottom: 0;
 }
 
+/*
 ::selection {
-  background-color: #e60012;
-  color: #e60012;
+	background-color: $theme-color1;
+	color: $theme-color2;
 }
-
+*/
 li {
   display: inline-block;
 }
@@ -191,6 +192,10 @@ button:focus {
 .section-big-py-space {
   padding-top: 100px;
   padding-bottom: 100px;
+}
+
+.section-big-mb-space {
+  margin-bottom: 100px;
 }
 
 .section-big-mt-space {
@@ -2006,13 +2011,13 @@ header {
   border-bottom: 1px solid #dddddd !important;
   text-align: center;
 }
-.cart-section tbody tr td a, .cart-section tbody tr td p {
+.cart-section tbody tr td a, .cart-section tbody tr td p, .cart-section tbody tr td span {
   color: #777777;
   font-weight: 400;
   font-size: calc(14px + 6 * (100vw - 320px) / 1600);
   margin-bottom: 0;
 }
-.cart-section tbody tr td a img, .cart-section tbody tr td p img {
+.cart-section tbody tr td a img, .cart-section tbody tr td p img, .cart-section tbody tr td span img {
   height: 90px;
 }
 .cart-section tbody tr td .td-color {
@@ -2060,6 +2065,85 @@ header {
   font-size: 15px;
   padding-right: 10px;
   font-weight: 700;
+}
+
+.messages-section .table tbody tr td .qty-box {
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+.messages-section .table tbody + tbody {
+  border-top: none;
+}
+.messages-section .messages-buttons {
+  padding-top: 35px;
+  text-transform: uppercase;
+}
+.messages-section .messages-buttons > div:last-child {
+  text-align: right;
+  padding-right: 59px;
+}
+.messages-section .messages-table {
+  overflow: hidden;
+  margin-bottom: 0;
+}
+.messages-section .messages-table thead th {
+  border-bottom-width: 1px;
+  font-weight: 900;
+  color: #333333;
+  text-transform: uppercase;
+  font-size: 14px;
+  border-top: 0;
+  text-align: center;
+  padding: 0 0.75rem 0.75rem 0.75rem;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  border-bottom: 1px solid #dddddd !important;
+}
+.messages-section tbody h2 {
+  margin-bottom: 0;
+}
+.messages-section tbody tr td {
+  min-width: 210px;
+  vertical-align: middle;
+  color: #444444;
+  border-top: 0;
+  border-bottom: 1px solid #dddddd !important;
+  text-align: center;
+}
+.messages-section tbody tr td a, .messages-section tbody tr td p, .messages-section tbody tr td span {
+  color: #777777;
+  font-weight: 400;
+  font-size: calc(14px + 6 * (100vw - 320px) / 1600);
+  margin-bottom: 0;
+}
+.messages-section tbody tr td a img, .messages-section tbody tr td p img, .messages-section tbody tr td span img {
+  height: 90px;
+}
+.messages-section tbody tr td .td-color {
+  color: #e60012;
+}
+.messages-section tbody tr td h2 {
+  font-size: calc(16px + 8 * (100vw - 320px) / 1600);
+  color: #444444;
+  font-weight: 400;
+}
+.messages-section tbody tr td .mobile-messages-content {
+  display: none;
+  justify-content: center;
+  margin-top: 10px;
+}
+.messages-section tbody tr td .mobile-messages-content .qty-box {
+  border-radius: 5px;
+}
+.messages-section tbody tr td .mobile-messages-content .qty-box .input-group .form-control {
+  width: 48px;
+  padding: 6px;
+}
+.messages-section tbody tr td .mobile-messages-content .col-xs-3 {
+  align-self: center;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .product-slick img {
@@ -2852,6 +2936,12 @@ header {
   box-shadow: none;
 }
 
+/* If you edit this value, edit also the scrollTop value in JS
+   to keep a value higher than 12px than the value here */
+.movebreadcrumponsticky {
+  margin-top: 188px;
+}
+
 .breadcrumb-main {
   background-color: #ffffff;
   padding: 50px 0;
@@ -2935,6 +3025,9 @@ header {
   letter-spacing: 0.05em;
 }
 
+.order-tracking.section-big-mt-space {
+  margin-bottom: 50px;
+}
 .order-tracking h4.tracking-title {
   color: #444444;
   margin-bottom: 10px;
@@ -2972,6 +3065,12 @@ header {
 .order-tracking .order-tracking-contain .tracking-group ul.may-product > li .media img {
   height: 200px;
 }
+.order-tracking .order-tracking-contain .tracking-group ul.may-product > li .media .media-left {
+  width: 150px;
+}
+.order-tracking .order-tracking-contain .tracking-group ul.may-product > li .media .media-left h5 {
+  top: 20px;
+}
 .order-tracking .order-tracking-contain .tracking-group ul.may-product > li .media .media-body {
   margin-left: 10px;
 }
@@ -2986,6 +3085,9 @@ header {
 .order-tracking .order-tracking-contain .tracking-group ul.may-product > li .media .media-body h4 {
   color: #e60012;
   margin-bottom: 5px;
+}
+.order-tracking .order-tracking-contain .tracking-group ul.may-product > li .fix-style {
+  align-items: stretch;
 }
 .order-tracking .order-tracking-sidebar ul li {
   display: block;
@@ -3680,6 +3782,10 @@ footer .subfooter.footer-border {
     padding-right: 41px;
   }
 
+  .messages-section tbody tr td {
+    min-width: 175px;
+  }
+
   .product-right .product-icon .product-social li {
     padding-right: 10px;
   }
@@ -3917,6 +4023,10 @@ footer .subfooter.footer-border {
     padding: 30px 20px;
   }
 
+  .movebreadcrumponsticky {
+    margin-top: 75px;
+  }
+
   .breadcrumb-main {
     padding: 50px 0;
   }
@@ -3930,6 +4040,10 @@ footer .subfooter.footer-border {
   }
 
   .cart-section tbody tr td {
+    min-width: 186px;
+  }
+
+  .messages-section tbody tr td {
     min-width: 186px;
   }
 
@@ -3976,6 +4090,10 @@ footer .subfooter.footer-border {
   }
   .cart-section tfoot tr td {
     padding-right: 25px;
+  }
+
+  .messages-section tbody tr td {
+    min-width: 140px;
   }
 
   .product-right h2 {
@@ -4067,6 +4185,10 @@ footer .subfooter.footer-border {
   }
   .top-header .main-menu-block .brand-logo img {
     height: 40px;
+  }
+
+  .movebreadcrumponsticky {
+    margin-top: 70px;
   }
 
   .breadcrumb-main {
@@ -4214,6 +4336,10 @@ footer .subfooter.footer-border {
   }
   .cart-section.order-history .cart-table thead th:last-child {
     display: table-cell;
+  }
+
+  .messages-section tbody tr td {
+    min-width: 135px;
   }
 
   .product-right {
@@ -4525,7 +4651,7 @@ footer .subfooter.footer-border {
     padding-left: 0;
   }
 
-  .collection-product-wrapper .product-pagination .pagination .page-item a, .cart-section .product-pagination .pagination .page-item a {
+  .collection-product-wrapper .product-pagination .pagination .page-item a, .cart-section .product-pagination .pagination .page-item a, .messages-section .product-pagination .pagination .page-item a {
     padding: 15px 18px;
   }
 
@@ -4548,6 +4674,24 @@ footer .subfooter.footer-border {
     align-items: center;
   }
   .cart-section tbody tr td .total-color {
+    color: #777777;
+  }
+
+  .messages-section .messages-table thead th:nth-last-child(-n+1) {
+    display: none;
+  }
+  .messages-section tbody tr td:nth-last-child(-n+1) {
+    display: none;
+  }
+  .messages-section tbody tr td .mobile-messages-content {
+    display: flex;
+  }
+  .messages-section tbody tr td a {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+  }
+  .messages-section tbody tr td .total-color {
     color: #777777;
   }
 
@@ -4796,6 +4940,10 @@ footer .subfooter.footer-border {
     background-color: transparent;
   }
 
+  .movebreadcrumponsticky {
+    margin-top: 55px;
+  }
+
   .breadcrumb-main {
     padding: 30px 0;
   }
@@ -4976,6 +5124,23 @@ footer .subfooter.footer-border {
     padding-right: 27px;
   }
   .cart-section tfoot tr td h2 {
+    font-size: 21px;
+  }
+
+  .messages-section tbody tr td {
+    min-width: 115px;
+  }
+  .messages-section tbody tr td .mobile-messages-content .col-xs-3 {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  .messages-section tbody tr td a img {
+    height: 80px;
+  }
+  .messages-section tfoot tr td {
+    padding-right: 27px;
+  }
+  .messages-section tfoot tr td h2 {
     font-size: 21px;
   }
 }

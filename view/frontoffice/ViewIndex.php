@@ -210,6 +210,12 @@ class ViewIndex
 						ViewTemplate::FrontNotify('Nous contacter', 'Votre message a été envoyé à notre équipe avec succès !', 'success');
 						unset($_SESSION['user']['contact']);
 					}
+
+					if ($_SESSION['notallowed'] === 1)
+					{
+						ViewTemplate::FrontNotify('Erreur', 'Vous n\’avez pas la permission d\'accéder à cette page.', 'success');
+						unset($_SESSION['userregistered']);
+					}
 					?>
 
 				</body>

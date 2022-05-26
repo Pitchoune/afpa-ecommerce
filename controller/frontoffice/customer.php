@@ -326,6 +326,15 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 		header('Location: index.php');
 	}
 
+	$id = intval($id);
+	$firstname = trim(strval($firstname));
+	$lastname = trim(strval($lastname));
+	$email = trim(strval($email));
+	$address = trim(strval($address));
+	$city = trim(strval($city));
+	$zipcode = intval($zipcode);
+	$telephone = intval($telephone);
+
 	$customers = new ModelCustomer($config);
 
 	// Verify first name
@@ -334,7 +343,7 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 		throw new Exception('Veuillez remplir le prénom.');
 	}
 
-	if (!preg_match('/^[\p{L}\s]{2,}$/u', trim($firstname)))
+	if (!preg_match('/^[\p{L}\s]{2,}$/u', $firstname))
 	{
 		throw new Exception('Le format du prénom n\'est pas valide.');
 	}
@@ -345,7 +354,7 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 		throw new Exception('Veuillez remplir le nom.');
 	}
 
-	if (!preg_match('/^[\p{L}\s]{2,}$/u', trim($lastname)))
+	if (!preg_match('/^[\p{L}\s]{2,}$/u', $lastname))
 	{
 		throw new Exception('Le format du nom n\'est pas valide.');
 	}
@@ -356,7 +365,7 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 		throw new Exception('Veuillez remplir l\'adresse email.');
 	}
 
-	if (!preg_match('/^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si', trim($email)))
+	if (!preg_match('/^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si', $email))
 	{
 		throw new Exception('Le format de l\'adresse email n\'est pas valide.');
 	}
@@ -367,7 +376,7 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 		throw new Exception('Veuillez remplir l\'adresse postale.');
 	}
 
-	if (!preg_match('/^[\d\w\-\s]{5,100}$/', trim($address)))
+	if (!preg_match('/^[\d\w\-\s]{5,100}$/', $address))
 	{
 		throw new Exception('Le format de l\'adresse postale n\'est pas valide.');
 	}
@@ -378,7 +387,7 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 		throw new Exception('Veuillez remplir la ville.');
 	}
 
-	if (!preg_match('/^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/u', trim($city)))
+	if (!preg_match('/^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/u', $city))
 	{
 		throw new Exception('Le format de la ville n\'est pas valide.');
 	}
@@ -389,7 +398,7 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 		throw new Exception('Veuillez remplir le code postal.');
 	}
 
-	if (!preg_match('/^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/', trim($zipcode)))
+	if (!preg_match('/^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/', $zipcode))
 	{
 		throw new Exception('Le format du code postal n\'est pas valide.');
 	}
@@ -400,7 +409,7 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 		throw new Exception('Veuillez remplir le téléphone.');
 	}
 
-	if (!preg_match('/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/', trim($telephone)))
+	if (!preg_match('/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/', $telephone))
 	{
 		throw new Exception('Le format du téléphone n\'est pas valide.');
 	}
@@ -428,7 +437,7 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 }
 
 /**
- * Displays a form to edit customer password.
+ * Displays a form to edit customer password. You can access it logged-in or logged-out.
  *
  * @param string $email Email address of the customer. Used on forgot password.
  * @param string $token Generated token sent when customer forgot the password.
@@ -438,6 +447,9 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 function editPassword($email = '', $token = '')
 {
 	global $config;
+
+	$email = trim(strval($email));
+	$token = trim(strval($token));
 
 	if (!$_SESSION['user']['loggedin'])
 	{
@@ -496,6 +508,12 @@ function editPassword($email = '', $token = '')
 function savePassword($id, $password = '', $newpassword, $confirmpassword, $token = '')
 {
 	global $config;
+
+	$id = intval($id);
+	$password = trim(strval($password));
+	$newpassword = trim(strval($newpassword));
+	$confirmpassword = trim(strval($confirmpassword));
+	$token = trim(strval($token));
 
 	$customers = new ModelCustomer($config);
 	$customers->set_id(intval($id));
@@ -606,16 +624,7 @@ function forgotPassword()
 	global $config;
 
 	$customer = new ModelCustomer($config);
-
-	if ($id)
-	{
-		$customer->set_id($id);
-	}
-	else
-	{
-		$customer->set_id($_SESSION['user']['id']);
-	}
-
+	$customer->set_id($_SESSION['user']['id']);
 	$data = $customer->getCustomerInfosFromId();
 
 	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
@@ -631,13 +640,15 @@ function forgotPassword()
  */
 function sendPassword($email)
 {
-	global $config;
-
 	if ($_SESSION['user']['loggedin'])
 	{
 		$_SESSION['nonallowed'] = 1;
 		header('Location: index.php');
 	}
+
+	global $config;
+
+	$email = trim(strval($email));
 
 	$customers = new ModelCustomer($config);
 	$customers->set_email($email);
@@ -790,6 +801,8 @@ function viewOrders()
 /**
  * Display the HTML code for the specific order page.
  *
+ * @param integer $id ID of the order.
+ *
  * @return void
  */
 function viewOrder($id)
@@ -801,6 +814,8 @@ function viewOrder($id)
 	}
 
 	global $config;
+
+	$id = intval($id);
 
 	$customer = new ModelCustomer($config);
 	$customer->set_id($_SESSION['user']['id']);
@@ -823,7 +838,9 @@ function viewOrder($id)
 }
 
 /**
+ * Display the HTML code for the conversations list page.
  *
+ * @return void
  */
 function viewMessages()
 {
@@ -850,19 +867,156 @@ function viewMessages()
 
 	$limitlower = Utils::define_pagination_values($totalmessages['nbmessages'], $pagenumber, $perpage);
 
-	$messages = $messagelist->getAllMessagesFromCustomer($limitlower, $perpage);
+	$getmessage = $messagelist->getAllMessagesFromCustomer($limitlower, $perpage);
+
+	$messages = [];
+
+	foreach ($getmessage AS $key => $value)
+	{
+		$messages[$key] = $value;
+
+		if ($value['id_client'])
+		{
+			// If the client started the message, displays its first and last name
+			$customer->set_id($value['id_client']);
+			$customerinfo = $customer->getCustomerInfosFromId();
+			$messages[$key]['nom_client'] = $customerinfo['prenom'] . ' ' . $customerinfo['nom'];
+		}
+	}
 
 	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
-	ViewCustomer::viewMessages($messages, $perpage);
+	ViewCustomer::viewMessages($messages, $perpage, $totalmessages['nbmessages']);
 }
 
 /**
+ * Display the HTML code for a list of messages in a conversation.
  *
+ * @pazram integer $id ID of the root conversation.
+ *
+ * @return void
  */
 function viewMessage($id)
 {
+	if (!$_SESSION['user']['id'])
+	{
+		throw new Exception('Vous devez vous identifier avant de pouvoir consulter vos messages.');
+	}
+
+	global $config;
+
+	$id = intval($id);
+
+	$customer = new ModelCustomer($config);
+	$customer->set_id($_SESSION['user']['id']);
+
+	$data = $customer->getCustomerInfosFromId();
+
+	$messagelist = new ModelMessage($config);
+	$messagelist->set_id($id);
+
+	// Initialize the ids list array of all messages from the same conversation
+	$messageids = [];
+	$messageids[] = $id;
+	$title = '';
+
+	do {
+		// Grab the next id from the latest grabbed
+		$i = $messagelist->getNextMessageIdFromDiscussion();
+		$messagelist->set_id($i['id']);
+
+		// If the query result is empty, quit the loop
+		if (empty($i['id']))
+		{
+			break;
+		}
+
+		// Add the latest found id in the ids list array
+		$messageids[] = $i['id'];
+	} while (true);
+
+	// Now we have the ids list array filled with the correct ids, we can transform it
+	// into a comma-separated id list for the query to grab all messages
+	$list = implode(',', $messageids);
+
+	// Get messages
+	$messages = $messagelist->grabAllMessagesFromDiscussion($list);
+
+	// Get only the first title if there is any other (should not)
+	$title = $messages[0]['titre'];
+
+	// Make impossible to open a discussion without $id being the first message
+	if ($messages[0]['precedent_id'] AND $messages[0]['id'] == $id)
+	{
+		throw new Exception('Vous ne pouvez pas ouvrir une conversation depuis un message qui n\'est pas le premier message.');
+	}
+
+	// Make impossible for the current user to read others customers messages
+	if ($messages[0]['id_client'] != $_SESSION['user']['id'])
+	{
+		throw new Exception('Vous ne pouvez pas consulter les messages des autres clients.');
+	}
+
 	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
-	ViewCustomer::viewMessage($id);
+	ViewCustomer::viewMessage($id, $messages, $title, $data);
+}
+
+/**
+ * Adds the reply into the database.
+ *
+ * @param integer $id ID of the conversation.
+ * @param integer $latestid ID of the latest reply.
+ * @param string $message Message of the customer.
+ *
+ * @return void
+ */
+function addReplyToMessage($id, $latestid, $message)
+{
+	if (!$_SESSION['user']['id'])
+	{
+		throw new Exception('Vous devez vous identifier avant de pouvoir envoyer des réponses aux messages.');
+	}
+
+	global $config;
+
+	$id = intval($id);
+	$latestid = intval($latestid);
+	$message = trim(strval($message));
+
+	$message = nl2br($message);
+
+	$customer = new ModelCustomer($config);
+	$customer->set_id($_SESSION['user']['id']);
+
+	$data = $customer->getCustomerInfosFromId();
+
+	// Verify message
+	if ($message === '' OR empty($message))
+	{
+		throw new Exception('Veuillez remplir le message.');
+	}
+
+	if (!preg_match('/^[\p{L}\s-[:punct:]]{2,}$/u', $message))
+	{
+		throw new Exception('Le format du message n\'est pas valide.');
+	}
+
+	$date = date("Y-m-d H:i:s");
+
+	// Save the message
+	$messages = new ModelMessage($config);
+	$messages->set_type('contact');
+	$messages->set_title($title);
+	$messages->set_message($message);
+	$messages->set_date($date);
+	$messages->set_previous($latestid);
+	$messages->set_customer($_SESSION['user']['id']);
+	$messages->set_employee(NULL);
+
+	if ($messages->saveNewMessage())
+	{
+		$_SESSION['user']['sendreply'] = 1;
+		header('Location: index.php?do=viewmessage&id=' . $id);
+	}
 }
 
 ?>

@@ -125,12 +125,12 @@ h6 {
 }
 
 .form-group {
-	margin-bottom:15px;
+	margin-bottom: 15px;
 }
 
 label {
-	color:$font-color;
-	margin-bottom:10px;
+	color: $font-color;
+	margin-bottom: 10px;
 }
 
 textarea, input {
@@ -142,10 +142,12 @@ ul {
 	margin-bottom: 0;
 }
 
+/*
 ::selection {
 	background-color: $theme-color1;
 	color: $theme-color2;
 }
+*/
 
 li {
 	display: inline-block;
@@ -195,6 +197,10 @@ button:focus {
 .section-big-py-space {
 	padding-top: 100px;
 	padding-bottom: 100px;
+}
+
+.section-big-mb-space {
+	margin-bottom: 100px;
 }
 
 .section-big-mt-space {
@@ -2500,7 +2506,7 @@ header {
 				border-bottom: 1px solid $light-border !important;
 				text-align: center;
 
-				a, p {
+				a, p, span {
 					color: $icon-color;
 					font-weight: 400;
 					font-size: calc(14px + (20 - 14) * ((100vw - 320px) / (1920 - 320)));
@@ -2571,6 +2577,120 @@ header {
 					font-size: 15px;
 					padding-right: 10px;
 					font-weight: 700;
+				}
+			}
+		}
+	}
+}
+
+.messages-section {
+	.table {
+		tbody {
+			tr {
+				td {
+					.qty-box {
+						width: fit-content;
+						margin-left: auto;
+						margin-right: auto;
+					}
+				}
+			}
+
+			&+tbody {
+				border-top: none;
+			}
+		}
+	}
+
+	.messages-buttons {
+		padding-top: 35px;
+		text-transform: uppercase;
+
+		> div {
+			&:last-child {
+				text-align: right;
+				padding-right: 59px;
+			}
+		}
+	}
+
+	.messages-table {
+		overflow: hidden;
+		margin-bottom: 0;
+
+		thead {
+			th {
+				border-bottom-width: 1px;
+				font-weight: 900;
+				color: $font-color;
+				text-transform: uppercase;
+				font-size: 14px;
+				border-top: 0;
+				text-align: center;
+				padding: 0 0.75rem 0.75rem 0.75rem;
+				letter-spacing: 0.05em;
+				line-height: 1;
+				border-bottom: 1px solid $light-border !important;
+			}
+		}
+	}
+
+	tbody {
+		h2 {
+			margin-bottom: 0;
+		}
+
+		tr {
+			td {
+				min-width: 210px;
+				vertical-align: middle;
+				color: $dark;
+				border-top: 0;
+				border-bottom: 1px solid $light-border !important;
+				text-align: center;
+
+				a, p, span {
+					color: $icon-color;
+					font-weight: 400;
+					font-size: calc(14px + (20 - 14) * ((100vw - 320px) / (1920 - 320)));
+					margin-bottom: 0;
+
+					img {
+						height: 90px;
+					}
+				}
+
+				.td-color {
+					color: $theme-color1;
+				}
+
+				h2 {
+					font-size: calc(16px + (24 - 16) * ((100vw - 320px) / (1920 - 320)));
+					color: $dark;
+					font-weight: 400;
+				}
+
+				.mobile-messages-content {
+					display: none;
+					justify-content: center;
+					margin-top: 10px;
+
+					.qty-box {
+						border-radius: 5px;
+
+						.input-group {
+							.form-control {
+								width: 48px;
+								padding: 6px;
+							}
+						}
+					}
+
+					.col-xs-3 {
+						align-self: center;
+						margin-left: 10px;
+						margin-right: 10px;
+					}
 				}
 			}
 		}
@@ -3568,6 +3688,13 @@ header {
 	}
 }
 
+
+/* If you edit this value, edit also the scrollTop value in JS
+   to keep a value higher than 12px than the value here */
+.movebreadcrumponsticky {
+	margin-top: 188px;
+}
+
 .breadcrumb-main {
 	background-color: $white;
 	padding: 50px 0;
@@ -3674,6 +3801,10 @@ header {
 }
 
 .order-tracking {
+	&.section-big-mt-space {
+		margin-bottom: 50px;
+	}
+
 	h4 {
 		&.tracking-title {
 			color: $dark;
@@ -3718,8 +3849,20 @@ header {
 							width: 100%;
 							position: relative;
 
+							&.fix-style {
+								align-items: stretch;
+							}
+
 							img {
 								height: 200px;
+							}
+
+							.media-left {
+								width: 150px;
+
+								h5 {
+									top: 20px;
+								}
 							}
 
 							.media-body {
@@ -3741,6 +3884,8 @@ header {
 								}
 							}
 						}
+
+
 					}
 				}
 			}

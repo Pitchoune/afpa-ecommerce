@@ -19,17 +19,8 @@ class ViewContact
 	 *
 	 * @return void
 	 */
-	public static function DisplayContactForm($id = '')
+	public static function DisplayContactForm($customer = '')
 	{
-		global $config;
-
-		if ($_SESSION['user']['id'])
-		{
-			$customers = new ModelCustomer($config);
-			$customers->set_id($_SESSION['user']['id']);
-			$customer = $customers->getCustomerInfosFromId();
-		}
-
 		$pagetitle = 'Contact';
 
 		?>
@@ -40,18 +31,14 @@ class ViewContact
 				ViewTemplate::FrontHead($pagetitle);
 				?>
 			</head>
-
 			<body class="bg-light">
-
 				<?php
 				ViewTemplate::FrontHeader();
-				?>
 
-				<?php
 				ViewTemplate::FrontBreadcrumb('Contact', ['index.php?do=contact' => 'Contact']);
 				?>
 
-				<!--section start-->
+				<!-- contact -->
 				<section class="contact-page section-big-py-space b-g-light">
 					<div class="custom-container">
 						<div class="row section-big-pb-space">
@@ -88,6 +75,13 @@ class ViewContact
 											</div>
 										</div>
 										<div class="col-md-12">
+											<div class="form-group">
+												<label for="title">Intitulé</label>
+												<input type="text" class="form-control" id="title" name="title" aria-describedby="titleHelp" data-type="title" data-message="Le format de l'intitulé n'est pas valide." placeholder="Titre" required />
+												<small id="titleHelp" class="form-text text-muted"></small>
+											</div>
+										</div>
+										<div class="col-md-12">
 											<div>
 												<label for="message">Votre Message</label>
 												<textarea class="form-control" id="message" name="message" aria-describedby="messageHelp" data-type="message" data-message="Le format du message n'est pas valide." placeholder="Écrivez votre message" rows="2"></textarea>
@@ -96,7 +90,7 @@ class ViewContact
 										</div>
 										<div class="col-md-12">
 											<input type="hidden" name="do" value="sendcontact" />
-											<button class="btn btn-normal" type="submit" id="valider">Envoyer votre message</button>
+											<button class="btn btn-normal" type="submit" id="validate">Envoyer votre message</button>
 										</div>
 									</div>
 								</form>
@@ -104,41 +98,11 @@ class ViewContact
 						</div>
 					</div>
 				</section>
-				<!--Section ends-->
+				<!-- / contact -->
 				<?php
-
 				ViewTemplate::FrontFooter();
-				?>
 
-				<!-- latest jquery-->
-				<script src="assets/js/jquery-3.5.1.min.js" ></script>
-
-				<!-- slick js-->
-				<script src="assets/js/slick.js"></script>
-
-				<!-- popper js-->
-				<script src="assets/js/popper.min.js" ></script>
-				<script src="assets/js/bootstrap-notify.min.js"></script>
-
-				<!-- menu js-->
-				<script src="assets/js/menu.js"></script>
-
-				<!-- Bootstrap js-->
-				<script src="assets/js/bootstrap.js"></script>
-
-				<!-- tool tip js -->
-				<script src="assets/js/tippy-popper.min.js"></script>
-				<script src="assets/js/tippy-bundle.iife.min.js"></script>
-
-				<!-- father icon -->
-				<script src="assets/js/feather.min.js"></script>
-				<script src="assets/js/feather-icon.js"></script>
-
-				<!-- Theme js-->
-				<script src="assets/js/script.js" ></script>
-
-				<?php
-				ViewTemplate::FrontFormValidation('valider', 2, 1);
+				ViewTemplate::FrontFormValidation('validate', 2, 1);
 				?>
 			</body>
 		</html>

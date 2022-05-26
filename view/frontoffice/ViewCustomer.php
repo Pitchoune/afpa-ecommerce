@@ -1,7 +1,11 @@
 <?php
 
+require_once(DIR . '/model/ModelCustomer.php');
+require_once(DIR . '/model/ModelEmployee.php');
 require_once(DIR . '/model/ModelOrderDetails.php');
 require_once(DIR . '/model/ModelTrademark.php');
+use \Ecommerce\Model\ModelCustomer;
+use \Ecommerce\Model\ModelEmployee;
 use \Ecommerce\Model\ModelOrderDetails;
 use \Ecommerce\Model\ModelTrademark;
 
@@ -891,11 +895,11 @@ class ViewCustomer
 	}
 
 	/**
-	 * Returns the HTMl code to display the customer messages.
+	 * Returns the HTML code to display the customer messages.
 	 *
 	 * @return void
 	 */
-	public static function ViewMessages($messages, $perpage)
+	public static function ViewMessages($messages, $perpage, $nbmessages)
 	{
 		global $pagenumber;
 
@@ -910,46 +914,45 @@ class ViewCustomer
 					?>
 				</head>
 				<body class="bg-light">
-
 					<?php
 					ViewTemplate::FrontHeader();
 
 					ViewTemplate::FrontBreadcrumb($pagetitle, ['dashboard' => 'Tableau de bord', 'viewmessages' => $pagetitle]);
 					?>
 					<!-- messages -->
-					<section class="cart-section order-history section-big-py-space">
+					<section class="messages-section order-history section-big-py-space">
 						<div class="custom-container">
 							<div class="row">
 								<div class="col-sm-12">
-									<table class="table cart-table table-responsive-xs">
+									<table class="table messages-table table-responsive-xs">
 										<thead>
 										<tr class="table-head">
-											<th scope="col">Message</th>
-											<th scope="col">État</th>
+											<th scope="col">De</th>
+											<th scope="col">Sujet</th>
+											<th scope="col">Reçu le</th>
 										</tr>
 										</thead>
 										<tbody>
 											<?php
-
 											foreach ($messages AS $key => $value)
 											{
 												if ($value['precedent_id'] === NULL)
 												{
-													if (strlen($value['message']) > 40)
-													{
-														$value['shortmessage'] = substr($value['message'], 0, 40) . '...';
-													}
-													else
-													{
-														$value['shortmessage'] = $value['message'];
-													}
 												?>
 												<tr>
 													<td>
-														<a href="javascript:void(0)"><span class="dark-data"><?= $value['shortmessage'] ?></span></a>
+														<?= ($value['type'] == 'notif' ? 'Système' : $value['nom_client']) ?>
+														<div class="mobile-messages-content row">
+															<div class="col-xs-3">
+																Reçu le <?= $value['date'] ?>
+															</div>
+														</div>
 													</td>
 													<td>
-														<?= ($value['type'] == 'contact' ? '<span class="dark-data"><a href="index.php?do=viewmessage&amp;id=' . $value['id'] . '">Afficher la conversation</a></span>' : '&nbsp;') ?>
+														<?= ($value['type'] == 'contact' ? '<a href="index.php?do=viewmessage&amp;id=' . $value['id'] . '">' : '') ?><span class="dark-data"><?= $value['titre'] ?></span><?= ($value['type'] == 'contact' ? '</a>' : '') ?>
+													</td>
+													<td>
+														<?= $value['date'] ?>
 													</td>
 												</tr>
 												<?php
@@ -961,7 +964,7 @@ class ViewCustomer
 								</div>
 							</div>
 							<?php
-							Utils::construct_page_nav($pagenumber, $perpage, $totalmessages['nbmessages'], 'index.php?do=viewmessages', 'front');
+							Utils::construct_page_nav($pagenumber, $perpage, $nbmessages, 'index.php?do=viewmessages', 'front');
 							?>
 						</div>
 					</section>
@@ -969,98 +972,181 @@ class ViewCustomer
 					<?php
 					ViewTemplate::FrontFooter();
 					?>
-
 				</body>
 			</html>
 		<?php
 	}
 
 	/**
+	 * Returns the HTML code to display the messages list of a conversation.
 	 *
+	 * @param integer $id ID of the conversation.
+	 * @param array $messages Array containing messages informations
+	 * @param string $title Title of the conversation.
+	 * @param array $data Customer informations.
+	 *
+	 * @return void
 	 */
-	public static function ViewMessage($id)
+	public static function ViewMessage($id, $messages, $title, $data)
 	{
-		if (!empty($_SESSION['user']['id']))
-		{
-			global $config;
+		global $config;
 
-			$pagetitle = 'Conversation';
+		$pagetitle = 'Conversation';
+		?>
+			<!DOCTYPE html>
+			<html>
+				<head>
+					<?php
+					ViewTemplate::FrontHead($pagetitle);
+					?>
+				</head>
+				<body class="bg-light">
+					<?php
+					ViewTemplate::FrontHeader();
 
-			$customer = new ModelCustomer($config);
-			$customer->set_id($_SESSION['user']['id']);
+					ViewTemplate::FrontBreadcrumb($pagetitle, ['dashboard' => 'Tableau de bord', 'viewmessages' => 'Liste des messages', 'viewmessage&amp;id=' => $pagetitle]);
+					?>
+					<!-- messaging -->
+					<section class="order-tracking section-big-mt-space">
+						<div class="container">
+							<div class="row">
+								<div class="col-md-12">
+									<div>
+										<fieldset>
+											<div class="container p-0">
+												<div class="order-tracking-contain order-tracking-box">
+													<div class="tracking-group">
+														<div class="delivery-code">
+															<h4><?= $title ?></h4>
+														</div>
+													</div>
+													<div class="tracking-group pb-0">
+														<ul class="may-product">
+															<?php
+															foreach ($messages AS $key => $message)
+															{
+																// Get the latest id for the reply form
+																$latestid = $message['id'];
 
-			$data = $customer->getCustomerInfosFromId();
+																if ($message['id_client'])
+																{
+																	// Get customer name
+																	$customers = new ModelCustomer($config);
+																	$customers->set_id($message['id_client']);
+																	$customer = $customers->getCustomerFirstAndLastName();
+																	$message['firstname'] = $customer['prenom'];
+																	$message['lastname'] = $customer['nom'];
+																}
 
-			$messagelist = new ModelMessage($config);
-			$messagelist->set_previous($id);
-
-			$totalmessages = 0;
-
-			$messageids = $messagelist->getMessageIdsFromDiscussion();
-			?>
-				<!DOCTYPE html>
-				<html>
-					<head>
-						<?php
-						ViewTemplate::FrontHead($pagetitle);
-						?>
-					</head>
-
-					<body class="bg-light">
-
-						<?php
-						ViewTemplate::FrontHeader();
-						?>
-
-						<?php
-						ViewTemplate::FrontBreadcrumb($pagetitle, ['dashboard' => 'Tableau de bord', 'viewmessages' => 'Liste des messages', 'viewmessage&amp;id=' => $pagetitle]);
-						?>
-
-						<!--section start-->
-						<section class="cart-section order-history section-big-py-space">
-							<div class="custom-container">
-								<div class="row">
-									<div class="col-sm-12">
-										<table class="table cart-table table-responsive-xs">
-											<thead>
-											<tr class="table-head">
-												<th scope="col">interlocuteur</th>
-												<th scope="col">message</th>
-											</tr>
-											</thead>
-											<tbody>
-												<?php
-												foreach ($messageids AS $key => $value)
-												{
-													$messagelist->set_id($value['id']);
-													$message = $messagelist->getMessageFromDiscussion();
-													?>
-													<tr>
-														<td><?= $message['id'] ?></td>
-													</tr>
-													<?php
-												}
-												?>
-											</tbody>
-										</table>
+																if ($message['id_employe'])
+																{
+																	// Get employee name
+																	$employees = new ModelEmployee($config);
+																	$employees->set_id($message['id_employe']);
+																	$employee = $employees->getEmployeeFirstAndLastName();
+																	$message['firstname'] = $employee['prenom'];
+																	$message['lastname'] = $employee['nom'];
+																	$message['rolename'] = $employee['rolename'];
+																}
+																?>
+																<li>
+																	<div>Écrit le <?= $message['date'] ?></div>
+																	<div class="media fix-style">
+																		<div class="media-left">
+																			<h5>
+																				<?= $message['firstname'] . ' ' . $message['lastname'] ?>
+																				<br />
+																				<?= $message['rolename'] ?>
+																			</h5>
+																		</div>
+																		<div class="media-body">
+																			<h3><?= $message['message'] ?></h3>
+																		</div>
+																	</div>
+																</li>
+																<?php
+															}
+															?>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</fieldset>
 									</div>
 								</div>
 							</div>
-						</section>
-						<!--section end-->
+						</div>
+					</section>
 
-						<?php
-						ViewTemplate::FrontFooter();
-						?>
+					<section class="contact-page section-big-mb-space b-g-light">
+						<div class="custom-container">
+							<div class="row section-big-pb-space">
+								<div class="col-xl-6 offset-xl-3">
+									<h3 class="text-center mb-3">Répondre</h3>
+									<form class="theme-form" method="post" action="index.php?do=sendreply">
+										<div class="row">
+											<div class="col-md-6">
+											   <div class="form-group">
+												   <label for="firstname">Prénom</label>
+												   <input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du prénom n'est pas valide." placeholder="Insérez votre prénom" value="<?= $data['prenom'] ?>" disabled />
+												   <small id="firstnameHelp" class="form-text text-muted"></small>
+											   </div>
+											</div>
+											<div class="col-md-6">
+											  <div class="form-group">
+												  <label for="lastname">Nom</label>
+												  <input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du nom n'est pas valide." placeholder="Nom" value="<?= $data['nom'] ?>" disabled />
+												  <small id="lastnameHelp" class="form-text text-muted"></small>
+											  </div>
+											</div>
+											<div class="col-md-6">
+											   <div class="form-group">
+												   <label for="telephone">Téléphone</label>
+												   <input type="text" class="form-control" id="telephone" name="telephone" aria-describedby="telephoneHelp" data-type="telephone" data-message="Le format du numéro de téléphone n'est pas valide." placeholder="Insérez votre numéro de téléphone" value="<?= $data['tel'] ?>" disabled />
+												   <small id="telephoneHelp" class="form-text text-muted"></small>
+											   </div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="email">Adresse email</label>
+													<input type="text" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." placeholder="Email" value="<?= $data['mail'] ?>" disabled />
+													<small id="emailHelp" class="form-text text-muted"></small>
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div>
+													<label for="message">Votre Message</label>
+													<textarea class="form-control" id="message" name="message" aria-describedby="messageHelp" data-type="message" data-message="Le format du message n'est pas valide." placeholder="Écrivez votre message" rows="2"></textarea>
+													<small id="messageHelp" class="form-text text-muted"></small>
+												</div>
+											</div>
+											<div class="col-md-12">
+												<input type="hidden" name="do" value="sendreply" />
+												<input type="hidden" name="id" value="<?= $id ?>" />
+												<input type="hidden" name="latestid" value="<?= $latestid ?>" />
+												<button class="btn btn-normal" type="submit" id="validate">Envoyer votre message</button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</section>
+					<!-- / messaging -->
+					<?php
+					ViewTemplate::FrontFooter();
 
-					</body>
-				</html>
-			<?php
-		}
-		else
-		{
-			throw new Exception('Vous devez vous identifier avant de pouvoir consulter vos messages.');
-		}
+					if ($_SESSION['user']['sendreply'] === 1)
+					{
+						ViewTemplate::FrontNotify('Réponse aux messages', 'Vous avez répondu au message avec succès !', 'success');
+						unset($_SESSION['user']['sendreply']);
+					}
+
+					ViewTemplate::FrontFormValidation('validate', 3, 1);
+					?>
+				</body>
+			</html>
+		<?php
 	}
 }
 

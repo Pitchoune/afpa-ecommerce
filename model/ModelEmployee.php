@@ -199,6 +199,26 @@ class ModelEmployee extends Model
 	}
 
 	/**
+	 * Returns the employee firstname, lastname and role only.
+	 *
+	 * @return array Firstname and lastname of the employee.
+	 */
+	public function getEmployeeFirstAndLastName()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT e.prenom, e.nom, r.nom AS rolename
+			FROM employe AS e
+				INNER JOIN role AS r ON (r.id = e.role)
+			WHERE e.id = ?
+		");
+		$query->bindParam(1, $this->id, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetch();
+	}
+
+	/**
 	 * Saves the existing specified employee with updated data without the password.
 	 *
 	 * @return mixed Returns the employee ID if done, else false if it fails.

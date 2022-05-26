@@ -29,13 +29,17 @@ $(document).ready(function()
 	$(window).scroll(function()
 	{
 		// Make the header sticky if we are x pixels down from the top of the page
+		// If you edit this value, edit also the value of '.movebreadcrumponsticky' in CSS
+		// To keep a value lower than 12px than the value here.
 		if ($(this).scrollTop() > 200)
 		{
 			$('header').addClass('sticky');
+			$('.breadcrumb-main').addClass('movebreadcrumponsticky');
 		}
 		else
 		{
 			$('header').removeClass('sticky');
+			$('.breadcrumb-main').removeClass('movebreadcrumponsticky');
 		}
 	});
 
