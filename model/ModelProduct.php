@@ -224,6 +224,25 @@ class ModelProduct extends Model
 	}
 
 	/**
+	 * Returns the current quantity for a specific product.
+	 *
+	 * @return array Informations about a specific product.
+	 */
+	public function getCurrentQuantityStored()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT qty
+			FROM produit
+			WHERE id = ?
+		");
+		$query->bindParam(1, $this->id, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetch();
+	}
+
+	/**
 	 * Saves the existing specified product with updated data.
 	 *
 	 * @return mixed Returns the product ID if done, else false if it fails.

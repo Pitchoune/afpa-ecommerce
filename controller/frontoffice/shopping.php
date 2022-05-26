@@ -123,6 +123,7 @@ function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $
 				$orderdetails->set_quantity(intval($value['quantity']));
 				$orderdetails->saveOrderDetails();
 
+
 				// Save the product into the session for a payment success on the resume page
 				$_SESSION['user']['order']['item'][$value['id']]['id'] = $value['id'];
 				$_SESSION['user']['order']['item'][$value['id']]['price'] = $value['price'];
@@ -131,7 +132,12 @@ function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $
 				// Decrease quantity for each product
 				$products = new ModelProduct($config);
 				$products->set_id($value['id']);
-				$products->set_quantity($value['quantity']);
+
+				$product = $products->getCurrentQuantityStored();
+
+				$newqty = $product['qty'] - $value['quantity'];
+
+				$products->set_quantity($newqty);
 				$products->setNewQuantityAfterPaidOrder();
 
 				$addeditems++;
