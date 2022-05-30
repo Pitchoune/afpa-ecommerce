@@ -1765,12 +1765,12 @@ header {
 					display: flex;
 					justify-content: center;
 					align-items: center;
-					transition: all 0.5s easer;
+					transition: all 0.5s ease;
 
 					svg {
 						width: calc(14px + (18 - 14) * ((100vw - 320px) / (1920 - 320)));
 						color: $icon-color;
-						transition: all 0.5s easer;
+						transition: all 0.5s ease;
 					}
 
 					&:hover{
@@ -4415,13 +4415,13 @@ footer {
 		.sub-arrow {
 			position: absolute;
 			top: 50%;
-			margin-top: -(ceil(math.div(32px, 2)));
+			margin-top: -(ceil(math.div(16px, 2)));
 			left: auto;
 			right: 14px;
 			width: 32px;
 			height: 32px;
 			overflow: hidden;
-			font: bold 0.5 monospace !important;
+			font: bold 14px monospace !important;
 			text-align: center;
 			text-shadow: none;
 			border-radius: 8px;
@@ -4525,15 +4525,6 @@ footer {
 						}
 					}
 				}
-				.sub-arrow {
-					&:before {
-						content: "\f105";
-						font-family: $font-awesome;
-						position: absolute;
-					}
-				}
-
-
 			}
 		}
 
@@ -4549,6 +4540,14 @@ footer {
 
 		a {
 			white-space: nowrap;
+
+			.sub-arrow {
+				&:before {
+					content: "\f107";
+					font-family: $font-awesome;
+					position: absolute;
+				}
+			}
 		}
 	}
 

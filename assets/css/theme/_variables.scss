@@ -27,10 +27,8 @@ $font-nunito: Nunito;
 $font-serif: sans-serif;
 
 //color
-/* $theme-color1:#00baf2; */
-$theme-color1: #e60012;
-/* $theme-color2:#1c3481; */
-$theme-color2: #e60012;
+$theme-color1: #fb0000;
+$theme-color2: #fb0000;
 $theme-color3:#dc3545;
 $theme-color4:#f85357;
 $theme-color5:#f6d51f;
@@ -112,11 +110,11 @@ $gray93:#ededed;
 
 
 // dark layout //
-$dark-layout:#1b1b1b;
+$dark-layout:  #1b1b1b;
 $light-layout: #262626;
 $light-layout1:#2d2d2d;
 $dark-border : #3c3c3c;
-$dark-link:#cbcbcb;
+$dark-link:    #cbcbcb;
 $font-layout-1:#f1f3f5;
 $font-layout-2:#eaedef;
 $font-layout-3:#e7eaec;
@@ -124,30 +122,30 @@ $font-layout-4:#dee2e6;
 $font-layout-5:#cfd4da;
 
 
-$white-1:#f1f3f5;
-$white-2:#eaedef;
-$white-3:#e7eaec;
-$white-4:#dee2e6;
-$white-5:#cfd4da;
+$white-1: #f1f3f5;
+$white-2: #eaedef;
+$white-3: #e7eaec;
+$white-4: #dee2e6;
+$white-5: #cfd4da;
 
 // Theme colors variables
-$primary-color: #00baf2;
-$secondary-color: #314da7 ;
-$success-color: #11d89c ;
-$info-color   : #00a8ff  ;
-$warning-color: #00ced1;
-$danger-color: #e26767 ;
-$light-color   : #f8f8f9 ;
-$semi-dark  :#aaaaaa;
-$light-semi-gray   :#eff0f1;
-$light-gray   :#e8ebf2;
-$dark-gray 	:#898989;
-$dark-color   : #2a3142;
-$gray-60   :#999999 ;
+$primary-color:     $theme-color1;
+$secondary-color:   $theme-color1;
+$success-color:   #11d89c;
+$info-color:      #00a8ff;
+$warning-color:   #00ced1;
+$danger-color:    #e26767;
+$light-color:     #f8f8f9;
+$semi-dark:       #aaaaaa;
+$light-semi-gray: #eff0f1;
+$light-gray:      #e8ebf2;
+$dark-gray:       #898989;
+$dark-color:      #2a3142;
+$gray-60:         #999999;
 $transparent-color: transparent;
-$auth-bg-color:#fafafa;
-$light : #f6f6f6;
-$light-text: #999;
+$auth-bg-color:   #fafafa;
+$light :          #f6f6f6;
+$light-text:      #999999;
 
 
 // Tables settings
@@ -173,18 +171,19 @@ $table-inverse-bg-color:     #292b2c;
 
 
 // General variables
-$theme-font-color: #1b252a;
-$theme-body-font-color: #313131;
+$theme-font-color:           #1b252a;
+$theme-body-font-color:      #313131;
 $theme-body-sub-title-color: #777777;
+$header-size:                  80px;
 
 //sidebar main settings
-$sidebar-width: 255px;
-$sidebar-position: fixed;
-$sidebar-background-color: #242934;
-$sidebar-shadow: 0 0 11px rgba(143, 164, 232, 0.08);
-$sidebar-overflow: auto;
-$sidebar-z-index: 9;
-$sidebar-transition: 0.3s;
+$sidebar-width:            255px;
+$sidebar-position:         fixed;
+$sidebar-background-color: #002934;
+$sidebar-shadow:           0 0 11px rgba(143, 164, 232, 0.08);
+$sidebar-overflow:         auto;
+$sidebar-z-index:          9;
+$sidebar-transition:       0.3s;
 
 //main header left settings
 $main-header-left-bg-color : $transparent-color;
@@ -212,7 +211,7 @@ $breadcrumb-content: "/";
 $breadcrumb-svg-icon-align: text-top;
 
 //Header settings
-$main-header-bg-color: $white;
+$main-header-bg-color: $theme-color1;
 $main-header-position: fixed;
 $main-header-top: 0;
 $main-header-z-index: 10;
@@ -271,7 +270,7 @@ $card-box-shadow     :1px 5px 24px 0 rgba(68, 102, 242, 0.05);
 $card-header-font-weight : 600;
 $card-header-bg-color : $white;
 $card-header-font-size : 18px;
-$card-header-font-transform : capitalize;
+$card-header-font-transform : none;
 $card-header-font-color : $theme-body-font-color;
 $card-header-span-size : 12px;
 $card-header-span-color : $theme-body-sub-title-color;
@@ -304,7 +303,7 @@ $sidebar-profile-name-letter-specing : 1.5px;
 $sidebar-profile-name-marging : 3px;
 $sidebar-profile-sub-title-font-size: 10px;
 $sidebar-profile-sub-title-margin: 0px;
-$sidebar-profile-img-shadow: 0 0 15px rgba(68, 102, 242, 0.3);
+$sidebar-profile-img-shadow: 0 0 15px rgba(255, 255, 255, 0.697);
 
 //Sidebar main menu setting
 $sidebar-menu-padding: 20px;

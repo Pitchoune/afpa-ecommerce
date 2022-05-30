@@ -26,16 +26,14 @@ class ViewEmployee
 		?>
 
 		<!DOCTYPE html>
-		<html>
+		<html lang="fr">
 			<head>
-				<?php
-				ViewTemplate::BackHead($pagetitle);
-				?>
+				<?= ViewTemplate::BackHead($pagetitle) ?>
 			</head>
 
 			<body>
 				<div class="page-wrapper">
-					<!-- Page Body Start-->
+					<!-- body -->
 					<div class="page-body-wrapper">
 						<div class="authentication-box">
 							<div class="container">
@@ -135,32 +133,13 @@ class ViewEmployee
 							</div>
 						</div>
 					</div>
-
+					<!-- / body -->
 				</div>
-				<!-- latest jquery-->
-				<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-				<!-- Bootstrap js-->
-				<script src="../assets/js/popper.min.js"></script>
-				<script src="../assets/js/bootstrap.js"></script>
-
-				<!-- feather icon js-->
-				<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-				<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-				<!--Customizer admin-->
-				<script src="../assets/js/admin-customizer.js"></script>
-
-				<!--script admin-->
-				<script src="../assets/js/admin-script.js"></script>
-				<script src="../assets/js/slick.js"></script>
+				<?= ViewTempate::BackFoot() ?>
 
 				<script>
-					$('.single-item').slick({
-							arrows: false,
-							dots: true
-						}
-					);
+					$('.single-item').slick({arrows: false, dots: true});
 				</script>
 			</body>
 		</html>
@@ -217,42 +196,27 @@ class ViewEmployee
 
 			?>
 			<!DOCTYPE html>
-			<html>
+			<html lang="fr">
 				<head>
-					<?php
-					ViewTemplate::BackHead($pagetitle);
-					?>
+					<?= ViewTemplate::BackHead($pagetitle) ?>
 				</head>
 
 				<body>
 					<div class="page-wrapper">
+						<?= ViewTemplate::BackHeader() ?>
 
-						<!-- Page Header Start-->
-						<?php
-						ViewTemplate::BackHeader();
-						?>
-						<!-- Page Header Ends -->
-
-						<!-- Page Body Start-->
+						<!-- body -->
 						<div class="page-body-wrapper">
-
-							<!-- Page Sidebar Start-->
-							<?php
-							ViewTemplate::Sidebar();
-							?>
-							<!-- Page Sidebar Ends-->
+							<?= ViewTemplate::Sidebar() ?>
 
 							<div class="page-body">
 							<?php
 							if (count($employeeslist) > 0)
 							{
-								?>
-								<!-- Container-fluid starts-->
-								<?php
 								ViewTemplate::breadcrumb($pagetitle, $navbits);
 								?>
-								<!-- Container-fluid ends-->
 
+								<!-- employees listing -->
 								<div class="container-fluid">
 									<div class="row">
 										<div class="col-sm-12">
@@ -351,18 +315,16 @@ class ViewEmployee
 										</div>
 									</div>
 								</div>
+								<!-- / employees listing -->
 
 								<?php
 							}
 							else
 							{
-								?>
-								<!-- Container-fluid starts-->
-								<?php
 								ViewTemplate::breadcrumb($pagetitle, $navbits);
 								?>
-								<!-- Container-fluid ends-->
 
+								<!-- employees listing -->
 								<div class="container-fluid">
 									<div class="row">
 										<div class="col-sm-12">
@@ -389,41 +351,20 @@ class ViewEmployee
 										</div>
 									</div>
 								</div>
+								<!-- / employees listing -->
+
 								<?php
 							}
 							?>
 							</div>
-
-							<!-- footer start-->
-							<?php
-							ViewTemplate::BackFooter();
-							?>
-							<!-- footer end-->
+							<?= ViewTemplate::BackFooter() ?>
 						</div>
-
+						<!-- / body -->
 
 					</div>
-					<!-- latest jquery-->
-					<script src="../assets/js/jquery-3.5.1.min.js"></script>
-
-					<!-- Bootstrap js-->
-					<script src="../assets/js/popper.min.js"></script>
-					<script src="../assets/js/bootstrap.js"></script>
-
-					<!-- feather icon js-->
-					<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-					<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-					<!-- Sidebar jquery-->
-					<script src="../assets/js/sidebar-menu.js"></script>
-					<script src="../assets/js/slick.js"></script>
-
-					<!--Customizer admin-->
-					<script src="../assets/js/admin-customizer.js"></script>
-
-					<!--script admin-->
-					<script src="../assets/js/admin-script.js"></script>
 					<?php
+					ViewTemplate::BackFoot();
+
 					if ($_SESSION['employee']['add'] === 1)
 					{
 						ViewTemplate::BackToast('Ajout d\'employé', 'Employé ajouté avec succès !');
@@ -516,127 +457,90 @@ class ViewEmployee
 
 				?>
 				<!DOCTYPE html>
-				<html>
+				<html lang="fr">
 					<head>
-						<?php
-						ViewTemplate::BackHead($pagetitle);
-						?>
+						<?= ViewTemplate::BackHead($pagetitle) ?>
 					</head>
 
 					<body>
 						<div class="page-wrapper">
+							<?= ViewTemplate::BackHeader() ?>
 
-							<!-- Page Header Start-->
-							<?php
-							ViewTemplate::BackHeader();
-							?>
-							<!-- Page Header Ends -->
-
-							<!-- Page Body Start-->
+							<!-- body -->
 							<div class="page-body-wrapper">
-
-								<!-- Page Sidebar Start-->
-								<?php
-								ViewTemplate::Sidebar();
-								?>
-								<!-- Page Sidebar Ends-->
+								<?= ViewTemplate::Sidebar() ?>
 
 								<div class="page-body">
+									<?= ViewTemplate::Breadcrumb($pagetitle, $navbits) ?>
 
-								<!-- Container-fluid starts-->
-								<?php
-								ViewTemplate::Breadcrumb($pagetitle, $navbits);
-								?>
-								<!-- Container-fluid ends-->
-
-								<div class="container-fluid">
-									<div class="row product-adding">
-										<div class="col">
-											<div class="card">
-												<div class="card-header">
-													<h5><?= $navtitle ?></h5>
-												</div>
-												<div class="card-body">
-													<form class="digital-add" method="post" action="index.php?do=<?= $formredirect ?>">
-														<div class="form-group">
-															<label for="firstname" class="col-form-label pt-0"><span>*</span> Prénom</label>
-															<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du nom n'est pas valide." value="<?= $employeeinfos['nom'] ?>" required />
-															<small id="firstnameHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group">
-															<label for="lastname" class="col-form-label pt-0"><span>*</span> Nom</label>
-															<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du prénom n'est pas valide." value="<?= $employeeinfos['prenom'] ?>" required />
-															<small id="lastnameHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group">
-															<label for="mail" class="col-form-label pt-0"><span>*</span> Adresse email</label>
-															<input type="email" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." value="<?= $employeeinfos['mail'] ?>" required />
-															<small id="emailHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group">
-															<label for="password" class="col-form-label pt-0"><span>*</span> Mot de passe</label>
-															<input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" data-type="password" data-message="Le format du mot de passe n'est pas valide." />
-															<small id="passwordHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group">
-															<label class="col-form-label"><span>*</span> Role</label>
-															<select class="custom-select form-control" id="selectChoose" name="role" aria-describedby="selectHelp" data-type="selectChoose" data-message="La sélection du rôle est obligatoire." required>
-															<?= $options ?>
-															</select>
-															<small id="selectHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group mb-0">
-															<div class="text-center">
-																<input type="hidden" name="do" value="<?= $formredirect ?>" />
-																<?php
-																if ($id)
-																{
-																?>
-																<input type="hidden" name="id" value="<?= $id ?>" />
-																<?php
-																}
-																?>
-																<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
-																<input type="reset" class="btn btn-light" value="Annuler"/>
+									<div class="container-fluid">
+										<div class="row product-adding">
+											<div class="col">
+												<div class="card">
+													<div class="card-header">
+														<h5><?= $navtitle ?></h5>
+													</div>
+													<div class="card-body">
+														<form class="digital-add" method="post" action="index.php?do=<?= $formredirect ?>">
+															<div class="form-group">
+																<label for="firstname" class="col-form-label pt-0">Prénom <span>*</span></label>
+																<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du nom n'est pas valide." value="<?= $employeeinfos['nom'] ?>" required />
+																<small id="firstnameHelp" class="form-text text-muted"></small>
 															</div>
-														</div>
-													</form>
+															<div class="form-group">
+																<label for="lastname" class="col-form-label pt-0">Nom <span>*</span></label>
+																<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du prénom n'est pas valide." value="<?= $employeeinfos['prenom'] ?>" required />
+																<small id="lastnameHelp" class="form-text text-muted"></small>
+															</div>
+															<div class="form-group">
+																<label for="mail" class="col-form-label pt-0">Adresse email <span>*</span></label>
+																<input type="email" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." value="<?= $employeeinfos['mail'] ?>" required />
+																<small id="emailHelp" class="form-text text-muted"></small>
+															</div>
+															<div class="form-group">
+																<label for="password" class="col-form-label pt-0">Mot de passe<?= (!$id ? ' <span>*</span>' : '') ?></label>
+																<input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" data-type="password" data-message="Le format du mot de passe n'est pas valide." />
+																<small id="passwordHelp" class="form-text text-muted"></small>
+															</div>
+															<div class="form-group">
+																<label class="col-form-label">Rôle <span>*</span></label>
+																<select class="custom-select form-control" id="selectChoose" name="role" aria-describedby="selectHelp" data-type="selectChoose" data-message="La sélection du rôle est obligatoire." required>
+																<?= $options ?>
+																</select>
+																<small id="selectHelp" class="form-text text-muted"></small>
+															</div>
+															<div class="form-group mb-0">
+																<div class="text-center">
+																	<input type="hidden" name="do" value="<?= $formredirect ?>" />
+																	<?php
+																	if ($id)
+																	{
+																		?>
+																		<input type="hidden" name="id" value="<?= $id ?>" />
+																		<?php
+																	}
+																	?>
+																	<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
+																	<input type="reset" class="btn btn-light" value="Annuler"/>
+																</div>
+															</div>
+														</form>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
+									<!-- / body -->
 								</div>
 
-								</div>
-
-								<!-- footer start-->
-								<?php
-								ViewTemplate::BackFooter();
-								?>
-								<!-- footer end-->
+								<?= ViewTemplate::BackFooter() ?>
 							</div>
-
-
+							<!-- / body -->
 						</div>
-						<!-- latest jquery-->
-						<script src="../assets/js/jquery-3.5.1.min.js"></script>
-
-						<!-- Bootstrap js-->
-						<script src="../assets/js/popper.min.js"></script>
-						<script src="../assets/js/bootstrap.js"></script>
-
-						<!-- feather icon js-->
-						<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-						<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-						<!-- Sidebar jquery-->
-						<script src="../assets/js/sidebar-menu.js"></script>
-						<script src="../assets/js/slick.js"></script>
-
-						<!--script admin-->
-						<script src="../assets/js/admin-script.js"></script>
 
 						<?php
+						ViewTemplate::BackFoot();
+
 						if ($id)
 						{
 							ViewTemplate::BackFormValidation('valider', 4, 1);
@@ -689,40 +593,23 @@ class ViewEmployee
 
 		?>
 		<!DOCTYPE html>
-		<html>
+		<html lang="fr">
 			<head>
-				<?php
-				ViewTemplate::BackHead($pagetitle);
-				?>
+				<?= ViewTemplate::BackHead($pagetitle) ?>
 			</head>
 
 			<body>
 				<div class="page-wrapper">
+					<?= ViewTemplate::BackHeader() ?>
 
-					<!-- Page Header Start-->
-					<?php
-					ViewTemplate::BackHeader();
-					?>
-					<!-- Page Header Ends -->
-
-					<!-- Page Body Start-->
+					<!-- body -->
 					<div class="page-body-wrapper">
-
-						<!-- Page Sidebar Start-->
-						<?php
-						ViewTemplate::Sidebar();
-						?>
-						<!-- Page Sidebar Ends-->
+						<?= ViewTemplate::Sidebar() ?>
 
 						<div class="page-body">
-
-							<!-- Container-fluid starts-->
 							<?php
 							ViewTemplate::Breadcrumb($pagetitle, $navbits);
-							?>
-							<!-- Container-fluid ends-->
 
-							<?php
 							$data = [
 								'id' => $id,
 								'redirect' => 'killemployee',
@@ -736,32 +623,12 @@ class ViewEmployee
 
 						</div>
 
-						<!-- footer start-->
-						<?php
-						ViewTemplate::BackFooter();
-						?>
-						<!-- footer end-->
+						<?= ViewTemplate::BackFooter() ?>
 					</div>
-
-
+					<!-- / body -->
 				</div>
-				<!-- latest jquery-->
-				<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-				<!-- Bootstrap js-->
-				<script src="../assets/js/popper.min.js"></script>
-				<script src="../assets/js/bootstrap.js"></script>
-
-				<!-- feather icon js-->
-				<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-				<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-				<!-- Sidebar jquery-->
-				<script src="../assets/js/sidebar-menu.js"></script>
-				<script src="../assets/js/slick.js"></script>
-
-				<!--script admin-->
-				<script src="../assets/js/admin-script.js"></script>
+				<?= ViewTemplate::BackFoot(); ?>
 			</body>
 		</html>
 		<?php
@@ -788,134 +655,79 @@ class ViewEmployee
 		$employees->set_id($_SESSION['employee']['id']);
 		$employee = $employees->getEmployeeInfosFromId();
 
-		$options = '<option value="0" disabled>Sélectionnez un rôle</option>';
-
-		$roles = new ModelRole($config);
-		$rolelist = $roles->listAllRoles();
-
 		$pagetitle = 'Gestion des employées';
-
-		if ($rolelist)
-		{
-			foreach ($rolelist AS $key => $value)
-			{
-				$options .= '<option value="' . $value['id'] . '">' . $value['nom'] . '</option>';
-			}
-		}
-		else
-		{
-			$options .= '<option value="0" disabled>Il n\'y a pas de rôle à lister.</option>';
-		}
 
 		?>
 		<!DOCTYPE html>
-		<html>
+		<html lang="fr">
 			<head>
-				<?php
-				ViewTemplate::BackHead($pagetitle);
-				?>
+				<?= ViewTemplate::BackHead($pagetitle) ?>
 			</head>
 
 			<body>
 				<div class="page-wrapper">
+					<?=ViewTemplate::BackHeader() ?>
 
-					<!-- Page Header Start-->
-					<?php
-					ViewTemplate::BackHeader();
-					?>
-					<!-- Page Header Ends -->
-
-					<!-- Page Body Start-->
+					<!-- body-->
 					<div class="page-body-wrapper">
-
-						<!-- Page Sidebar Start-->
-						<?php
-						ViewTemplate::Sidebar();
-						?>
-						<!-- Page Sidebar Ends-->
+						<?= ViewTemplate::Sidebar() ?>
 
 						<div class="page-body">
+							<?= ViewTemplate::Breadcrumb($pagetitle, $navbits) ?>
 
-							<!-- Container-fluid starts-->
-							<?php
-							ViewTemplate::Breadcrumb($pagetitle, $navbits);
-							?>
-							<!-- Container-fluid ends-->
-
-								<div class="container-fluid">
-									<div class="row product-adding">
-										<div class="col">
-											<div class="card">
-												<div class="card-header">
-													<h5><?= $navtitle ?></h5>
-												</div>
-												<div class="card-body">
-													<form class="digital-add" method="post" action="index.php?do=updateprofile">
-														<div class="form-group">
-															<label for="firstname" class="col-form-label pt-0"><span>*</span> Nom</label>
-															<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du nom n'est pas valide." value="<?= $employee['nom'] ?>" required />
-															<small id="firstnameHelp" class="form-text text-muted"></small>
+							<div class="container-fluid">
+								<div class="row product-adding">
+									<div class="col">
+										<div class="card">
+											<div class="card-header">
+												<h5><?= $navtitle ?></h5>
+											</div>
+											<div class="card-body">
+												<form class="digital-add" method="post" action="index.php?do=updateprofile">
+													<div class="form-group">
+														<label for="firstname" class="col-form-label pt-0">Nom <span>*</span></label>
+														<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du nom n'est pas valide." value="<?= $employee['nom'] ?>" disabled />
+														<small id="firstnameHelp" class="form-text text-muted"></small>
+													</div>
+													<div class="form-group">
+														<label for="lastname" class="col-form-label pt-0">Prénom <span>*</span></label>
+														<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du prénom n'est pas valide." value="<?= $employee['prenom'] ?>" disabled />
+														<small id="lastnameHelp" class="form-text text-muted"></small>
+													</div>
+													<div class="form-group">
+														<label for="mail" class="col-form-label pt-0">Adresse email <span>*</span></label>
+														<input type="email" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." value="<?= $employee['mail'] ?>" required />
+														<small id="emailHelp" class="form-text text-muted"></small>
+													</div>
+													<div class="form-group">
+														<label for="password" class="col-form-label pt-0">Mot de passe</label>
+														<input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" data-type="password" data-message="Le format du mot de passe n'est pas valide." />
+														<small id="passwordHelp" class="form-text text-muted"></small>
+													</div>
+													<div class="form-group mb-0">
+														<div class="text-center">
+															<input type="hidden" name="do" value="updateprofile" />
+															<input type="hidden" name="id" value="<?= $employee['id'] ?>" />
+															<input type="submit" class="btn btn-primary" id="valider" value="Modifier" />
+															<input type="reset" class="btn btn-light" value="Annuler"/>
 														</div>
-														<div class="form-group">
-															<label for="validationCustom02" class="col-form-label pt-0"><span>*</span> Prénom</label>
-															<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du prénom n'est pas valide." value="<?= $employee['prenom'] ?>" required />
-															<small id="lastnameHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group">
-															<label for="validationCustom03" class="col-form-label pt-0"><span>*</span> Adresse email</label>
-															<input type="email" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." value="<?= $employeeinfos['mail'] ?>" required />
-															<small id="emailHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group">
-															<label for="validationCustom04" class="col-form-label pt-0"><span>*</span> Mot de passe</label>
-															<input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" data-type="password" data-message="Le format du mot de passe n'est pas valide." />
-															<small id="passwordHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group mb-0">
-															<div class="text-center">
-																<input type="hidden" name="do" value="updateprofile" />
-																<input type="hidden" name="id" value="<?= $employee['id'] ?>" />
-																<input type="submit" class="btn btn-primary" id="valider" value="Modifier" />
-																<input type="reset" class="btn btn-light" value="Annuler"/>
-															</div>
-														</div>
-													</form>
-												</div>
+													</div>
+												</form>
 											</div>
 										</div>
 									</div>
 								</div>
-
 							</div>
+						</div>
 
-						<!-- footer start-->
-						<?php
-						ViewTemplate::BackFooter();
-						?>
-						<!-- footer end-->
+						<?= ViewTemplate::BackFooter() ?>
 					</div>
-
-
+					<!-- / body -->
 				</div>
-				<!-- latest jquery-->
-				<script src="../assets/js/jquery-3.5.1.min.js"></script>
-
-				<!-- Bootstrap js-->
-				<script src="../assets/js/popper.min.js"></script>
-				<script src="../assets/js/bootstrap.js"></script>
-
-				<!-- feather icon js-->
-				<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-				<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-				<!-- Sidebar jquery-->
-				<script src="../assets/js/sidebar-menu.js"></script>
-				<script src="../assets/js/slick.js"></script>
-
-				<!--script admin-->
-				<script src="../assets/js/admin-script.js"></script>
 
 				<?php
+				ViewTemplate::BackFoot();
+
 				ViewTemplate::BackFormValidation('valider', 4, 1);
 				?>
 			</body>

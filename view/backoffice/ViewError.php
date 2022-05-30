@@ -43,33 +43,20 @@ class ViewError
 	{
 		?>
 		<!DOCTYPE html>
-		<html>
+		<html lang="fr">
 			<head>
-				<?php
-				ViewTemplate::BackHead('Erreur');
-				?>
+				<?= ViewTemplate::BackHead('Erreur') ?>
 			</head>
 
 			<body>
 				<div class="page-wrapper">
+					<?= ViewTemplate::BackHeader() ?>
 
-					<!-- Page Header Start-->
-					<?php
-					ViewTemplate::BackHeader();
-					?>
-					<!-- Page Header Ends -->
-
-					<!-- Page Body Start-->
+					<!-- body -->
 					<div class="page-body-wrapper">
-
-						<!-- Page Sidebar Start-->
-						<?php
-						ViewTemplate::Sidebar();
-						?>
-						<!-- Page Sidebar Ends-->
+						<?= ViewTemplate::Sidebar() ?>
 
 						<div class="page-body">
-							<!-- Container-fluid starts-->
 							<div class="container-fluid">
 								<div class="card">
 									<div class="card-header">
@@ -80,36 +67,14 @@ class ViewError
 									</div>
 								</div>
 							</div>
-							<!-- Container-fluid Ends-->
 						</div>
 
-						<!-- footer start-->
-						<?php
-						ViewTemplate::BackFooter();
-						?>
-						<!-- footer end-->
+						<?= ViewTemplate::BackFooter() ?>
 					</div>
+					<!-- / body -->
 				</div>
-				<!-- latest jquery-->
-				<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-				<!-- Bootstrap js-->
-				<script src="../assets/js/popper.min.js"></script>
-				<script src="../assets/js/bootstrap.js"></script>
-
-				<!-- feather icon js-->
-				<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-				<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-				<!-- Sidebar jquery-->
-				<script src="../assets/js/sidebar-menu.js"></script>
-				<script src="../assets/js/slick.js"></script>
-
-				<!--Customizer admin-->
-				<script src="../assets/js/admin-customizer.js"></script>
-
-				<!--script admin-->
-				<script src="../assets/js/admin-script.js"></script>
+				<?= ViewTemplate::BackFoot() ?>
 			</body>
 		</html>
 		<?php

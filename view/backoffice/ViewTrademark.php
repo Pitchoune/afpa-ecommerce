@@ -60,42 +60,27 @@ class ViewTrademark
 
 			?>
 			<!DOCTYPE html>
-			<html>
+			<html lang="fr">
 				<head>
-					<?php
-					ViewTemplate::BackHead($pagetitle);
-					?>
+					<?= ViewTemplate::BackHead($pagetitle) ?>
 				</head>
 
 				<body>
 					<div class="page-wrapper">
+						<?= ViewTemplate::BackHeader() ?>
 
-						<!-- Page Header Start-->
-						<?php
-						ViewTemplate::BackHeader();
-						?>
-						<!-- Page Header Ends -->
-
-						<!-- Page Body Start-->
+						<!-- body -->
 						<div class="page-body-wrapper">
-
-							<!-- Page Sidebar Start-->
-							<?php
-							ViewTemplate::Sidebar();
-							?>
-							<!-- Page Sidebar Ends-->
+							<?= ViewTemplate::Sidebar() ?>
 
 							<div class="page-body">
 							<?php
 							if (count($trademarkslist) > 0)
 							{
-								?>
-								<!-- Container-fluid starts-->
-								<?php
 								ViewTemplate::Breadcrumb($pagetitle, $navbits);
 								?>
-								<!-- Container-fluid ends-->
 
+								<!-- trademarks listing -->
 								<div class="container-fluid">
 									<div class="row">
 										<div class="col-sm-12">
@@ -210,18 +195,16 @@ class ViewTrademark
 										</div>
 									</div>
 								</div>
+								<!-- / trademarks listing -->
 
 								<?php
 							}
 							else
 							{
-								?>
-								<!-- Container-fluid starts-->
-								<?php
 								ViewTemplate::breadcrumb($pagetitle, $navbits);
 								?>
-								<!-- Container-fluid ends-->
 
+								<!-- trademarks listing -->
 								<div class="container-fluid">
 									<div class="row">
 										<div class="col-sm-12">
@@ -248,41 +231,20 @@ class ViewTrademark
 										</div>
 									</div>
 								</div>
+								<!-- / trademarks listing -->
 								<?php
 							}
 							?>
 							</div>
 
-							<!-- footer start-->
-							<?php
-							ViewTemplate::BackFooter();
-							?>
-							<!-- footer end-->
+							<?= ViewTemplate::BackFooter() ?>
 						</div>
-
-
+						<!-- / body -->
 					</div>
-					<!-- latest jquery-->
-					<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-					<!-- Bootstrap js-->
-					<script src="../assets/js/popper.min.js"></script>
-					<script src="../assets/js/bootstrap.js"></script>
-
-					<!-- feather icon js-->
-					<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-					<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-					<!-- Sidebar jquery-->
-					<script src="../assets/js/sidebar-menu.js"></script>
-					<script src="../assets/js/slick.js"></script>
-
-					<!--Customizer admin-->
-					<script src="../assets/js/admin-customizer.js"></script>
-
-					<!--script admin-->
-					<script src="../assets/js/admin-script.js"></script>
 					<?php
+					ViewTemplate::BackFoot();
+
 					if ($_SESSION['trademark']['add'] === 1)
 					{
 						ViewTemplate::BackToast('Ajout de marque', 'Marque ajoutée avec succès !');
@@ -354,39 +316,23 @@ class ViewTrademark
 
 				?>
 				<!DOCTYPE html>
-				<html>
+				<html lang="fr">
 					<head>
-						<?php
-						ViewTemplate::BackHead($pagetitle);
-						?>
+						<?= ViewTemplate::BackHead($pagetitle) ?>
 					</head>
 
 					<body>
 						<div class="page-wrapper">
+							<?= ViewTemplate::BackHeader() ?>
 
-							<!-- Page Header Start-->
-							<?php
-							ViewTemplate::BackHeader();
-							?>
-							<!-- Page Header Ends -->
-
-							<!-- Page Body Start-->
+							<!-- body -->
 							<div class="page-body-wrapper">
-
-								<!-- Page Sidebar Start-->
-								<?php
-								ViewTemplate::Sidebar();
-								?>
-								<!-- Page Sidebar Ends-->
+								<?= ViewTemplate::Sidebar() ?>
 
 								<div class="page-body">
+									<?= ViewTemplate::Breadcrumb($pagetitle, $navbits);?>
 
-									<!-- Container-fluid starts-->
-									<?php
-									ViewTemplate::Breadcrumb($pagetitle, $navbits);
-									?>
-									<!-- Container-fluid ends-->
-
+									<!-- add/edit trademarks -->
 									<div class="container-fluid">
 										<div class="row product-adding">
 											<div class="col">
@@ -406,7 +352,7 @@ class ViewTrademark
 															{
 																?>
 																<div class="form-group">
-																	<label for="photo" class="col-form-label pt-0"><span>*</span> Logo</label>
+																	<label for="photo" class="col-form-label pt-0"><span>*</span> Logo</label><br />
 																	<input type="file" id="photo" name="file" />
 																</div>
 																<?php
@@ -433,36 +379,19 @@ class ViewTrademark
 											</div>
 										</div>
 									</div>
+									<!-- / add/edit trademarks -->
 
 								</div>
 
-								<!-- footer start-->
-								<?php
-								ViewTemplate::BackFooter();
-								?>
-								<!-- footer end-->
+								<?= ViewTemplate::BackFooter() ?>
 							</div>
-
+							<!-- / body -->
 
 						</div>
-						<!-- latest jquery-->
-						<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-						<!-- Bootstrap js-->
-						<script src="../assets/js/popper.min.js"></script>
-						<script src="../assets/js/bootstrap.js"></script>
-
-						<!-- feather icon js-->
-						<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-						<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-						<!-- Sidebar jquery-->
-						<script src="../assets/js/sidebar-menu.js"></script>
-						<script src="../assets/js/slick.js"></script>
-
-						<!--script admin-->
-						<script src="../assets/js/admin-script.js"></script>
 						<?php
+						ViewTemplate::BackFoot();
+
 						if ($id)
 						{
 							ViewTemplate::BackFormValidation('valider', 4, 1);
@@ -515,40 +444,23 @@ class ViewTrademark
 
 		?>
 		<!DOCTYPE html>
-		<html>
+		<html lang="fr">
 			<head>
-				<?php
-				ViewTemplate::BackHead($pagetitle);
-				?>
+				<?= ViewTemplate::BackHead($pagetitle) ?>
 			</head>
 
 			<body>
 				<div class="page-wrapper">
+					<?= ViewTemplate::BackHeader() ?>
 
-					<!-- Page Header Start-->
-					<?php
-					ViewTemplate::BackHeader();
-					?>
-					<!-- Page Header Ends -->
-
-					<!-- Page Body Start-->
+					<!-- body -->
 					<div class="page-body-wrapper">
-
-						<!-- Page Sidebar Start-->
-						<?php
-						ViewTemplate::Sidebar();
-						?>
-						<!-- Page Sidebar Ends-->
+						<?= ViewTemplate::Sidebar() ?>
 
 						<div class="page-body">
-
-							<!-- Container-fluid starts-->
 							<?php
 							ViewTemplate::Breadcrumb($pagetitle, $navbits);
-							?>
-							<!-- Container-fluid ends-->
 
-							<?php
 							$data = [
 								'id' => $id,
 								'redirect' => 'killtrademark',
@@ -559,38 +471,19 @@ class ViewTrademark
 
 							ViewTemplate::PrintDeleteConfirmation($data);
 							?>
-
 						</div>
 
-						<!-- footer start-->
-						<?php
-						ViewTemplate::BackFooter();
-						?>
-						<!-- footer end-->
+						<?= ViewTemplate::BackFooter() ?>
 					</div>
-
+					<!-- / body -->
 
 				</div>
-				<!-- latest jquery-->
-				<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-				<!-- Bootstrap js-->
-				<script src="../assets/js/popper.min.js"></script>
-				<script src="../assets/js/bootstrap.js"></script>
-
-				<!-- feather icon js-->
-				<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-				<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-				<!-- Sidebar jquery-->
-				<script src="../assets/js/sidebar-menu.js"></script>
-				<script src="../assets/js/slick.js"></script>
-
-				<!--script admin-->
-				<script src="../assets/js/admin-script.js"></script>
+				<?= ViewTemplate::BackFoot() ?>
 			</body>
 		</html>
 		<?php
 	}
 }
+
 ?>

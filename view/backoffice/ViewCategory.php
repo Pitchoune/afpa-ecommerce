@@ -60,43 +60,27 @@ class ViewCategory
 
 			?>
 			<!DOCTYPE html>
-			<html>
+			<html lang="fr">
 				<head>
-					<?php
-					ViewTemplate::BackHead($pagetitle);
-					?>
+					<?= ViewTemplate::BackHead($pagetitle) ?>
 				</head>
 
 				<body>
 					<div class="page-wrapper">
+						<?= ViewTemplate::BackHeader() ?>
 
-						<!-- Page Header Start-->
-						<?php
-						require_once(DIR . '/view/backoffice/ViewTemplate.php');
-						ViewTemplate::BackHeader();
-						?>
-						<!-- Page Header Ends -->
-
-						<!-- Page Body Start-->
+						<!-- body -->
 						<div class="page-body-wrapper">
-
-							<!-- Page Sidebar Start-->
-							<?php
-							ViewTemplate::Sidebar();
-							?>
-							<!-- Page Sidebar Ends-->
+							<?= ViewTemplate::Sidebar() ?>
 
 							<div class="page-body">
 							<?php
 							if (count($categorieslist) > 0)
 							{
-								?>
-								<!-- Container-fluid starts-->
-								<?php
 								ViewTemplate::Breadcrumb($pagetitle, $navbits);
 								?>
-								<!-- Container-fluid ends-->
 
+								<!-- categories listing -->
 								<div class="container-fluid">
 									<div class="row">
 										<div class="col-sm-12">
@@ -195,18 +179,16 @@ class ViewCategory
 										</div>
 									</div>
 								</div>
+								<!-- / categories listing -->
 
 								<?php
 							}
 							else
 							{
-								?>
-								<!-- Container-fluid starts-->
-								<?php
 								ViewTemplate::breadcrumb($pagetitle, array('Liste des catégories'));
 								?>
-								<!-- Container-fluid ends-->
 
+								<!-- categories listing -->
 								<div class="container-fluid">
 									<div class="row">
 										<div class="col-sm-12">
@@ -233,41 +215,20 @@ class ViewCategory
 										</div>
 									</div>
 								</div>
+								<!-- categories listing -->
 								<?php
 							}
 							?>
 							</div>
 
-							<!-- footer start-->
-							<?php
-							ViewTemplate::BackFooter();
-							?>
-							<!-- footer end-->
+							<?= ViewTemplate::BackFooter() ?>
 						</div>
 
 
 					</div>
-					<!-- latest jquery-->
-					<script src="../assets/js/jquery-3.5.1.min.js"></script>
-
-					<!-- Bootstrap js-->
-					<script src="../assets/js/popper.min.js"></script>
-					<script src="../assets/js/bootstrap.js"></script>
-
-					<!-- feather icon js-->
-					<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-					<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-					<!-- Sidebar jquery-->
-					<script src="../assets/js/sidebar-menu.js"></script>
-					<script src="../assets/js/slick.js"></script>
-
-					<!--Customizer admin-->
-					<script src="../assets/js/admin-customizer.js"></script>
-
-					<!--script admin-->
-					<script src="../assets/js/admin-script.js"></script>
 					<?php
+					ViewTemplate::BackFoot();
+
 					if ($_SESSION['category']['add'] === 1)
 					{
 						ViewTemplate::BackToast('Ajout de catégorie', 'Catégorie ajoutée avec succès !');
@@ -325,14 +286,75 @@ class ViewCategory
 			else
 			{
 				$categoryinfos = [
-					'nom' => '',
-					'parentid' => '-1',
-					'etat' => 0,
-					'compteur' => 0
+					'nom' => ''
 				];
 
 				$navtitle = 'Ajouter une catégorie';
 				$formredirect = 'insertcategory';
+			}
+
+			$parentlist = [];
+			$options = '<option value="0">Pas de catégorie parente</option>';
+
+			// Construct categories tree
+			$parents = $categories->listAllCategoriesWithoutParents();
+
+			foreach ($parents AS $key => $value)
+			{
+				// For each result, grab children
+				$parentlist[$value['id']] = $value;
+
+				$categories->set_parentid($value['id']);
+				$child = $categories->listChildrenCategoryInfos();
+
+				foreach ($child AS $iddata => $data)
+				{
+					$parentlist[$value['id']]['child'][$data['id']] = $data;
+				}
+			}
+
+/*
+Ajout :
+
+	- Désactiver les enfants
+
+Modif :
+
+	ID : enfant
+		=> désactiver la racine
+		=> désactiver les enfants
+
+	ID : parent
+		=> désactiver les enfants
+		=> désactiver les parents si l'actuel a des enfants
+*/
+
+// Utils::printr($parentlist, true);
+			$attr = '';
+
+			foreach ($parentlist AS $idparent => $infos)
+			{
+				$options .= '<option value="' . $infos['id'] . '"' . ($infos['parent_id'] ? ' selected' : '') . '>-- ' . $infos['nom'] . '</option>';
+
+				foreach ($infos['child'] AS $key => $value)
+				{
+					// Disable children
+					if (
+						// Add
+						!$id
+						OR
+						(
+							// Edit
+							$value['parent_id'] // Disable children categories because we're on parent case
+
+						)
+					)
+					{
+						$attr = ' disabled';
+					}
+
+					$options .= '<option value="' . $value['id'] . '"' . $attr . ($value['parent_id'] ? ' selected' : '') . '>---- ' . $value['nom'] . '</option>';
+				}
 			}
 
 			if ($categoryinfos)
@@ -344,106 +366,78 @@ class ViewCategory
 
 				?>
 				<!DOCTYPE html>
-				<html>
+				<html lang="fr">
 					<head>
-						<?php
-						ViewTemplate::BackHead($pagetitle);
-						?>
+						<?= ViewTemplate::BackHead($pagetitle) ?>
 					</head>
 
 					<body>
 						<div class="page-wrapper">
+							<?= ViewTemplate::BackHeader() ?>
 
-							<!-- Page Header Start-->
-							<?php
-							require_once(DIR . '/view/backoffice/ViewTemplate.php');
-							ViewTemplate::BackHeader();
-							?>
-							<!-- Page Header Ends -->
-
-							<!-- Page Body Start-->
+							<!-- body -->
 							<div class="page-body-wrapper">
-
-								<!-- Page Sidebar Start-->
-								<?php
-								ViewTemplate::Sidebar();
-								?>
-								<!-- Page Sidebar Ends-->
+								<?= ViewTemplate::Sidebar() ?>
 
 								<div class="page-body">
+									<?= ViewTemplate::Breadcrumb($pagetitle, $navbits) ?>
 
-								<!-- Container-fluid starts-->
-								<?php
-								ViewTemplate::Breadcrumb($pagetitle, $navbits);
-								?>
-								<!-- Container-fluid ends-->
-
-								<div class="container-fluid">
-									<div class="row product-adding">
-										<div class="col">
-											<div class="card">
-												<div class="card-header">
-													<h5><?= $navtitle ?></h5>
-												</div>
-												<div class="card-body">
-													<form class="digital-add" method="post" action="index.php?do=<?= $formredirect ?>">
-														<div class="form-group">
-															<label for="title" class="col-form-label pt-0"><span>*</span> Intitulé</label>
-															<input type="text" class="form-control" id="title" name="title" aria-describedby="titleHelp" data-type="title" data-message="Le format de l'intitulé n'est pas valide." required value="<?= $categoryinfos['nom'] ?>">
-															<small id="titleHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group mb-0">
-															<div class="product-buttons text-center">
-																<input type="hidden" name="do" value="<?= $formredirect ?>" />
-																<?php
-																if ($id)
-																{
-																?>
-																<input type="hidden" name="id" value="<?= $id ?>" />
-																<?php
-																}
-																?>
-																<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
-																<input type="reset" class="btn btn-light" value="Annuler"/>
+									<!-- add/edit category -->
+									<div class="container-fluid">
+										<div class="row product-adding">
+											<div class="col">
+												<div class="card">
+													<div class="card-header">
+														<h5><?= $navtitle ?></h5>
+													</div>
+													<div class="card-body">
+														<form class="digital-add" method="post" action="index.php?do=<?= $formredirect ?>">
+															<div class="form-group">
+																<label for="title" class="col-form-label pt-0">Intitulé <span>*</span></label>
+																<input type="text" class="form-control" id="title" name="title" aria-describedby="titleHelp" data-type="title" data-message="Le format de l'intitulé n'est pas valide." required value="<?= $categoryinfos['nom'] ?>" />
+																<small id="titleHelp" class="form-text text-muted"></small>
 															</div>
-														</div>
-													</form>
+															<div class="form-group">
+																<label for="parent" class="col-form-label pt-0">Catégorie parente <span>*</span></label>
+																<select class="custom-select form-control" id="parent" name="parent" aria-describedby="parentHelp" data-type="parent" data-message="La catégorie sélectionnée n'est pas valide.">
+																	<?= $options ?>
+																</select>
+																<small id="parentHelp" class="form-text text-muted"></small>
+															</div>
+															<div class="form-group mb-0">
+																<div class="product-buttons text-center">
+																	<input type="hidden" name="do" value="<?= $formredirect ?>" />
+																	<?php
+																	if ($id)
+																	{
+																	?>
+																	<input type="hidden" name="id" value="<?= $id ?>" />
+																	<?php
+																	}
+																	?>
+																	<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
+																	<input type="reset" class="btn btn-primary" value="Annuler"/>
+																</div>
+															</div>
+														</form>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-								</div>
+									<!-- / add/edit category -->
 
 								</div>
 
-								<!-- footer start-->
-								<?php
-								ViewTemplate::BackFooter();
-								?>
-								<!-- footer end-->
+								<?= ViewTemplate::BackFooter() ?>
 							</div>
-
+							<!-- / body -->
 
 						</div>
-						<!-- latest jquery-->
-						<script src="../assets/js/jquery-3.5.1.min.js"></script>
-
-						<!-- Bootstrap js-->
-						<script src="../assets/js/popper.min.js"></script>
-						<script src="../assets/js/bootstrap.js"></script>
-
-						<!-- feather icon js-->
-						<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-						<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-						<!-- Sidebar jquery-->
-						<script src="../assets/js/sidebar-menu.js"></script>
-						<script src="../assets/js/slick.js"></script>
-
-						<!--script admin-->
-						<script src="../assets/js/admin-script.js"></script>
 
 						<?php
+						ViewTemplate::BackFoot();
+
 						if ($id)
 						{
 							ViewTemplate::BackFormValidation('valider', 4, 1);
@@ -496,40 +490,23 @@ class ViewCategory
 
 		?>
 		<!DOCTYPE html>
-		<html>
+		<html lang="fr">
 			<head>
-				<?php
-				ViewTemplate::BackHead($pagetitle);
-				?>
+				<?= ViewTemplate::BackHead($pagetitle) ?>
 			</head>
 
 			<body>
 				<div class="page-wrapper">
+					<?= ViewTemplate::BackHeader() ?>
 
-					<!-- Page Header Start-->
-					<?php
-					ViewTemplate::BackHeader();
-					?>
-					<!-- Page Header Ends -->
-
-					<!-- Page Body Start-->
+					<!-- body -->
 					<div class="page-body-wrapper">
-
-						<!-- Page Sidebar Start-->
-						<?php
-						ViewTemplate::Sidebar();
-						?>
-						<!-- Page Sidebar Ends-->
+						<?= ViewTemplate::Sidebar() ?>
 
 						<div class="page-body">
-
-							<!-- Container-fluid starts-->
 							<?php
 							ViewTemplate::Breadcrumb($pagetitle, $navbits);
-							?>
-							<!-- Container-fluid ends-->
 
-							<?php
 							$data = [
 								'id' => $id,
 								'redirect' => 'killcategory',
@@ -540,35 +517,14 @@ class ViewCategory
 
 							ViewTemplate::PrintDeleteConfirmation($data);
 							?>
-
 						</div>
 
-						<!-- footer start-->
-						<?php
-						ViewTemplate::BackFooter();
-						?>
-						<!-- footer end-->
+						<?= ViewTemplate::BackFooter() ?>
 					</div>
-
-
+					<!-- / body -->
 				</div>
-				<!-- latest jquery-->
-				<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-				<!-- Bootstrap js-->
-				<script src="../assets/js/popper.min.js"></script>
-				<script src="../assets/js/bootstrap.js"></script>
-
-				<!-- feather icon js-->
-				<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-				<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-				<!-- Sidebar jquery-->
-				<script src="../assets/js/sidebar-menu.js"></script>
-				<script src="../assets/js/slick.js"></script>
-
-				<!--script admin-->
-				<script src="../assets/js/admin-script.js"></script>
+				<?= ViewTemplate::BackFoot() ?>
 			</body>
 		</html>
 		<?php

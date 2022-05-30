@@ -59,41 +59,27 @@ class ViewOrder
 
 		?>
 		<!DOCTYPE html>
-		<html>
+		<html lang="fr">
 			<head>
-				<?php
-				ViewTemplate::BackHead($pagetitle);
-				?>
+				<?= ViewTemplate::BackHead($pagetitle) ?>
 			</head>
 
 			<body>
 				<div class="page-wrapper">
+					<?= ViewTemplate::BackHeader() ?>
 
-					<!-- Page Header Start-->
-					<?php
-					ViewTemplate::BackHeader();
-					?>
-					<!-- Page Header Ends -->
-
-					<!-- Page Body Start-->
+					<!-- body -->
 					<div class="page-body-wrapper">
-
-						<!-- Page Sidebar Start-->
-						<?php
-						ViewTemplate::Sidebar();
-						?>
-						<!-- Page Sidebar Ends-->
+						<?= ViewTemplate::Sidebar() ?>
 
 						<div class="page-body">
 						<?php
 						if ($orderlist)
 						{
-							?>
-							<!-- Container-fluid starts-->
-							<?php
 							ViewTemplate::Breadcrumb($pagetitle, $navbits);
 							?>
 
+							<!-- orders listing -->
 							<div class="container-fluid">
 								<div class="row">
 									<div class="col-sm-12">
@@ -161,17 +147,16 @@ class ViewOrder
 									</div>
 								</div>
 							</div>
+							<!-- / orders listing -->
+
 							<?php
 						}
 						else
 						{
-							?>
-							<!-- Container-fluid starts-->
-							<?php
 							ViewTemplate::breadcrumb($pagetitle, $navbits);
 							?>
-							<!-- Container-fluid ends-->
 
+							<!-- orders listing -->
 							<div class="container-fluid">
 								<div class="row">
 									<div class="col-sm-12">
@@ -188,38 +173,19 @@ class ViewOrder
 									</div>
 								</div>
 							</div>
+							<!-- / orders listing -->
 							<?php
 						}
 						?>
-
 						</div>
 
-						<!-- footer start-->
-						<?php
-						ViewTemplate::BackFooter();
-						?>
-						<!-- footer end-->
+						<?= ViewTemplate::BackFooter() ?>
 					</div>
-
+					<!-- / body -->
 
 				</div>
-				<!-- latest jquery-->
-				<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-				<!-- Bootstrap js-->
-				<script src="../assets/js/popper.min.js"></script>
-				<script src="../assets/js/bootstrap.js"></script>
-
-				<!-- feather icon js-->
-				<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-				<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-				<!-- Sidebar jquery-->
-				<script src="../assets/js/sidebar-menu.js"></script>
-				<script src="../assets/js/slick.js"></script>
-
-				<!--script admin-->
-				<script src="../assets/js/admin-script.js"></script>
+				<?= ViewTemplate::BackFoot() ?>
 			</body>
 		</html>
 

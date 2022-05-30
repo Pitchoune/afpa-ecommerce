@@ -22,50 +22,29 @@ class ViewTemplate
 		?>
 		<meta charset="utf-8" />
 		<title><?= $pagetitle ?></title>
-		<link rel="icon" href="../assets/images/favicon/favicon.png" type="image/x-icon">
-		<link rel="shortcut icon" href="../assets/images/favicon/favicon.png" type="image/x-icon">
+		<link rel="icon" href="../assets/images/favicon.png" type="image/x-icon">
+		<link rel="shortcut icon" href="../assets/images/favicon.png" type="image/x-icon">
 
-		<!--Google font-->
-		<link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&display=swap" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+		<!-- google fonts -->
+		<link href="https://fonts.googleapis.com/css?family=PT+Sans:400,700&display=swap" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
 
-		<!-- Font Awesome-->
-		<link rel="stylesheet" type="text/css" href="../assets/css/font-awesome.css">
+		<!-- font awesome-->
+		<link rel="stylesheet" type="text/css" href="../assets/css/font-awesome.css" />
 
-		<!-- Flag icon-->
-		<link rel="stylesheet" type="text/css" href="../assets/css/flag-icon.css">
+		<!-- slick icons -->
+		<link rel="stylesheet" type="text/css" href="../assets/css/slick.css" />
+		<link rel="stylesheet" type="text/css" href="../assets/css/slick-theme.css" />
 
-		<!-- ico-font-->
-		<link rel="stylesheet" type="text/css" href="../assets/css/icofont.css">
+		<!-- tablegrid -->
+		<link rel="stylesheet" type="text/css" href="../assets/css/tablegrid.css" />
 
-		<!-- Prism css-->
-		<link rel="stylesheet" type="text/css" href="../assets/css/prism.css">
-
-		<!-- Chartist css -->
-		<link rel="stylesheet" type="text/css" href="../assets/css/chartist.css">
-
-		<!-- vector map css -->
-		<link rel="stylesheet" type="text/css" href="../assets/css/vector-map.css">
-
-		<!-- slick icon-->
-		<link rel="stylesheet" type="text/css" href="../assets/css/slick.css">
-		<link rel="stylesheet" type="text/css" href="../assets/css/slick-theme.css">
-
-		<!-- jsgrid css-->
-		<link rel="stylesheet" type="text/css" href="../assets/css/jsgrid.css">
-
-		<!-- tablegrid css-->
-		<link rel="stylesheet" type="text/css" href="../assets/css/tablegrid.css">
-
-		<!-- Dropzone css-->
-		<link rel="stylesheet" type="text/css" href="../assets/css/dropzone.css">
-
-		<!-- Bootstrap css-->
-		<link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.css">
+		<!-- bootstrap css -->
+		<link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css" />
 
 		<!-- App css-->
-		<link rel="stylesheet" type="text/css" href="../assets/css/admin.css">
+		<link rel="stylesheet" type="text/css" href="../assets/css/admin.css" />
 		<?php
 	}
 
@@ -79,11 +58,12 @@ class ViewTemplate
 		global $config;
 
 		?>
-		<div class="page-main-header">
+		<!-- header -->
+		<header class="page-main-header">
 			<div class="main-header-left">
-				<div class="logo-wrapper"><a href="index.php"><img class="blur-up lazyloaded" src="../assets/images/layout-2/logo/logo.png" alt=""></a></div>
+				<div class="logo-wrapper"><a href="index.php"><img src="../assets/images/NRS.png" alt=""></a></div>
 			</div>
-			<div class="main-header-right ">
+			<div class="main-header-right">
 				<div class="mobile-sidebar">
 					<div class="media-body text-end switch-sm">
 						<label class="switch">
@@ -96,7 +76,7 @@ class ViewTemplate
 						<li>
 							<form class="form-inline search-form">
 								<div class="form-group">
-									<input class="form-control-plaintext" type="search" placeholder="Recherche.."><span class="d-sm-none mobile-search"><i data-feather="search"></i></span>
+									<input class="form-control-plaintext" type="search" placeholder="Recherche..."><span class="d-sm-none mobile-search"><i data-feather="search"></i></span>
 								</div>
 							</form>
 						</li>
@@ -129,20 +109,46 @@ class ViewTemplate
 							</ul>
 						</li>
 						<li class="onhover-dropdown">
-							<div class="media align-items-center"><img class="align-self-center pull-right img-50 rounded-circle blur-up lazyloaded" src="../assets/images/dashboard/man.png" alt="header-user">
-								<div class="dotted-animation"><span class="animate-circle"></span><span class="main-circle"></span></div>
+							<div class="media align-items-center">
+								<img class="align-self-center pull-right img-50 rounded-circle" src="../assets/images/noavatar.png" alt="header-user" />
+								<div class="dotted-animation">
+									<span class="animate-circle"></span>
+									<span class="main-circle"></span>
+								</div>
 							</div>
 							<ul class="profile-dropdown onhover-show-div p-20 profile-dropdown-hover">
-								<li><a href="index.php?do=profile">Profil<span class="pull-right"><i data-feather="user"></i></span></a></li>
-								<li><a href="index.php?do=listmessages">Messages<span class="pull-right"><i data-feather="mail"></i></span></a></li>
-								<li><a href="index.php?do=logout">Se déconnecter<span class="pull-right"><i data-feather="log-out"></i></span></a></li>
+								<li>
+									<a href="index.php?do=profile">
+										Profil
+										<span class="pull-right">
+											<i data-feather="user"></i>
+										</span>
+									</a>
+								</li>
+								<li>
+									<a href="index.php?do=listmessages">
+										Messages
+										<span class="pull-right">
+											<i data-feather="mail"></i>
+										</span>
+									</a>
+								</li>
+								<li>
+									<a href="index.php?do=logout">
+										Se déconnecter
+										<span class="pull-right">
+											<i data-feather="log-out"></i>
+										</span>
+									</a>
+								</li>
 							</ul>
 						</li>
 					</ul>
 					<div class="d-lg-none mobile-toggle pull-right"><i data-feather="more-horizontal"></i></div>
 				</div>
 			</div>
-		</div>
+		</header>
+		<!-- / header -->
 		<?php
 	}
 
@@ -155,21 +161,33 @@ class ViewTemplate
 	{
 		global $employee;
 		?>
+		<!-- sidebar -->
 		<div class="page-sidebar">
 			<div class="sidebar custom-scrollbar">
 				<div class="sidebar-user text-center">
-					<div><img class="img-60 rounded-circle lazyloaded blur-up" src="../assets/images/dashboard/man.png" alt="#">
+					<div>
+						<img class="img-60 rounded-circle" src="../assets/images/noavatar.png" alt="Avatar de l'employé" />
 					</div>
 					<h6 class="mt-3 f-14"><?= $employee['prenom'] . ' ' . $employee['nom'] ?></h6>
 					<p><?= $employee['rolename'] ?></p>
 				</div>
 				<ul class="sidebar-menu">
-					<li><a class="sidebar-header" href="index.php?do=index"><i data-feather="home"></i><span>Tableau de bord</span></a></li>
+					<li>
+						<a class="sidebar-header" href="index.php?do=index">
+							<i data-feather="home"></i>
+							<span>Tableau de bord</span>
+						</a>
+					</li>
 					<?php
 					if (Utils::cando(1) OR Utils::cando(2))
 					{
 					?>
-					<li><a class="sidebar-header" href="javascript:void(0)"><i data-feather="user-check"></i><span>Rôles</span><i class="fa fa-angle-right pull-right"></i></a>
+					<li>
+						<a class="sidebar-header" href="javascript:void(0)">
+							<i data-feather="user-check"></i>
+							<span>Rôles</span>
+							<i class="fa fa-angle-right pull-right"></i>
+						</a>
 						<ul class="sidebar-submenu">
 							<?php
 							if (Utils::cando(1))
@@ -194,7 +212,12 @@ class ViewTemplate
 					if (Utils::cando(5) OR Utils::cando(6))
 					{
 					?>
-					<li><a class="sidebar-header" href="javascript:void(0)"><i data-feather="users"></i><span>Employés</span><i class="fa fa-angle-right pull-right"></i></a>
+					<li>
+						<a class="sidebar-header" href="javascript:void(0)">
+							<i data-feather="users"></i>
+							<span>Employés</span>
+							<i class="fa fa-angle-right pull-right"></i>
+						</a>
 						<ul class="sidebar-submenu">
 							<?php
 							if (Utils::cando(5))
@@ -219,7 +242,12 @@ class ViewTemplate
 					if (Utils::cando(9) OR Utils::cando(10))
 					{
 					?>
-					<li><a class="sidebar-header" href="javascript:void(0)"><i data-feather="list"></i><span>Catégories</span><i class="fa fa-angle-right pull-right"></i></a>
+					<li>
+						<a class="sidebar-header" href="javascript:void(0)">
+							<i data-feather="list"></i>
+							<span>Catégories</span>
+							<i class="fa fa-angle-right pull-right"></i>
+						</a>
 						<ul class="sidebar-submenu">
 							<?php
 							if (Utils::cando(9))
@@ -244,7 +272,12 @@ class ViewTemplate
 					if (Utils::cando(13) OR Utils::cando(14))
 					{
 					?>
-					<li><a class="sidebar-header" href="javascrpt:void(0)"><i data-feather="trello"></i><span>Marques</span><i class="fa fa-angle-right pull-right"></i></a>
+					<li>
+						<a class="sidebar-header" href="javascrpt:void(0)">
+							<i data-feather="trello"></i>
+							<span>Marques</span>
+							<i class="fa fa-angle-right pull-right"></i>
+						</a>
 						<ul class="sidebar-submenu">
 							<?php
 							if (Utils::cando(13))
@@ -269,7 +302,12 @@ class ViewTemplate
 					if (Utils::cando(18) OR Utils::cando(19))
 					{
 					?>
-					<li><a class="sidebar-header" href="javascrpt:void(0)"><i data-feather="truck"></i><span>Transporteur</span><i class="fa fa-angle-right pull-right"></i></a>
+					<li>
+						<a class="sidebar-header" href="javascrpt:void(0)">
+							<i data-feather="truck"></i>
+							<span>Transporteur</span>
+							<i class="fa fa-angle-right pull-right"></i>
+						</a>
 						<ul class="sidebar-submenu">
 							<?php
 							if (Utils::cando(18))
@@ -294,7 +332,12 @@ class ViewTemplate
 					if (Utils::cando(23) OR Utils::cando(24))
 					{
 					?>
-					<li><a class="sidebar-header" href="javascript:void(0)"><i data-feather="box"></i>Produits<i class="fa fa-angle-right pull-right"></i></a>
+					<li>
+						<a class="sidebar-header" href="javascript:void(0)">
+							<i data-feather="box"></i>
+							<span>Produits</span>
+							<i class="fa fa-angle-right pull-right"></i>
+						</a>
 						<ul class="sidebar-submenu">
 							<?php
 							if (Utils::cando(23))
@@ -319,7 +362,12 @@ class ViewTemplate
 					if (Utils::cando(28) OR Utils::cando(29))
 					{
 					?>
-					<li><a class="sidebar-header" href="javascript:void(0)"><i data-feather="user-plus"></i><span>Clients</span><i class="fa fa-angle-right pull-right"></i></a>
+					<li>
+						<a class="sidebar-header" href="javascript:void(0)">
+							<i data-feather="user-plus"></i>
+							<span>Clients</span>
+							<i class="fa fa-angle-right pull-right"></i>
+						</a>
 						<ul class="sidebar-submenu">
 							<?php
 							if (Utils::cando(28))
@@ -342,16 +390,26 @@ class ViewTemplate
 					<?php
 					}
 					?>
-					<li><a class="sidebar-header" href=""><i data-feather="settings" ></i><span>Paramètres</span><i class="fa fa-angle-right pull-right"></i></a>
+					<li>
+						<a class="sidebar-header" href="javascript:void(0)">
+							<i data-feather="settings" ></i>
+							<span>Paramètres</span>
+							<i class="fa fa-angle-right pull-right"></i>
+						</a>
 						<ul class="sidebar-submenu">
 							<li><a href="index.php?do=profile"><i class="fa fa-circle"></i>Mon profil</a></li>
 						</ul>
 					</li>
-					<li><a class="sidebar-header" href="index.php?do=logout"><i data-feather="log-out"></i><span>Se déconnecter</span></a>
+					<li>
+						<a class="sidebar-header" href="index.php?do=logout">
+							<i data-feather="log-out"></i>
+							<span>Se déconnecter</span>
+						</a>
 					</li>
 				</ul>
 			</div>
 		</div>
+		<!-- / sidebar -->
 		<?php
 	}
 
@@ -366,18 +424,22 @@ class ViewTemplate
 	public static function Breadcrumb($title, $navbits)
 	{
 		?>
-		<!-- breadcrumb start -->
+		<!-- breadcrumb -->
 		<div class="container-fluid">
 			<div class="page-header">
 				<div class="row">
-					<div class="col-lg-6">
+					<div class="col-lg-12">
 						<div class="page-header-left">
-							<h3><?= $title ?><small>Bigdeal Admin panel</small></h3>
+							<h3><?= $title ?></h3>
 						</div>
 					</div>
-					<div class="col-lg-6">
-						<ol class="breadcrumb pull-right">
-							<li class="breadcrumb-item"><a href="index.php"><i data-feather="home"></i></a></li>
+					<div class="col-lg-12">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item">
+								<a href="index.php">
+									<i data-feather="home"></i>
+								</a>
+							</li>
 							<?php
 
 							$lastelement = (isset($navbits) AND sizeof($navbits));
@@ -406,7 +468,7 @@ class ViewTemplate
 				</div>
 			</div>
 		</div>
-		<!-- breadcrumb End -->
+		<!-- / breadcrumb -->
 		<?php
 	}
 
@@ -418,23 +480,54 @@ class ViewTemplate
 	public static function BackFooter()
 	{
 		?>
-		<!-- footer start-->
+		<!-- footer -->
 		<footer class="footer">
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-md-6 footer-copyright">
-						<p class="mb-0">Copyright 2019 © Bigdeal All rights reserved.</p>
-					</div>
-					<div class="col-md-6">
-						<p class="pull-right mb-0">Hand crafted & made with<i class="fa fa-heart"></i></p>
+					<div class="col-md-12 footer-copyright">
+						<p class="mb-0">Copyright 2022 par moi-même.</p>
 					</div>
 				</div>
 			</div>
 		</footer>
-		<!-- footer end-->
+		<!-- / footer -->
 		<?php
 	}
 
+	/**
+	 * Returns the HTML code to display the basic necessary Javascript files to include to each page.
+	 *
+	 * @return void
+	 */
+	public static function BackFoot()
+	{
+		?>
+		<!-- jquery -->
+		<script src="../assets/js/jquery-3.6.0.min.js"></script>
+
+		<!-- bootstrap js -->
+		<script src="../assets/js/bootstrap.bundle.min.js"></script>
+
+		<!-- feather icon js -->
+		<script src="../assets/js/feather.min.js"></script>
+		<script src="../assets/js/feather-icon.js"></script>
+
+		<!-- slick -->
+		<script src="../assets/js/slick.js"></script>
+
+		<!-- script admin -->
+		<script src="../assets/js/admin-script.js"></script>
+		<?php
+	}
+
+	/**
+	 * Returns the HTML code to display the backoffice Bootstrap toast.
+	 *
+	 * @param string $title Title to insert into the toast.
+	 * @param string $message Message to insert into the toast.
+	 *
+	 * @return void
+	 */
 	public static function BackToast($title, $message)
 	{
 		?>
@@ -552,12 +645,12 @@ class ViewTemplate
 								$(formElements[i]).next().html(`<p class="invalid-text">${$(formElements[i]).attr("data-message")}</p>`);
 							}
 
-							if (parseInt(formElements[i].value) === 0)
+							/*if (parseInt(formElements[i].value) === 0)
 							{
 								error = true;
 								$(formElements[i]).addClass("is-invalid");
 								$(formElements[i]).next().html(`<p class="invalid-text">${$(formElements[i]).attr("data-message")}</p>`);
-							}
+							}*/
 						}
 						else if ($(formElements[i]).attr("type") === "file")
 						{
@@ -600,6 +693,7 @@ class ViewTemplate
 	public static function PrintDeleteConfirmation($data = [])
 	{
 		?>
+		<!-- content deletion confirmation -->
 		<div class="container-fluid">
 			<div class="row product-adding">
 				<div class="col">
@@ -628,6 +722,7 @@ class ViewTemplate
 				</div>
 			</div>
 		</div>
+		<!-- / content deletion confirmation -->
 		<?php
 	}
 }

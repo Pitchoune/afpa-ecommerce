@@ -43,16 +43,18 @@ function AddCategory()
  * Inserts a new category into the database.
  *
  * @param string $title Title of the category.
+ * @param integer $parent ID of the parent.
  *
  * @return void
  */
-function InsertCategory($title)
+function InsertCategory($title, $parent)
 {
 	if (Utils::cando(10))
 	{
 		global $config;
 
 		$title = trim(strval($title));
+		$parent = intval($parent);
 
 		$categories = new ModelCategory($config);
 
@@ -68,6 +70,15 @@ function InsertCategory($title)
 		}
 
 		$categories->set_name($title);
+
+		if ($parent === 0)
+		{
+			$categories->set_parentid('null');
+		}
+		else
+		{
+			$categories->set_parentid($parent);
+		}
 
 		// Save the new category in the database
 		if ($categories->saveNewCategory())
@@ -113,16 +124,18 @@ function EditCategory($id)
  *
  * @param integer $id ID of the category to update.
  * @param string $title Title of the category to update.
+ * @param integer $parent ID of the parent.
  *
  * @return void
  */
-function UpdateCategory($id, $title)
+function UpdateCategory($id, $title, $parent)
 {
 	if (Utils::cando(11))
 	{
 		global $config;
 
 		$title = trim(strval($title));
+		$parent = intval($parent);
 
 		$categories = new ModelCategory($config);
 
@@ -132,8 +145,22 @@ function UpdateCategory($id, $title)
 			throw new Exception('Le titre est vide.');
 		}
 
+		if (!preg_match('/^[\p{L}\s-]{2,}$/u', $title))
+		{
+			throw new Exception('L\'intitulé de la catégorie contient des caractères interdits.');
+		}
+
 		$categories->set_id($id);
 		$categories->set_name($title);
+
+		if ($parent === 0)
+		{
+			$categories->set_parentid(null);
+		}
+		else
+		{
+			$categories->set_parentid($parent);
+		}
 
 		// Save the new category in the database
 		if ($categories->saveEditCategory())

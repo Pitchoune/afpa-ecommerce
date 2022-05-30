@@ -66,7 +66,7 @@ class ViewCustomer
 
 			?>
 			<!DOCTYPE html>
-			<html>
+			<html lang="fr">
 				<head>
 					<?php
 					ViewTemplate::BackHead($pagetitle);
@@ -348,7 +348,7 @@ class ViewCustomer
 
 				?>
 				<!DOCTYPE html>
-				<html>
+				<html lang="fr">
 					<head>
 						<?php
 						ViewTemplate::BackHead($pagetitle);
@@ -533,7 +533,7 @@ class ViewCustomer
 
 		?>
 		<!DOCTYPE html>
-		<html>
+		<html lang="fr">
 			<head>
 				<?php
 				ViewTemplate::BackHead($pagetitle);
@@ -646,7 +646,7 @@ class ViewCustomer
 
 				?>
 				<!DOCTYPE html>
-				<html>
+				<html lang="fr">
 					<head>
 						<?php
 						ViewTemplate::BackHead($pagetitle);
@@ -928,7 +928,7 @@ class ViewCustomer
 
 		?>
 		<!DOCTYPE html>
-		<html>
+		<html lang="fr">
 			<head>
 				<?php
 				ViewTemplate::BackHead($pagetitle);
@@ -1138,7 +1138,7 @@ class ViewCustomer
 
 				?>
 				<!DOCTYPE html>
-				<html>
+				<html lang="fr">
 					<head>
 						<?php
 						ViewTemplate::BackHead($pagetitle);
@@ -1422,4 +1422,5 @@ class ViewCustomer
 		}
 	}
 }
+
 ?>

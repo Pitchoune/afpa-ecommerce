@@ -30,38 +30,22 @@ class ViewDashboard
 
 		?>
 		<!DOCTYPE html>
-		<html>
+		<html lang="fr">
 			<head>
-				<?php
-				ViewTemplate::BackHead($pagetitle);
-				?>
+				<?= ViewTemplate::BackHead($pagetitle) ?>
 			</head>
-
 			<body>
 				<div class="page-wrapper">
+					<?= ViewTemplate::BackHeader() ?>
 
-					<!-- Page Header Start-->
-					<?php
-					ViewTemplate::BackHeader();
-					?>
-					<!-- Page Header Ends -->
-
-					<!-- Page Body Start-->
+					<!-- body -->
 					<div class="page-body-wrapper">
-
-						<!-- Page Sidebar Start-->
-						<?php
-						ViewTemplate::Sidebar();
-						?>
-						<!-- Page Sidebar Ends-->
+						<?= ViewTemplate::Sidebar() ?>
 
 						<div class="page-body">
+							<?= ViewTemplate::Breadcrumb($pagetitle, $navbits) ?>
 
-							<!-- Container-fluid starts-->
-							<?php
-							ViewTemplate::Breadcrumb($pagetitle, $navbits);
-							?>
-							<!-- Container-fluid ends-->
+							<!-- dashboard -->
 							<div class="container-fluid">
 								<div class="row">
 									<div class="col-xl-3 col-md-6 xl-50">
@@ -212,63 +196,15 @@ class ViewDashboard
 									</div>
 								</div>
 							</div>
-							<!-- Container-fluid Ends-->
-
+							<!-- / dashboard -->
 						</div>
 
-						<!-- footer start-->
-						<?php
-						ViewTemplate::BackFooter();
-						?>
-						<!-- footer end-->
+						<?= ViewTemplate::BackFooter() ?>
 					</div>
-
-
+					<!-- / body -->
 				</div>
-				<!-- latest jquery-->
-				<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-				<!-- Bootstrap js-->
-				<script src="../assets/js/popper.min.js"></script>
-				<script src="../assets/js/bootstrap.js"></script>
-
-				<!-- feather icon js-->
-				<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-				<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-				<!-- Sidebar jquery-->
-				<script src="../assets/js/sidebar-menu.js"></script>
-				<script src="../assets/js/slick.js"></script>
-
-				<!--chartist js-->
-				<script src="../assets/js/chart/chartist/chartist.js"></script>
-
-				<!--counter js-->
-				<script src="../assets/js/counter/jquery.waypoints.min.js"></script>
-				<script src="../assets/js/counter/jquery.counterup.min.js"></script>
-				<script src="../assets/js/counter/counter-custom.js"></script>
-
-				<!--Customizer admin-->
-				<script src="../assets/js/admin-customizer.js"></script>
-
-				<!--apex chart js-->
-				<script src="../assets/js/chart/apex-chart/apex-chart.js"></script>
-				<script src="../assets/js/chart/apex-chart/stock-prices.js"></script>
-
-				<!--chartjs js-->
-				<script src="../assets/js/chart/flot-chart/excanvas.js"></script>
-				<script src="../assets/js/chart/flot-chart/jquery.flot.js"></script>
-				<script src="../assets/js/chart/flot-chart/jquery.flot.time.js"></script>
-				<script src="../assets/js/chart/flot-chart/jquery.flot.categories.js"></script>
-				<script src="../assets/js/chart/flot-chart/jquery.flot.stack.js"></script>
-				<script src="../assets/js/chart/flot-chart/jquery.flot.pie.js"></script>
-
-				<!--dashboard custom js-->
-				<script src="../assets/js/dashboard/default.js"></script>
-
-				<!--script admin-->
-				<script src="../assets/js/admin-script.js"></script>
-				<script src="../assets/js/slick.js"></script>
+				<?= ViewTemplate::BackFoot() ?>
 
 				<script>
 					$('.single-item').slick({

@@ -114,11 +114,12 @@ class ModelCategory extends Model
 		$db = $this->dbConnect();
 		$query = $db->prepare("
 			INSERT INTO categorie
-				(nom)
+				(nom, parent_id)
 			VALUES
-				(?)
+				(?, ?)
 		");
 		$query->bindParam(1, $this->name, \PDO::PARAM_STR);
+		$query->bindParam(2, $this->parent_id, \PDO::PARAM_INT);
 
 		return $query->execute();
 	}
@@ -190,11 +191,13 @@ class ModelCategory extends Model
 		$db = $this->dbConnect();
 		$query = $db->prepare("
 			UPDATE categorie SET
-				nom = ?
+				nom = ?,
+				parent_id = ?
 			WHERE id = ?
 		");
 		$query->bindParam(1, $this->name, \PDO::PARAM_STR);
-		$query->bindParam(2, $this->id, \PDO::PARAM_INT);
+		$query->bindParam(2, $this->parent_id, \PDO::PARAM_INT);
+		$query->bindParam(3, $this->id, \PDO::PARAM_INT);
 
 		return $query->execute();
 	}

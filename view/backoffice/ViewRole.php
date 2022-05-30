@@ -60,42 +60,27 @@ class ViewRole
 
 			?>
 			<!DOCTYPE html>
-			<html>
+			<html lang="fr">
 				<head>
-					<?php
-					ViewTemplate::BackHead($pagetitle);
-					?>
+					<?= ViewTemplate::BackHead($pagetitle) ?>
 				</head>
 
 				<body>
 					<div class="page-wrapper">
+						<?= ViewTemplate::BackHeader() ?>
 
-						<!-- Page Header Start-->
-						<?php
-						ViewTemplate::BackHeader();
-						?>
-						<!-- Page Header Ends -->
-
-						<!-- Page Body Start-->
+						<!-- body -->
 						<div class="page-body-wrapper">
-
-							<!-- Page Sidebar Start-->
-							<?php
-							ViewTemplate::Sidebar();
-							?>
-							<!-- Page Sidebar Ends-->
+							<?= ViewTemplate::Sidebar() ?>
 
 							<div class="page-body">
 							<?php
 							if (count($roleslist) > 0)
 							{
-								?>
-								<!-- Container-fluid starts-->
-								<?php
 								ViewTemplate::Breadcrumb($pagetitle, $navbits);
 								?>
-								<!-- Container-fluid ends-->
 
+								<!-- roles listing -->
 								<div class="container-fluid">
 									<div class="row">
 										<div class="col-sm-12">
@@ -192,18 +177,16 @@ class ViewRole
 										</div>
 									</div>
 								</div>
+								<!-- / roles listing -->
 
 								<?php
 							}
 							else
 							{
+								ViewTemplate::Breadcrumb($pagetitle, $navbits);
 								?>
-								<!-- Container-fluid starts-->
-								<?php
-								ViewTemplate::breadcrumb($pagetitle, $navbits);
-								?>
-								<!-- Container-fluid ends-->
 
+								<!-- roles listing -->
 								<div class="container-fluid">
 									<div class="row">
 										<div class="col-sm-12">
@@ -230,41 +213,20 @@ class ViewRole
 										</div>
 									</div>
 								</div>
+								<!-- / roles listing -->
 								<?php
 							}
 							?>
 							</div>
 
-							<!-- footer start-->
-							<?php
-							ViewTemplate::BackFooter();
-							?>
-							<!-- footer end-->
+							<?= ViewTemplate::BackFooter() ?>
 						</div>
-
-
+						<!-- / body -->
 					</div>
-					<!-- latest jquery-->
-					<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-					<!-- Bootstrap js-->
-					<script src="../assets/js/popper.min.js"></script>
-					<script src="../assets/js/bootstrap.js"></script>
-
-					<!-- feather icon js-->
-					<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-					<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-					<!-- Sidebar jquery-->
-					<script src="../assets/js/sidebar-menu.js"></script>
-					<script src="../assets/js/slick.js"></script>
-
-					<!--Customizer admin-->
-					<script src="../assets/js/admin-customizer.js"></script>
-
-					<!--script admin-->
-					<script src="../assets/js/admin-script.js"></script>
 					<?php
+					ViewTemplate::BackFoot();
+
 					if ($_SESSION['role']['add'] === 1)
 					{
 						ViewTemplate::BackToast('Ajout de rôle', 'Rôle ajouté avec succès !');
@@ -344,64 +306,47 @@ class ViewRole
 
 				?>
 				<!DOCTYPE html>
-				<html>
+				<html lang="fr">
 					<head>
-						<?php
-						ViewTemplate::BackHead($pagetitle);
-						?>
+						<?= ViewTemplate::BackHead($pagetitle) ?>
 					</head>
 
 					<body>
 						<div class="page-wrapper">
+							<?= ViewTemplate::BackHeader() ?>
 
-							<!-- Page Header Start-->
-							<?php
-							require_once(DIR . '/view/backoffice/ViewTemplate.php');
-							ViewTemplate::BackHeader();
-							?>
-							<!-- Page Header Ends -->
-
-							<!-- Page Body Start-->
+							<!-- body -->
 							<div class="page-body-wrapper">
-
-								<!-- Page Sidebar Start-->
-								<?php
-								ViewTemplate::Sidebar();
-								?>
-								<!-- Page Sidebar Ends-->
+								<?= ViewTemplate::Sidebar() ?>
 
 								<div class="page-body">
+									<?= ViewTemplate::Breadcrumb($pagetitle, $navbits) ?>
 
-								<!-- Container-fluid starts-->
-								<?php
-								ViewTemplate::Breadcrumb($pagetitle, $navbits);
-								?>
-								<!-- Container-fluid ends-->
-
-								<div class="container-fluid">
-									<div class="row product-adding">
-										<div class="col">
-											<div class="card tab2-card">
-												<div class="card-header">
-													<h5><?= $navtitle ?></h5>
-												</div>
-												<div class="card-body">
-													<?php
-													if ($id)
-													{
-													?>
-													<ul class="nav nav-tabs tab-coupon" id="myTab" role="tablist">
-														<li class="nav-item"><a class="nav-link active show" id="account-tab" data-bs-toggle="tab" href="#account" role="tab" aria-controls="account" aria-selected="true" data-original-title="" title="">Account</a></li>
-														<li class="nav-item"><a class="nav-link" id="permission-tabs" data-bs-toggle="tab" href="#permission" role="tab" aria-controls="permission" aria-selected="false" data-original-title="" title="">Permissions</a></li>
-													</ul>
-													<div class="tab-content" id="myTabContent">
-														<div class="tab-pane fade active show" id="account" role="tabpanel" aria-labelledby="account-tab">
-															<?php
-															}
+									<!-- add/edit roles -->
+									<div class="container-fluid">
+										<div class="row product-adding">
+											<div class="col">
+												<div class="card tab2-card">
+													<div class="card-header">
+														<h5><?= $navtitle ?></h5>
+													</div>
+													<div class="card-body">
+														<?php
+														if ($id)
+														{
 															?>
+															<ul class="nav nav-tabs tab-coupon" id="myTab" role="tablist">
+																<li class="nav-item"><a class="nav-link active show" id="account-tab" data-bs-toggle="tab" href="#account" role="tab" aria-controls="account" aria-selected="true" data-original-title="" title="">Compte</a></li>
+																<li class="nav-item"><a class="nav-link" id="permission-tabs" data-bs-toggle="tab" href="#permission" role="tab" aria-controls="permission" aria-selected="false" data-original-title="" title="">Permissions</a></li>
+															</ul>
+															<div class="tab-content" id="myTabContent">
+																<div class="tab-pane fade active show" id="account" role="tabpanel" aria-labelledby="account-tab">
+														<?php
+														}
+														?>
 															<form class="digital-add" method="post" action="index.php?do=<?= $formredirect ?>">
 																<div class="form-group">
-																	<label for="name" class="col-form-label pt-0"><span>*</span> Intitulé</label>
+																	<label for="name" class="col-form-label pt-0">Intitulé <span>*</span></label>
 																	<input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" data-type="name" data-message="Le format de l'intitulé n'est pas valide." value="<?= $roleinfos['nom'] ?>" required />
 																	<small id="nameHelp" class="form-text text-muted"></small>
 																</div>
@@ -411,108 +356,88 @@ class ViewRole
 																		<?php
 																		if ($id)
 																		{
-																		?>
-																		<input type="hidden" name="id" value="<?= $id ?>" />
-																		<?php
+																			?>
+																			<input type="hidden" name="id" value="<?= $id ?>" />
+																			<?php
 																		}
 																		?>
 																		<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
-																		<input type="reset" class="btn btn-light" value="Annuler"/>
+																		<input type="reset" class="btn btn-primary" value="Annuler"/>
 																	</div>
 																</div>
 															</form>
-															<?php
-																if ($id)
-																{
-																	?>
-														</div>
-														<div class="tab-pane fade" id="permission" role="tabpanel" aria-labelledby="permission-tabs">
-															<form class="needs-validation user-add" novalidate="" method="post" action="index.php?do=updateroleperms">
-																<div class="permission-block">
-
-																<?php
-
-																	foreach ($permissions AS $module => $values)
-																	{
-																		?>
-																		<div class="attribute-blocks">
-																			<h5 class="f-w-600 mb-3">Permissions des <?= $module ?></h5>
-																			<?php
-																			foreach ($values AS $permid => $description)
-																			{
-																				?>
-																				<div class="row">
-																					<div class="col-xl-3 col-sm-4">
-																						<label><?= $description ?></label>
-																					</div>
-																					<div class="col-xl-9 col-sm-8">
-																						<div class="form-group m-checkbox-inline mb-0 custom-radio-ml d-flex radio-animated">
-																							<label class="d-block" for="rb_1_permission[<?= $permid ?>]">
-																								<input class="radio_animated" id="rb_1_permission[<?= $permid ?>]" type="radio" name="permission[<?= $permid ?>]" value="1" <?= ($perms["$module"]["$permid"] == 1 ? ' checked' : '') ?> />
-																								Oui
-																							</label>
-																							<label class="d-block" for="rb_0_permission[<?= $permid ?>]">
-																								<input class="radio_animated" id="rb_0_permission[<?= $permid ?>]" type="radio" name="permission[<?= $permid ?>]" value="0" <?= ($perms["$module"]["$permid"] == 0 ? ' checked' : '') ?> />
-																								Non
-																							</label>
+														<?php
+														if ($id)
+														{
+															?>
+																</div>
+																<div class="tab-pane fade" id="permission" role="tabpanel" aria-labelledby="permission-tabs">
+																	<form class="user-add" novalidate="" method="post" action="index.php?do=updateroleperms">
+																		<div class="permission-block">
+																		<?php
+																		foreach ($permissions AS $module => $values)
+																		{
+																			?>
+																			<div class="attribute-blocks">
+																				<h5 class="f-w-600 mb-3">Permissions des <?= $module ?></h5>
+																				<?php
+																				foreach ($values AS $permid => $description)
+																				{
+																					?>
+																					<div class="row">
+																						<div class="col-xl-3 col-sm-4">
+																							<label><?= $description ?></label>
+																						</div>
+																						<div class="col-xl-9 col-sm-8">
+																							<div class="form-group m-checkbox-inline mb-0 custom-radio-ml d-flex radio-animated">
+																								<label class="d-block" for="rb_1_permission[<?= $permid ?>]">
+																									<input class="radio_animated" id="rb_1_permission[<?= $permid ?>]" type="radio" name="permission[<?= $permid ?>]" value="1" <?= ($perms["$module"]["$permid"] == 1 ? ' checked' : '') ?> />
+																									Oui
+																								</label>
+																								<label class="d-block" for="rb_0_permission[<?= $permid ?>]">
+																									<input class="radio_animated" id="rb_0_permission[<?= $permid ?>]" type="radio" name="permission[<?= $permid ?>]" value="0" <?= ($perms["$module"]["$permid"] == 0 ? ' checked' : '') ?> />
+																									Non
+																								</label>
+																							</div>
 																						</div>
 																					</div>
-																				</div>
-																				<?php
-																			}
-																			?>
+																					<?php
+																				}
+																				?>
+																			</div>
+																			<?php
+																		}
+																		?>
 																		</div>
-																		<?php
-																	}
-																?>
+																		<div class="text-center">
+																			<input type="hidden" name="do" value="updateroleperms" />
+																			<input type="hidden" name="id" value="<?= $id ?>" />
+																			<input type="submit" class="btn btn-primary" value="Modifier" />
+																			<input type="reset" class="btn btn-primary" value="Annuler"/>
+																		</div>
+																	</form>
 																</div>
-																<div class="text-center">
-																	<input type="hidden" name="do" value="updateroleperms" />
-																	<input type="hidden" name="id" value="<?= $id ?>" />
-																	<input type="submit" class="btn btn-primary" value="Modifier" />
-																	<input type="reset" class="btn btn-light" value="Annuler"/>
-																</div>
-															</form>
+																<?php
+															}
+															?>
 														</div>
-														<?php
-														}
-														?>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-								</div>
+									<!-- / add/edit roles -->
 
 								</div>
 
-								<!-- footer start-->
-								<?php
-								ViewTemplate::BackFooter();
-								?>
-								<!-- footer end-->
+								<?= ViewTemplate::BackFooter() ?>
 							</div>
-
-
+							<!-- / body -->
 						</div>
-						<!-- latest jquery-->
-						<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-						<!-- Bootstrap js-->
-						<script src="../assets/js/popper.min.js"></script>
-						<script src="../assets/js/bootstrap.js"></script>
-
-						<!-- feather icon js-->
-						<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-						<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-						<!-- Sidebar jquery-->
-						<script src="../assets/js/sidebar-menu.js"></script>
-						<script src="../assets/js/slick.js"></script>
-
-						<!--script admin-->
-						<script src="../assets/js/admin-script.js"></script>
 						<?php
+						ViewTemplate::BackFoot();
+
 						if ($id)
 						{
 							ViewTemplate::BackFormValidation('valider', 4, 1);
@@ -565,40 +490,23 @@ class ViewRole
 
 		?>
 		<!DOCTYPE html>
-		<html>
+		<html lang="fr">
 			<head>
-				<?php
-				ViewTemplate::BackHead($pagetitle);
-				?>
+				<?= ViewTemplate::BackHead($pagetitle) ?>
 			</head>
 
 			<body>
 				<div class="page-wrapper">
+					<?= ViewTemplate::BackHeader() ?>
 
-					<!-- Page Header Start-->
-					<?php
-					ViewTemplate::BackHeader();
-					?>
-					<!-- Page Header Ends -->
-
-					<!-- Page Body Start-->
+					<!-- body -->
 					<div class="page-body-wrapper">
-
-						<!-- Page Sidebar Start-->
-						<?php
-						ViewTemplate::Sidebar();
-						?>
-						<!-- Page Sidebar Ends-->
+						<?= ViewTemplate::Sidebar() ?>
 
 						<div class="page-body">
-
-							<!-- Container-fluid starts-->
 							<?php
 							ViewTemplate::Breadcrumb($pagetitle, $navbits);
-							?>
-							<!-- Container-fluid ends-->
 
-							<?php
 							$data = [
 								'id' => $id,
 								'redirect' => 'killrole',
@@ -609,38 +517,18 @@ class ViewRole
 
 							ViewTemplate::PrintDeleteConfirmation($data);
 							?>
-
 						</div>
 
-						<!-- footer start-->
-						<?php
-						ViewTemplate::BackFooter();
-						?>
-						<!-- footer end-->
+						<?=ViewTemplate::BackFooter() ?>
 					</div>
-
-
+					<!-- / body -->
 				</div>
-				<!-- latest jquery-->
-				<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-				<!-- Bootstrap js-->
-				<script src="../assets/js/popper.min.js"></script>
-				<script src="../assets/js/bootstrap.js"></script>
-
-				<!-- feather icon js-->
-				<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-				<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-				<!-- Sidebar jquery-->
-				<script src="../assets/js/sidebar-menu.js"></script>
-				<script src="../assets/js/slick.js"></script>
-
-				<!--script admin-->
-				<script src="../assets/js/admin-script.js"></script>
+				<?= ViewTemplate::BackFoot() ?>
 			</body>
 		</html>
 		<?php
 	}
 }
+
 ?>

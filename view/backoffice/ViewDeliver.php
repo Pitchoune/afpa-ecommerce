@@ -60,42 +60,27 @@ class ViewDeliver
 
 			?>
 			<!DOCTYPE html>
-			<html>
+			<html lang="fr">
 				<head>
-					<?php
-					ViewTemplate::BackHead($pagetitle);
-					?>
+					<?= ViewTemplate::BackHead($pagetitle) ?>
 				</head>
 
 				<body>
 					<div class="page-wrapper">
-
-						<!-- Page Header Start-->
-						<?php
-						ViewTemplate::BackHeader();
-						?>
-						<!-- Page Header Ends -->
+						<?= ViewTemplate::BackHeader() ?>
 
 						<!-- Page Body Start-->
 						<div class="page-body-wrapper">
-
-							<!-- Page Sidebar Start-->
-							<?php
-							ViewTemplate::Sidebar();
-							?>
-							<!-- Page Sidebar Ends-->
+							<?= ViewTemplate::Sidebar() ?>
 
 							<div class="page-body">
 							<?php
 							if (count($deliverlist) > 0)
 							{
-								?>
-								<!-- Container-fluid starts-->
-								<?php
 								ViewTemplate::Breadcrumb($pagetitle, $navbits);
 								?>
-								<!-- Container-fluid ends-->
 
+								<!-- delivers listing -->
 								<div class="container-fluid">
 									<div class="row">
 										<div class="col-sm-12">
@@ -208,18 +193,16 @@ class ViewDeliver
 										</div>
 									</div>
 								</div>
+								<!-- / delivers listing -->
 
 								<?php
 							}
 							else
 							{
-								?>
-								<!-- Container-fluid starts-->
-								<?php
 								ViewTemplate::breadcrumb($pagetitle, $navbits);
 								?>
-								<!-- Container-fluid ends-->
 
+								<!-- delivers listing -->
 								<div class="container-fluid">
 									<div class="row">
 										<div class="col-sm-12">
@@ -246,41 +229,20 @@ class ViewDeliver
 										</div>
 									</div>
 								</div>
+								<!-- / delivers listing -->
 								<?php
 							}
 							?>
 							</div>
 
-							<!-- footer start-->
-							<?php
-							ViewTemplate::BackFooter();
-							?>
-							<!-- footer end-->
+							<?= ViewTemplate::BackFooter() ?>
 						</div>
-
-
+						<!-- / body -->
 					</div>
-					<!-- latest jquery-->
-					<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-					<!-- Bootstrap js-->
-					<script src="../assets/js/popper.min.js"></script>
-					<script src="../assets/js/bootstrap.js"></script>
-
-					<!-- feather icon js-->
-					<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-					<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-					<!-- Sidebar jquery-->
-					<script src="../assets/js/sidebar-menu.js"></script>
-					<script src="../assets/js/slick.js"></script>
-
-					<!--Customizer admin-->
-					<script src="../assets/js/admin-customizer.js"></script>
-
-					<!--script admin-->
-					<script src="../assets/js/admin-script.js"></script>
 					<?php
+					ViewTemplate::BackFoot();
+
 					if ($_SESSION['deliver']['add'] === 1)
 					{
 						ViewTemplate::BackToast('Ajout de transporteur', 'Transporteur ajouté avec succès !');
@@ -352,116 +314,82 @@ class ViewDeliver
 
 				?>
 				<!DOCTYPE html>
-				<html>
+				<html lang="fr">
 					<head>
-						<?php
-						ViewTemplate::BackHead($pagetitle);
-						?>
+						<?= ViewTemplate::BackHead($pagetitle) ?>
 					</head>
 
 					<body>
 						<div class="page-wrapper">
+							<?= ViewTemplate::BackHeader() ?>
 
-							<!-- Page Header Start-->
-							<?php
-							ViewTemplate::BackHeader();
-							?>
-							<!-- Page Header Ends -->
-
-							<!-- Page Body Start-->
+							<!-- body -->
 							<div class="page-body-wrapper">
-
-								<!-- Page Sidebar Start-->
-								<?php
-								ViewTemplate::Sidebar();
-								?>
-								<!-- Page Sidebar Ends-->
+								<?= ViewTemplate::Sidebar() ?>
 
 								<div class="page-body">
+									<?= ViewTemplate::Breadcrumb($pagetitle, $navbits) ?>
 
-								<!-- Container-fluid starts-->
-								<?php
-								ViewTemplate::Breadcrumb($pagetitle, $navbits);
-								?>
-								<!-- Container-fluid ends-->
-
-								<div class="container-fluid">
-									<div class="row product-adding">
-										<div class="col">
-											<div class="card">
-												<div class="card-header">
-													<h5><?= $navtitle ?></h5>
-												</div>
-												<div class="card-body">
-													<form class="digital-add" enctype="multipart/form-data" method="post" action="index.php?do=<?= $formredirect ?>">
-														<div class="form-group">
-															<label for="title" class="col-form-label pt-0"><span>*</span> Intitulé</label>
-															<input type="text" class="form-control" id="title" name="name" aria-describedby="titleHelp" data-type="title" data-message="Le format de l'intitulé n'est pas valide." required value="<?= $deliverinfos['nom'] ?>">
-															<small id="titleHelp" class="form-text text-muted"></small>
-														</div>
-														<?php
-														if (Utils::cando(21))
-														{
-															?>
+									<!-- add/edit trademarks -->
+									<div class="container-fluid">
+										<div class="row product-adding">
+											<div class="col">
+												<div class="card">
+													<div class="card-header">
+														<h5><?= $navtitle ?></h5>
+													</div>
+													<div class="card-body">
+														<form class="digital-add" enctype="multipart/form-data" method="post" action="index.php?do=<?= $formredirect ?>">
 															<div class="form-group">
-																<label for="validationCustom02" class="col-form-label pt-0"><span>*</span> Logo</label>
-																<input type="file" id="validationCustom02" name="file" />
+																<label for="title" class="col-form-label pt-0"><span>*</span> Intitulé</label>
+																<input type="text" class="form-control" id="title" name="name" aria-describedby="titleHelp" data-type="title" data-message="Le format de l'intitulé n'est pas valide." required value="<?= $deliverinfos['nom'] ?>">
+																<small id="titleHelp" class="form-text text-muted"></small>
 															</div>
 															<?php
-														}
-														?>
-														<div class="form-group mb-0">
-															<div class="product-buttons text-center">
-																<input type="hidden" name="do" value="<?= $formredirect ?>" />
-																<?php
-																if ($id)
-																{
+															if (Utils::cando(21))
+															{
 																?>
-																<input type="hidden" name="id" value="<?= $id ?>" />
+																<div class="form-group">
+																	<label for="logo" class="col-form-label pt-0"><span>*</span> Logo</label><br />
+																	<input type="file" id="logo" name="file" />
+																</div>
 																<?php
-																}
-																?>
-																<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
-																<input type="reset" class="btn btn-light" value="Annuler"/>
+															}
+															?>
+															<div class="form-group mb-0">
+																<div class="product-buttons text-center">
+																	<input type="hidden" name="do" value="<?= $formredirect ?>" />
+																	<?php
+																	if ($id)
+																	{
+																	?>
+																	<input type="hidden" name="id" value="<?= $id ?>" />
+																	<?php
+																	}
+																	?>
+																	<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
+																	<input type="reset" class="btn btn-light" value="Annuler"/>
+																</div>
 															</div>
-														</div>
-													</form>
+														</form>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-								</div>
+									<!-- / add/edit trademarks -->
 
 								</div>
 
-								<!-- footer start-->
-								<?php
-								ViewTemplate::BackFooter();
-								?>
-								<!-- footer end-->
+								<?=ViewTemplate::BackFooter() ?>
 							</div>
-
+							<!-- / body -->
 
 						</div>
-						<!-- latest jquery-->
-						<script src="../assets/js/jquery-3.5.1.min.js"></script>
-
-						<!-- Bootstrap js-->
-						<script src="../assets/js/popper.min.js"></script>
-						<script src="../assets/js/bootstrap.js"></script>
-
-						<!-- feather icon js-->
-						<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-						<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-						<!-- Sidebar jquery-->
-						<script src="../assets/js/sidebar-menu.js"></script>
-						<script src="../assets/js/slick.js"></script>
-
-						<!--script admin-->
-						<script src="../assets/js/admin-script.js"></script>
 
 						<?php
+						ViewTemplate::BackFoot();
+
 						if ($id)
 						{
 							ViewTemplate::BackFormValidation('valider', 4, 1);
@@ -514,40 +442,23 @@ class ViewDeliver
 
 		?>
 		<!DOCTYPE html>
-		<html>
+		<html lang="fr">
 			<head>
-				<?php
-				ViewTemplate::BackHead($pagetitle);
-				?>
+				<?= ViewTemplate::BackHead($pagetitle) ?>
 			</head>
 
 			<body>
 				<div class="page-wrapper">
+					<?= ViewTemplate::BackHeader() ?>
 
-					<!-- Page Header Start-->
-					<?php
-					ViewTemplate::BackHeader();
-					?>
-					<!-- Page Header Ends -->
-
-					<!-- Page Body Start-->
+					<!-- body -->
 					<div class="page-body-wrapper">
-
-						<!-- Page Sidebar Start-->
-						<?php
-						ViewTemplate::Sidebar();
-						?>
-						<!-- Page Sidebar Ends-->
+						<?= ViewTemplate::Sidebar() ?>
 
 						<div class="page-body">
-
-							<!-- Container-fluid starts-->
 							<?php
 							ViewTemplate::Breadcrumb($pagetitle, $navbits);
-							?>
-							<!-- Container-fluid ends-->
 
-							<?php
 							$data = [
 								'id' => $id,
 								'redirect' => 'killdeliver',
@@ -558,38 +469,18 @@ class ViewDeliver
 
 							ViewTemplate::PrintDeleteConfirmation($data);
 							?>
-
 						</div>
 
-						<!-- footer start-->
-						<?php
-						ViewTemplate::BackFooter();
-						?>
-						<!-- footer end-->
+						<?= ViewTemplate::BackFooter() ?>
 					</div>
-
-
+					<!-- / body -->
 				</div>
-				<!-- latest jquery-->
-				<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-				<!-- Bootstrap js-->
-				<script src="../assets/js/popper.min.js"></script>
-				<script src="../assets/js/bootstrap.js"></script>
-
-				<!-- feather icon js-->
-				<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-				<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-				<!-- Sidebar jquery-->
-				<script src="../assets/js/sidebar-menu.js"></script>
-				<script src="../assets/js/slick.js"></script>
-
-				<!--script admin-->
-				<script src="../assets/js/admin-script.js"></script>
+				<?= ViewTemplate::BackFoot() ?>
 			</body>
 		</html>
 		<?php
 	}
 }
+
 ?>

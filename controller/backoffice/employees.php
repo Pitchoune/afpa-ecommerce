@@ -61,10 +61,10 @@ function doLogin($email, $pass)
 		throw new Exception('Veuillez insérer un mot de passe valide.');
 	}
 
-	if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $password))
+	/*if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $password))
 	{
 		throw new Exception('Le format du mot de passe n\'est pas valide.');
-	}
+	}*/
 
 	// No error - get the employee informations to login
 	$employees->set_email($email);
@@ -475,46 +475,20 @@ function ViewProfile()
  * Updates the given employee profile into the database.
  *
  * @param integer $id ID of the employee.
- * @param string $firstname First name of the employee.
- * @param string $lastname Last name of the employee.
  * @param string $email Email of the employee.
  * @param string $password Password of the employee.
  *
  * @return void
  */
-function UpdateProfile($id, $firstname, $lastname, $email, $password)
+function UpdateProfile($id, $email, $password)
 {
 	global $config;
 
 	$id = intval($id);
-	$firstname = trim(strval($firstname));
-	$lastname = trim(strval($lastname));
 	$email = trim(strval($email));
 	$password = trim(strval($password));
 
 	$employees = new ModelEmployee($config);
-
-	// Verify firstname
-	if ($firstname === '' OR empty($firstname))
-	{
-		throw new Exception('Le prénom est vide.');
-	}
-
-	if (!preg_match('/^[\p{L}\s-]{2,}$/u', trim($firstname)))
-	{
-		throw new Exception('Le prénom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
-	}
-
-	// Verify lastname
-	if ($lastname === '' OR empty($lastname))
-	{
-		throw new Exception('Le nom est vide.');
-	}
-
-	if (!preg_match('/^[\p{L}\s]{1,}$/u', $lastname))
-	{
-		throw new Exception('Le nom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
-	}
 
 	// Verify email
 	if ($email === '' OR empty($email))
@@ -530,7 +504,7 @@ function UpdateProfile($id, $firstname, $lastname, $email, $password)
 	// Verify password
 	if ($password === '' OR empty($password))
 	{
-		throw new Exception('Le nmot de passe est vide.');
+		throw new Exception('Le mot de passe est vide.');
 	}
 
 	if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $password))
@@ -539,8 +513,6 @@ function UpdateProfile($id, $firstname, $lastname, $email, $password)
 	}
 
 	$employees->set_id($id);
-	$employees->set_firstname($firstname);
-	$employees->set_lastname($lastname);
 	$employees->set_email($email);
 
 	if (isset($password))

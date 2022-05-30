@@ -64,42 +64,27 @@ class ViewProduct
 
 			?>
 			<!DOCTYPE html>
-			<html>
+			<html lang="fr">
 				<head>
-					<?php
-					ViewTemplate::BackHead($pagetitle);
-					?>
+					<?= ViewTemplate::BackHead($pagetitle) ?>
 				</head>
 
 				<body>
 					<div class="page-wrapper">
+						<?= ViewTemplate::BackHeader() ?>
 
-						<!-- Page Header Start-->
-						<?php
-						ViewTemplate::BackHeader();
-						?>
-						<!-- Page Header Ends -->
-
-						<!-- Page Body Start-->
+						<!-- body -->
 						<div class="page-body-wrapper">
-
-							<!-- Page Sidebar Start-->
-							<?php
-							ViewTemplate::Sidebar();
-							?>
-							<!-- Page Sidebar Ends-->
+							<?= ViewTemplate::Sidebar() ?>
 
 							<div class="page-body">
 							<?php
 							if (count($productlist) > 0)
 							{
-								?>
-								<!-- Container-fluid starts-->
-								<?php
 								ViewTemplate::Breadcrumb($pagetitle, $navbits);
 								?>
-								<!-- Container-fluid ends-->
 
+								<!-- products listing -->
 								<div class="container-fluid">
 									<div class="row">
 										<div class="col-sm-12">
@@ -209,18 +194,16 @@ class ViewProduct
 										</div>
 									</div>
 								</div>
+								<!-- / products listing -->
 
 								<?php
 							}
 							else
 							{
-								?>
-								<!-- Container-fluid starts-->
-								<?php
 								ViewTemplate::breadcrumb($pagetitle, $navbits);
 								?>
-								<!-- Container-fluid ends-->
 
+								<!-- products listing -->
 								<div class="container-fluid">
 									<div class="row">
 										<div class="col-sm-12">
@@ -247,40 +230,20 @@ class ViewProduct
 										</div>
 									</div>
 								</div>
+								<!-- / products listing -->
 								<?php
 							}
 							?>
 							</div>
 
-							<!-- footer start-->
-							<?php
-							ViewTemplate::BackFooter();
-							?>
-							<!-- footer end-->
+							<?= ViewTemplate::BackFooter() ?>
 						</div>
+						<!-- / body -->
 					</div>
-					<!-- latest jquery-->
-					<script src="../assets/js/jquery-3.5.1.min.js"></script>
-
-					<!-- Bootstrap js-->
-					<script src="../assets/js/popper.min.js"></script>
-					<script src="../assets/js/bootstrap.js"></script>
-
-					<!-- feather icon js-->
-					<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-					<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-					<!-- Sidebar jquery-->
-					<script src="../assets/js/sidebar-menu.js"></script>
-					<script src="../assets/js/slick.js"></script>
-
-					<!--Customizer admin-->
-					<script src="../assets/js/admin-customizer.js"></script>
-
-					<!--script admin-->
-					<script src="../assets/js/admin-script.js"></script>
 
 					<?php
+					ViewTemplate::BackFoot();
+
 					if ($_SESSION['product']['add'] === 1)
 					{
 						ViewTemplate::BackToast('Ajout de produit', 'Produit ajouté avec succès !');
@@ -366,165 +329,132 @@ class ViewProduct
 
 				?>
 				<!DOCTYPE html>
-				<html>
+				<html lang="fr">
 					<head>
-						<?php
-						ViewTemplate::BackHead($pagetitle);
-						?>
+						<?= ViewTemplate::BackHead($pagetitle) ?>
 					</head>
 
 					<body>
 						<div class="page-wrapper">
+							<?= ViewTemplate::BackHeader() ?>
 
-							<!-- Page Header Start-->
-							<?php
-							ViewTemplate::BackHeader();
-							?>
-							<!-- Page Header Ends -->
-
-							<!-- Page Body Start-->
+							<!-- body -->
 							<div class="page-body-wrapper">
-
-								<!-- Page Sidebar Start-->
-								<?php
-								ViewTemplate::Sidebar();
-								?>
-								<!-- Page Sidebar Ends-->
+								<?= ViewTemplate::Sidebar() ?>
 
 								<div class="page-body">
+									<?= ViewTemplate::Breadcrumb($pagetitle, $navbits) ?>
 
-								<!-- Container-fluid starts-->
-								<?php
-								ViewTemplate::Breadcrumb($pagetitle, $navbits);
-								?>
-								<!-- Container-fluid ends-->
-
-								<div class="container-fluid">
-									<div class="row product-adding">
-										<div class="col">
-											<div class="card">
-												<div class="card-header">
-													<h5><?= $navtitle ?></h5>
-												</div>
-												<div class="card-body">
-													<form class="digital-add" enctype="multipart/form-data" method="post" action="index.php?do=<?= $formredirect ?>">
-														<div class="form-group">
-															<label for="name" class="col-form-label pt-0"><span>*</span> Intitulé</label>
-															<input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" data-type="name" data-message="Le format du nom n'est pas valide." value="<?= $productinfos['nom'] ?>" required />
-															<small id="nameHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group">
-															<label for="ref" class="col-form-label pt-0"><span>*</span> Référence</label>
-															<input type="text" class="form-control" id="ref" name="ref" aria-describedby="refHelp" data-type="ref" data-message="Le format de la référence n'est pas valide." value="<?= $productinfos['ref'] ?>" maxlength="10" required />
-															<small id="refHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group">
-															<label for="description" class="col-form-label pt-0"><span>*</span> Description</label>
-															<input type="text" class="form-control" id="description" name="description" aria-describedby="descriptionHelp" data-type="description" data-message="Le format de la description n'est pas valide." value="<?= $productinfos['description'] ?>" required />
-															<small id="descriptionHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group">
-															<label for="quantity" class="col-form-label pt-0"><span>*</span> Quantité</label>
-															<input type="text" class="form-control" id="quantity" name="quantity" aria-describedby="quantityHelp" data-type="quantity" data-message="Le format de la quantité n'est pas valide." value="<?= $productinfos['quantite'] ?>" required />
-															<small id="quantityHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group">
-															<label for="price" class="col-form-label pt-0"><span>*</span> Prix</label>
-															<input type="text" class="form-control" id="price" name="price" aria-describedby="priceHelp" data-type="price" data-message="Le format du prix n'est pas valide." value="<?= $productinfos['prix'] ?>" required />
-															<small id="priceHelp" class="form-text text-muted"></small>
-														</div>
-														<?php
-														if (Utils::cando(26))
-														{
-															?>
+									<!-- add/edit product -->
+									<div class="container-fluid">
+										<div class="row product-adding">
+											<div class="col">
+												<div class="card">
+													<div class="card-header">
+														<h5><?= $navtitle ?></h5>
+													</div>
+													<div class="card-body">
+														<form class="digital-add" enctype="multipart/form-data" method="post" action="index.php?do=<?= $formredirect ?>">
 															<div class="form-group">
-																<label for="photo" class="col-form-label pt-0">Photo</label>
-																<input type="file" id="photo" name="file" />
+																<label for="name" class="col-form-label pt-0"><span>*</span> Intitulé</label>
+																<input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" data-type="name" data-message="Le format du nom n'est pas valide." value="<?= $productinfos['nom'] ?>" required />
+																<small id="nameHelp" class="form-text text-muted"></small>
+															</div>
+															<div class="form-group">
+																<label for="ref" class="col-form-label pt-0"><span>*</span> Référence</label>
+																<input type="text" class="form-control" id="ref" name="ref" aria-describedby="refHelp" data-type="ref" data-message="Le format de la référence n'est pas valide." value="<?= $productinfos['ref'] ?>" maxlength="10" required />
+																<small id="refHelp" class="form-text text-muted"></small>
+															</div>
+															<div class="form-group">
+																<label for="description" class="col-form-label pt-0"><span>*</span> Description</label>
+																<input type="text" class="form-control" id="description" name="description" aria-describedby="descriptionHelp" data-type="description" data-message="Le format de la description n'est pas valide." value="<?= $productinfos['description'] ?>" required />
+																<small id="descriptionHelp" class="form-text text-muted"></small>
+															</div>
+															<div class="form-group">
+																<label for="quantity" class="col-form-label pt-0"><span>*</span> Quantité</label>
+																<input type="text" class="form-control" id="quantity" name="quantity" aria-describedby="quantityHelp" data-type="quantity" data-message="Le format de la quantité n'est pas valide." value="<?= $productinfos['quantite'] ?>" required />
+																<small id="quantityHelp" class="form-text text-muted"></small>
+															</div>
+															<div class="form-group">
+																<label for="price" class="col-form-label pt-0"><span>*</span> Prix</label>
+																<input type="text" class="form-control" id="price" name="price" aria-describedby="priceHelp" data-type="price" data-message="Le format du prix n'est pas valide." value="<?= $productinfos['prix'] ?>" required />
+																<small id="priceHelp" class="form-text text-muted"></small>
 															</div>
 															<?php
-														}
-														?>
-														<div class="form-group">
-															<label class="col-form-label"><span>*</span> Catégorie</label>
-															<select class="custom-select form-control" id="" name="category" aria-describedby="selectcatHelp" data-type="selectChoose" data-message="La catégorie est obligatoire." required>
-																<option value="0" selected disabled>Sélectionnez une catégorie</option>
-																	<?php
-
-																	foreach ($catlist AS $content)
-																	{
-																		echo '<option value="' . $content['id'] . '"' . ($content['id'] == $productinfos['id_categorie'] ? ' selected' : '') . '>' . $content['nom'] . '</option>\n';
-																	}
-
-																	?>
-															</select>
-															<small id="selectcatHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group">
-															<label class="col-form-label"><span>*</span> Marque</label>
-															<select class="custom-select form-control" id="" name="trademark" aria-describedby="selecttrademarkHelp" data-type="selectChoose" data-message="La marque est obligatoire." required>
-																<option value="0" selected disabled>Sélectionnez une marque</option>
-																	<?php
-
-																	foreach ($trademarkslist AS $content)
-																	{
-																		echo '<option value="' . $content['id'] . '"' . ($content['id'] == $productinfos['id_marque'] ? ' selected' : '') . '>' . $content['nom'] . '</option>\n';
-																	}
-
-																	?>
-															</select>
-															<small id="selecttrademarkHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group mb-0">
-															<div class="product-buttons text-center">
-																<input type="hidden" name="do" value="<?= $formredirect ?>" />
-																<?php
-																if ($id)
-																{
-																	?>
-																	<input type="hidden" name="id" value="<?= $id ?>" />
-																	<?php
-																}
+															if (Utils::cando(26))
+															{
 																?>
-																<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
-																<input type="reset" class="btn btn-light" value="Annuler"/>
+																<div class="form-group">
+																	<label for="photo" class="col-form-label pt-0">Photo</label><br />
+																	<input type="file" id="photo" name="file" />
+																</div>
+																<?php
+															}
+															?>
+															<div class="form-group">
+																<label class="col-form-label"><span>*</span> Catégorie</label>
+																<select class="custom-select form-control" id="" name="category" aria-describedby="selectcatHelp" data-type="selectChoose" data-message="La catégorie est obligatoire." required>
+																	<option value="0" selected disabled>Sélectionnez une catégorie</option>
+																		<?php
+
+																		foreach ($catlist AS $content)
+																		{
+																			echo '<option value="' . $content['id'] . '"' . ($content['id'] == $productinfos['id_categorie'] ? ' selected' : '') . '>' . $content['nom'] . '</option>\n';
+																		}
+
+																		?>
+																</select>
+																<small id="selectcatHelp" class="form-text text-muted"></small>
 															</div>
-														</div>
-													</form>
+															<div class="form-group">
+																<label class="col-form-label"><span>*</span> Marque</label>
+																<select class="custom-select form-control" id="" name="trademark" aria-describedby="selecttrademarkHelp" data-type="selectChoose" data-message="La marque est obligatoire." required>
+																	<option value="0" selected disabled>Sélectionnez une marque</option>
+																		<?php
+
+																		foreach ($trademarkslist AS $content)
+																		{
+																			echo '<option value="' . $content['id'] . '"' . ($content['id'] == $productinfos['id_marque'] ? ' selected' : '') . '>' . $content['nom'] . '</option>\n';
+																		}
+
+																		?>
+																</select>
+																<small id="selecttrademarkHelp" class="form-text text-muted"></small>
+															</div>
+															<div class="form-group mb-0">
+																<div class="product-buttons text-center">
+																	<input type="hidden" name="do" value="<?= $formredirect ?>" />
+																	<?php
+																	if ($id)
+																	{
+																		?>
+																		<input type="hidden" name="id" value="<?= $id ?>" />
+																		<?php
+																	}
+																	?>
+																	<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
+																	<input type="reset" class="btn btn-light" value="Annuler"/>
+																</div>
+															</div>
+														</form>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-								</div>
+									<!-- / add/edit product -->
 
 								</div>
 
-								<!-- footer start-->
-								<?php
-								ViewTemplate::BackFooter();
-								?>
-								<!-- footer end-->
+								<?= ViewTemplate::BackFooter() ?>
 							</div>
-
+							<!-- / body -->
 
 						</div>
-						<!-- latest jquery-->
-						<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-						<!-- Bootstrap js-->
-						<script src="../assets/js/popper.min.js"></script>
-						<script src="../assets/js/bootstrap.js"></script>
-
-						<!-- feather icon js-->
-						<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-						<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-						<!-- Sidebar jquery-->
-						<script src="../assets/js/sidebar-menu.js"></script>
-						<script src="../assets/js/slick.js"></script>
-
-						<!--script admin-->
-						<script src="../assets/js/admin-script.js"></script>
 						<?php
+						ViewTemplate::BackFoot();
+
 						if ($id)
 						{
 							ViewTemplate::BackFormValidation('valider', 4, 1);
@@ -577,38 +507,21 @@ class ViewProduct
 
 		?>
 		<!DOCTYPE html>
-		<html>
+		<html lang="fr">
 			<head>
-				<?php
-				ViewTemplate::BackHead($pagetitle);
-				?>
+				<?= ViewTemplate::BackHead($pagetitle) ?>
 			</head>
 
 			<body>
 				<div class="page-wrapper">
+					<?= ViewTemplate::BackHeader() ?>
 
-					<!-- Page Header Start-->
-					<?php
-					ViewTemplate::BackHeader();
-					?>
-					<!-- Page Header Ends -->
-
-					<!-- Page Body Start-->
+					<!-- body -->
 					<div class="page-body-wrapper">
-
-						<!-- Page Sidebar Start-->
-						<?php
-						ViewTemplate::Sidebar();
-						?>
-						<!-- Page Sidebar Ends-->
+						<?= ViewTemplate::Sidebar() ?>
 
 						<div class="page-body">
-
-							<!-- Container-fluid starts-->
-							<?php
-							ViewTemplate::Breadcrumb($pagetitle, $navbits);
-							?>
-							<!-- Container-fluid ends-->
+							<?= ViewTemplate::Breadcrumb($pagetitle, $navbits) ?>
 
 							<?php
 							$data = [
@@ -624,35 +537,17 @@ class ViewProduct
 
 						</div>
 
-						<!-- footer start-->
-						<?php
-						ViewTemplate::BackFooter();
-						?>
-						<!-- footer end-->
+						<?= ViewTemplate::BackFooter() ?>
 					</div>
-
+					<!-- / body -->
 
 				</div>
-				<!-- latest jquery-->
-				<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-				<!-- Bootstrap js-->
-				<script src="../assets/js/popper.min.js"></script>
-				<script src="../assets/js/bootstrap.js"></script>
-
-				<!-- feather icon js-->
-				<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-				<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-				<!-- Sidebar jquery-->
-				<script src="../assets/js/sidebar-menu.js"></script>
-				<script src="../assets/js/slick.js"></script>
-
-				<!--script admin-->
-				<script src="../assets/js/admin-script.js"></script>
+				<?= ViewTemplate::BackFoot() ?>
 			</body>
 		</html>
 		<?php
 	}
 }
+
 ?>
