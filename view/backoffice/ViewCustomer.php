@@ -68,40 +68,25 @@ class ViewCustomer
 			<!DOCTYPE html>
 			<html lang="fr">
 				<head>
-					<?php
-					ViewTemplate::BackHead($pagetitle);
-					?>
+					<?= ViewTemplate::BackHead($pagetitle) ?>
 				</head>
 
 				<body>
 					<div class="page-wrapper">
+						<?= ViewTemplate::BackHeader() ?>
 
-						<!-- Page Header Start-->
-						<?php
-						ViewTemplate::BackHeader();
-						?>
-						<!-- Page Header Ends -->
-
-						<!-- Page Body Start-->
+						<!-- body -->
 						<div class="page-body-wrapper">
-
-							<!-- Page Sidebar Start-->
-							<?php
-							ViewTemplate::Sidebar();
-							?>
-							<!-- Page Sidebar Ends-->
+							<?= ViewTemplate::Sidebar() ?>
 
 							<div class="page-body">
 							<?php
 							if (count($customerlist) > 0)
 							{
-								?>
-								<!-- Container-fluid starts-->
-								<?php
 								ViewTemplate::Breadcrumb($pagetitle, $navbits);
 								?>
-								<!-- Container-fluid ends-->
 
+								<!-- customers listing -->
 								<div class="container-fluid">
 									<div class="row">
 										<div class="col-sm-12">
@@ -203,18 +188,16 @@ class ViewCustomer
 										</div>
 									</div>
 								</div>
+								<!-- / customers listing -->
 
 								<?php
 							}
 							else
 							{
-								?>
-								<!-- Container-fluid starts-->
-								<?php
 								ViewTemplate::breadcrumb($pagetitle, $navbits);
 								?>
-								<!-- Container-fluid ends-->
 
+								<!-- customers listing -->
 								<div class="container-fluid">
 									<div class="row">
 										<div class="col-sm-12">
@@ -241,42 +224,21 @@ class ViewCustomer
 										</div>
 									</div>
 								</div>
+								<!-- / customers listing -->
 								<?php
 							}
 							?>
 							</div>
 
-							<!-- footer start-->
-							<?php
-							ViewTemplate::BackFooter();
-							?>
-							<!-- footer end-->
+							<?= ViewTemplate::BackFooter() ?>
 						</div>
-
+						<!-- / body -->
 
 					</div>
-					<!-- latest jquery-->
-					<script src="../assets/js/jquery-3.5.1.min.js"></script>
-
-					<!-- Bootstrap js-->
-					<script src="../assets/js/popper.min.js"></script>
-					<script src="../assets/js/bootstrap.js"></script>
-
-					<!-- feather icon js-->
-					<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-					<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-					<!-- Sidebar jquery-->
-					<script src="../assets/js/sidebar-menu.js"></script>
-					<script src="../assets/js/slick.js"></script>
-
-					<!--Customizer admin-->
-					<script src="../assets/js/admin-customizer.js"></script>
-
-					<!--script admin-->
-					<script src="../assets/js/admin-script.js"></script>
 
 					<?php
+					ViewTemplate::BackFoot();
+
 					if ($_SESSION['customer']['add'] === 1)
 					{
 						ViewTemplate::BackToast('Ajout de client', 'Client ajouté avec succès !');
@@ -350,137 +312,104 @@ class ViewCustomer
 				<!DOCTYPE html>
 				<html lang="fr">
 					<head>
-						<?php
-						ViewTemplate::BackHead($pagetitle);
-						?>
+						<?= ViewTemplate::BackHead($pagetitle) ?>
 					</head>
 
 					<body>
 						<div class="page-wrapper">
+							<?= ViewTemplate::BackHeader() ?>
 
-							<!-- Page Header Start-->
-							<?php
-							ViewTemplate::BackHeader();
-							?>
-							<!-- Page Header Ends -->
-
-							<!-- Page Body Start-->
+							<!-- body -->
 							<div class="page-body-wrapper">
-
-								<!-- Page Sidebar Start-->
-								<?php
-								ViewTemplate::Sidebar();
-								?>
-								<!-- Page Sidebar Ends-->
+								<?= ViewTemplate::Sidebar() ?>
 
 								<div class="page-body">
+									<?= ViewTemplate::Breadcrumb($pagetitle, $navbits) ?>
 
-								<!-- Container-fluid starts-->
-								<?php
-								ViewTemplate::Breadcrumb($pagetitle, $navbits);
-								?>
-								<!-- Container-fluid ends-->
-
-								<div class="container-fluid">
-									<div class="row product-adding">
-										<div class="col">
-											<div class="card">
-												<div class="card-header">
-													<h5><?= $navtitle ?></h5>
-												</div>
-												<div class="card-body">
-													<form class="digital-add" enctype="multipart/form-data" method="post" action="index.php?do=<?= $formredirect ?>">
-														<div class="form-group">
-															<label for="firstname" class="col-form-label pt-0"><span>*</span> Prénom</label>
-															<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du nom n'est pas valide." placeholder="Insérez votre nom" value="<?= $customerinfos['nom'] ?>" required />
-															<small id="firstnameHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group">
-															<label for="lastname" class="col-form-label pt-0"><span>*</span> Nom</label>
-															<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du prénom n'est pas valide." placeholder="Insérez votre prénom" value="<?= $customerinfos['prenom'] ?>" required />
-															<small id="lastnameHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group">
-															<label for="mail" class="col-form-label pt-0"><span>*</span> Email</label>
-															<input type="text" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." placeholder="Insérez votre adresse email" value="<?= $customerinfos['mail'] ?>" required />
-															<small id="emailHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group">
-															<label for="password" class="col-form-label pt-0"><span>*</span> Mot de passe</label>
-															<input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" data-type="password" data-message="Le format du mot de passe n'est pas valide." required />
-															<small id="passwordHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group">
-															<label for="telephone" class="col-form-label pt-0"><span>*</span> Téléphone</label>
-															<input type="text" class="form-control" id="telephone" name="telephone" aria-describedby="telephoneHelp" data-type="telephone" data-message="Le format du numéro de téléphone n'est pas valide." placeholder="Insérez votre téléphone" value="<?= $customerinfos['tel'] ?>" required />
-															<small id="telephoneHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group">
-															<label for="address" class="col-form-label pt-0"><span>*</span> Adresse</label>
-															<input type="text" class="form-control" id="address" name="address" aria-describedby="addressHelp" data-type="address" data-message="Le format de l'adresse postale n'est pas valide." placeholder="Adresse" value="<?= $customerinfos['adresse'] ?>" required />
-															<small id="addressHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group">
-															<label for="city" class="col-form-label pt-0"><span>*</span> Ville</label>
-															<input type="text" class="form-control" id="city" name="city" aria-describedby="cityHelp" data-type="city" data-message="Le format de la ville n'est pas valide." placeholder="Ville" value="<?= $customerinfos['ville'] ?>" required />
-															<small id="cityHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group">
-															<label for="zipcode" class="col-form-label pt-0"><span>*</span> Code postal</label>
-															<input type="text" class="form-control" id="zipcode" name="zipcode" aria-describedby="zipcodeHelp" data-type="zipcode" data-message="Le format du code postal n'est pas valide." placeholder="Code postal" value="<?= $customerinfos['code_post'] ?>" required />
-															<small id="zipcodeHelp" class="form-text text-muted"></small>
-														</div>
-														<div class="form-group mb-0">
-															<div class="product-buttons text-center">
-																<input type="hidden" name="do" value="<?= $formredirect ?>" />
-																<?php
-																if ($id)
-																{
-																?>
-																<input type="hidden" name="id" value="<?= $id ?>" />
-																<?php
-																}
-																?>
-																<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
-																<input type="reset" class="btn btn-light" value="Annuler"/>
+									<!-- add/edit customers -->
+									<div class="container-fluid">
+										<div class="row product-adding">
+											<div class="col">
+												<div class="card">
+													<div class="card-header">
+														<h5><?= $navtitle ?></h5>
+													</div>
+													<div class="card-body">
+														<form class="digital-add" enctype="multipart/form-data" method="post" action="index.php?do=<?= $formredirect ?>">
+															<div class="form-group">
+																<label for="firstname" class="col-form-label pt-0"><span>*</span> Prénom</label>
+																<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du nom n'est pas valide." placeholder="Insérez votre nom" value="<?= $customerinfos['nom'] ?>" required />
+																<small id="firstnameHelp" class="form-text text-muted"></small>
 															</div>
-														</div>
-													</form>
+															<div class="form-group">
+																<label for="lastname" class="col-form-label pt-0"><span>*</span> Nom</label>
+																<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du prénom n'est pas valide." placeholder="Insérez votre prénom" value="<?= $customerinfos['prenom'] ?>" required />
+																<small id="lastnameHelp" class="form-text text-muted"></small>
+															</div>
+															<div class="form-group">
+																<label for="mail" class="col-form-label pt-0"><span>*</span> Email</label>
+																<input type="text" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." placeholder="Insérez votre adresse email" value="<?= $customerinfos['mail'] ?>" required />
+																<small id="emailHelp" class="form-text text-muted"></small>
+															</div>
+															<div class="form-group">
+																<label for="password" class="col-form-label pt-0"><span>*</span> Mot de passe</label>
+																<input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" data-type="password" data-message="Le format du mot de passe n'est pas valide." required />
+																<small id="passwordHelp" class="form-text text-muted"></small>
+															</div>
+															<div class="form-group">
+																<label for="telephone" class="col-form-label pt-0"><span>*</span> Téléphone</label>
+																<input type="text" class="form-control" id="telephone" name="telephone" aria-describedby="telephoneHelp" data-type="telephone" data-message="Le format du numéro de téléphone n'est pas valide." placeholder="Insérez votre téléphone" value="<?= $customerinfos['tel'] ?>" required />
+																<small id="telephoneHelp" class="form-text text-muted"></small>
+															</div>
+															<div class="form-group">
+																<label for="address" class="col-form-label pt-0"><span>*</span> Adresse</label>
+																<input type="text" class="form-control" id="address" name="address" aria-describedby="addressHelp" data-type="address" data-message="Le format de l'adresse postale n'est pas valide." placeholder="Adresse" value="<?= $customerinfos['adresse'] ?>" required />
+																<small id="addressHelp" class="form-text text-muted"></small>
+															</div>
+															<div class="form-group">
+																<label for="city" class="col-form-label pt-0"><span>*</span> Ville</label>
+																<input type="text" class="form-control" id="city" name="city" aria-describedby="cityHelp" data-type="city" data-message="Le format de la ville n'est pas valide." placeholder="Ville" value="<?= $customerinfos['ville'] ?>" required />
+																<small id="cityHelp" class="form-text text-muted"></small>
+															</div>
+															<div class="form-group">
+																<label for="zipcode" class="col-form-label pt-0"><span>*</span> Code postal</label>
+																<input type="text" class="form-control" id="zipcode" name="zipcode" aria-describedby="zipcodeHelp" data-type="zipcode" data-message="Le format du code postal n'est pas valide." placeholder="Code postal" value="<?= $customerinfos['code_post'] ?>" required />
+																<small id="zipcodeHelp" class="form-text text-muted"></small>
+															</div>
+															<div class="form-group mb-0">
+																<div class="product-buttons text-center">
+																	<input type="hidden" name="do" value="<?= $formredirect ?>" />
+																	<?php
+																	if ($id)
+																	{
+																	?>
+																	<input type="hidden" name="id" value="<?= $id ?>" />
+																	<?php
+																	}
+																	?>
+																	<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
+																	<input type="reset" class="btn btn-light" value="Annuler"/>
+																</div>
+															</div>
+														</form>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
-								</div>
+									<!-- / add/edit customers -->
 
 								</div>
 
-								<!-- footer start-->
-								<?php
-								ViewTemplate::BackFooter();
-								?>
-								<!-- footer end-->
+								<?= ViewTemplate::BackFooter() ?>
 							</div>
-
+							<!-- / body -->
 
 						</div>
-						<!-- latest jquery-->
-						<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-						<!-- Bootstrap js-->
-						<script src="../assets/js/popper.min.js"></script>
-						<script src="../assets/js/bootstrap.js"></script>
-
-						<!-- feather icon js-->
-						<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-						<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-						<!-- Sidebar jquery-->
-						<script src="../assets/js/sidebar-menu.js"></script>
-						<script src="../assets/js/slick.js"></script>
-
-						<!--script admin-->
-						<script src="../assets/js/admin-script.js"></script>
 						<?php
+						ViewTemplate::BackFoot();
+
 						if ($id)
 						{
 							ViewTemplate::BackFormValidation('valider', 4, 1);
@@ -535,38 +464,21 @@ class ViewCustomer
 		<!DOCTYPE html>
 		<html lang="fr">
 			<head>
-				<?php
-				ViewTemplate::BackHead($pagetitle);
-				?>
+				<?= ViewTemplate::BackHead($pagetitle) ?>
 			</head>
 
 			<body>
 				<div class="page-wrapper">
+					<?= ViewTemplate::BackHeader() ?>
 
-					<!-- Page Header Start-->
-					<?php
-					ViewTemplate::BackHeader();
-					?>
-					<!-- Page Header Ends -->
-
-					<!-- Page Body Start-->
+					<!-- body -->
 					<div class="page-body-wrapper">
-
-						<!-- Page Sidebar Start-->
-						<?php
-						ViewTemplate::Sidebar();
-						?>
-						<!-- Page Sidebar Ends-->
+						<?= ViewTemplate::Sidebar() ?>
 
 						<div class="page-body">
-
-							<!-- Container-fluid starts-->
 							<?php
 							ViewTemplate::Breadcrumb($pagetitle, $navbits);
-							?>
-							<!-- Container-fluid ends-->
 
-							<?php
 							$data = [
 								'id' => $id,
 								'redirect' => 'killcustomer',
@@ -577,35 +489,14 @@ class ViewCustomer
 
 							ViewTemplate::PrintDeleteConfirmation($data);
 							?>
-
 						</div>
 
-						<!-- footer start-->
-						<?php
-						ViewTemplate::BackFooter();
-						?>
-						<!-- footer end-->
+						<?= ViewTemplate::BackFooter() ?>
 					</div>
-
-
+					<!-- / body -->
 				</div>
-				<!-- latest jquery-->
-				<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-				<!-- Bootstrap js-->
-				<script src="../assets/js/popper.min.js"></script>
-				<script src="../assets/js/bootstrap.js"></script>
-
-				<!-- feather icon js-->
-				<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-				<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-				<!-- Sidebar jquery-->
-				<script src="../assets/js/sidebar-menu.js"></script>
-				<script src="../assets/js/slick.js"></script>
-
-				<!--script admin-->
-				<script src="../assets/js/admin-script.js"></script>
+				<?= ViewTemplate::BackFoot() ?>
 			</body>
 		</html>
 		<?php
@@ -648,38 +539,21 @@ class ViewCustomer
 				<!DOCTYPE html>
 				<html lang="fr">
 					<head>
-						<?php
-						ViewTemplate::BackHead($pagetitle);
-						?>
+						<?= ViewTemplate::BackHead($pagetitle) ?>
 					</head>
 
 					<body>
 						<div class="page-wrapper">
+							<?= ViewTemplate::BackHeader() ?>
 
-							<!-- Page Header Start-->
-							<?php
-							ViewTemplate::BackHeader();
-							?>
-							<!-- Page Header Ends -->
-
-							<!-- Page Body Start-->
+							<!-- body -->
 							<div class="page-body-wrapper">
-
-								<!-- Page Sidebar Start-->
-								<?php
-								ViewTemplate::Sidebar();
-								?>
-								<!-- Page Sidebar Ends-->
+								<?= ViewTemplate::Sidebar() ?>
 
 								<div class="page-body">
+									<?= ViewTemplate::Breadcrumb($pagetitle, $navbits) ?>
 
-									<!-- Container-fluid starts-->
-									<?php
-									ViewTemplate::Breadcrumb($pagetitle, $navbits);
-									?>
-									<!-- Container-fluid ends-->
-
-									<!-- Container-fluid starts-->
+									<!-- customer profile -->
 									<div class="container-fluid">
 										<div class="row">
 											<div class="col-xl-4">
@@ -690,7 +564,7 @@ class ViewCustomer
 															<span><?= $data['mail'] ?></span>
 														</div>
 														<hr>
-														<div class="project-status">
+														<div class="customer-infos">
 															<h5 class="f-w-600">Adresse du client</h5>
 															<div class="media">
 																<div class="media-body">
@@ -829,36 +703,17 @@ class ViewCustomer
 											</div>
 										</div>
 									</div>
-									<!-- Container-fluid Ends-->
+									<!-- / customer profile -->
 
 								</div>
 
-								<!-- footer start-->
-								<?php
-								ViewTemplate::BackFooter();
-								?>
-								<!-- footer end-->
+								<?= ViewTemplate::BackFooter() ?>
 							</div>
-
+							<!-- / body -->
 
 						</div>
-						<!-- latest jquery-->
-						<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-						<!-- Bootstrap js-->
-						<script src="../assets/js/popper.min.js"></script>
-						<script src="../assets/js/bootstrap.js"></script>
-
-						<!-- feather icon js-->
-						<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-						<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-						<!-- Sidebar jquery-->
-						<script src="../assets/js/sidebar-menu.js"></script>
-						<script src="../assets/js/slick.js"></script>
-
-						<!--script admin-->
-						<script src="../assets/js/admin-script.js"></script>
+						<?= ViewTemplate::BackFoot() ?>
 					</body>
 				</html>
 			<?php
@@ -930,40 +785,25 @@ class ViewCustomer
 		<!DOCTYPE html>
 		<html lang="fr">
 			<head>
-				<?php
-				ViewTemplate::BackHead($pagetitle);
-				?>
+				<?= ViewTemplate::BackHead($pagetitle)?>
 			</head>
 
 			<body>
 				<div class="page-wrapper">
+					<?= ViewTemplate::BackHeader() ?>
 
-					<!-- Page Header Start-->
-					<?php
-					ViewTemplate::BackHeader();
-					?>
-					<!-- Page Header Ends -->
-
-					<!-- Page Body Start-->
+					<!-- body -->
 					<div class="page-body-wrapper">
-
-						<!-- Page Sidebar Start-->
-						<?php
-						ViewTemplate::Sidebar();
-						?>
-						<!-- Page Sidebar Ends-->
+						<?= ViewTemplate::Sidebar() ?>
 
 						<div class="page-body">
 						<?php
 						if ($orderlist)
 						{
-							?>
-							<!-- Container-fluid starts-->
-							<?php
 							ViewTemplate::Breadcrumb($pagetitle, $navbits);
 							?>
-							<!-- Container-fluid ends-->
 
+							<!-- customer orders -->
 							<div class="container-fluid">
 								<div class="row">
 									<div class="col-sm-12">
@@ -1031,17 +871,16 @@ class ViewCustomer
 									</div>
 								</div>
 							</div>
+							<!-- / customer orders -->
+
 							<?php
 						}
 						else
 						{
+							ViewTemplate::Breadcrumb($pagetitle, $navbits);
 							?>
-							<!-- Container-fluid starts-->
-							<?php
-							ViewTemplate::breadcrumb($pagetitle, $navbits);
-							?>
-							<!-- Container-fluid ends-->
 
+							<!-- customer orders -->
 							<div class="container-fluid">
 								<div class="row">
 									<div class="col-sm-12">
@@ -1068,34 +907,17 @@ class ViewCustomer
 									</div>
 								</div>
 							</div>
+							<!-- / customer orders -->
 							<?php
 						}
 						?>
 						</div>
-						<!-- footer start-->
-						<?php
-						ViewTemplate::BackFooter();
-						?>
-						<!-- footer end-->
+
+						<?= ViewTemplate::BackFooter() ?>
 					</div>
 				</div>
-				<!-- latest jquery-->
-				<script src="../assets/js/jquery-3.5.1.min.js"></script>
 
-				<!-- Bootstrap js-->
-				<script src="../assets/js/popper.min.js"></script>
-				<script src="../assets/js/bootstrap.js"></script>
-
-				<!-- feather icon js-->
-				<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-				<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-				<!-- Sidebar jquery-->
-				<script src="../assets/js/sidebar-menu.js"></script>
-				<script src="../assets/js/slick.js"></script>
-
-				<!--script admin-->
-				<script src="../assets/js/admin-script.js"></script>
+				<?= ViewTemplate::BackFoot() ?>
 			</body>
 		</html>
 	<?php
@@ -1140,37 +962,21 @@ class ViewCustomer
 				<!DOCTYPE html>
 				<html lang="fr">
 					<head>
-						<?php
-						ViewTemplate::BackHead($pagetitle);
-						?>
+						<?= ViewTemplate::BackHead($pagetitle) ?>
 					</head>
 
 					<body>
 						<div class="page-wrapper">
+							<?= ViewTemplate::BackHeader() ?>
 
-							<!-- Page Header Start-->
-							<?php
-							ViewTemplate::BackHeader();
-							?>
-							<!-- Page Header Ends -->
-
-							<!-- Page Body Start-->
+							<!-- body -->
 							<div class="page-body-wrapper">
-
-								<!-- Page Sidebar Start-->
-								<?php
-								ViewTemplate::Sidebar();
-								?>
-								<!-- Page Sidebar Ends-->
+								<?= ViewTemplate::Sidebar() ?>
 
 								<div class="page-body">
+									<?= ViewTemplate::Breadcrumb($pagetitle, $navbits) ?>
 
-									<!-- Container-fluid starts-->
-									<?php
-									ViewTemplate::Breadcrumb($pagetitle, $navbits);
-									?>
-									<!-- Container-fluid ends-->
-
+									<!-- customer order details -->
 									<div class="container-fluid">
 										<div class="row">
 											<div class="col-xl-8">
@@ -1372,33 +1178,17 @@ class ViewCustomer
 											</div>
 										</div>
 									</div>
+									<!-- / customer order details -->
 								</div>
-								<!-- footer start-->
-								<?php
-								ViewTemplate::BackFooter();
-								?>
-								<!-- footer end-->
+
+								<?= ViewTemplate::BackFooter() ?>
 							</div>
+							<!-- / body -->
 						</div>
-						<!-- latest jquery-->
-						<script src="../assets/js/jquery-3.5.1.min.js"></script>
-
-						<!-- Bootstrap js-->
-						<script src="../assets/js/popper.min.js"></script>
-						<script src="../assets/js/bootstrap.js"></script>
-
-						<!-- feather icon js-->
-						<script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-						<script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-
-						<!-- Sidebar jquery-->
-						<script src="../assets/js/sidebar-menu.js"></script>
-						<script src="../assets/js/slick.js"></script>
-
-						<!--script admin-->
-						<script src="../assets/js/admin-script.js"></script>
 
 						<?php
+						ViewTemplate::BackFoot();
+
 						if ($_SESSION['employee']['order']['statusprepare'] === 1)
 						{
 							ViewTemplate::BackToast('Modification de commande', 'État de la commande passé à « En préparation » avec succès !');

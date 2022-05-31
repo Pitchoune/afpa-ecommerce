@@ -519,7 +519,7 @@ class ViewRole
 							?>
 						</div>
 
-						<?=ViewTemplate::BackFooter() ?>
+						<?= ViewTemplate::BackFooter() ?>
 					</div>
 					<!-- / body -->
 				</div>
