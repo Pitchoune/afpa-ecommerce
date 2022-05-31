@@ -17,7 +17,7 @@ class ViewError
 	public static function DisplayLoggedOutError($errorMessage)
 	{
 		?>
-		<!-- Container-fluid starts-->
+		<!-- error -->
 		<div class="container-fluid">
 			<div class="card">
 				<div class="card-header">
@@ -28,7 +28,7 @@ class ViewError
 				</div>
 			</div>
 		</div>
-		<!-- Container-fluid Ends-->
+		<!-- / error-->
 		<?php
 	}
 
@@ -57,6 +57,9 @@ class ViewError
 						<?= ViewTemplate::Sidebar() ?>
 
 						<div class="page-body">
+							<?= ViewTemplate::Breadcrumb('Erreur', ['' => 'Erreur']) ?>
+
+							<!-- error -->
 							<div class="container-fluid">
 								<div class="card">
 									<div class="card-header">
@@ -67,6 +70,7 @@ class ViewError
 									</div>
 								</div>
 							</div>
+							<!-- / error -->
 						</div>
 
 						<?= ViewTemplate::BackFooter() ?>

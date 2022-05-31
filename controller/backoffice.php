@@ -54,7 +54,7 @@ if (in_array($do, ['index', 'login', 'dologin', 'logout', 'listemployees', 'adde
 	require_once(DIR . '/controller/backoffice/employees.php');
 }
 
-if (in_array($do, ['listcategories', 'addcategory', 'insertcategory', 'editcategory', 'updatecategory', 'deletecategory', 'killcategory']))
+if (in_array($do, ['listcategories', 'addcategory', 'insertcategory', 'editcategory', 'updatecategory', 'deletecategory', 'killcategory', 'updateorder']))
 {
 	require_once(DIR . '/controller/backoffice/categories.php');
 }

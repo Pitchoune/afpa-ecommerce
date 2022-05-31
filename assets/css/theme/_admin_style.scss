@@ -1914,12 +1914,6 @@ $label-color:
 	}
 }
 
-
-
-
-
-
-
 .tablegrid-cell,.tablegrid-grid-body{
 	border: 1px solid #ebf1ff;
 }
@@ -1949,12 +1943,20 @@ $label-color:
 	.tablegrid-cell {
 		background-color: rgba(241, 244, 251, 0.5);
 		text-align: center;
+
+		&.text-left {
+			text-align: left;
+		}
 	}
 }
 
 .tablegrid-row {
 	> .tablegrid-cell {
 		text-align: center;
+
+		&.text-left {
+			text-align: left;
+		}
 	}
 }
 

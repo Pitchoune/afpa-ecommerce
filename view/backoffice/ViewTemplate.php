@@ -584,6 +584,7 @@ class ViewTemplate
 						description: /^[\p{L}\s-]{2,}$/u,
 						quantity: /^[0-9]{2,}$/,
 						price: /^[0-9]{1,5}\.[0-9]{2}$/,
+						displayorder: /^[0-9]+$/
 					};
 
 					$("small").text("");

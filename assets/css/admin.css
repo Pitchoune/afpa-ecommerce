@@ -5847,9 +5847,15 @@ ul.notification-dropdown.onhover-show-div li span svg {
   background-color: rgba(241, 244, 251, 0.5);
   text-align: center;
 }
+.tablegrid-alt-row .tablegrid-cell.text-left {
+  text-align: left;
+}
 
 .tablegrid-row > .tablegrid-cell {
   text-align: center;
+}
+.tablegrid-row > .tablegrid-cell.text-left {
+  text-align: left;
 }
 
 .tablegrid-filter-row .tablegrid-cell {

@@ -33,21 +33,48 @@ class ModelCategory extends Model
 	private $parent_id;
 
 	/**
+	 * The parent list of the category.
+	 *
+	 * @var string
+	 */
+	private $parentlist;
+
+	/**
+	 * The child list of the category.
+	 *
+	 * @var string
+	 */
+	private $childlist;
+
+	/**
+	 * The display order of the category.
+	 *
+	 * @var integer
+	 */
+	private $displayorder;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param array $config Database informations.
 	 * @param integer $id The ID of the category.
 	 * @param string $name The name of the category.
 	 * @param integer $parent_id Parent ID of the category.
+	 * @param string $parentlist The parent list of the category.
+	 * @param string $childlist The child list of the category.
+	 * @param integer $displayorder The display order of the category.
 	 *
 	 * @return void
 	 */
-	public function __construct($config, $id = null, $name = null, $parent_id = null)
+	public function __construct($config, $id = null, $name = null, $parent_id = null, $parentlist = null, $childlist = null, $displayorder = null)
 	{
 		$this->config = $config;
 		$this->id = $id;
 		$this->name = $name;
 		$this->parent_id = $parent_id;
+		$this->parentlist = $parentlist;
+		$this->childlist = $childlist;
+		$this->displayorder = $displayorder;
 	}
 
 	/**
@@ -78,7 +105,8 @@ class ModelCategory extends Model
 		$query = $db->prepare("
 			SELECT *
 			FROM categorie
-			WHERE parent_id IS NULL
+			WHERE parent_id = '-1'
+			ORDER BY displayorder ASC
 		");
 
 		$query->execute();
@@ -105,6 +133,23 @@ class ModelCategory extends Model
 	}
 
 	/**
+	 *
+	 */
+	public function listCategoriesWithParent()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT *
+			FROM categorie
+			WHERE parentid = ?
+		");
+		$query->bindParam(1, $this->parentid, \PDO::PARAM_STR);
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
 	 * Saves a new category in the 'categorie' table.
 	 *
 	 * @return mixed Returns saved category ID or false if there is an error.
@@ -114,12 +159,32 @@ class ModelCategory extends Model
 		$db = $this->dbConnect();
 		$query = $db->prepare("
 			INSERT INTO categorie
-				(nom, parent_id)
+				(nom, parent_id, displayorder)
 			VALUES
-				(?, ?)
+				(?, ?, ?)
 		");
 		$query->bindParam(1, $this->name, \PDO::PARAM_STR);
 		$query->bindParam(2, $this->parent_id, \PDO::PARAM_INT);
+		$query->bindParam(3, $this->displayorder, \PDO::PARAM_INT);
+
+		return $query->execute();
+	}
+
+	/**
+	 *
+	 */
+	public function updateCategoriesGenealogy()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			UPDATE categorie SET
+				parentlist = ?,
+				childlist = ?
+			WHERE id = ?
+		");
+		$query->bindParam(1, $this->parentlist);
+		$query->bindParam(2, $this->childlist);
+		$query->bindParam(3, $this->id, \PDO::PARAM_INT);
 
 		return $query->execute();
 	}
@@ -167,15 +232,15 @@ class ModelCategory extends Model
 	 *
 	 * @return array Informations of the category.
 	 */
-	public function listChildrenCategoryInfos()
+	public function listChildrenCategoryInfos($value)
 	{
 		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT *
 			FROM categorie
-			WHERE parent_id = ?
+			WHERE id IN ($value)
+			ORDER BY displayorder ASC
 		");
-		$query->bindParam(1, $this->parent_id, \PDO::PARAM_INT);
 
 		$query->execute();
 		return $query->fetchAll();
@@ -192,12 +257,14 @@ class ModelCategory extends Model
 		$query = $db->prepare("
 			UPDATE categorie SET
 				nom = ?,
-				parent_id = ?
+				parent_id = ?,
+				displayorder = ?
 			WHERE id = ?
 		");
 		$query->bindParam(1, $this->name, \PDO::PARAM_STR);
 		$query->bindParam(2, $this->parent_id, \PDO::PARAM_INT);
-		$query->bindParam(3, $this->id, \PDO::PARAM_INT);
+		$query->bindParam(3, $this->displayorder, \PDO::PARAM_INT);
+		$query->bindParam(4, $this->id, \PDO::PARAM_INT);
 
 		return $query->execute();
 	}
@@ -303,6 +370,23 @@ class ModelCategory extends Model
 	}
 
 	/**
+	 *
+	 */
+	public function UpdateCategoryDisplayOrder()
+	{
+		$db = $this->dbConnect($config);
+		$query = $db->prepare("
+			UPDATE categorie SET
+				displayorder = ?
+			WHERE id = ?
+		");
+		$query->bindParam(1, $this->displayorder, \PDO::PARAM_INT);
+		$query->bindParam(2, $this->id, \PDO::PARAM_INT);
+
+		return $query->execute();
+	}
+
+	/**
 	 * Defines the ID.
 	 *
 	 * @param integer $id ID of the category.
@@ -339,6 +423,42 @@ class ModelCategory extends Model
 	}
 
 	/**
+	 * Returns the parent list of the category.
+	 *
+	 * @param string $parentlist Parent list of the category.
+	 *
+	 * @return void
+	 */
+	public function set_parentlist($parentlist)
+	{
+		$this->parentlist = $parentlist;
+	}
+
+	/**
+	 * Defines the child list of the category.
+	 *
+	 * @param string $childlist Child list of the category.
+	 *
+	 * @return void
+	 */
+	public function set_childlist($childlist)
+	{
+		$this->childlist = $childlist;
+	}
+
+	/**
+	 * Defines the display order of the category.
+	 *
+	 * @param integer $displayorder Display order of the category.
+	 *
+	 * @return void
+	 */
+	public function set_displayorder($displayorder)
+	{
+		$this->displayorder = $displayorder;
+	}
+
+	/**
 	 * Returns the ID of the category.
 	 *
 	 * @return integer ID of the category.
@@ -367,4 +487,36 @@ class ModelCategory extends Model
 	{
 		return $this->parent_id;
 	}
+
+	/**
+	 * Returns the parent list of the category.
+	 *
+	 * @return string Parent list of the category.
+	 */
+	public function get_parentlist()
+	{
+		return $this->parentlist;
+	}
+
+	/**
+	 * Returns the child list of the category.
+	 *
+	 * @return string Child list of the category.
+	 */
+	public function get_childlist()
+	{
+		return $this->childlist;
+	}
+
+	/**
+	 * Returns the display order of the category.
+	 *
+	 * @return integer Display order of the category.
+	 */
+	public function get_displayorder()
+	{
+		return $this->displayorder;
+	}
 }
+
+?>

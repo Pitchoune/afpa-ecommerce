@@ -140,8 +140,9 @@ try
 			break;
 		case 'insertcategory':
 			$title = isset($_POST['title']) ? filter_var($_POST['title'], FILTER_SANITIZE_STRING) : NULL;
-			$parent = isset($_POST['parent']) ? filter_var($_POST['parent'], FILTER_VALIDATE_INT) : NULL;
-			InsertCategory($title, $parent);
+			$parent = isset($_POST['parent']) ? filter_var($_POST['parent'], FILTER_SANITIZE_STRING) : NULL;
+			$displayorder = isset($_POST['displayorder']) ? filter_var($_POST['displayorder'], FILTER_VALIDATE_INT) : NULL;
+			InsertCategory($title, $parent, $displayorder);
 			exit;
 		case 'editcategory':
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
@@ -150,8 +151,9 @@ try
 		case 'updatecategory':
 			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
 			$title = isset($_POST['title']) ? filter_var($_POST['title'], FILTER_SANITIZE_STRING) : NULL;
-			$parent = isset($_POST['parent']) ? filter_var($_POST['parent'], FILTER_VALIDATE_INT) : NULL;
-			UpdateCategory($id, $title, $parent);
+			$parent = isset($_POST['parent']) ? filter_var($_POST['parent'], FILTER_SANITIZE_STRING) : NULL;
+			$displayorder = isset($_POST['displayorder']) ? filter_var($_POST['displayorder'], FILTER_VALIDATE_INT) : NULL;
+			UpdateCategory($id, $title, $parent, $displayorder);
 			exit;
 		case 'deletecategory':
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
@@ -160,6 +162,10 @@ try
 		case 'killcategory':
 			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
 			KillCategory($id);
+			break;
+		case 'updateorder':
+			$order = isset($_POST['order']) ? filter_var_array($_POST['order'], FILTER_VALIDATE_INT) : NULL;
+			UpdateCategoriesOrder($order);
 			break;
 		// Trademarks
 		case 'listtrademarks':

@@ -60,21 +60,38 @@ class ViewTemplate
 
 		foreach ($listcategories AS $cat1)
 		{
-			$category .= '<li><a class="dark-item-menu" href="javascript:void(0)">' . $cat1['nom'] .'</a>';
-
-			$categories->set_parentid($cat1['id']);
-			$listsubcategories = $categories->listChildrenCategoryInfos();
-
-			if ($listsubcategories)
+			if ($cat1['childlist'] == $cat1['id'] . ',-1')
 			{
-				$category .= '<ul>';
+				// No child category - render category link as usual
+				$category .= '<li><a class="dark-item-menu" href="index.php?do=viewcategory&ampid=' . $cat1['id'] . '">' . $cat1['nom'] .'</a>';
+			}
+			else
+			{
+				$category .= '<li><a class="dark-item-menu" href="javascript:void(0)">' . $cat1['nom'] .'</a>';
+			}
 
-				foreach ($listsubcategories AS $cat2)
+			// Remove ',-1' part from the list
+			$value = str_replace(',-1', '', $cat1['childlist']);
+
+			// Remove the current category id from the list
+			$value = str_replace($cat1['id'] . ',', '', $value);
+
+			// Parent with no children don't need to run this part
+			if (strpos($value, ',') !== false)
+			{
+				$listsubcategories = $categories->listChildrenCategoryInfos($value);
+
+				if ($listsubcategories)
 				{
-					$category .= '<li><a href="index.php?do=viewcategory&amp;id=' . $cat2['id'] . $address . '">' . $cat2['nom'] .'</a>';
-				}
+					$category .= '<ul>';
 
-				$category .= '</ul>';
+					foreach ($listsubcategories AS $cat2)
+					{
+						$category .= '<li><a href="index.php?do=viewcategory&amp;id=' . $cat2['id'] . $address . '">' . $cat2['nom'] .'</a>';
+					}
+
+					$category .= '</ul>';
+				}
 			}
 
 			$category .= '</li>';

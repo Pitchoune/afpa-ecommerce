@@ -43,18 +43,29 @@ function AddCategory()
  * Inserts a new category into the database.
  *
  * @param string $title Title of the category.
- * @param integer $parent ID of the parent.
+ * @param string $parent ID of the parent.
+ * @param integer $displayorder Display order of the category.
  *
  * @return void
  */
-function InsertCategory($title, $parent)
+function InsertCategory($title, $parent, $displayorder)
 {
 	if (Utils::cando(10))
 	{
 		global $config;
 
 		$title = trim(strval($title));
-		$parent = intval($parent);
+
+		if ($parent === '-1')
+		{
+			$parent = trim(strval($parent));
+		}
+		else
+		{
+			$parent = intval($parent);
+		}
+
+		$displayorder = intval($displayorder);
 
 		$categories = new ModelCategory($config);
 
@@ -71,18 +82,30 @@ function InsertCategory($title, $parent)
 
 		$categories->set_name($title);
 
-		if ($parent === 0)
+		// Verify category parent
+		$cats = $categories->listAllCategories();
+		$categoryCache = Utils::categoriesCache($cats);
+
+		if (count($categoryCache) > 0)
 		{
-			$categories->set_parentid('null');
+			if (!isset($categoryCache["$parent"]) AND $parent != '-1')
+			{
+				throw new Exception('La catégorie parente spécifiée n\'est pas valide.');
+			}
 		}
-		else
-		{
-			$categories->set_parentid($parent);
-		}
+
+		$categories->set_parentid($parent);
+		$categories->set_displayorder($displayorder);
 
 		// Save the new category in the database
 		if ($categories->saveNewCategory())
 		{
+			// You need to do again listAllCategories method with updated values
+			$cats = $categories->listAllCategories();
+			$categoryCache = Utils::categoriesCache($cats);
+			$parentCache = Utils::buildParentCache($categoryCache);
+			Utils::buildCategoryGenealogy($categoryCache, $parentCache);
+
 			$_SESSION['category']['add'] = 1;
 		}
 		else
@@ -125,17 +148,28 @@ function EditCategory($id)
  * @param integer $id ID of the category to update.
  * @param string $title Title of the category to update.
  * @param integer $parent ID of the parent.
+ * @param integer $displayorder Display order of the category.
  *
  * @return void
  */
-function UpdateCategory($id, $title, $parent)
+function UpdateCategory($id, $title, $parent, $displayorder)
 {
 	if (Utils::cando(11))
 	{
 		global $config;
 
 		$title = trim(strval($title));
-		$parent = intval($parent);
+
+		if ($parent === '-1')
+		{
+			$parent = trim(strval($parent));
+		}
+		else
+		{
+			$parent = intval($parent);
+		}
+
+		$displayorder = intval($displayorder);
 
 		$categories = new ModelCategory($config);
 
@@ -153,18 +187,28 @@ function UpdateCategory($id, $title, $parent)
 		$categories->set_id($id);
 		$categories->set_name($title);
 
-		if ($parent === 0)
+		// Verify category parent
+		$cats = $categories->listAllCategories();
+		$categoryCache = Utils::categoriesCache($cats);
+
+		if (count($categoryCache) > 0 AND $parent !== 0)
 		{
-			$categories->set_parentid(null);
+			if (!isset($categoryCache["$parent"]) AND $parent !== '-1')
+			{
+				throw new Exception('La catégorie parente spécifiée n\'est pas valide.');
+			}
 		}
-		else
-		{
-			$categories->set_parentid($parent);
-		}
+
+		$categories->set_parentid($parent);
+		$categories->set_displayorder($displayorder);
 
 		// Save the new category in the database
 		if ($categories->saveEditCategory())
 		{
+			$categoryCache = Utils::categoriesCache($cats);
+			$parentCache = Utils::buildParentCache($categoryCache);
+			Utils::buildCategoryGenealogy($categoryCache, $parentCache);
+
 			$_SESSION['category']['edit'] = 1;
 		}
 		else
@@ -181,6 +225,13 @@ function UpdateCategory($id, $title, $parent)
 	}
 }
 
+/**
+ * Displays a delete confirmation.
+ *
+ * @param integer $id ID of the category to delete.
+ *
+ * @return void
+ */
 function DeleteCategory($id)
 {
 	if (Utils::cando(12))
@@ -220,6 +271,12 @@ function KillCategory($id)
 		// Delete the category from the database
 		if ($categories->deleteCategory())
 		{
+			$cats = $categories->listAllCategories();
+
+			$categoryCache = Utils::categoriesCache($cats);
+			$parentCache = Utils::buildParentCache($categoryCache);
+			Utils::buildCategoryGenealogy($categoryCache, $parentCache);
+
 			$_SESSION['category']['delete'] = 1;
 		}
 		else
@@ -234,6 +291,55 @@ function KillCategory($id)
 	{
 		throw new Exception('Vous n\'êtes pas autorisé à supprimer des catégories.');
 	}
+}
+
+/**
+ * Updates display order for each changed category.
+ *
+ * @param array $order Array of display orders.
+ *
+ * @return void
+ */
+function UpdateCategoriesOrder($order)
+{
+	global $config;
+
+	$categories = new ModelCategory($config);
+
+	if (is_array($order))
+	{
+		$listcategories = $categories->listAllCategories();
+
+
+		foreach ($listcategories AS $key => $value)
+		{
+			if (!isset($order["$value[id]"]))
+			{
+				continuer;
+			}
+
+			$displayorder = intval($order["$value[id]"]);
+
+			if ($value['displayorder'] != $displayorder)
+			{
+				// update orders
+				$categories->set_id($value['id']);
+				$categories->set_displayorder($displayorder);
+
+				$categories->UpdateCategoryDisplayOrder();
+			}
+		}
+	}
+
+	$cats = $categories->listAllCategories();
+
+	$categoryCache = Utils::categoriesCache($cats);
+	$parentCache = Utils::buildParentCache($categoryCache);
+	Utils::buildCategoryGenealogy($categoryCache, $parentCache);
+
+	$_SESSION['category']['orders'] = 1;
+
+	header('Location: index.php?do=listcategories');
 }
 
 ?>

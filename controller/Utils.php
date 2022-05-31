@@ -1,5 +1,8 @@
 <?php
 
+require_once(DIR . '/model/ModelCategory.php');
+use \Ecommerce\Model\ModelCategory;
+
 /**
  * Utility class to perform various actions across the whole system
  *
@@ -502,6 +505,199 @@ class Utils
 		else if ($page > $numpages)
 		{
 			$page = $numpages;
+		}
+	}
+
+	/**
+	 * Returns an array of categories values with an addition of depth for parent/child relation.
+	 *
+ 	 * @return array Array of data.
+	 */
+	public static function categoriesCache($content)
+	{
+		$array = [];
+
+		foreach ($content AS $key => $data)
+		{
+			$array["$data[id]"] = $data;
+			$array["$data[id]"]['depth'] = substr_count($array["$data[id]"]['parentlist'], ',') - 1;
+		}
+
+		return $array;
+	}
+
+	/**
+	 * Returns a list of <option> fields, optionally with one selected.
+	 *
+	 * @param array $array Array of value => text pairs representing '&lt;option value="$key">$value</option>' fields.
+	 * @param string $selectedid Selected option.
+	 *
+	 * @return string List of &lt;option> tags.
+	 */
+	public static function constructCategorySelectOptions($array, $selectedid = '')
+	{
+		if (is_array($array))
+		{
+			$options = '';
+
+			foreach ($array AS $key => $value)
+			{
+				if (is_array($value))
+				{
+					$options .= "\t\t<optgroup label=\"" . $key . "\">/n";
+					$options .= self::constructCategorySelectOptions($value, $selectedid);
+					$options .= "\t\t</optgroup>\n";
+				}
+				else
+				{
+					if (is_array($selectedid))
+					{
+						$selected = (in_array($key, $selectedid) ? ' selected' : '');
+					}
+					else
+					{
+
+						$selected = ($key == $selectedid ? ' selected' : '');
+					}
+
+					$options .= "\t\t<option value=\"" . $key . "\"$selected>$value</option>\n";
+				 }
+			 }
+		 }
+
+		 return $options;
+	 }
+
+	/**
+	 * Returns an array representing the list of categories.
+	 *
+	 * @param array $categorycache A valid category cache in form of array[id] => data.
+	 * @param boolean $norootcat Specifies if we add the line with id -1.
+	 *
+	 * @return array Array representing the list of categories.
+	 */
+	public static function constructCategoryChooserOptions($categorycache, $norootcat = true)
+	{
+		$selectoptions = [];
+
+		if ($norootcat)
+		{
+			$selectoptions[-1] = 'Selectionnez une catégorie parente. Pas de sélection = pas de parent.';
+		}
+
+		$startdepth = '';
+
+		// Pass a sort of cache of category to parse
+		foreach ($categorycache AS $categoryid => $category)
+		{
+			$depthmark = '';
+
+			for ($i = 0; $i < $category['depth']; $i++)
+			{
+				$depthmark .= '--';
+			}
+
+			$selectoptions["$categoryid"] = $depthmark . ' ' . $category['nom'];
+		}
+
+		return $selectoptions;
+	}
+
+	/**
+	 * Builds a cache with parents informations to create parentlist and childlist.
+	 *
+	 * @param array $array Array of all existing categories.
+	 *
+	 * @return array Array of parents informations.
+	 */
+	public static function buildParentCache($array)
+	{
+		$return = [];
+
+		foreach ($array AS $key => $newcategory)
+		{
+			$return["$newcategory[parent_id]"]["$newcategory[id]"] = $newcategory['id'];
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Recalculates category parent and child lists, then saves them back to the category table.
+	 *
+	 * @param array $categoriesCache Array of categories informations.
+	 * @param array $parentCache Array of parents informations.
+	 *
+	 * @return void
+	 */
+	public static function buildCategoryGenealogy($categoriesCache, $parentCache)
+	{
+		global $config;
+
+		// build parent/child lists
+		foreach ($categoriesCache AS $categoryid => $category)
+		{
+			// parent list
+			$i = 0;
+			$curid = $categoryid;
+
+			$categoriesCache["$categoryid"]['parentlist'] = '';
+
+			while ($curid != -1 AND $i++ < 1000)
+			{
+				if ($curid)
+				{
+					$categoriesCache["$categoryid"]['parentlist'] .= $curid . ',';
+					$curid = $categoriesCache["$curid"]['parent_id'];
+				}
+				else
+				{
+					if ($curid !== '0')
+					{
+						throw new Exception('La définition des parents des catégories est non valide.');
+					}
+				}
+			}
+
+			$categoriesCache["$categoryid"]['parentlist'] .= '-1';
+
+			// child list
+			$categoriesCache["$categoryid"]['childlist'] = $categoryid;
+			self::fetchCategoryChildList($categoryid, $categoryid, $categoriesCache, $parentCache);
+			$categoriesCache["$categoryid"]['childlist'] .= ',-1';
+		}
+
+		foreach ($categoriesCache AS $categoryid => $category)
+		{
+			$cats = new ModelCategory($config);
+			$cats->set_parentlist($category['parentlist']);
+			$cats->set_childlist($category['childlist']);
+			$cats->set_id($categoryid);
+
+			if (!$cats->updateCategoriesGenealogy())
+			{
+				throw new Exception('Une erreur est survenue pendant la mise à jour de la généalogie des catégories.');
+			}
+		}
+	}
+
+	/**
+	* Recursive function to populate the category cache with correct child list fields.
+	*
+	* @param integer $maincategoryid Category ID to be updated.
+	* @param integer $parentid Parent category ID.
+	*
+	* @return void
+	*/
+	private static function fetchCategoryChildList($maincategoryid, $parentid, &$categoriesCache, $parentCache)
+	{
+		if (!empty($parentCache["$parentid"]) AND is_array($parentCache["$parentid"]))
+		{
+			foreach ($parentCache["$parentid"] AS $categoryid => $categoryparentid)
+			{
+				$categoriesCache["$maincategoryid"]['childlist'] .= ',' . $categoryid;
+				self::fetchCategoryChildList($maincategoryid, $categoryid, $categoriesCache, $parentCache);
+			}
 		}
 	}
 

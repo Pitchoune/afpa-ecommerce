@@ -31,32 +31,9 @@ class ViewCategory
 				'' => $navtitle
 			];
 
-			$totalcategories = $categories->getTotalNumberOfCategories();
-
-			// Number max per page
-			$perpage = 10;
-
-			Utils::sanitize_pageresults($totalcategories['nbcats'], $pagenumber, $perpage, 200, 20);
-
-			$limitlower = ($pagenumber - 1) * $perpage;
-			$limitupper = ($pagenumber) * $perpage;
-
-			if ($limitupper > $totalcategories['nbcats'])
-			{
-				$limitupper = $totalcategories['nbcats'];
-
-				if ($limitlower > $totalcategories['nbcats'])
-				{
-					$limitlower = ($totalcategories['nbcats'] - $perpage) - 1;
-				}
-			}
-
-			if ($limitlower < 0)
-			{
-				$limitlower = 0;
-			}
-
-			$categorieslist = $categories->getSomeCategories($limitlower, $perpage);
+			$categorieslist = $categories->listAllCategories();
+			$cache = Utils::categoriesCache($categorieslist);
+			$categorylist = Utils::constructCategoryChooserOptions($cache, false);
 
 			?>
 			<!DOCTYPE html>
@@ -99,13 +76,14 @@ class ViewCategory
 														<?php
 													}
 													?>
-													<div class="table-responsive">
+													<form class="table-responsive" action="index.php?do=updateorder" method="post">
 														<div class="tablegrid">
 															<div class="tablegrid-grid-header">
 																<table class="tablegrid-table">
 																	<thead>
 																		<tr class="tablegrid-header-row">
 																			<th class="tablegrid-header-cell" style="width: 125px">Intitulé</th>
+																			<th class="tablegrid-header-cell" style="width: 50px">Ordre d'affichage</th>
 																			<th class="tablegrid-header-cell" style="width: 75px">Nombre de produits</th>
 																			<?php
 																			if (Utils::cando(11) OR Utils::cando(12))
@@ -133,8 +111,9 @@ class ViewCategory
 																			$data['compteur'] = intval($compteur['compteur']);
 																			?>
 																			<tr class="<?= (($quantity++ % 2) == 0 ? 'tablegrid-row' : 'tablegrid-alt-row') ?>">
-																				<td class="tablegrid-cell" style="width: 125px"><?= $data['nom']; ?></td>
-																				<td class="tablegrid-cell" style="width: 75px"><?= $data['compteur']; ?></td>
+																				<td class="tablegrid-cell text-left" style="width: 125px"><?= $categorylist[$data['id']] ?></td>
+																				<td class="tablegrid-cell" style="width: 50px"><input type="text" name="order[<?= $data['id'] ?>]" value="<?= $data['displayorder'] ?>" /></td>
+																				<td class="tablegrid-cell" style="width: 75px"><?= $data['compteur'] ?></td>
 																				<?php
 																				if (Utils::cando(11) OR Utils::cando(12))
 																				{
@@ -169,11 +148,12 @@ class ViewCategory
 																	</tbody>
 																</table>
 															</div>
-															<?php
-															Utils::construct_page_nav($pagenumber, $perpage, $totalcategories['nbcats'], 'index.php?do=listcategories', 'back');
-															?>
 														</div>
-													</div>
+														<div class="btn-popup pull-right mt-4">
+															<input type="hidden" name="do" value="updateorder" />
+															<input type="submit" class="btn btn-secondary" value="Mettre à jour l'ordre d'affichage" />
+														</div>
+													</form>
 												</div>
 											</div>
 										</div>
@@ -246,6 +226,12 @@ class ViewCategory
 						ViewTemplate::BackToast('Suppression de catégorie', 'Catégorie supprimée avec succès !');
 						unset($_SESSION['category']['delete']);
 					}
+
+					if ($_SESSION['category']['orders'] === 1)
+					{
+						ViewTemplate::BackToast('Mise à jour des catégories', 'Order d\'affichage modifiée avec succès !');
+						unset($_SESSION['category']['orders']);
+					}
 					?>
 				</body>
 			</html>
@@ -293,76 +279,18 @@ class ViewCategory
 				$formredirect = 'insertcategory';
 			}
 
-			$parentlist = [];
-			$options = '<option value="0">Pas de catégorie parente</option>';
-
-			// Construct categories tree
-			$parents = $categories->listAllCategoriesWithoutParents();
-
-			foreach ($parents AS $key => $value)
-			{
-				// For each result, grab children
-				$parentlist[$value['id']] = $value;
-
-				$categories->set_parentid($value['id']);
-				$child = $categories->listChildrenCategoryInfos();
-
-				foreach ($child AS $iddata => $data)
-				{
-					$parentlist[$value['id']]['child'][$data['id']] = $data;
-				}
-			}
-
-/*
-Ajout :
-
-	- Désactiver les enfants
-
-Modif :
-
-	ID : enfant
-		=> désactiver la racine
-		=> désactiver les enfants
-
-	ID : parent
-		=> désactiver les enfants
-		=> désactiver les parents si l'actuel a des enfants
-*/
-
-// Utils::printr($parentlist, true);
-			$attr = '';
-
-			foreach ($parentlist AS $idparent => $infos)
-			{
-				$options .= '<option value="' . $infos['id'] . '"' . ($infos['parent_id'] ? ' selected' : '') . '>-- ' . $infos['nom'] . '</option>';
-
-				foreach ($infos['child'] AS $key => $value)
-				{
-					// Disable children
-					if (
-						// Add
-						!$id
-						OR
-						(
-							// Edit
-							$value['parent_id'] // Disable children categories because we're on parent case
-
-						)
-					)
-					{
-						$attr = ' disabled';
-					}
-
-					$options .= '<option value="' . $value['id'] . '"' . $attr . ($value['parent_id'] ? ' selected' : '') . '>---- ' . $value['nom'] . '</option>';
-				}
-			}
-
 			if ($categoryinfos)
 			{
 				$navbits = [
 					'listcategories' => $pagetitle,
 					'' => $navtitle
 				];
+
+				// Create a sort of cache to autobuild categories with depth status to have parent and child categories in the whole system
+				$catlist = $categories->listAllCategories();
+				$cache = Utils::categoriesCache($catlist);
+				$categorylist = Utils::constructCategoryChooserOptions($cache);
+				$categoriesselect = Utils::constructCategorySelectOptions($categorylist, $categoryinfos['parent_id']);
 
 				?>
 				<!DOCTYPE html>
@@ -398,11 +326,16 @@ Modif :
 																<small id="titleHelp" class="form-text text-muted"></small>
 															</div>
 															<div class="form-group">
-																<label for="parent" class="col-form-label pt-0">Catégorie parente <span>*</span></label>
+																<label for="parent" class="col-form-label pt-0">Catégorie <span>*</span></label>
 																<select class="custom-select form-control" id="parent" name="parent" aria-describedby="parentHelp" data-type="parent" data-message="La catégorie sélectionnée n'est pas valide.">
-																	<?= $options ?>
+																<?= $categoriesselect ?>
 																</select>
 																<small id="parentHelp" class="form-text text-muted"></small>
+															</div>
+															<div class="form-group">
+																<label for="displayorder" class="col-form-label pt-0">Ordre d'affichage <span>*</span></label>
+																<input type="text" class="form-control" id="displayorder" name="displayorder" aria-describedby="displayorderHelp" data-type="displayorder" data-message="Le format de l'ordre d'affichage n'est pas valide." required value="<?= $categoryinfos['displayorder'] ?>" />
+																<small id="displayorderHelp" class="form-text text-muted"></small>
 															</div>
 															<div class="form-group mb-0">
 																<div class="product-buttons text-center">
@@ -415,7 +348,7 @@ Modif :
 																	<?php
 																	}
 																	?>
-																	<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
+																	<input type="submit" class="btn btn-primary" id="validation" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
 																	<input type="reset" class="btn btn-primary" value="Annuler"/>
 																</div>
 															</div>
@@ -440,11 +373,11 @@ Modif :
 
 						if ($id)
 						{
-							ViewTemplate::BackFormValidation('valider', 4, 1);
+							ViewTemplate::BackFormValidation('validation', 5, 1);
 						}
 						else
 						{
-							ViewTemplate::BackFormValidation('valider', 3, 1);
+							ViewTemplate::BackFormValidation('validation', 4, 1);
 						}
 						?>
 					</body>
