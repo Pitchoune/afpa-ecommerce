@@ -1,5 +1,6 @@
 <?php
 
+require_once(DIR . '/view/backoffice/ViewCategory.php');
 require_once(DIR . '/model/ModelCategory.php');
 use \Ecommerce\Model\ModelCategory;
 
@@ -12,8 +13,15 @@ function ListCategories()
 {
 	if (Utils::cando(9))
 	{
-		require_once(DIR . '/view/backoffice/ViewCategory.php');
-		ViewCategory::CategoryList();
+		global $config;
+
+		$categories = new ModelCategory($config);
+
+		$categorieslist = $categories->listAllCategories();
+		$cache = Utils::categoriesCache($categorieslist);
+		$categorylist = Utils::constructCategoryChooserOptions($cache, false);
+
+		ViewCategory::CategoryList($categories, $categorieslist, $categorylist);
 	}
 	else
 	{
@@ -30,8 +38,33 @@ function AddCategory()
 {
 	if (Utils::cando(10))
 	{
-		require_once(DIR . '/view/backoffice/ViewCategory.php');
-		ViewCategory::CategoryAddEdit();
+		global $config;
+
+		$categories = new ModelCategory($config);
+
+		$categoryinfos = [
+			'nom' => '',
+			'displayorder' => 1
+		];
+
+		$navtitle = 'Ajouter une catégorie';
+		$formredirect = 'insertcategory';
+
+		if ($categoryinfos)
+		{
+			$navbits = [
+				'listcategories' => $pagetitle,
+				'' => $navtitle
+			];
+
+			// Create a sort of cache to autobuild categories with depth status to have parent and child categories in the whole system
+			$catlist = $categories->listAllCategories();
+			$cache = Utils::categoriesCache($catlist);
+			$categorylist = Utils::constructCategoryChooserOptions($cache);
+			$categoriesselect = Utils::constructCategorySelectOptions($categorylist, $categoryinfos['parent_id']);
+
+			ViewCategory::CategoryAddEdit('', $navtitle, $navbits, $categoryinfos, $categoriesselect);
+		}
 	}
 	else
 	{
@@ -133,8 +166,32 @@ function EditCategory($id)
 {
 	if (Utils::cando(11))
 	{
-		require_once(DIR . '/view/backoffice/ViewCategory.php');
-		ViewCategory::CategoryAddEdit($id);
+		global $config;
+
+		$categories = new ModelCategory($config);
+
+		$categories->set_id($id);
+		$categoryinfos = $categories->listCategoryInfos();
+		$navtitle = 'Modifier une catégorie';
+		$formredirect = 'updatecategory';
+		$compteur = $categories->getNumberOfProductsInCategory();
+		$categoryinfos['compteur'] = $compteur['compteur'];
+
+		if ($categoryinfos)
+		{
+			$navbits = [
+				'listcategories' => $pagetitle,
+				'' => $navtitle
+			];
+
+			// Create a sort of cache to autobuild categories with depth status to have parent and child categories in the whole system
+			$catlist = $categories->listAllCategories();
+			$cache = Utils::categoriesCache($catlist);
+			$categorylist = Utils::constructCategoryChooserOptions($cache);
+			$categoriesselect = Utils::constructCategorySelectOptions($categorylist, $categoryinfos['parent_id']);
+
+			ViewCategory::CategoryAddEdit($id, $navtitle, $navbits, $categoryinfos, $categoriesselect);
+		}
 	}
 	else
 	{
@@ -240,8 +297,12 @@ function DeleteCategory($id)
 
 		$id = intval($id);
 
-		require_once(DIR . '/view/backoffice/ViewCategory.php');
-		ViewCategory::CategoryDeleteConfirmation($id);
+		$categories = new ModelCategory($config);
+
+		$categories->set_id($id);
+		$category = $categories->listCategoryInfos();
+
+		ViewCategory::CategoryDeleteConfirmation($id, $category);
 	}
 	else
 	{
