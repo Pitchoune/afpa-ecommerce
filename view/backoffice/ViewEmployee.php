@@ -1,14 +1,7 @@
 <?php
 
-require_once(DIR . '/model/ModelEmployee.php');
-require_once(DIR . '/model/ModelRole.php');
-use \Ecommerce\Model\ModelEmployee;
-use \Ecommerce\Model\ModelRole;
-
 /**
  * Class to display HTML content about employees in back.
- *
- * @date $Date$
  */
 class ViewEmployee
 {
@@ -19,12 +12,9 @@ class ViewEmployee
 	 */
 	public static function loginForm()
 	{
-		global $config;
-
 		$pagetitle = 'Identification';
 
 		?>
-
 		<!DOCTYPE html>
 		<html lang="fr">
 			<head>
@@ -96,7 +86,7 @@ class ViewEmployee
 											<div class="single-item">
 												<div>
 													<div>
-														<h3>Welcome to Bigdeal</h3>
+														<h3>Welcome to Nintendo Retro Shop</h3>
 														<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.</p>
 													</div>
 												</div>
@@ -115,13 +105,13 @@ class ViewEmployee
 													<div class="tab-pane fade show active" id="top-profile" role="tabpanel" aria-labelledby="top-profile-tab">
 														<form class="form-horizontal auth-form" action="index.php?do=dologin" method="post">
 															<div class="form-group">
-																<input required name="email" type="email" class="form-control" placeholder="Email" />
+																<input required name="email" type="email" class="form-control" placeholder="Adresse email" />
 															</div>
 															<div class="form-group">
-																<input required name="pass" type="password" class="form-control" placeholder="Password" />
+																<input required name="pass" type="password" class="form-control" placeholder="Mot de passe" />
 															</div>
 															<div class="form-button">
-																<button class="btn btn-primary" type="submit">Login</button>
+																<button class="btn btn-primary" type="submit">S'identifier</button>
 															</div>
 														</form>
 													</div>
@@ -136,11 +126,7 @@ class ViewEmployee
 					<!-- / body -->
 				</div>
 
-				<?= ViewTempate::BackFoot() ?>
-
-				<script>
-					$('.single-item').slick({arrows: false, dots: true});
-				</script>
+				<?= ViewTemplate::BackFoot() ?>
 			</body>
 		</html>
 		<?php
@@ -149,15 +135,19 @@ class ViewEmployee
 	/**
 	 * Returns the HTML code to display the employee list.
 	 *
+	 * @param object $employees Model object of employees.
+	 * @param array $employeeslist List of all employees for the current page.
+	 * @param array $totalemployees Total number of employees in the database.
+	 * @param integer $limitlower Position in the database items to start the pagination.
+	 * @param integer $perpage Number of items per page.
+	 *
 	 * @return void
 	 */
-	public static function EmployeeList()
+	public static function EmployeeList($employees, $employeeslist, $totalemployees, $limitlower, $perpage)
 	{
 		if (Utils::cando(5))
 		{
-			global $config, $pagenumber;
-
-			$employees = new ModelEmployee($config);
+			global $pagenumber;
 
 			$pagetitle = 'Gestion des catégories';
 			$navtitle = 'Liste des employés';
@@ -166,33 +156,6 @@ class ViewEmployee
 				'index.php?do=listemployees' => $pagetitle,
 				'' => $navtitle
 			];
-
-			$totalemployees = $employees->getTotalNumberOfEmployees();
-
-			// Number max per page
-			$perpage = 10;
-
-			Utils::sanitize_pageresults($totalemployees['nbemployees'], $pagenumber, $perpage, 200, 20);
-
-			$limitlower = ($pagenumber - 1) * $perpage;
-			$limitupper = ($pagenumber) * $perpage;
-
-			if ($limitupper > $totalemployees['nbemployees'])
-			{
-				$limitupper = $totalemployees['nbemployees'];
-
-				if ($limitlower > $totalemployees['nbemployees'])
-				{
-					$limitlower = ($totalemployees['nbemployees'] - $perpage) - 1;
-				}
-			}
-
-			if ($limitlower < 0)
-			{
-				$limitlower = 0;
-			}
-
-			$employeeslist = $employees->getSomeEmployees($limitlower, $perpage);
 
 			?>
 			<!DOCTYPE html>
@@ -397,194 +360,146 @@ class ViewEmployee
 	 * Returns the HTML code to display the add or edit employee form.
 	 *
 	 * @param integer $id ID of the employee if we need to edit an existing employee. Empty for a new employee.
+	 * @param string $navtitle Title of the page to show in the breadcrumb.
+	 * @param array $navbits Breadcrumb content.
+	 * @param array $emmloyeeinfos Default values to show as default in fields.
+	 * @param string $formredirect Redirect part of the URL to save data.
+	 * @param string $pagetitle Title of the page.
+	 * @param string $options <option> HTML code for the role selection.
 	 *
 	 * @return void
 	 */
-	public static function EmployeeAddEdit($id = '')
+	public static function EmployeeAddEdit($id = '', $navtitle, $navbits, $employeeinfos, $formredirect, $pagetitle, $options)
 	{
-		if (Utils::cando(6) OR Utils::cando(7))
+		if ($rolelist)
 		{
-			global $config;
-
-			$employees = new ModelEmployee($config);
-
-			if ($id)
+			foreach ($rolelist AS $key => $value)
 			{
-				$employees->set_id($id);
-				$employeeinfos = $employees->listEmployeeInfos();
-				$navtitle = 'Modifier un employé';
-				$formredirect = 'updateemployee';
-				$options = '<option value="0" disabled>Sélectionnez un rôle</option>';
-			}
-			else
-			{
-				$employeeinfos = [
-					'nom' => '',
-					'prenom' => '',
-					'mail' => '',
-					'role' => ''
-				];
-
-				$navtitle = 'Ajouter un employé';
-				$formredirect = 'insertemployee';
-				$options = '<option value="0" selected disabled>Sélectionnez un rôle</option>';
-			}
-
-			$roles = new ModelRole($config);
-			$rolelist = $roles->listAllRoles();
-
-			$pagetitle = 'Gestion des employées';
-
-			if ($rolelist)
-			{
-				foreach ($rolelist AS $key => $value)
-				{
-					$options .= '<option value="' . $value['id'] . '">' . $value['nom'] . '</option>';
-				}
-			}
-			else
-			{
-				$options .= '<option value="0" disabled>Il n\'y a pas de rôle à lister.</option>';
-			}
-
-			if ($employeeinfos)
-			{
-
-				$navbits = [
-					'index.php?do=listemployees' => $pagetitle,
-					'' => $navtitle
-				];
-
-				?>
-				<!DOCTYPE html>
-				<html lang="fr">
-					<head>
-						<?= ViewTemplate::BackHead($pagetitle) ?>
-					</head>
-
-					<body>
-						<div class="page-wrapper">
-							<?= ViewTemplate::BackHeader() ?>
-
-							<!-- body -->
-							<div class="page-body-wrapper">
-								<?= ViewTemplate::Sidebar() ?>
-
-								<div class="page-body">
-									<?= ViewTemplate::Breadcrumb($pagetitle, $navbits) ?>
-
-									<div class="container-fluid">
-										<div class="row product-adding">
-											<div class="col">
-												<div class="card">
-													<div class="card-header">
-														<h5><?= $navtitle ?></h5>
-													</div>
-													<div class="card-body">
-														<form class="digital-add" method="post" action="index.php?do=<?= $formredirect ?>">
-															<div class="form-group">
-																<label for="firstname" class="col-form-label pt-0">Prénom <span>*</span></label>
-																<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du nom n'est pas valide." value="<?= $employeeinfos['nom'] ?>" required />
-																<small id="firstnameHelp" class="form-text text-muted"></small>
-															</div>
-															<div class="form-group">
-																<label for="lastname" class="col-form-label pt-0">Nom <span>*</span></label>
-																<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du prénom n'est pas valide." value="<?= $employeeinfos['prenom'] ?>" required />
-																<small id="lastnameHelp" class="form-text text-muted"></small>
-															</div>
-															<div class="form-group">
-																<label for="mail" class="col-form-label pt-0">Adresse email <span>*</span></label>
-																<input type="email" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." value="<?= $employeeinfos['mail'] ?>" required />
-																<small id="emailHelp" class="form-text text-muted"></small>
-															</div>
-															<div class="form-group">
-																<label for="password" class="col-form-label pt-0">Mot de passe<?= (!$id ? ' <span>*</span>' : '') ?></label>
-																<input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" data-type="password" data-message="Le format du mot de passe n'est pas valide." />
-																<small id="passwordHelp" class="form-text text-muted"></small>
-															</div>
-															<div class="form-group">
-																<label class="col-form-label">Rôle <span>*</span></label>
-																<select class="custom-select form-control" id="selectChoose" name="role" aria-describedby="selectHelp" data-type="selectChoose" data-message="La sélection du rôle est obligatoire." required>
-																<?= $options ?>
-																</select>
-																<small id="selectHelp" class="form-text text-muted"></small>
-															</div>
-															<div class="form-group mb-0">
-																<div class="text-center">
-																	<input type="hidden" name="do" value="<?= $formredirect ?>" />
-																	<?php
-																	if ($id)
-																	{
-																		?>
-																		<input type="hidden" name="id" value="<?= $id ?>" />
-																		<?php
-																	}
-																	?>
-																	<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
-																	<input type="reset" class="btn btn-light" value="Annuler"/>
-																</div>
-															</div>
-														</form>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!-- / body -->
-								</div>
-
-								<?= ViewTemplate::BackFooter() ?>
-							</div>
-							<!-- / body -->
-						</div>
-
-						<?php
-						ViewTemplate::BackFoot();
-
-						if ($id)
-						{
-							ViewTemplate::BackFormValidation('valider', 4, 1);
-						}
-						else
-						{
-							ViewTemplate::BackFormValidation('valider', 3, 1);
-						}
-						?>
-					</body>
-				</html>
-				<?php
-			}
-			else
-			{
-				throw new Exception('Une erreur est survenue pendant l\'affichage des options de l\'employé.');
+				$options .= '<option value="' . $value['id'] . '">' . $value['nom'] . '</option>';
 			}
 		}
 		else
 		{
-			throw new Exception('Vous n\'êtes pas autorisé à ajouter ou à modifier des employés.');
+			$options .= '<option value="0" disabled>Il n\'y a pas de rôle à lister.</option>';
 		}
+
+		$navbits = [
+			'index.php?do=listemployees' => $pagetitle,
+			'' => $navtitle
+		];
+
+		?>
+		<!DOCTYPE html>
+		<html lang="fr">
+			<head>
+				<?= ViewTemplate::BackHead($pagetitle) ?>
+			</head>
+
+			<body>
+				<div class="page-wrapper">
+					<?= ViewTemplate::BackHeader() ?>
+
+					<!-- body -->
+					<div class="page-body-wrapper">
+						<?= ViewTemplate::Sidebar() ?>
+
+						<div class="page-body">
+							<?= ViewTemplate::Breadcrumb($pagetitle, $navbits) ?>
+
+							<div class="container-fluid">
+								<div class="row product-adding">
+									<div class="col">
+										<div class="card">
+											<div class="card-header">
+												<h5><?= $navtitle ?></h5>
+											</div>
+											<div class="card-body">
+												<form class="digital-add" method="post" action="index.php?do=<?= $formredirect ?>">
+													<div class="form-group">
+														<label for="firstname" class="col-form-label pt-0">Prénom <span>*</span></label>
+														<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du nom n'est pas valide." value="<?= $employeeinfos['nom'] ?>" required />
+														<small id="firstnameHelp" class="form-text text-muted"></small>
+													</div>
+													<div class="form-group">
+														<label for="lastname" class="col-form-label pt-0">Nom <span>*</span></label>
+														<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du prénom n'est pas valide." value="<?= $employeeinfos['prenom'] ?>" required />
+														<small id="lastnameHelp" class="form-text text-muted"></small>
+													</div>
+													<div class="form-group">
+														<label for="mail" class="col-form-label pt-0">Adresse email <span>*</span></label>
+														<input type="email" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." value="<?= $employeeinfos['mail'] ?>" required />
+														<small id="emailHelp" class="form-text text-muted"></small>
+													</div>
+													<div class="form-group">
+														<label for="password" class="col-form-label pt-0">Mot de passe<?= (!$id ? ' <span>*</span>' : '') ?></label>
+														<input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" data-type="password" data-message="Le format du mot de passe n'est pas valide." />
+														<small id="passwordHelp" class="form-text text-muted"></small>
+													</div>
+													<div class="form-group">
+														<label class="col-form-label">Rôle <span>*</span></label>
+														<select class="custom-select form-control" id="selectChoose" name="role" aria-describedby="selectHelp" data-type="selectChoose" data-message="La sélection du rôle est obligatoire." required>
+														<?= $options ?>
+														</select>
+														<small id="selectHelp" class="form-text text-muted"></small>
+													</div>
+													<div class="form-group mb-0">
+														<div class="text-center">
+															<input type="hidden" name="do" value="<?= $formredirect ?>" />
+															<?php
+															if ($id)
+															{
+																?>
+																<input type="hidden" name="id" value="<?= $id ?>" />
+																<?php
+															}
+															?>
+															<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
+															<input type="reset" class="btn btn-light" value="Annuler"/>
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- / body -->
+						</div>
+
+						<?= ViewTemplate::BackFooter() ?>
+					</div>
+					<!-- / body -->
+				</div>
+
+				<?php
+				ViewTemplate::BackFoot();
+
+				if ($id)
+				{
+					ViewTemplate::BackFormValidation('valider', 4, 1);
+				}
+				else
+				{
+					ViewTemplate::BackFormValidation('valider', 3, 1);
+				}
+				?>
+			</body>
+		</html>
+		<?php
 	}
 
 	/**
 	 * Returns the HTML code to display the delete employee form.
 	 *
 	 * @param integer $id ID of the employee to delete.
+	 * @param array $employee Employee informations.
 	 *
 	 * @return void
 	 */
-	public static function EmployeeDeleteConfirmation($id)
+	public static function EmployeeDeleteConfirmation($id, $employee)
 	{
-		global $config;
-
-		$id = intval($id);
-
-		$employees = new ModelEmployee($config);
-
 		$pagetitle = 'Gestion des employés';
 		$navtitle = 'Supprimer l\'employé';
-
-		$employees->set_id($id);
-		$employee = $employees->listEmployeeInfos();
 
 		$navbits = [
 			'index.php?do=listemployees' => $pagetitle,
@@ -637,12 +552,12 @@ class ViewEmployee
 	/**
 	 * Returns the HTML code to display the current employee profile.
 	 *
+	 * @param array $employee Employee informations.
+	 *
 	 * @return void
 	 */
-	public static function ViewProfile()
+	public static function ViewProfile($employee)
 	{
-		global $config;
-
 		$pagetitle = 'Paramètres';
 		$navtitle = 'Profil';
 
@@ -650,10 +565,6 @@ class ViewEmployee
 			'index.php?do=listemployees' => $pagetitle,
 			'' => $navtitle
 		];
-
-		$employees = new ModelEmployee($config);
-		$employees->set_id($_SESSION['employee']['id']);
-		$employee = $employees->getEmployeeInfosFromId();
 
 		$pagetitle = 'Gestion des employées';
 
@@ -709,7 +620,7 @@ class ViewEmployee
 															<input type="hidden" name="do" value="updateprofile" />
 															<input type="hidden" name="id" value="<?= $employee['id'] ?>" />
 															<input type="submit" class="btn btn-primary" id="valider" value="Modifier" />
-															<input type="reset" class="btn btn-light" value="Annuler"/>
+															<input type="reset" class="btn btn-primary" value="Annuler"/>
 														</div>
 													</div>
 												</form>

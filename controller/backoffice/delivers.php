@@ -1,5 +1,6 @@
 <?php
 
+require_once(DIR . '/view/backoffice/ViewDeliver.php');
 require_once(DIR . '/model/ModelDeliver.php');
 use \Ecommerce\Model\ModelDeliver;
 
@@ -12,8 +13,17 @@ function ListDelivers()
 {
 	if (Utils::cando(18))
 	{
-		require_once(DIR . '/view/backoffice/ViewDeliver.php');
-		ViewDeliver::DeliverList();
+		global $config, $pagenumber;
+
+		$delivers = new ModelDeliver($config);
+		$totaldelivers = $delivers->getTotalNumberOfDelivers();
+
+		$perpage = 10;
+		$limitlower = Utils::define_pagination_values($totaldelivers['nbdelivers'], $pagenumber, $perpage);
+
+		$deliverlist = $delivers->getSomeDelivers($limitlower, $perpage);
+
+		ViewDeliver::DeliverList($delivers, $deliverlist, $totaldelivers, $limitlower, $perpage);
 	}
 	else
 	{
@@ -30,8 +40,25 @@ function AddDeliver()
 {
 	if (Utils::cando(19))
 	{
+		global $config;
+
+		$delivers = new ModelDeliver($config);
+
+		$deliverinfos = [
+			'nom' => ''
+		];
+
+		$pagetitle = 'Gestion des transporteurs';
+		$navtitle = 'Ajouter un transporteur';
+		$formredirect = 'insertdeliver';
+
+		$navbits = [
+			'listdelivers' => $pagetitle,
+			'' => $navtitle
+		];
+
 		require_once(DIR . '/view/backoffice/ViewDeliver.php');
-		ViewDeliver::DeliverAddEdit();
+		ViewDeliver::DeliverAddEdit('', $navtitle, $navbits, $deliverinfos, $formredirect, $pagetitle);
 	}
 	else
 	{
@@ -158,10 +185,25 @@ function EditDeliver($id)
 {
 	if (Utils::cando(20))
 	{
+		global $config;
+
+		$delivers = new ModelDeliver($config);
+
 		$id = intval($id);
 
-		require_once(DIR . '/view/backoffice/ViewDeliver.php');
-		ViewDeliver::DeliverAddEdit($id);
+		$delivers->set_id($id);
+		$deliverinfos = $delivers->listDeliverInfos();
+
+		$pagetitle = 'Gestion des transporteurs';
+		$navtitle = 'Modifier un transporteur';
+		$formredirect = 'updatedeliver';
+
+		$navbits = [
+			'listdelivers' => $pagetitle,
+			'' => $navtitle
+		];
+
+		ViewDeliver::DeliverAddEdit($id, $navtitle, $navbits, $deliverinfos, $formredirect, $pagetitle);
 	}
 	else
 	{
@@ -281,6 +323,13 @@ function UpdateDeliver($id, $name)
 	}
 }
 
+/**
+ * Displays a delete confirmation.
+ *
+ * @param integer $id ID of the deliver to delete.
+ *
+ * @return void
+ */
 function DeleteDeliver($id)
 {
 	if (Utils::cando(22))
@@ -289,8 +338,12 @@ function DeleteDeliver($id)
 
 		$id = intval($id);
 
-		require_once(DIR . '/view/backoffice/ViewDeliver.php');
-		ViewDeliver::DeliverDeleteConfirmation($id);
+		$delivers = new ModelDeliver($config);
+
+		$delivers->set_id($id);
+		$deliver = $delivers->listDeliverInfos();
+
+		ViewDeliver::DeliverDeleteConfirmation($id, $deliver);
 	}
 	else
 	{

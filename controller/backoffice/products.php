@@ -1,7 +1,12 @@
 <?php
 
+require_once(DIR . '/view/backoffice/ViewProduct.php');
+require_once(DIR . '/model/ModelCategory.php');
 require_once(DIR . '/model/ModelProduct.php');
+require_once(DIR . '/model/ModelTrademark.php');
+use \Ecommerce\Model\ModelCategory;
 use \Ecommerce\Model\ModelProduct;
+use \Ecommerce\Model\ModelTrademark;
 
 /**
  * Lists all products
@@ -12,8 +17,17 @@ function listProducts()
 {
 	if (Utils::cando(23))
 	{
-		require_once(DIR . '/view/backoffice/ViewProduct.php');
-		ViewProduct::ProductList();
+		global $config, $pagenumber;
+
+		$products = new ModelProduct($config);
+		$totalproducts = $products->getTotalNumberOfProducts();
+
+		$perpage = 10;
+		$limitlower = Utils::define_pagination_values($totalproducts['nbproducts'], $pagenumber, $perpage);
+
+		$productlist = $products->getSomeProducts($limitlower, $perpage);
+
+		ViewProduct::ProductList($products, $productlist, $totalproducts, $limitlower, $perpage);
 	}
 	else
 	{
@@ -30,8 +44,42 @@ function AddProduct()
 {
 	if (Utils::cando(24))
 	{
-		require_once(DIR . '/view/backoffice/ViewProduct.php');
-		ViewProduct::ProductAddEdit();
+		global $config;
+
+		$products = new ModelProduct($config);
+
+		$productinfos = [
+			'nom' => '',
+			'ref' => '',
+			'description' => '',
+			'quantity' => '',
+			'price' => '',
+			'file' => '',
+			'category' => ''
+		];
+
+		$pagetitle = 'Gestion des produits';
+		$navtitle = 'Ajouter un produit';
+		$formredirect = 'insertproduct';
+
+		$navbits = [
+			'index.php?do=listproducts' => $pagetitle,
+			'' => $navtitle
+		];
+
+		// Create a sort of cache to autobuild categories with depth status to have parent and child categories in the whole system
+		$categories = new ModelCategory($config);
+
+		$categorieslist = $categories->listAllCategories();
+		$cache = Utils::categoriesCache($categorieslist);
+		$categorylist = Utils::constructCategoryChooserOptions($cache);
+		$catlist = Utils::constructCategorySelectOptions($categorylist, $productinfos['category']);
+
+		// Grab all existing trademarks
+		$trademarks = new ModelTrademark($config);
+		$trademarkslist = $trademarks->listAllTrademarks();
+
+		ViewProduct::ProductAddEdit('', $navtitle, $navbits, $productinfos, $formredirect, $pagetitle, $catlist, $trademarkslist);
 	}
 	else
 	{
@@ -236,10 +284,37 @@ function EditProduct($id)
 {
 	if (Utils::cando(25))
 	{
+		global $config;
+
+		$products = new ModelProduct($config);
+
 		$id = intval($id);
 
-		require_once(DIR . '/view/backoffice/ViewProduct.php');
-		ViewProduct::ProductAddEdit($id);
+		$products->set_id($id);
+		$productinfos = $products->listProductInfosFromId();
+
+		$pagetitle = 'Gestion des produits';
+		$navtitle = 'Modifier un produit';
+		$formredirect = 'updateproduct';
+
+		$navbits = [
+			'index.php?do=listproducts' => $pagetitle,
+			'' => $navtitle
+		];
+
+		// Create a sort of cache to autobuild categories with depth status to have parent and child categories in the whole system
+		$categories = new ModelCategory($config);
+
+		$categorieslist = $categories->listAllCategories();
+		$cache = Utils::categoriesCache($categorieslist);
+		$categorylist = Utils::constructCategoryChooserOptions($cache);
+		$catlist = Utils::constructCategorySelectOptions($categorylist, $productinfos['id_categorie']);
+
+		// Grab all existing trademarks
+		$trademarks = new ModelTrademark($config);
+		$trademarkslist = $trademarks->listAllTrademarks();
+
+		ViewProduct::ProductAddEdit($id, $navtitle, $navbits, $productinfos, $formredirect, $pagetitle, $catlist, $trademarkslist);
 	}
 	else
 	{
@@ -436,7 +511,11 @@ function UpdateProduct($id, $name, $ref, $description, $quantity, $price, $categ
 }
 
 /**
+ * Displays a delete confirmation.
  *
+ * @param integer $id ID of the product to delete.
+ *
+ * @return void
  */
 function DeleteProduct($id)
 {
@@ -446,8 +525,14 @@ function DeleteProduct($id)
 
 		$id = intval($id);
 
-		require_once(DIR . '/view/backoffice/ViewProduct.php');
-		ViewProduct::ProductDeleteConfirmation($id);
+		$products = new ModelProduct($config);
+
+		$id = intval($id);
+
+		$products->set_id($id);
+		$product = $products->listProductInfosFromId();
+
+		ViewProduct::ProductDeleteConfirmation($id, $product);
 	}
 	else
 	{

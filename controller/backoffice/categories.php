@@ -47,24 +47,22 @@ function AddCategory()
 			'displayorder' => 1
 		];
 
+		$pagetitle = 'Gestion des catégories';
 		$navtitle = 'Ajouter une catégorie';
 		$formredirect = 'insertcategory';
 
-		if ($categoryinfos)
-		{
-			$navbits = [
-				'listcategories' => $pagetitle,
-				'' => $navtitle
-			];
+		$navbits = [
+			'listcategories' => $pagetitle,
+			'' => $navtitle
+		];
 
-			// Create a sort of cache to autobuild categories with depth status to have parent and child categories in the whole system
-			$catlist = $categories->listAllCategories();
-			$cache = Utils::categoriesCache($catlist);
-			$categorylist = Utils::constructCategoryChooserOptions($cache);
-			$categoriesselect = Utils::constructCategorySelectOptions($categorylist, $categoryinfos['parent_id']);
+		// Create a sort of cache to autobuild categories with depth status to have parent and child categories in the whole system
+		$catlist = $categories->listAllCategories();
+		$cache = Utils::categoriesCache($catlist);
+		$categorylist = Utils::constructCategoryChooserOptions($cache);
+		$categoriesselect = Utils::constructCategorySelectOptions($categorylist, $categoryinfos['parent_id']);
 
-			ViewCategory::CategoryAddEdit('', $navtitle, $navbits, $categoryinfos, $categoriesselect);
-		}
+		ViewCategory::CategoryAddEdit('', $navtitle, $navbits, $categoryinfos, $categoriesselect, $formredirect, $pagetitle);
 	}
 	else
 	{
@@ -172,6 +170,8 @@ function EditCategory($id)
 
 		$categories->set_id($id);
 		$categoryinfos = $categories->listCategoryInfos();
+
+		$pagetitle = 'Gestion des catégories';
 		$navtitle = 'Modifier une catégorie';
 		$formredirect = 'updatecategory';
 		$compteur = $categories->getNumberOfProductsInCategory();
@@ -190,7 +190,7 @@ function EditCategory($id)
 			$categorylist = Utils::constructCategoryChooserOptions($cache);
 			$categoriesselect = Utils::constructCategorySelectOptions($categorylist, $categoryinfos['parent_id']);
 
-			ViewCategory::CategoryAddEdit($id, $navtitle, $navbits, $categoryinfos, $categoriesselect);
+			ViewCategory::CategoryAddEdit($id, $navtitle, $navbits, $categoryinfos, $categoriesselect, $formredirect, $pagetitle);
 		}
 	}
 	else

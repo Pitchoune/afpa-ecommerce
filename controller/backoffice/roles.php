@@ -1,5 +1,6 @@
 <?php
 
+require_once(DIR . '/view/backoffice/ViewRole.php');
 require_once(DIR . '/model/ModelRole.php');
 use \Ecommerce\Model\ModelRole;
 
@@ -12,8 +13,19 @@ function ListRoles()
 {
 	if (Utils::cando(1))
 	{
-		require_once(DIR . '/view/backoffice/ViewRole.php');
-		ViewRole::RoleList();
+		global $config;
+
+		$roles = new ModelRole($config);
+
+		$totalroles = $roles->getTotalNumberOfRoles();
+
+		// Number max per page
+		$perpage = 10;
+		$limitlower = Utils::define_pagination_values($totalroles['nbroles'], $pagenumber, $perpage);
+
+		$roleslist = $roles->getSomeRoles($limitlower, $perpage);
+
+		ViewRole::RoleList($roles, $roleslist, $totalroles, $limitlower, $perpage);
 	}
 	else
 	{
@@ -30,8 +42,24 @@ function AddRole()
 {
 	if (Utils::cando(2))
 	{
-		require_once(DIR . '/view/backoffice/ViewRole.php');
-		ViewRole::RoleAddEdit();
+		global $config;
+
+		$roles = new ModelRole($config);
+
+		$roleinfos = [
+			'nom' => ''
+		];
+
+		$pagetitle = 'Gestion des rôles';
+		$navtitle = 'Ajouter un rôle';
+		$formredirect = 'insertrole';
+
+		$navbits = [
+			'index.php?do=listroles' => $pagetitle,
+			'' => $navtitle
+		];
+
+		ViewRole::RoleAddEdit('', $navtitle, $navbits, $roleinfos, $formredirect, $pagetitle);
 	}
 	else
 	{
@@ -97,6 +125,18 @@ function EditRole($id)
 		$roles = new ModelRole($config);
 
 		$roles->set_id($id);
+		$roleinfos = $roles->listRoleInfos();
+
+		$pagetitle = 'Gestion des rôles';
+		$navtitle = 'Modifier un rôle';
+		$formredirect = 'updaterole';
+
+		$navbits = [
+			'index.php?do=listroles' => $pagetitle,
+			'' => $navtitle
+		];
+
+		$roles->set_id($id);
 
 		// Build all roles array
 		$rolespermslist = $roles->getAllRolePermissions();
@@ -118,8 +158,7 @@ function EditRole($id)
 			$perms["$value[module]"]["$value[id]"] = 1;
 		}
 
-		require_once(DIR . '/view/backoffice/ViewRole.php');
-		ViewRole::RoleAddEdit($id, $permissions, $perms);
+		ViewRole::RoleAddEdit($id, $navtitle, $navbits, $roleinfos, $formredirect, $pagetitle, $permissions, $perms);
 	}
 	else
 	{
@@ -219,16 +258,27 @@ function UpdateRolePerms($id, $permissions)
 	}
 }
 
+/**
+ * Displays a delete confirmation.
+ *
+ * @param integer $id ID of the role to delete.
+ *
+ * @return void
+ */
 function DeleteRole($id)
 {
 	if (Utils::cando(4))
 	{
 		global $config;
 
+		$roles = new ModelRole($config);
+
 		$id = intval($id);
 
-		require_once(DIR . '/view/backoffice/ViewRole.php');
-		ViewRole::RoleDeleteConfirmation($id);
+		$roles->set_id($id);
+		$role = $roles->listRoleInfos();
+
+		ViewRole::RoleDeleteConfirmation($id, $role);
 	}
 	else
 	{

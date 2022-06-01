@@ -5,8 +5,6 @@ use \Ecommerce\Model\ModelMessage;
 
 /**
  * Class to display default HTML code for all necessary pages in back.
- *
- * @date $Date$
  */
 class ViewTemplate
 {
@@ -305,7 +303,7 @@ class ViewTemplate
 					<li>
 						<a class="sidebar-header" href="javascrpt:void(0)">
 							<i data-feather="truck"></i>
-							<span>Transporteur</span>
+							<span>Transporteurs</span>
 							<i class="fa fa-angle-right pull-right"></i>
 						</a>
 						<ul class="sidebar-submenu">

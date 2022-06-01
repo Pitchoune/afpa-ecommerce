@@ -1,5 +1,6 @@
 <?php
 
+require_once(DIR . '/view/backoffice/ViewTrademark.php');
 require_once(DIR . '/model/ModelTrademark.php');
 use \Ecommerce\Model\ModelTrademark;
 
@@ -12,8 +13,17 @@ function ListTrademarks()
 {
 	if (Utils::cando(13))
 	{
-		require_once(DIR . '/view/backoffice/ViewTrademark.php');
-		ViewTrademark::TrademarkList();
+		global $config, $pagenumber;
+
+		$trademarks = new ModelTrademark($config);
+		$totaltrademarks = $trademarks->getTotalNumberOfTrademarks();
+
+		$perpage = 10;
+		$limitlower = Utils::define_pagination_values($totaltrademarks['nbtrademarks'], $pagenumber, $perpage);
+
+		$trademarkslist = $trademarks->getSomeTrademarks($limitlower, $perpage);
+
+		ViewTrademark::TrademarkList($trademarks, $trademarkslist, $totaltrademarks, $limitlower, $perpage);
 	}
 	else
 	{
@@ -30,8 +40,24 @@ function AddTrademark()
 {
 	if (Utils::cando(14))
 	{
-		require_once(DIR . '/view/backoffice/ViewTrademark.php');
-		ViewTrademark::TrademarkAddEdit();
+		global $config;
+
+		$trademarks = new ModelTrademark($config);
+
+		$trademarkinfos = [
+			'nom' => ''
+		];
+
+		$pagetitle = 'Gestion des marques';
+		$navtitle = 'Ajouter une marque';
+		$formredirect = 'inserttrademark';
+
+		$navbits = [
+			'index.php?do=listtrademarks' => $pagetitle,
+			'' => $navtitle
+		];
+
+		ViewTrademark::TrademarkAddEdit('', $navtitle, $navbits, $trademarkinfos, $formredirect, $pagetitle);
 	}
 	else
 	{
@@ -157,10 +183,25 @@ function EditTrademark($id)
 {
 	if (Utils::cando(15))
 	{
+		global $config;
+
+		$trademarks = new ModelTrademark($config);
+
 		$id = intval($id);
 
-		require_once(DIR . '/view/backoffice/ViewTrademark.php');
-		ViewTrademark::TrademarkAddEdit($id);
+		$trademarks->set_id($id);
+		$trademarkinfos = $trademarks->listTrademarkInfos();
+
+		$pagetitle = 'Gestion des marques';
+		$navtitle = 'Modifier une marque';
+		$formredirect = 'updatetrademark';
+
+		$navbits = [
+			'index.php?do=listtrademarks' => $pagetitle,
+			'' => $navtitle
+		];
+
+		ViewTrademark::TrademarkAddEdit($id, $navtitle, $navbits, $trademarkinfos, $formredirect, $pagetitle);
 	}
 	else
 	{
@@ -283,16 +324,27 @@ function UpdateTrademark($id, $name)
 	}
 }
 
+/**
+ * Displays a delete confirmation.
+ *
+ * @param integer $id ID of the trademark to delete.
+ *
+ * @return void
+ */
 function DeleteTrademark($id)
 {
 	if (Utils::cando(17))
 	{
 		global $config;
 
+		$trademarks = new ModelTrademark($config);
+
 		$id = intval($id);
 
-		require_once(DIR . '/view/backoffice/ViewTrademark.php');
-		ViewTrademark::TrademarkDeleteConfirmation($id);
+		$trademarks->set_id($id);
+		$trademark = $trademarks->listTrademarkInfos();
+
+		ViewTrademark::TrademarkDeleteConfirmation($id, $trademark);
 	}
 	else
 	{

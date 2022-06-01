@@ -1,23 +1,25 @@
 <?php
 
-require_once(DIR . '/model/ModelOrder.php');
 require_once(DIR . '/model/ModelOrderDetails.php');
-use \Ecommerce\Model\ModelOrder;
 use \Ecommerce\Model\ModelOrderDetails;
 
 /**
- * Class to display HTML content about dashboard in back.
- *
- * @date $Date$
+ * Class to display HTML content about orders in back.
  */
 class ViewOrder
 {
 	/**
-	 * Returns the HTML code to display the dashboard.
+	 * Returns the HTML code to display the orders list.
+	 *
+	 * @param object $orders Model object of orders.
+	 * @param array $orderlist List of all orders for the current page.
+	 * @param array $totalorders Total number of orders in the database.
+	 * @param integer $limitlower Position in the database items to start the pagination.
+	 * @param integer $perpage Number of items per page.
 	 *
 	 * @return void
 	 */
-	public static function OrdersList()
+	public static function OrdersList($orders, $orderlist, $totalorders, $limitlower, $perpage)
 	{
 		global $config, $pagenumber;
 
@@ -25,38 +27,9 @@ class ViewOrder
 		$navtitle = 'Liste des commandes';
 
 		$navbits = [
-			'index.php?do=listcustomers' => $pagetitle,
+			'index.php?do=listorders' => $pagetitle,
 			'' => $navtitle
 		];
-
-		$orders = new ModelOrder($config);
-		$totalorders = $orders->getTotalNumberOfOrders();
-
-		// Number max per page
-		$perpage = 10;
-
-		Utils::sanitize_pageresults($totalorders['nborders'], $pagenumber, $perpage, 200, 20);
-
-		$limitlower = ($pagenumber - 1) * $perpage;
-		$limitupper = ($pagenumber) * $perpage;
-
-		if ($limitupper > $totalorders['nborders'])
-		{
-			$limitupper = $totalorders['nborders'];
-
-			if ($limitlower > $totalorders['nborders'])
-			{
-				$limitlower = ($totalorders['nborders'] - $perpage) - 1;
-			}
-		}
-
-		if ($limitlower < 0)
-		{
-			$limitlower = 0;
-		}
-
-		$orderlist = $orders->getAllOrders($limitlower, $perpage);
-
 		?>
 		<!DOCTYPE html>
 		<html lang="fr">

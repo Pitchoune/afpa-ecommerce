@@ -1,5 +1,6 @@
 <?php
 
+require_once(DIR . '/view/backoffice/ViewCustomer.php');
 require_once(DIR . '/model/ModelCustomer.php');
 require_once(DIR . '/model/ModelOrder.php');
 require_once(DIR . '/model/ModelMessage.php');
@@ -16,8 +17,17 @@ function ListCustomers()
 {
 	if (Utils::cando(28))
 	{
-		require_once(DIR . '/view/backoffice/ViewCustomer.php');
-		ViewCustomer::CustomerList();
+		global $config, $pagenumber;
+
+		$customers = new ModelCustomer($config);
+		$totalcustomers = $customers->getTotalNumberOfCustomers();
+
+		$perpage = 10;
+		$limitlower = Utils::define_pagination_values($totalcustomers['nbcustomers'], $pagenumber, $perpage);
+
+		$customerlist = $customers->getSomeCustomers($limitlower, $perpage);
+
+		ViewCustomer::CustomerList($customers, $customerlist, $totalcustomers, $limitlower, $perpage);
 	}
 	else
 	{
@@ -34,8 +44,24 @@ function AddCustomer()
 {
 	if (Utils::cando(29))
 	{
-		require_once(DIR . '/view/backoffice/ViewCustomer.php');
-		ViewCustomer::CustomerAddEdit();
+		global $config;
+
+		$customers = new ModelCustomer($config);
+
+		$customerinfos = [
+			'nom' => ''
+		];
+
+		$pagetitle = 'Gestion des clients';
+		$navtitle = 'Ajouter un client';
+		$formredirect = 'insertcustomer';
+
+		$navbits = [
+			'index.php?do=listcustomers' => $pagetitle,
+			'' => $navtitle
+		];
+
+		ViewCustomer::CustomerAddEdit('', $navtitle, $navbits, $customerinfos, $formredirect, $pagetitle);
 	}
 	else
 	{
@@ -200,10 +226,25 @@ function EditCustomer($id)
 {
 	if (Utils::cando(30))
 	{
+		global $config;
+
+		$customers = new ModelCustomer($config);
+
 		$id = intval($id);
 
-		require_once(DIR . '/view/backoffice/ViewCustomer.php');
-		ViewCustomer::CustomerAddEdit($id);
+		$customers->set_id($id);
+		$customerinfos = $customers->getCustomerInfosFromId();
+
+		$pagetitle = 'Gestion des clients';
+		$navtitle = 'Modifier un client';
+		$formredirect = 'updatecustomer';
+
+		$navbits = [
+			'index.php?do=listcustomers' => $pagetitle,
+			'' => $navtitle
+		];
+
+		ViewCustomer::CustomerAddEdit($id, $navtitle, $navbits, $customerinfos, $formredirect, $pagetitle);
 	}
 	else
 	{
@@ -373,16 +414,27 @@ function UpdateCustomer($id, $firstname, $lastname, $email, $password, $telephon
 	}
 }
 
+/**
+ * Displays a delete confirmation.
+ *
+ * @param integer $id ID of the customer to delete.
+ *
+ * @return void
+ */
 function DeleteCustomer($id)
 {
 	if (Utils::cando(34))
 	{
 		global $config;
 
+		$customers = new ModelCustomer($config);
+
 		$id = intval($id);
 
-		require_once(DIR . '/view/backoffice/ViewCustomer.php');
-		ViewCustomer::CustomerDeleteConfirmation($id);
+		$customers->set_id($id);
+		$customer = $customers->getCustomerInfosFromId();
+
+		ViewCustomer::CustomerDeleteConfirmation($id, $customer);
 	}
 	else
 	{
@@ -424,7 +476,7 @@ function KillCustomer($id)
 }
 
 /**
- * Returns the HTMl code to display the customer profile.
+ * Returns the HTML code to display the customer profile.
  *
  * @param integer $id ID of the customer.
  *
@@ -432,16 +484,51 @@ function KillCustomer($id)
  */
 function ViewCustomerProfile($id)
 {
-	require_once(DIR . '/view/backoffice/ViewCustomer.php');
-	ViewCustomer::ViewCustomerProfile($id);
+	if (Utils::cando(33))
+	{
+		global $config;
+
+		$customers = new ModelCustomer($config);
+		$customers->set_id($id);
+		$data = $customers->getCustomerInfosFromId();
+
+		// Grab an external value and add it into the data array filled above
+		$orders = new ModelOrder($config);
+		$orders->set_customer($data['id']);
+		$data += $orders->getNumberOfOrdersForCustomer();
+
+		ViewCustomer::ViewCustomerProfile($id, $orders, $data);
+	}
+	else
+	{
+		throw new Exception('Vous n\'êtes pas autorisé à consulter le profil des clients.');
+	}
 }
 /**
+ * Returns the HTML code to display all orders made by the specified customer.
  *
+ * @param integer $id ID of the customer.
+ *
+ * @return void
  */
 function ViewCustomerAllOrders($id)
 {
-	require_once(DIR . '/view/backoffice/ViewCustomer.php');
-	ViewCustomer::ViewCustomerAllOrders($id);
+	global $config;
+
+	$customers = new ModelCustomer($config);
+	$customers->set_id($id);
+	$data = $customers->getCustomerInfosFromId();
+
+	$orders = new ModelOrder($config);
+	$orders->set_customer($data['id']);
+	$totalorders = $orders->getNumberOfOrdersForCustomer();
+
+	$perpage = 10;
+	$limitlower = Utils::define_pagination_values($totalorders['nborders'], $pagenumber, $perpage);
+
+	$orderlist = $orders->getAllCustomerOrders($limitlower, $perpage);
+
+	ViewCustomer::ViewCustomerAllOrders($id, $data, $orderlist, $totalorders, $limitlower, $perpage);
 }
 
 /**
@@ -453,8 +540,26 @@ function ViewCustomerAllOrders($id)
  */
 function ViewCustomerOrderDetails($id)
 {
-	require_once(DIR . '/view/backoffice/ViewCustomer.php');
-	ViewCustomer::ViewOrderDetails($id);
+	if (Utils::cando(32))
+	{
+		global $config;
+
+		// Grab an external value and add it into the data array filled above
+		$orders = new ModelOrder($config);
+		$orders->set_id($id);
+		$data = $orders->getOrderDetails();
+
+		// Get customer informations
+		$customers = new ModelCustomer($config);
+		$customers->set_id($data['id_client']);
+		$customer = $customers->getCustomerInfosFromId();
+
+		ViewCustomer::ViewOrderDetails($id, $data, $customer);
+	}
+	else
+	{
+		throw new Exception('Vous n\'êtes pas autorisé à consulter le profil des clients.');
+	}
 }
 
 /**

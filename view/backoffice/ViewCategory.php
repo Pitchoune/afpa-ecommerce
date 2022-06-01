@@ -1,12 +1,7 @@
 <?php
 
-require_once(DIR . '/model/ModelCategory.php');
-use \Ecommerce\Model\ModelCategory;
-
 /**
  * Class to display HTML content about categories in back.
- *
- * @date $Date$
  */
 class ViewCategory
 {
@@ -240,13 +235,13 @@ class ViewCategory
 	 * @param array $navbits Breadcrumb content.
 	 * @param array $categoryinfos Default values to show as default in fields.
 	 * @param mixed $categoriesselect HTML-formatted list of the <select> categories.
+	 * @param string $formredirect Redirect part of the URL to save data.
+	 * @param string $pagetitle Title of the page.
 	 *
 	 * @return void
 	 */
-	public static function CategoryAddEdit($id, $navtitle, $navbits, $categoryinfos, $categoriesselect)
+	public static function CategoryAddEdit($id, $navtitle, $navbits, $categoryinfos, $categoriesselect, $formredirect, $pagetitle)
 	{
-		$pagetitle = 'Gestion des catégories';
-
 		?>
 		<!DOCTYPE html>
 		<html lang="fr">

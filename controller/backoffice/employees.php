@@ -1,7 +1,10 @@
 <?php
 
+require_once(DIR . '/view/backoffice/ViewEmployee.php');
 require_once(DIR . '/model/ModelEmployee.php');
+require_once(DIR . '/model/ModelRole.php');
 use \Ecommerce\Model\ModelEmployee;
+use \Ecommerce\Model\ModelRole;
 
 /**
  * Displays the index page as a dashboard.
@@ -23,7 +26,6 @@ function index()
 function login()
 {
 	// We generate HTML code from the view
-	require_once(DIR . '/view/backoffice/ViewEmployee.php');
 	ViewEmployee::loginForm();
 }
 
@@ -131,8 +133,17 @@ function ListEmployees()
 {
 	if (Utils::cando(5))
 	{
-		require_once(DIR . '/view/backoffice/ViewEmployee.php');
-		ViewEmployee::EmployeeList();
+		global $config, $pagenumber;
+
+		$employees = new ModelEmployee($config);
+		$totalemployees = $employees->getTotalNumberOfEmployees();
+
+		$perpage = 10;
+		$limitlower = Utils::define_pagination_values($totalemployees['nbemployees'], $pagenumber, $perpage);
+
+		$employeeslist = $employees->getSomeEmployees($limitlower, $perpage);
+
+		ViewEmployee::EmployeeList($employees, $employeeslist, $totalemployees, $limitlower, $perpage);
 	}
 	else
 	{
@@ -149,8 +160,43 @@ function AddEmployee()
 {
 	if (Utils::cando(6))
 	{
-		require_once(DIR . '/view/backoffice/ViewEmployee.php');
-		ViewEmployee::EmployeeAddEdit();
+		global $config;
+
+		$employees = new ModelEmployee($config);
+
+		$employeeinfos = [
+			'nom' => '',
+			'prenom' => '',
+			'mail' => '',
+			'role' => ''
+		];
+
+		$pagetitle = 'Gestion des employées';
+		$navtitle = 'Ajouter un employé';
+		$formredirect = 'insertemployee';
+		$options = '<option value="0" selected disabled>Sélectionnez un rôle</option>';
+
+		$roles = new ModelRole($config);
+		$rolelist = $roles->listAllRoles();
+
+		if ($rolelist)
+		{
+			foreach ($rolelist AS $key => $value)
+			{
+				$options .= '<option value="' . $value['id'] . '">' . $value['nom'] . '</option>';
+			}
+		}
+		else
+		{
+			$options .= '<option value="0" disabled>Il n\'y a pas de rôle à lister.</option>';
+		}
+
+		$navbits = [
+			'index.php?do=listemployees' => $pagetitle,
+			'' => $navtitle
+		];
+
+		ViewEmployee::EmployeeAddEdit('', $navtitle, $navbits, $employeeinfos, $formredirect, $pagetitle, $options);
 	}
 	else
 	{
@@ -270,10 +316,41 @@ function EditEmployee($id)
 {
 	if (Utils::cando(7))
 	{
+		global $config;
+
+		$employees = new ModelEmployee($config);
+
 		$id = intval($id);
 
-		require_once(DIR . '/view/backoffice/ViewEmployee.php');
-		ViewEmployee::EmployeeAddEdit($id);
+		$employees->set_id($id);
+		$employeeinfos = $employees->listEmployeeInfos();
+
+		$pagetitle = 'Gestion des employées';
+		$navtitle = 'Modifier un employé';
+		$formredirect = 'updateemployee';
+		$options = '<option value="0" disabled>Sélectionnez un rôle</option>';
+
+		$roles = new ModelRole($config);
+		$rolelist = $roles->listAllRoles();
+
+		if ($rolelist)
+		{
+			foreach ($rolelist AS $key => $value)
+			{
+				$options .= '<option value="' . $value['id'] . '">' . $value['nom'] . '</option>';
+			}
+		}
+		else
+		{
+			$options .= '<option value="0" disabled>Il n\'y a pas de rôle à lister.</option>';
+		}
+
+		$navbits = [
+			'index.php?do=listemployees' => $pagetitle,
+			'' => $navtitle
+		];
+
+		ViewEmployee::EmployeeAddEdit($id, $navtitle, $navbits, $employeeinfos, $formredirect, $pagetitle, $options);
 	}
 	else
 	{
@@ -401,6 +478,7 @@ function UpdateEmployee($id, $firstname, $lastname, $email, $password, $role)
 	}
 }
 
+
 function DeleteEmployee($id)
 {
 	if (Utils::cando(8))
@@ -409,8 +487,12 @@ function DeleteEmployee($id)
 
 		$id = intval($id);
 
-		require_once(DIR . '/view/backoffice/ViewEmployee.php');
-		ViewEmployee::EmployeeDeleteConfirmation($id);
+		$employees = new ModelEmployee($config);
+
+		$employees->set_id($id);
+		$employee = $employees->listEmployeeInfos();
+
+		ViewEmployee::EmployeeDeleteConfirmation($id, $employee);
 	}
 	else
 	{
@@ -467,8 +549,13 @@ function KillEmployee($id)
  */
 function ViewProfile()
 {
-	require_once(DIR . '/view/backoffice/ViewEmployee.php');
-	ViewEmployee::ViewProfile();
+	global $config;
+
+	$employees = new ModelEmployee($config);
+	$employees->set_id($_SESSION['employee']['id']);
+	$employee = $employees->getEmployeeInfosFromId();
+
+	ViewEmployee::ViewProfile($employee);
 }
 
 /**

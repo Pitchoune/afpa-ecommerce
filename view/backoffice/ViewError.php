@@ -2,8 +2,6 @@
 
 /**
  * Class to display HTML content about any captured error in back.
- *
- * @date $Date$
  */
 class ViewError
 {
