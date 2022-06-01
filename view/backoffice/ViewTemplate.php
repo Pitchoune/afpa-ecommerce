@@ -78,7 +78,11 @@ class ViewTemplate
 								</div>
 							</form>
 						</li>
-						<li><a class="text-dark" href="#!" onclick="javascript:toggleFullScreen()"><i data-feather="maximize"></i></a></li>
+						<li>
+							<a class="text-dark" href="javascript:void(0)" onclick="javascript:toggleFullScreen()">
+								<i data-feather="maximize"></i>
+							</a>
+						</li>
 						<?php
 						// Put this part of code here to have the notifications total
 						$messages = new ModelMessage($config);
@@ -387,10 +391,33 @@ class ViewTemplate
 					</li>
 					<?php
 					}
+
+					if (Utils::cando(36))
+					{
 					?>
 					<li>
 						<a class="sidebar-header" href="javascript:void(0)">
-							<i data-feather="settings" ></i>
+							<i data-feather="message-circle"></i>
+							<span>Messages</span>
+							<i class="fa fa-angle-right pull-right"></i>
+						</a>
+						<ul class="sidebar-submenu">
+							<?php
+							if (Utils::cando(36))
+							{
+							?>
+							<li><a href="index.php?do=listmessages"><i class="fa fa-circle"></i>Liste des messages</a></li>
+							<?php
+							}
+							?>
+						</ul>
+					</li>
+					<?php
+					}
+					?>
+					<li>
+						<a class="sidebar-header" href="javascript:void(0)">
+							<i data-feather="settings"></i>
 							<span>Paramètres</span>
 							<i class="fa fa-angle-right pull-right"></i>
 						</a>

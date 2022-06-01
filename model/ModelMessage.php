@@ -147,6 +147,33 @@ class ModelMessage extends Model
 	 *
 	 * @return mixed Returns the requested content or false if there is an error.
 	 */
+	public function getSomeMessages($limitlower, $perpage)
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT *
+			FROM message
+			WHERE type = ?
+				AND precedent_id IS NULL
+			ORDER BY date DESC
+			LIMIT ?, ?
+		");
+		$query->bindParam(1, $this->type, \PDO::PARAM_STR);
+		$query->bindParam(2, $limitlower, \PDO::PARAM_INT);
+		$query->bindParam(3, $perpage, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
+	 * Returns all messages from a specific type for a specific customer.
+	 *
+	 * @param integer $limitlower Minimum value for the limit.
+	 * @param integer $perpage Number of items to return.
+	 *
+	 * @return mixed Returns the requested content or false if there is an error.
+	 */
 	public function getAllMessagesFromCustomer($limitlower, $perpage)
 	{
 		$db = $this->dbConnect();
@@ -154,6 +181,7 @@ class ModelMessage extends Model
 			SELECT *
 			FROM message
 			WHERE id_client = ?
+				AND precedent_id IS NULL
 			ORDER BY date DESC
 			LIMIT ?, ?
 		");
@@ -256,6 +284,7 @@ class ModelMessage extends Model
 			SELECT COUNT(*) AS nbmessages
 			FROM message
 			WHERE id_client = ?
+				AND precedent_id IS NULL
 		");
 		$query->bindParam(1, $this->id_customer, \PDO::PARAM_INT);
 

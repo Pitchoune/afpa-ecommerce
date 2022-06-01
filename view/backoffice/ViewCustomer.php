@@ -86,7 +86,7 @@ class ViewCustomer
 																		<th class="tablegrid-header-cell" style="width: 75px">Nom</th>
 																		<th class="tablegrid-header-cell" style="width: 75px">Prénom</th>
 																		<?php
-																		if (Utils::cando(30) OR Utils::cando(33) OR Utils::cando(34))
+																		if (Utils::cando(30) OR Utils::cando(33) OR Utils::cando(35))
 																		{
 																			?>
 																			<th class="tablegrid-header-cell tablegrid-control-field tablegrid-align-center" style="width: 75px">Actions</th>
@@ -112,7 +112,7 @@ class ViewCustomer
 																			<td class="tablegrid-cell" style="width: 75px"><?= $data['nom'] ?></td>
 																			<td class="tablegrid-cell" style="width: 75px"><?= $data['prenom']; ?></td>
 																			<?php
-																			if (Utils::cando(30) OR Utils::cando(33) OR Utils::cando(34))
+																			if (Utils::cando(30) OR Utils::cando(33) OR Utils::cando(35))
 																			{
 																				?>
 																				<td class="tablegrid-cell tablegrid-control-field tablegrid-align-center" style="width: 75px">
@@ -131,7 +131,7 @@ class ViewCustomer
 																						<?php
 																					}
 
-																					if (Utils::cando(34))
+																					if (Utils::cando(35))
 																					{
 																						?>
 																							<a class="tablegrid-button tablegrid-delete-button" type="button" title="Supprimer" href="index.php?do=deletecustomer&amp;id=<?= $data['id'] ?>"></a>

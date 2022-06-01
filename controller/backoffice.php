@@ -79,7 +79,7 @@ if (in_array($do, ['listcustomers', 'addcustomer', 'insertcustomer', 'editcustom
 	require_once(DIR . '/controller/backoffice/customers.php');
 }
 
-if (in_array($do, ['listmessages', 'addmessage', 'insertmessage', 'editmessage', 'updatemessage', 'deletemessage', 'killmessage']))
+if (in_array($do, ['listmessages', 'viewconversation', 'sendreply']))
 {
 	require_once(DIR . '/controller/backoffice/messages.php');
 }

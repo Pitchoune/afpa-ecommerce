@@ -1535,7 +1535,194 @@ header {
   background-color: unset;
 }
 
-/* Category pages */
+/* Messaging */
+.conversations-body .message-content-wrapper {
+  display: inline-block;
+  width: 100%;
+}
+.conversations-body .message {
+  display: table;
+  table-layout: fixed;
+  padding: 8px 0;
+}
+.conversations-body .message .img-40 {
+  width: 40px !important;
+}
+.conversations-body .message-in {
+  margin-right: 40px;
+  float: left;
+}
+.conversations-body .message-in .message-body {
+  display: table-cell;
+  vertical-align: top;
+}
+.conversations-body .message-in .message-body .message-content {
+  background: #f7f7f7;
+  padding: 12px 15px;
+  border-radius: 5px;
+  margin-left: 10px;
+  position: relative;
+  width: fit-content;
+}
+.conversations-body .message-in .message-body .message-content:before {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid #f7f7f7;
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 12px;
+}
+.conversations-body .message-in .message-body .message-content .name {
+  color: #83848a;
+  font-size: 11px;
+  margin-bottom: 5px;
+}
+.conversations-body .message-in .message-body .message-content .content {
+  font-size: 13px;
+}
+.conversations-body .message-in .message-body .date {
+  margin-left: 10px;
+  margin-top: 8px;
+  font-size: 11px;
+  color: #83848a;
+  padding-left: 12px;
+}
+.conversations-body .message-in .message-body .message-content + .message-content {
+  margin-top: 10px;
+}
+.conversations-body .message-in .message-body .message-content + .message-content:before {
+  display: none;
+}
+.conversations-body .message-out {
+  float: right;
+  margin-left: 40px;
+}
+.conversations-body .message-out .message-body {
+  display: table-cell;
+  vertical-align: top;
+}
+.conversations-body .message-out .message-body .message-content {
+  background: #fb0000;
+  padding: 12px 15px;
+  border-radius: 5px;
+  margin-right: 10px;
+  position: relative;
+  width: fit-content;
+}
+.conversations-body .message-out .message-body .message-content:before {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #fb0000;
+  content: "";
+  position: absolute;
+  right: -10px;
+  top: 12px;
+}
+.conversations-body .message-out .message-body .message-content .content {
+  font-size: 13px;
+  color: #ffffff !important;
+}
+.conversations-body .message-out .message-body .date {
+  margin-right: 10px;
+  margin-top: 8px;
+  font-size: 11px;
+  color: #83848a;
+  text-align: right;
+  padding-right: 15px;
+}
+.conversations-body .message-out .message-body .message-content + .message-content {
+  margin-top: 10px;
+}
+.conversations-body .message-out .message-body .message-content + .message-content:before {
+  display: none;
+}
+
+.messages-form {
+  display: table;
+  width: 100%;
+  margin-top: 30px;
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+.messages-form .messages-form-control {
+  display: table-cell;
+  padding-right: 15px;
+}
+.messages-form .messages-form-tool {
+  display: table-cell;
+  text-align: right;
+  width: 50px;
+}
+.messages-form .messages-form-tool .attachment {
+  height: 100%;
+  line-height: 1;
+  color: #888c91;
+  background: #e8e8e8;
+  font-size: 17px;
+  padding: 10px 12px;
+  border-radius: 50%;
+  margin-left: auto;
+}
+
+.conversations {
+  display: flex;
+  height: calc(100vh - 57px);
+  flex-direction: column;
+}
+.conversations .message-header {
+  padding: 0.5rem;
+  z-index: 1;
+}
+.conversations .message-title {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.conversations .message-title .user {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.conversations .message-title .user .name {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 24px;
+  margin-bottom: 2px;
+}
+.conversations .message-title .user .img-40 {
+  width: 40px !important;
+}
+.conversations .message-title .return {
+  background: transparent;
+  border: 0;
+  font-size: 25px;
+  cursor: pointer;
+  height: 100%;
+  top: 0;
+}
+.conversations .conversations-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem 2rem;
+}
+.conversations .conversations-content {
+  border: 1px solid #eee;
+  border-radius: 5px;
+  padding: 1rem;
+}
+.conversations .messages-form {
+  margin: 0;
+  padding: 0.7rem 1rem;
+  background: #fff;
+}
+
 /* List of products */
 .product-wrapper-grid.list-view .product-box {
   display: flex;
@@ -3030,6 +3217,9 @@ header {
   color: #444444;
   margin-bottom: 10px;
   font-size: calc(16px + 4 * (100vw - 320px) / 1600);
+}
+.order-tracking .conversations {
+  background-color: #ffffff;
 }
 .order-tracking .order-tracking-contain .tracking-group {
   padding-bottom: 15px;

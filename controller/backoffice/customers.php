@@ -423,7 +423,7 @@ function UpdateCustomer($id, $firstname, $lastname, $email, $password, $telephon
  */
 function DeleteCustomer($id)
 {
-	if (Utils::cando(34))
+	if (Utils::cando(35))
 	{
 		global $config;
 
@@ -451,7 +451,7 @@ function DeleteCustomer($id)
  */
 function KillCustomer($id)
 {
-	if (Utils::cando(34))
+	if (Utils::cando(35))
 	{
 		global $config;
 
@@ -570,55 +570,62 @@ function ViewCustomerOrderDetails($id)
  */
 function ChangeOrderStatus($id, $status)
 {
-	global $config;
-
-	$id = intval($id);
-	$status = intval($status);
-
-	switch($status)
+	if (Utils::cando(34))
 	{
-		case 2:
-			$mode = 'En préparation';
-			break;
-		case 3:
-			$mode = 'Envoyé';
-			break;
-	}
+		global $config;
 
-	$orders = new ModelOrder($config);
-	$orders->set_id($id);
-	$orders->set_status($mode);
-
-	if ($orders->updateStatus())
-	{
-		// Get customer ID
-		$orders->set_id($id);
-		$order = $orders->getCustomerId();
-
-		// Send a notification in message
-		$messages = new ModelMessage($config);
-		$messages->set_type('notif');
-		$messages->set_message('Commande ' . $id . ' marqué en préparation');
-		$messages->set_employee($_SESSION['employee']['id']);
-		$messages->set_customer($order['id_client']);
-		$messages->set_previous(NULL);
+		$id = intval($id);
+		$status = intval($status);
 
 		switch($status)
 		{
 			case 2:
-				$messages->set_message('Commande #' . $id . ' marqué en préparation');
-				$_SESSION['employee']['order']['statusprepare'] = 1;
+				$mode = 'En préparation';
 				break;
 			case 3:
-				$messages->set_message('Commande #' . $id . ' marqué comme envoyé');
-				$_SESSION['employee']['order']['statussent'] = 1;
+				$mode = 'Envoyé';
 				break;
 		}
 
-		if ($messages->saveNewMessage())
+		$orders = new ModelOrder($config);
+		$orders->set_id($id);
+		$orders->set_status($mode);
+
+		if ($orders->updateStatus())
 		{
-			header('Location: index.php?do=viewcustomerorderdetails&id=' . $id);
+			// Get customer ID
+			$orders->set_id($id);
+			$order = $orders->getCustomerId();
+
+			// Send a notification in message
+			$messages = new ModelMessage($config);
+			$messages->set_type('notif');
+			$messages->set_message('Commande ' . $id . ' marqué en préparation');
+			$messages->set_employee($_SESSION['employee']['id']);
+			$messages->set_customer($order['id_client']);
+			$messages->set_previous(NULL);
+
+			switch($status)
+			{
+				case 2:
+					$messages->set_message('Commande #' . $id . ' marqué en préparation');
+					$_SESSION['employee']['order']['statusprepare'] = 1;
+					break;
+				case 3:
+					$messages->set_message('Commande #' . $id . ' marqué comme envoyé');
+					$_SESSION['employee']['order']['statussent'] = 1;
+					break;
+			}
+
+			if ($messages->saveNewMessage())
+			{
+				header('Location: index.php?do=viewcustomerorderdetails&id=' . $id);
+			}
 		}
+	}
+	else
+	{
+		throw new Exception('Vous n\'êtes pas autorisé à modifier l\'état des commandes');
 	}
 }
 

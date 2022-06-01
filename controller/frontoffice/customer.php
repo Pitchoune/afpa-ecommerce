@@ -1,11 +1,13 @@
 <?php
 
 require_once(DIR . '/model/ModelCustomer.php');
+require_once(DIR . '/model/ModelEmployee.php');
 require_once(DIR . '/model/ModelOrder.php');
 require_once(DIR . '/model/ModelOrderDetails.php');
 require_once(DIR . '/model/ModelTrademark.php');
 require_once(DIR . '/model/ModelMessage.php');
 use \Ecommerce\Model\ModelCustomer;
+use \Ecommerce\Model\ModelEmployee;
 use \Ecommerce\Model\ModelOrder;
 use \Ecommerce\Model\ModelOrderDetails;
 use \Ecommerce\Model\ModelTrademark;
@@ -844,54 +846,55 @@ function viewOrder($id)
  */
 function viewMessages()
 {
-	if (!$_SESSION['user']['loggedin'])
+	if ($_SESSION['user']['loggedin'])
 	{
+		global $config, $pagenumber;
+
+		$customer = new ModelCustomer($config);
+		$customer->set_id($_SESSION['user']['id']);
+
+		$data = $customer->getCustomerInfosFromId();
+
+		$messagelist = new ModelMessage($config);
+		$messagelist->set_customer($data['id']);
+		$messagelist->set_type('contact', 'notif');
+		$totalmessages = $messagelist->countMessagesFromCustomer();
+
+		$perpage = 10;
+		$limitlower = Utils::define_pagination_values($totalmessages['nbmessages'], $pagenumber, $perpage);
+
+		$getmessage = $messagelist->getAllMessagesFromCustomer($limitlower, $perpage);
+
+		$messages = [];
+
+		foreach ($getmessage AS $key => $value)
+		{
+			$messages[$key] = $value;
+
+			if ($value['id_client'])
+			{
+				// If the client started the message, displays its first and last name
+				$customer->set_id($value['id_client']);
+				$customerinfo = $customer->getCustomerInfosFromId();
+				$messages[$key]['nom_client'] = $customerinfo['prenom'] . ' ' . $customerinfo['nom'];
+			}
+		}
+
+		require_once(DIR . '/view/frontoffice/ViewCustomer.php');
+		ViewCustomer::viewMessages($messages, $perpage, $totalmessages['nbmessages']);
+	}
+	else
+	{
+
 		$_SESSION['nonallowed'] = 1;
 		header('Location: index.php');
 	}
-
-	global $config, $pagenumber;
-
-	$customer = new ModelCustomer($config);
-	$customer->set_id($_SESSION['user']['id']);
-
-	$data = $customer->getCustomerInfosFromId();
-
-	$messagelist = new ModelMessage($config);
-	$messagelist->set_customer($data['id']);
-	$messagelist->set_type('contact', 'notif');
-	$totalmessages = $messagelist->countMessagesFromCustomer();
-
-	// Number max per page
-	$perpage = 10;
-
-	$limitlower = Utils::define_pagination_values($totalmessages['nbmessages'], $pagenumber, $perpage);
-
-	$getmessage = $messagelist->getAllMessagesFromCustomer($limitlower, $perpage);
-
-	$messages = [];
-
-	foreach ($getmessage AS $key => $value)
-	{
-		$messages[$key] = $value;
-
-		if ($value['id_client'])
-		{
-			// If the client started the message, displays its first and last name
-			$customer->set_id($value['id_client']);
-			$customerinfo = $customer->getCustomerInfosFromId();
-			$messages[$key]['nom_client'] = $customerinfo['prenom'] . ' ' . $customerinfo['nom'];
-		}
-	}
-
-	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
-	ViewCustomer::viewMessages($messages, $perpage, $totalmessages['nbmessages']);
 }
 
 /**
  * Display the HTML code for a list of messages in a conversation.
  *
- * @pazram integer $id ID of the root conversation.
+ * @param integer $id ID of the root conversation.
  *
  * @return void
  */
@@ -908,8 +911,7 @@ function viewMessage($id)
 
 	$customer = new ModelCustomer($config);
 	$customer->set_id($_SESSION['user']['id']);
-
-	$data = $customer->getCustomerInfosFromId();
+	$customerinfos = $customer->getCustomerInfosFromId();
 
 	$messagelist = new ModelMessage($config);
 	$messagelist->set_id($id);
@@ -918,6 +920,7 @@ function viewMessage($id)
 	$messageids = [];
 	$messageids[] = $id;
 	$title = '';
+	$latestid = 0;
 
 	do {
 		// Grab the next id from the latest grabbed
@@ -932,6 +935,9 @@ function viewMessage($id)
 
 		// Add the latest found id in the ids list array
 		$messageids[] = $i['id'];
+
+		// Get the latest id only for send reply save
+		$latestid = $i['id'];
 	} while (true);
 
 	// Now we have the ids list array filled with the correct ids, we can transform it
@@ -943,6 +949,21 @@ function viewMessage($id)
 
 	// Get only the first title if there is any other (should not)
 	$title = $messages[0]['titre'];
+
+	// Get the latest employee response to mark it as assigned to the conversation
+	$latestemployee = '';
+
+	for ($i = 0; $i <= count($messages); $i++)
+	{
+		if ($messages[$i]['id_employe'] !== null)
+		{
+			$latestemployee = $messages[$i]['id_employe'];
+		}
+	}
+
+	$employees = new ModelEmployee($config);
+	$employees->set_id($latestemployee);
+	$employee = $employees->getEmployeeFirstAndLastName();
 
 	// Make impossible to open a discussion without $id being the first message
 	if ($messages[0]['precedent_id'] AND $messages[0]['id'] == $id)
@@ -957,7 +978,7 @@ function viewMessage($id)
 	}
 
 	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
-	ViewCustomer::viewMessage($id, $messages, $title, $data);
+	ViewCustomer::viewMessage($id, $messages, $title, $customerinfos, $latestid, $employee);
 }
 
 /**

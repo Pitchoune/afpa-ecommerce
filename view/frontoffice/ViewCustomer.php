@@ -936,8 +936,6 @@ class ViewCustomer
 											<?php
 											foreach ($messages AS $key => $value)
 											{
-												if ($value['precedent_id'] === NULL)
-												{
 												?>
 												<tr>
 													<td>
@@ -956,7 +954,6 @@ class ViewCustomer
 													</td>
 												</tr>
 												<?php
-												}
 											}
 											?>
 										</tbody>
@@ -983,11 +980,13 @@ class ViewCustomer
 	 * @param integer $id ID of the conversation.
 	 * @param array $messages Array containing messages informations
 	 * @param string $title Title of the conversation.
-	 * @param array $data Customer informations.
+	 * @param array $customerinfos Customer informations.
+	 * @param integer $latestid Latest message ID of the conversation.
+	 * @param array $employee Employee informations.
 	 *
 	 * @return void
 	 */
-	public static function ViewMessage($id, $messages, $title, $data)
+	public static function ViewMessage($id, $messages, $title, $customerinfos, $latestid, $employee)
 	{
 		global $config;
 
@@ -1017,57 +1016,92 @@ class ViewCustomer
 												<div class="order-tracking-contain order-tracking-box">
 													<div class="tracking-group">
 														<div class="delivery-code">
-															<h4><?= $title ?></h4>
+															<h4>Informations</h4>
 														</div>
 													</div>
 													<div class="tracking-group pb-0">
-														<ul class="may-product">
+														<?php
+														if ($employee['prenom'] AND $employee['nom'] AND $employee['rolename'])
+														{
+															?>
+															Échange avec <?= $employee['prenom'] ?> <?= $employee['nom'] ?>, <?= $employee['rolename'] ?>.
 															<?php
-															foreach ($messages AS $key => $message)
-															{
-																// Get the latest id for the reply form
-																$latestid = $message['id'];
+														}
+														else
+														{
+															?>
+															Pas encore d'échange avec l'équipe.
+															<?php
+														}
+														?>
+													</div>
+												</div>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
 
-																if ($message['id_client'])
-																{
-																	// Get customer name
-																	$customers = new ModelCustomer($config);
-																	$customers->set_id($message['id_client']);
-																	$customer = $customers->getCustomerFirstAndLastName();
-																	$message['firstname'] = $customer['prenom'];
-																	$message['lastname'] = $customer['nom'];
-																}
-
-																if ($message['id_employe'])
-																{
-																	// Get employee name
-																	$employees = new ModelEmployee($config);
-																	$employees->set_id($message['id_employe']);
-																	$employee = $employees->getEmployeeFirstAndLastName();
-																	$message['firstname'] = $employee['prenom'];
-																	$message['lastname'] = $employee['nom'];
-																	$message['rolename'] = $employee['rolename'];
-																}
-																?>
-																<li>
-																	<div>Écrit le <?= $message['date'] ?></div>
-																	<div class="media fix-style">
-																		<div class="media-left">
-																			<h5>
-																				<?= $message['firstname'] . ' ' . $message['lastname'] ?>
-																				<br />
-																				<?= $message['rolename'] ?>
-																			</h5>
+					<section class="order-tracking section-big-mt-space">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-12">
+								<div>
+									<fieldset>
+										<div class="container p-0">
+											<div class="conversations">
+												<div class="message-header">
+													<div class="message-title">
+														<div class="user ms-2">
+															<div>
+																<img class="img-40 rounded-circle" src="assets/images/noavatar.png" alt="Avatar de l'employé" />
+															</div>
+															<div class="user-info ms-2">
+																<span class="name"><?= $title ?></span>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="conversations-body">
+													<div class="conversations-content">
+														<?php
+														foreach ($messages AS $data)
+														{
+															?>
+															<div class="message-content-wrapper">
+																<div class="message message-<?= ($data['id_client'] ? 'out' : 'in') ?>">
+																	<?php
+																	if ($data['id_employe'])
+																		{ ?>
+																		<div class="me-2">
+																			<img class="img-40 rounded-circle" src="assets/images/noavatar.png" alt="Avatar de l'employé" />
 																		</div>
-																		<div class="media-body">
-																			<h3><?= $message['message'] ?></h3>
+																		<?php
+																		}
+																	?>
+																	<div class="message-body">
+																		<div class="message-content">
+																			<div class="content">
+																				<?= $data['message'] ?>
+																			</div>
 																		</div>
 																	</div>
-																</li>
-																<?php
-															}
-															?>
-														</ul>
+																	<?php
+																	if ($data['id_client'])
+																		{ ?>
+																		<div class="ms-2">
+																			<img class="img-40 rounded-circle" src="assets/images/noavatar.png" alt="Avatar de l'employé" />
+																		</div>
+																		<?php
+																		}
+																	?>
+																</div>
+															</div>
+															<?php
+														}
+														?>
 													</div>
 												</div>
 											</div>
@@ -1088,28 +1122,28 @@ class ViewCustomer
 											<div class="col-md-6">
 											   <div class="form-group">
 												   <label for="firstname">Prénom</label>
-												   <input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du prénom n'est pas valide." placeholder="Insérez votre prénom" value="<?= $data['prenom'] ?>" disabled />
+												   <input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du prénom n'est pas valide." placeholder="Insérez votre prénom" value="<?= $customerinfos['prenom'] ?>" disabled />
 												   <small id="firstnameHelp" class="form-text text-muted"></small>
 											   </div>
 											</div>
 											<div class="col-md-6">
 											  <div class="form-group">
 												  <label for="lastname">Nom</label>
-												  <input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du nom n'est pas valide." placeholder="Nom" value="<?= $data['nom'] ?>" disabled />
+												  <input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du nom n'est pas valide." placeholder="Nom" value="<?= $customerinfos['nom'] ?>" disabled />
 												  <small id="lastnameHelp" class="form-text text-muted"></small>
 											  </div>
 											</div>
 											<div class="col-md-6">
 											   <div class="form-group">
 												   <label for="telephone">Téléphone</label>
-												   <input type="text" class="form-control" id="telephone" name="telephone" aria-describedby="telephoneHelp" data-type="telephone" data-message="Le format du numéro de téléphone n'est pas valide." placeholder="Insérez votre numéro de téléphone" value="<?= $data['tel'] ?>" disabled />
+												   <input type="text" class="form-control" id="telephone" name="telephone" aria-describedby="telephoneHelp" data-type="telephone" data-message="Le format du numéro de téléphone n'est pas valide." placeholder="Insérez votre numéro de téléphone" value="<?= $customerinfos['tel'] ?>" disabled />
 												   <small id="telephoneHelp" class="form-text text-muted"></small>
 											   </div>
 											</div>
 											<div class="col-md-6">
 												<div class="form-group">
 													<label for="email">Adresse email</label>
-													<input type="text" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." placeholder="Email" value="<?= $data['mail'] ?>" disabled />
+													<input type="text" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." placeholder="Email" value="<?= $customerinfos['mail'] ?>" disabled />
 													<small id="emailHelp" class="form-text text-muted"></small>
 												</div>
 											</div>

@@ -326,6 +326,21 @@ try
 		case 'listorders':
 			ListOrders();
 			break;
+		// Messages
+		case 'listmessages':
+			ListMessages();
+			break;
+		case 'viewconversation':
+			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
+			ViewConversation($id);
+			break;
+		case 'sendreply':
+			$id = isset($_POST['originalid']) ? filter_var($_POST['originalid'], FILTER_VALIDATE_INT) : NULL;
+			$latestid = isset($_POST['latestid']) ? filter_var($_POST['latestid'], FILTER_VALIDATE_INT) : NULL;
+			$reply = isset($_POST['reply']) ? filter_var($_POST['reply'], FILTER_SANITIZE_STRING) : NULL;
+			$customerid = isset($_POST['customerid']) ? filter_var($_POST['customerid'], FILTER_VALIDATE_INT) : NULL;
+			SendReply($id, $latestid, $reply, $customerid);
+			break;
 	}
 }
 catch(Exception $e)
