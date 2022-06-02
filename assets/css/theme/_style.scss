@@ -314,6 +314,16 @@ button:focus {
 	}
 }
 
+.progress-bar {
+	&.progress-bar-success {
+		background-color: $success-color;
+	}
+
+	&.progress-bar-danger {
+		background-color: $danger-color;
+	}
+}
+
 header {
 	animation: slideInUp 300ms ease-in-out;
 	transition: all 0.3s ease;

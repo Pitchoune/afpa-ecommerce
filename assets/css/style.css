@@ -293,6 +293,13 @@ button:focus {
   padding: 10px 15px;
 }
 
+.progress-bar.progress-bar-success {
+  background-color: #0f5132;
+}
+.progress-bar.progress-bar-danger {
+  background-color: #9A444B;
+}
+
 header {
   animation: slideInUp 300ms ease-in-out;
   transition: all 0.3s ease;
