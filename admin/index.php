@@ -3,6 +3,8 @@ session_start();
 
 error_reporting(E_ALL & ~E_NOTICE);
 
+use \Ecommerce\Model\ModelEmployee;
+
 // Sanitize do= values, others required per page are sanitized when necessary
 $do = isset($_REQUEST['do']) ? filter_var($_REQUEST['do'], FILTER_SANITIZE_STRING) : NULL;
 $pagenumber = isset($_REQUEST['page']) ? filter_var($_REQUEST['page'], FILTER_VALIDATE_INT) : intval(1);
@@ -28,7 +30,9 @@ require_once(DIR . '/view/backoffice/ViewTemplate.php');
 if (isset($_SESSION['employee']['id']))
 {
 	require_once(DIR . '/model/ModelEmployee.php');
-	$employees = new \Ecommerce\Model\ModelEmployee($config);
+
+	$employees = new ModelEmployee($config);
+	$employees = new ModelEmployee($config);
 	$employees->set_id($_SESSION['employee']['id']);
 	$employee = $employees->getEmployeeInfosFromId();
 }

@@ -6,6 +6,8 @@ session_start();
 // Hide some notices from errors - added for the upload stuff
 error_reporting(E_ALL & ~E_NOTICE);
 
+use \Ecommerce\Model\ModelCustomer;
+
 // Sanitize do= values, others required per page are sanitized when necessary
 $do = isset($_REQUEST['do']) ? filter_var($_REQUEST['do'], FILTER_SANITIZE_STRING) : NULL;
 $pagenumber = isset($_REQUEST['page']) ? filter_var($_REQUEST['page'], FILTER_VALIDATE_INT) : intval(1);
@@ -28,7 +30,7 @@ require_once(DIR . '/view/frontoffice/ViewTemplate.php');
 if (isset($_SESSION['user']['id']))
 {
 	require_once(DIR . '/model/ModelCustomer.php');
-	$customers = new \Ecommerce\Model\ModelCustomer($config);
+	$customers = new ModelCustomer($config);
 	$customers->set_id($_SESSION['user']['id']);
 	$customer = $customers->getCustomerInfosFromId();
 }
