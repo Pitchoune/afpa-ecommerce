@@ -5137,6 +5137,9 @@ header .main-header-right li {
 .nav-menus {
   height: 50px;
 }
+.nav-menus .search-form {
+  visibility: hidden;
+}
 .nav-menus .notification-badge {
   position: absolute;
   right: 10px;

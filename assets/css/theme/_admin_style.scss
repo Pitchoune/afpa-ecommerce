@@ -1263,6 +1263,10 @@ header {
 .nav-menus {
 	height: 50px;
 
+	.search-form {
+		visibility: hidden;
+	}
+
 	.notification-badge {
 		position: absolute;
 		right: 10px;
