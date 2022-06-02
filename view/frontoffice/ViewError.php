@@ -2,13 +2,11 @@
 
 /**
  * Class to display HTML content about any captured error in front.
- *
- * @date $Date$
  */
 class ViewError
 {
 	/**
-	 * Returns the HTMl code to display any error message.
+	 * Returns the HTML code to display any error message.
 	 *
 	 * @param string $errorMessage The error message to display.
 	 *
@@ -22,9 +20,7 @@ class ViewError
 		<!DOCTYPE html>
 		<html>
 			<head>
-				<?php
-				ViewTemplate::FrontHead($pagetitle);
-				?>
+				<?= ViewTemplate::FrontHead($pagetitle) ?>
 			</head>
 			<body class="bg-light">
 				<?php
@@ -43,9 +39,7 @@ class ViewError
 						</div>
 					</div>
 				</section>
-				<?php
-				ViewTemplate::FrontFooter();
-				?>
+				<?= ViewTemplate::FrontFooter() ?>
 			</body>
 		</html>
 		<?php

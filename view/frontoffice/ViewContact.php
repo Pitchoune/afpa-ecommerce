@@ -6,16 +6,14 @@ use \Ecommerce\Model\ModelCustomer;
 use \Ecommerce\Model\ModelMessage;
 
 /**
- * Class to display HTML content about categories in front.
- *
- * @date $Date$
+ * Class to display HTML content about contacting the team.
  */
 class ViewContact
 {
 	/**
-	 * Returns the HTMl code to display the category page.
+	 * Returns the HTML code to contact the team.
 	 *
-	 * @param integer $id ID of the category.
+	 * @param integer $customer Customer informations.
 	 *
 	 * @return void
 	 */
@@ -27,9 +25,7 @@ class ViewContact
 		<!DOCTYPE html>
 		<html>
 			<head>
-				<?php
-				ViewTemplate::FrontHead($pagetitle);
-				?>
+				<?= ViewTemplate::FrontHead($pagetitle) ?>
 			</head>
 			<body class="bg-light">
 				<?php

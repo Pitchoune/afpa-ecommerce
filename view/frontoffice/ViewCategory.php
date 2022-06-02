@@ -2,15 +2,20 @@
 
 /**
  * Class to display HTML content about categories in front.
- *
- * @date $Date$
  */
 class ViewCategory
 {
 	/**
 	 * Returns the HTML code to display the category page.
 	 *
-	 * @param integer $id ID of the category.
+	 * @param string $pagetitle Title of the page.
+	 * @param array $navbits Breadcrumb content.
+	 * @param array $category Category informations.
+	 * @param array $product Products list.
+	 * @param integer $nbproducts Total number of products.
+	 * @param string $address Part of the URL for the filter values.
+	 * @param integer $perpage Number of items per page.
+	 * @param string $sortby Sort direction of products.
 	 *
 	 * @return void
 	 */
@@ -21,9 +26,7 @@ class ViewCategory
 		<!DOCTYPE html>
 		<html>
 			<head>
-				<?php
-				ViewTemplate::FrontHead($pagetitle);
-				?>
+				<?= ViewTemplate::FrontHead($pagetitle) ?>
 			</head>
 			<body class="bg-light">
 				<?php
@@ -126,9 +129,7 @@ class ViewCategory
 																?>
 															</div>
 														</div>
-														<?php
-														Utils::construct_page_nav($pagenumber, $perpage, $nbproducts, 'index.php?do=viewcategory&amp;id=' . $category['id'], 'front', $address);
-														?>
+														<?= Utils::construct_page_nav($pagenumber, $perpage, $nbproducts, 'index.php?do=viewcategory&amp;id=' . $category['id'], 'front', $address) ?>
 													</div>
 												</div>
 											</div>

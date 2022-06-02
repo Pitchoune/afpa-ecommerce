@@ -7,8 +7,6 @@ use \Ecommerce\Model\ModelOrderDetails;
 
 /**
  * Class to display HTML content about first page in front.
- *
- * @date $Date$
  */
 class ViewIndex
 {
@@ -27,18 +25,13 @@ class ViewIndex
 			<!DOCTYPE html>
 			<html>
 				<head>
-					<?php
-					ViewTemplate::FrontHead($pagetitle);
-					?>
+					<?=ViewTemplate::FrontHead($pagetitle) ?>
 				</head>
 
 				<body class="bg-light">
-
 					<?php
 					ViewTemplate::FrontHeader();
-					?>
 
-					<?php
 					ViewTemplate::FrontBreadcrumb('', '');
 					?>
 

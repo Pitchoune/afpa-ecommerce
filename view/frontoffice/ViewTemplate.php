@@ -5,8 +5,6 @@ use \Ecommerce\Model\ModelCategory;
 
 /**
  * Class to display default HTML code for all necessary pages in front.
- *
- * @date $Date$
  */
 class ViewTemplate
 {

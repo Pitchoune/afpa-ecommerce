@@ -2,13 +2,11 @@
 
 /**
  * Class to display HTML content about products in front.
- *
- * @date $Date$
  */
 class ViewProduct
 {
 	/**
-	 * Returns the HTMl code to display the product page.
+	 * Returns the HTML code to display the product page.
 	 *
 	 * @param string $pagetitle Title of the page.
 	 * @param array $product Product informations.
@@ -23,9 +21,7 @@ class ViewProduct
 		<!DOCTYPE html>
 		<html>
 			<head>
-				<?php
-				ViewTemplate::FrontHead($pagetitle);
-				?>
+				<?= ViewTemplate::FrontHead($pagetitle) ?>
 			</head>
 
 			<body class="bg-light">
@@ -168,9 +164,7 @@ class ViewProduct
 		<!DOCTYPE html>
 		<html>
 			<head>
-				<?php
-				ViewTemplate::FrontHead($pagetitle);
-				?>
+				<?= ViewTemplate::FrontHead($pagetitle) ?>
 			</head>
 
 			<body class="bg-light">
