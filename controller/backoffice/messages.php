@@ -85,6 +85,12 @@ function ViewConversation($id)
 	// Get only the first title if there is any other (should not)
 	$title = $messages[0]['titre'];
 
+	// Fill the correct latest ID if it's value is still to 0 (first reply)
+	if ($latestid === 0)
+	{
+		$latestid = $id;
+	}
+
 	// Make impossible to open a discussion without $id being the first message
 	if ($messages[0]['precedent_id'] AND $messages[0]['id'] == $id)
 	{
