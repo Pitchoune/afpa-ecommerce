@@ -5,9 +5,7 @@ namespace Ecommerce\Model;
 require_once(DIR . '/model/Model.php');
 
 /**
- * Class to do data save/delete operations about orders
- *
- * @date $Date$
+ * Class to do data save/delete operations about messages.
  */
 class ModelMessage extends Model
 {

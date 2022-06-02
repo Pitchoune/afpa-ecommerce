@@ -5,9 +5,7 @@ namespace Ecommerce\Model;
 require_once(DIR . '/model/Model.php');
 
 /**
- * Class to do data save/delete operations about products
- *
- * @date	$Date$
+ * Class to do data save/delete operations about products.
  */
 class ModelProduct extends Model
 {

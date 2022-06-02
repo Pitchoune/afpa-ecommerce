@@ -4,8 +4,6 @@ namespace Ecommerce\Model;
 
 /**
  * Class to do data save/delete operations into the database.
- *
- * @date $Date$
  */
 
 class Model

@@ -6,8 +6,6 @@ require_once(DIR . '/model/Model.php');
 
 /**
  * Class to do data save/delete operations about customers
- *
- * @date	$Date$
  */
 class ModelCustomer extends Model
 {

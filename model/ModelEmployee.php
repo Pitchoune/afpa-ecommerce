@@ -5,9 +5,7 @@ namespace Ecommerce\Model;
 require_once(DIR . '/model/Model.php');
 
 /**
- * Class to do data save/delete operations about employees
- *
- * @date $Date$
+ * Class to do data save/delete operations about employees.
  */
 class ModelEmployee extends Model
 {
