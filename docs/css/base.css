@@ -84,7 +84,6 @@ body {
     font-size: var(--text-md);
     letter-spacing: var(--letter-spacing--primary);
     line-height: var(--line-height--primary);
-    width: 100%;
 }
 
 .phpdocumentor h1,

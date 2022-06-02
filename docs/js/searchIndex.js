@@ -38,8 +38,18 @@ Search.appendIndex(
         },                {
             "fqsen": "\\DeleteCategory\u0028\u0029",
             "name": "DeleteCategory",
-            "summary": "Deletes\u0020the\u0020given\u0020category.",
+            "summary": "Displays\u0020a\u0020delete\u0020confirmation.",
             "url": "namespaces/default.html#function_DeleteCategory"
+        },                {
+            "fqsen": "\\KillCategory\u0028\u0029",
+            "name": "KillCategory",
+            "summary": "Deletes\u0020the\u0020given\u0020category.",
+            "url": "namespaces/default.html#function_KillCategory"
+        },                {
+            "fqsen": "\\UpdateCategoriesOrder\u0028\u0029",
+            "name": "UpdateCategoriesOrder",
+            "summary": "Updates\u0020display\u0020order\u0020for\u0020each\u0020changed\u0020category.",
+            "url": "namespaces/default.html#function_UpdateCategoriesOrder"
         },                {
             "fqsen": "\\listProducts\u0028\u0029",
             "name": "listProducts",
@@ -68,8 +78,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\DeleteProduct\u0028\u0029",
             "name": "DeleteProduct",
-            "summary": "Deletes\u0020the\u0020given\u0020product.",
+            "summary": "Displays\u0020a\u0020delete\u0020confirmation.",
             "url": "namespaces/default.html#function_DeleteProduct"
+        },                {
+            "fqsen": "\\KillProduct\u0028\u0029",
+            "name": "KillProduct",
+            "summary": "Deletes\u0020the\u0020given\u0020product.",
+            "url": "namespaces/default.html#function_KillProduct"
         },                {
             "fqsen": "\\ListRoles\u0028\u0029",
             "name": "ListRoles",
@@ -103,8 +118,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\DeleteRole\u0028\u0029",
             "name": "DeleteRole",
-            "summary": "Deletes\u0020the\u0020given\u0020role.",
+            "summary": "Displays\u0020a\u0020delete\u0020confirmation.",
             "url": "namespaces/default.html#function_DeleteRole"
+        },                {
+            "fqsen": "\\KillRole\u0028\u0029",
+            "name": "KillRole",
+            "summary": "Deletes\u0020the\u0020given\u0020role.",
+            "url": "namespaces/default.html#function_KillRole"
         },                {
             "fqsen": "\\Ecommerce\\Model\\Model",
             "name": "Model",
@@ -120,6 +140,11 @@ Search.appendIndex(
             "name": "dbConnect",
             "summary": "Connects\u0020to\u0020the\u0020database.",
             "url": "classes/Ecommerce-Model-Model.html#method_dbConnect"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\Model\u003A\u003Awhite_list\u0028\u0029",
+            "name": "white_list",
+            "summary": "Checks\u0020if\u0020the\u0020given\u0020value\u0020is\u0020in\u0020the\u0020allowed\u0020data.",
+            "url": "classes/Ecommerce-Model-Model.html#method_white_list"
         },                {
             "fqsen": "\\Ecommerce\\Model\\Model\u003A\u003A\u0024config",
             "name": "config",
@@ -141,20 +166,45 @@ Search.appendIndex(
             "summary": "Returns\u0020an\u0020array\u0020of\u0020all\u0020categories.",
             "url": "classes/Ecommerce-Model-ModelCategory.html#method_listAllCategories"
         },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003AlistAllCategoriesWithoutParents\u0028\u0029",
+            "name": "listAllCategoriesWithoutParents",
+            "summary": "Returns\u0020an\u0020array\u0020of\u0020all\u0020categories\u0020without\u0020parents.",
+            "url": "classes/Ecommerce-Model-ModelCategory.html#method_listAllCategoriesWithoutParents"
+        },                {
             "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003AgetNumberOfProductsInCategory\u0028\u0029",
             "name": "getNumberOfProductsInCategory",
             "summary": "Returns\u0020the\u0020number\u0020of\u0020products\u0020in\u0020the\u0020given\u0020category.",
             "url": "classes/Ecommerce-Model-ModelCategory.html#method_getNumberOfProductsInCategory"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003AlistCategoriesWithParent\u0028\u0029",
+            "name": "listCategoriesWithParent",
+            "summary": "",
+            "url": "classes/Ecommerce-Model-ModelCategory.html#method_listCategoriesWithParent"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003AsaveNewCategory\u0028\u0029",
             "name": "saveNewCategory",
             "summary": "Saves\u0020a\u0020new\u0020category\u0020in\u0020the\u0020\u0027categorie\u0027\u0020table.",
             "url": "classes/Ecommerce-Model-ModelCategory.html#method_saveNewCategory"
         },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003AupdateCategoriesGenealogy\u0028\u0029",
+            "name": "updateCategoriesGenealogy",
+            "summary": "",
+            "url": "classes/Ecommerce-Model-ModelCategory.html#method_updateCategoriesGenealogy"
+        },                {
             "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003AlistCategoryInfos\u0028\u0029",
             "name": "listCategoryInfos",
             "summary": "Returns\u0020the\u0020informations\u0020of\u0020the\u0020category.",
             "url": "classes/Ecommerce-Model-ModelCategory.html#method_listCategoryInfos"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003AgetParentName\u0028\u0029",
+            "name": "getParentName",
+            "summary": "Returns\u0020the\u0020parent\u0020name\u0020of\u0020the\u0020current\u0020category.",
+            "url": "classes/Ecommerce-Model-ModelCategory.html#method_getParentName"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003AlistChildrenCategoryInfos\u0028\u0029",
+            "name": "listChildrenCategoryInfos",
+            "summary": "Returns\u0020the\u0020informations\u0020of\u0020the\u0020children\u0020categories.",
+            "url": "classes/Ecommerce-Model-ModelCategory.html#method_listChildrenCategoryInfos"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003AsaveEditCategory\u0028\u0029",
             "name": "saveEditCategory",
@@ -181,6 +231,16 @@ Search.appendIndex(
             "summary": "Returns\u0020some\u0020of\u0020the\u0020categories\u0020following\u0020the\u0020defined\u0020limit\u0020and\u0020the\u0020given\u0020category.",
             "url": "classes/Ecommerce-Model-ModelCategory.html#method_getSomeCategoriesContent"
         },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003AgetChildCategoriesIds\u0028\u0029",
+            "name": "getChildCategoriesIds",
+            "summary": "Returns\u0020the\u0020parent\u0020IDs\u0020of\u0020the\u0020current\u0020child\u0020categories.",
+            "url": "classes/Ecommerce-Model-ModelCategory.html#method_getChildCategoriesIds"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003AUpdateCategoryDisplayOrder\u0028\u0029",
+            "name": "UpdateCategoryDisplayOrder",
+            "summary": "",
+            "url": "classes/Ecommerce-Model-ModelCategory.html#method_UpdateCategoryDisplayOrder"
+        },                {
             "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003Aset_id\u0028\u0029",
             "name": "set_id",
             "summary": "Defines\u0020the\u0020ID.",
@@ -190,6 +250,26 @@ Search.appendIndex(
             "name": "set_name",
             "summary": "Defines\u0020the\u0020name.",
             "url": "classes/Ecommerce-Model-ModelCategory.html#method_set_name"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003Aset_parentid\u0028\u0029",
+            "name": "set_parentid",
+            "summary": "Defines\u0020the\u0020parent\u0020ID.",
+            "url": "classes/Ecommerce-Model-ModelCategory.html#method_set_parentid"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003Aset_parentlist\u0028\u0029",
+            "name": "set_parentlist",
+            "summary": "Returns\u0020the\u0020parent\u0020list\u0020of\u0020the\u0020category.",
+            "url": "classes/Ecommerce-Model-ModelCategory.html#method_set_parentlist"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003Aset_childlist\u0028\u0029",
+            "name": "set_childlist",
+            "summary": "Defines\u0020the\u0020child\u0020list\u0020of\u0020the\u0020category.",
+            "url": "classes/Ecommerce-Model-ModelCategory.html#method_set_childlist"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003Aset_displayorder\u0028\u0029",
+            "name": "set_displayorder",
+            "summary": "Defines\u0020the\u0020display\u0020order\u0020of\u0020the\u0020category.",
+            "url": "classes/Ecommerce-Model-ModelCategory.html#method_set_displayorder"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003Aget_id\u0028\u0029",
             "name": "get_id",
@@ -201,6 +281,26 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020name\u0020of\u0020the\u0020category.",
             "url": "classes/Ecommerce-Model-ModelCategory.html#method_get_name"
         },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003Aget_parentid\u0028\u0029",
+            "name": "get_parentid",
+            "summary": "Returns\u0020the\u0020parent\u0020ID\u0020of\u0020the\u0020category.",
+            "url": "classes/Ecommerce-Model-ModelCategory.html#method_get_parentid"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003Aget_parentlist\u0028\u0029",
+            "name": "get_parentlist",
+            "summary": "Returns\u0020the\u0020parent\u0020list\u0020of\u0020the\u0020category.",
+            "url": "classes/Ecommerce-Model-ModelCategory.html#method_get_parentlist"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003Aget_childlist\u0028\u0029",
+            "name": "get_childlist",
+            "summary": "Returns\u0020the\u0020child\u0020list\u0020of\u0020the\u0020category.",
+            "url": "classes/Ecommerce-Model-ModelCategory.html#method_get_childlist"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003Aget_displayorder\u0028\u0029",
+            "name": "get_displayorder",
+            "summary": "Returns\u0020the\u0020display\u0020order\u0020of\u0020the\u0020category.",
+            "url": "classes/Ecommerce-Model-ModelCategory.html#method_get_displayorder"
+        },                {
             "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003A\u0024id",
             "name": "id",
             "summary": "The\u0020ID\u0020of\u0020the\u0020category.",
@@ -210,6 +310,26 @@ Search.appendIndex(
             "name": "name",
             "summary": "The\u0020name\u0020of\u0020the\u0020category.",
             "url": "classes/Ecommerce-Model-ModelCategory.html#property_name"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003A\u0024parent_id",
+            "name": "parent_id",
+            "summary": "The\u0020parent\u0020ID\u0020of\u0020the\u0020category.",
+            "url": "classes/Ecommerce-Model-ModelCategory.html#property_parent_id"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003A\u0024parentlist",
+            "name": "parentlist",
+            "summary": "The\u0020parent\u0020list\u0020of\u0020the\u0020category.",
+            "url": "classes/Ecommerce-Model-ModelCategory.html#property_parentlist"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003A\u0024childlist",
+            "name": "childlist",
+            "summary": "The\u0020child\u0020list\u0020of\u0020the\u0020category.",
+            "url": "classes/Ecommerce-Model-ModelCategory.html#property_childlist"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCategory\u003A\u003A\u0024displayorder",
+            "name": "displayorder",
+            "summary": "The\u0020display\u0020order\u0020of\u0020the\u0020category.",
+            "url": "classes/Ecommerce-Model-ModelCategory.html#property_displayorder"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelRole",
             "name": "ModelRole",
@@ -346,6 +466,11 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020add\u0020or\u0020edit\u0020category\u0020form.",
             "url": "classes/ViewCategory.html#method_CategoryAddEdit"
         },                {
+            "fqsen": "\\ViewCategory\u003A\u003ACategoryDeleteConfirmation\u0028\u0029",
+            "name": "CategoryDeleteConfirmation",
+            "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020delete\u0020category\u0020form.",
+            "url": "classes/ViewCategory.html#method_CategoryDeleteConfirmation"
+        },                {
             "fqsen": "\\ViewDashboard",
             "name": "ViewDashboard",
             "summary": "Class\u0020to\u0020display\u0020HTML\u0020content\u0020about\u0020dashboard\u0020in\u0020back.",
@@ -386,6 +511,11 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020add\u0020or\u0020edit\u0020role\u0020form.",
             "url": "classes/ViewRole.html#method_RoleAddEdit"
         },                {
+            "fqsen": "\\ViewRole\u003A\u003ARoleDeleteConfirmation\u0028\u0029",
+            "name": "RoleDeleteConfirmation",
+            "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020delete\u0020role\u0020form.",
+            "url": "classes/ViewRole.html#method_RoleDeleteConfirmation"
+        },                {
             "fqsen": "\\ViewTemplate",
             "name": "ViewTemplate",
             "summary": "Class\u0020to\u0020display\u0020default\u0020HTML\u0020code\u0020for\u0020all\u0020necessary\u0020pages\u0020in\u0020front.",
@@ -416,15 +546,25 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020HTML\u0020code\u0020of\u0020the\u0020footer.",
             "url": "classes/ViewTemplate.html#method_BackFooter"
         },                {
+            "fqsen": "\\ViewTemplate\u003A\u003ABackFoot\u0028\u0029",
+            "name": "BackFoot",
+            "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020basic\u0020necessary\u0020Javascript\u0020files\u0020to\u0020include\u0020to\u0020each\u0020page.",
+            "url": "classes/ViewTemplate.html#method_BackFoot"
+        },                {
             "fqsen": "\\ViewTemplate\u003A\u003ABackToast\u0028\u0029",
             "name": "BackToast",
-            "summary": "",
+            "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020backoffice\u0020Bootstrap\u0020toast.",
             "url": "classes/ViewTemplate.html#method_BackToast"
         },                {
             "fqsen": "\\ViewTemplate\u003A\u003ABackFormValidation\u0028\u0029",
             "name": "BackFormValidation",
             "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020backoffice\u0020input\u0020validation\u0020code.",
             "url": "classes/ViewTemplate.html#method_BackFormValidation"
+        },                {
+            "fqsen": "\\ViewTemplate\u003A\u003APrintDeleteConfirmation\u0028\u0029",
+            "name": "PrintDeleteConfirmation",
+            "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020backoffice\u0020delete\u0020confirmation.",
+            "url": "classes/ViewTemplate.html#method_PrintDeleteConfirmation"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelEmployee",
             "name": "ModelEmployee",
@@ -465,6 +605,11 @@ Search.appendIndex(
             "name": "listEmployeeInfos",
             "summary": "Returns\u0020the\u0020informations\u0020of\u0020the\u0020employee.",
             "url": "classes/Ecommerce-Model-ModelEmployee.html#method_listEmployeeInfos"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelEmployee\u003A\u003AgetEmployeeFirstAndLastName\u0028\u0029",
+            "name": "getEmployeeFirstAndLastName",
+            "summary": "Returns\u0020the\u0020employee\u0020firstname,\u0020lastname\u0020and\u0020role\u0020only.",
+            "url": "classes/Ecommerce-Model-ModelEmployee.html#method_getEmployeeFirstAndLastName"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelEmployee\u003A\u003AsaveEditEmployeeWithoutPassword\u0028\u0029",
             "name": "saveEditEmployeeWithoutPassword",
@@ -606,9 +751,14 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020add\u0020or\u0020edit\u0020employee\u0020form.",
             "url": "classes/ViewEmployee.html#method_EmployeeAddEdit"
         },                {
+            "fqsen": "\\ViewEmployee\u003A\u003AEmployeeDeleteConfirmation\u0028\u0029",
+            "name": "EmployeeDeleteConfirmation",
+            "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020delete\u0020employee\u0020form.",
+            "url": "classes/ViewEmployee.html#method_EmployeeDeleteConfirmation"
+        },                {
             "fqsen": "\\ViewEmployee\u003A\u003AViewProfile\u0028\u0029",
             "name": "ViewProfile",
-            "summary": "",
+            "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020current\u0020employee\u0020profile.",
             "url": "classes/ViewEmployee.html#method_ViewProfile"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelCustomer",
@@ -635,6 +785,11 @@ Search.appendIndex(
             "name": "getCustomerToken",
             "summary": "Returns\u0020the\u0020customer\u0020token.",
             "url": "classes/Ecommerce-Model-ModelCustomer.html#method_getCustomerToken"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelCustomer\u003A\u003AgetCustomerFirstAndLastName\u0028\u0029",
+            "name": "getCustomerFirstAndLastName",
+            "summary": "Returns\u0020the\u0020customer\u0020firstname\u0020and\u0020lastname.",
+            "url": "classes/Ecommerce-Model-ModelCustomer.html#method_getCustomerFirstAndLastName"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelCustomer\u003A\u003AgetCustomerInfosFromEmail\u0028\u0029",
             "name": "getCustomerInfosFromEmail",
@@ -1031,6 +1186,11 @@ Search.appendIndex(
             "summary": "Returns\u0020all\u0020products\u0020from\u0020an\u0020order.",
             "url": "classes/Ecommerce-Model-ModelOrderDetails.html#method_getOrderDetails"
         },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelOrderDetails\u003A\u003AgetBestSellingProductsFromSpecificRange\u0028\u0029",
+            "name": "getBestSellingProductsFromSpecificRange",
+            "summary": "",
+            "url": "classes/Ecommerce-Model-ModelOrderDetails.html#method_getBestSellingProductsFromSpecificRange"
+        },                {
             "fqsen": "\\Ecommerce\\Model\\ModelOrderDetails\u003A\u003Aset_order\u0028\u0029",
             "name": "set_order",
             "summary": "Defines\u0020the\u0020order\u0020ID.",
@@ -1131,6 +1291,11 @@ Search.appendIndex(
             "summary": "Returns\u0020an\u0020array\u0020of\u0020informations\u0020about\u0020a\u0020specific\u0020product\u0020following\u0020its\u0020reference.",
             "url": "classes/Ecommerce-Model-ModelProduct.html#method_listProductInfosFromCategory"
         },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelProduct\u003A\u003AgetCurrentQuantityStored\u0028\u0029",
+            "name": "getCurrentQuantityStored",
+            "summary": "Returns\u0020the\u0020current\u0020quantity\u0020for\u0020a\u0020specific\u0020product.",
+            "url": "classes/Ecommerce-Model-ModelProduct.html#method_getCurrentQuantityStored"
+        },                {
             "fqsen": "\\Ecommerce\\Model\\ModelProduct\u003A\u003AsaveEditProductWithPictures\u0028\u0029",
             "name": "saveEditProductWithPictures",
             "summary": "Saves\u0020the\u0020existing\u0020specified\u0020product\u0020with\u0020updated\u0020data.",
@@ -1156,6 +1321,11 @@ Search.appendIndex(
             "summary": "Search\u0020in\u0020the\u0020products\u0020per\u0020customer\u0020request\u0020for\u0020all\u0020categories.",
             "url": "classes/Ecommerce-Model-ModelProduct.html#method_searchProductsWithoutCategory"
         },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelProduct\u003A\u003AgetNewProductsList\u0028\u0029",
+            "name": "getNewProductsList",
+            "summary": "Returns\u0020the\u0020latest\u002015\u0020new\u0020products\u0020inserted\u0020into\u0020the\u0020database.",
+            "url": "classes/Ecommerce-Model-ModelProduct.html#method_getNewProductsList"
+        },                {
             "fqsen": "\\Ecommerce\\Model\\ModelProduct\u003A\u003AgetTotalNumberOfProducts\u0028\u0029",
             "name": "getTotalNumberOfProducts",
             "summary": "Returns\u0020the\u0020number\u0020of\u0020products\u0020in\u0020the\u0020database.",
@@ -1175,6 +1345,21 @@ Search.appendIndex(
             "name": "getSomeProductsForSpecificCategory",
             "summary": "Returns\u0020some\u0020of\u0020the\u0020products\u0020following\u0020the\u0020defined\u0020limit.",
             "url": "classes/Ecommerce-Model-ModelProduct.html#method_getSomeProductsForSpecificCategory"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelProduct\u003A\u003AgetSomeProductsForSpecificCategories\u0028\u0029",
+            "name": "getSomeProductsForSpecificCategories",
+            "summary": "Returns\u0020some\u0020of\u0020the\u0020products\u0020following\u0020the\u0020defined\u0020limit.",
+            "url": "classes/Ecommerce-Model-ModelProduct.html#method_getSomeProductsForSpecificCategories"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelProduct\u003A\u003AsetNewQuantityAfterPaidOrder\u0028\u0029",
+            "name": "setNewQuantityAfterPaidOrder",
+            "summary": "Updates\u0020the\u0020quantity\u0020available\u0020for\u0020a\u0020product\u0020after\u0020an\u0020order\u0020is\u0020done.",
+            "url": "classes/Ecommerce-Model-ModelProduct.html#method_setNewQuantityAfterPaidOrder"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelProduct\u003A\u003AgetLatestNewProductsFromSpecificRange\u0028\u0029",
+            "name": "getLatestNewProductsFromSpecificRange",
+            "summary": "Returns\u0020the\u0020selected\u0020products\u0020from\u0020a\u0020specific\u0020range\u0020of\u0020values.",
+            "url": "classes/Ecommerce-Model-ModelProduct.html#method_getLatestNewProductsFromSpecificRange"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelProduct\u003A\u003Aset_id\u0028\u0029",
             "name": "set_id",
@@ -1426,20 +1611,55 @@ Search.appendIndex(
             "summary": "Constructor.",
             "url": "classes/Ecommerce-Model-ModelMessage.html#method___construct"
         },                {
-            "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003AsaveNewNotification\u0028\u0029",
-            "name": "saveNewNotification",
+            "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003AsaveNewMessage\u0028\u0029",
+            "name": "saveNewMessage",
             "summary": "Saves\u0020a\u0020mew\u0020notification\u0020in\u0020the\u0020\u0027message\u0027\u0020table.",
-            "url": "classes/Ecommerce-Model-ModelMessage.html#method_saveNewNotification"
+            "url": "classes/Ecommerce-Model-ModelMessage.html#method_saveNewMessage"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003AgetAllMessagesFromType\u0028\u0029",
             "name": "getAllMessagesFromType",
             "summary": "Returns\u0020all\u0020messages\u0020from\u0020a\u0020specific\u0020type.",
             "url": "classes/Ecommerce-Model-ModelMessage.html#method_getAllMessagesFromType"
         },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003AgetSomeMessages\u0028\u0029",
+            "name": "getSomeMessages",
+            "summary": "Returns\u0020all\u0020messages\u0020from\u0020a\u0020specific\u0020type\u0020for\u0020a\u0020specific\u0020customer.",
+            "url": "classes/Ecommerce-Model-ModelMessage.html#method_getSomeMessages"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003AgetAllMessagesFromCustomer\u0028\u0029",
+            "name": "getAllMessagesFromCustomer",
+            "summary": "Returns\u0020all\u0020messages\u0020from\u0020a\u0020specific\u0020type\u0020for\u0020a\u0020specific\u0020customer.",
+            "url": "classes/Ecommerce-Model-ModelMessage.html#method_getAllMessagesFromCustomer"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003AgetMessageFromDiscussion\u0028\u0029",
+            "name": "getMessageFromDiscussion",
+            "summary": "Returns\u0020the\u0020requested\u0020reply\u0020from\u0020a\u0020discussion.",
+            "url": "classes/Ecommerce-Model-ModelMessage.html#method_getMessageFromDiscussion"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003AgetNextMessageIdFromDiscussion\u0028\u0029",
+            "name": "getNextMessageIdFromDiscussion",
+            "summary": "Returns\u0020the\u0020next\u0020message\u0020ID\u0020from\u0020a\u0020discussion.",
+            "url": "classes/Ecommerce-Model-ModelMessage.html#method_getNextMessageIdFromDiscussion"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003AgrabAllMessagesFromDiscussion\u0028\u0029",
+            "name": "grabAllMessagesFromDiscussion",
+            "summary": "Returns\u0020all\u0020the\u0020messages\u0020data\u0020from\u0020a\u0020discussion\u0020following\u0020an\u0020ID\u0020list.",
+            "url": "classes/Ecommerce-Model-ModelMessage.html#method_grabAllMessagesFromDiscussion"
+        },                {
             "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003AcountMessagesFromType\u0028\u0029",
             "name": "countMessagesFromType",
             "summary": "Returns\u0020the\u0020number\u0020of\u0020messages\u0020from\u0020a\u0020certain\u0020type.",
             "url": "classes/Ecommerce-Model-ModelMessage.html#method_countMessagesFromType"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003AcountMessagesFromCustomer\u0028\u0029",
+            "name": "countMessagesFromCustomer",
+            "summary": "Returns\u0020the\u0020number\u0020of\u0020messages\u0020from\u0020a\u0020certain\u0020type\u0020for\u0020a\u0020specific\u0020customer.",
+            "url": "classes/Ecommerce-Model-ModelMessage.html#method_countMessagesFromCustomer"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003AcountMessagesFromDiscussion\u0028\u0029",
+            "name": "countMessagesFromDiscussion",
+            "summary": "Returns\u0020the\u0020number\u0020of\u0020messages\u0020from\u0020a\u0020certain\u0020discussion.",
+            "url": "classes/Ecommerce-Model-ModelMessage.html#method_countMessagesFromDiscussion"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003Aset_id\u0028\u0029",
             "name": "set_id",
@@ -1451,10 +1671,20 @@ Search.appendIndex(
             "summary": "Defines\u0020the\u0020type.",
             "url": "classes/Ecommerce-Model-ModelMessage.html#method_set_type"
         },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003Aset_title\u0028\u0029",
+            "name": "set_title",
+            "summary": "Defines\u0020the\u0020title\u0020of\u0020the\u0020message.",
+            "url": "classes/Ecommerce-Model-ModelMessage.html#method_set_title"
+        },                {
             "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003Aset_message\u0028\u0029",
             "name": "set_message",
-            "summary": "Defines\u0020the\u0020status\u0020of\u0020the\u0020message.",
+            "summary": "Defines\u0020the\u0020text\u0020of\u0020the\u0020message.",
             "url": "classes/Ecommerce-Model-ModelMessage.html#method_set_message"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003Aset_date\u0028\u0029",
+            "name": "set_date",
+            "summary": "Defines\u0020the\u0020date\u0020of\u0020the\u0020message.",
+            "url": "classes/Ecommerce-Model-ModelMessage.html#method_set_date"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003Aset_previous\u0028\u0029",
             "name": "set_previous",
@@ -1481,10 +1711,20 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020type\u0020of\u0020the\u0020message.",
             "url": "classes/Ecommerce-Model-ModelMessage.html#method_get_type"
         },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003Aget_title\u0028\u0029",
+            "name": "get_title",
+            "summary": "Returns\u0020the\u0020title\u0020of\u0020the\u0020message.",
+            "url": "classes/Ecommerce-Model-ModelMessage.html#method_get_title"
+        },                {
             "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003Aget_message\u0028\u0029",
             "name": "get_message",
-            "summary": "Returns\u0020the\u0020message\u0020of\u0020the\u0020message.",
+            "summary": "Returns\u0020the\u0020text\u0020of\u0020the\u0020message.",
             "url": "classes/Ecommerce-Model-ModelMessage.html#method_get_message"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003Aget_date\u0028\u0029",
+            "name": "get_date",
+            "summary": "Returns\u0020the\u0020date\u0020of\u0020the\u0020message.",
+            "url": "classes/Ecommerce-Model-ModelMessage.html#method_get_date"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003Aget_previous\u0028\u0029",
             "name": "get_previous",
@@ -1511,10 +1751,20 @@ Search.appendIndex(
             "summary": "The\u0020type\u0020of\u0020the\u0020message.",
             "url": "classes/Ecommerce-Model-ModelMessage.html#property_type"
         },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003A\u0024title",
+            "name": "title",
+            "summary": "The\u0020title\u0020of\u0020the\u0020message",
+            "url": "classes/Ecommerce-Model-ModelMessage.html#property_title"
+        },                {
             "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003A\u0024message",
             "name": "message",
             "summary": "The\u0020message\u0020of\u0020the\u0020message.",
             "url": "classes/Ecommerce-Model-ModelMessage.html#property_message"
+        },                {
+            "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003A\u0024date",
+            "name": "date",
+            "summary": "The\u0020date\u0020of\u0020the\u0020message.",
+            "url": "classes/Ecommerce-Model-ModelMessage.html#property_date"
         },                {
             "fqsen": "\\Ecommerce\\Model\\ModelMessage\u003A\u003A\u0024previous_id",
             "name": "previous_id",
@@ -1663,17 +1913,22 @@ Search.appendIndex(
         },                {
             "fqsen": "\\DeleteCustomer\u0028\u0029",
             "name": "DeleteCustomer",
-            "summary": "Deletes\u0020the\u0020given\u0020customer.",
+            "summary": "Displays\u0020a\u0020delete\u0020confirmation.",
             "url": "namespaces/default.html#function_DeleteCustomer"
+        },                {
+            "fqsen": "\\KillCustomer\u0028\u0029",
+            "name": "KillCustomer",
+            "summary": "Deletes\u0020the\u0020given\u0020customer.",
+            "url": "namespaces/default.html#function_KillCustomer"
         },                {
             "fqsen": "\\ViewCustomerProfile\u0028\u0029",
             "name": "ViewCustomerProfile",
-            "summary": "Returns\u0020the\u0020HTMl\u0020code\u0020to\u0020display\u0020the\u0020customer\u0020profile.",
+            "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020customer\u0020profile.",
             "url": "namespaces/default.html#function_ViewCustomerProfile"
         },                {
             "fqsen": "\\ViewCustomerAllOrders\u0028\u0029",
             "name": "ViewCustomerAllOrders",
-            "summary": "",
+            "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020all\u0020orders\u0020made\u0020by\u0020the\u0020specified\u0020customer.",
             "url": "namespaces/default.html#function_ViewCustomerAllOrders"
         },                {
             "fqsen": "\\ViewCustomerOrderDetails\u0028\u0029",
@@ -1713,8 +1968,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\DeleteDeliver\u0028\u0029",
             "name": "DeleteDeliver",
-            "summary": "Deletes\u0020the\u0020given\u0020deliver.",
+            "summary": "Displays\u0020a\u0020delete\u0020confirmation.",
             "url": "namespaces/default.html#function_DeleteDeliver"
+        },                {
+            "fqsen": "\\KillDeliver\u0028\u0029",
+            "name": "KillDeliver",
+            "summary": "Deletes\u0020the\u0020given\u0020deliver.",
+            "url": "namespaces/default.html#function_KillDeliver"
         },                {
             "fqsen": "\\index\u0028\u0029",
             "name": "index",
@@ -1763,8 +2023,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\DeleteEmployee\u0028\u0029",
             "name": "DeleteEmployee",
-            "summary": "Deletes\u0020the\u0020given\u0020employee\u0020from\u0020the\u0020database.",
+            "summary": "",
             "url": "namespaces/default.html#function_DeleteEmployee"
+        },                {
+            "fqsen": "\\KillEmployee\u0028\u0029",
+            "name": "KillEmployee",
+            "summary": "Deletes\u0020the\u0020given\u0020employee\u0020from\u0020the\u0020database.",
+            "url": "namespaces/default.html#function_KillEmployee"
         },                {
             "fqsen": "\\ViewProfile\u0028\u0029",
             "name": "ViewProfile",
@@ -1773,7 +2038,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\UpdateProfile\u0028\u0029",
             "name": "UpdateProfile",
-            "summary": "Updates\u0020the\u0020given\u0020employee\u0020profileinto\u0020the\u0020database.",
+            "summary": "Updates\u0020the\u0020given\u0020employee\u0020profile\u0020into\u0020the\u0020database.",
             "url": "namespaces/default.html#function_UpdateProfile"
         },                {
             "fqsen": "\\ListTrademarks\u0028\u0029",
@@ -1803,8 +2068,13 @@ Search.appendIndex(
         },                {
             "fqsen": "\\DeleteTrademark\u0028\u0029",
             "name": "DeleteTrademark",
-            "summary": "Deletes\u0020the\u0020given\u0020trademark.",
+            "summary": "Displays\u0020a\u0020delete\u0020confirmation.",
             "url": "namespaces/default.html#function_DeleteTrademark"
+        },                {
+            "fqsen": "\\KillTrademark\u0028\u0029",
+            "name": "KillTrademark",
+            "summary": "Deletes\u0020the\u0020given\u0020trademark.",
+            "url": "namespaces/default.html#function_KillTrademark"
         },                {
             "fqsen": "\\register\u0028\u0029",
             "name": "register",
@@ -1816,10 +2086,10 @@ Search.appendIndex(
             "summary": "Registers\u0020the\u0020user.",
             "url": "namespaces/default.html#function_doRegister"
         },                {
-            "fqsen": "\\viewProfile\u0028\u0029",
-            "name": "viewProfile",
+            "fqsen": "\\viewDashboard\u0028\u0029",
+            "name": "viewDashboard",
             "summary": "Displays\u0020the\u0020dashboard\u0020with\u0020links\u0020to\u0020manage\u0020account\u0020informations.",
-            "url": "namespaces/default.html#function_viewProfile"
+            "url": "namespaces/default.html#function_viewDashboard"
         },                {
             "fqsen": "\\editProfile\u0028\u0029",
             "name": "editProfile",
@@ -1833,7 +2103,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\editPassword\u0028\u0029",
             "name": "editPassword",
-            "summary": "Displays\u0020a\u0020form\u0020to\u0020edit\u0020customer\u0020password.",
+            "summary": "Displays\u0020a\u0020form\u0020to\u0020edit\u0020customer\u0020password.\u0020You\u0020can\u0020access\u0020it\u0020logged\u002Din\u0020or\u0020logged\u002Dout.",
             "url": "namespaces/default.html#function_editPassword"
         },                {
             "fqsen": "\\savePassword\u0028\u0029",
@@ -1871,6 +2141,21 @@ Search.appendIndex(
             "summary": "Display\u0020the\u0020HTML\u0020code\u0020for\u0020the\u0020specific\u0020order\u0020page.",
             "url": "namespaces/default.html#function_viewOrder"
         },                {
+            "fqsen": "\\viewMessages\u0028\u0029",
+            "name": "viewMessages",
+            "summary": "Display\u0020the\u0020HTML\u0020code\u0020for\u0020the\u0020conversations\u0020list\u0020page.",
+            "url": "namespaces/default.html#function_viewMessages"
+        },                {
+            "fqsen": "\\viewMessage\u0028\u0029",
+            "name": "viewMessage",
+            "summary": "Display\u0020the\u0020HTML\u0020code\u0020for\u0020a\u0020list\u0020of\u0020messages\u0020in\u0020a\u0020conversation.",
+            "url": "namespaces/default.html#function_viewMessage"
+        },                {
+            "fqsen": "\\addReplyToMessage\u0028\u0029",
+            "name": "addReplyToMessage",
+            "summary": "Adds\u0020the\u0020reply\u0020into\u0020the\u0020database.",
+            "url": "namespaces/default.html#function_addReplyToMessage"
+        },                {
             "fqsen": "\\Utils",
             "name": "Utils",
             "summary": "Utility\u0020class\u0020to\u0020perform\u0020various\u0020actions\u0020across\u0020the\u0020whole\u0020system",
@@ -1901,10 +2186,20 @@ Search.appendIndex(
             "summary": "Returns\u0020an\u0020array\u0020of\u0020values\u0020passed\u0020through\u0020print_r\u0020with\u0020some\u0020formatting.\u0020Useful\u0020to\u0020debug\u0020arrays.",
             "url": "classes/Utils.html#method_printr"
         },                {
+            "fqsen": "\\Utils\u003A\u003Adefine_pagination_values\u0028\u0029",
+            "name": "define_pagination_values",
+            "summary": "Defines\u0020the\u0020limit\u0020lower\u0020for\u0020the\u0020query\u0020for\u0020the\u0020pagination.",
+            "url": "classes/Utils.html#method_define_pagination_values"
+        },                {
             "fqsen": "\\Utils\u003A\u003Aconstruct_page_nav\u0028\u0029",
             "name": "construct_page_nav",
             "summary": "Returns\u0020the\u0020HTML\u0020for\u0020multi\u002Dpage\u0020navigation\u0020for\u0020backoffice.",
             "url": "classes/Utils.html#method_construct_page_nav"
+        },                {
+            "fqsen": "\\Utils\u003A\u003Aparse_url\u0028\u0029",
+            "name": "parse_url",
+            "summary": "",
+            "url": "classes/Utils.html#method_parse_url"
         },                {
             "fqsen": "\\Utils\u003A\u003Afetch_start_end_total_array\u0028\u0029",
             "name": "fetch_start_end_total_array",
@@ -1915,6 +2210,36 @@ Search.appendIndex(
             "name": "sanitize_pageresults",
             "summary": "Ensures\u0020that\u0020the\u0020variables\u0020for\u0020a\u0020multi\u002Dpage\u0020display\u0020are\u0020sane",
             "url": "classes/Utils.html#method_sanitize_pageresults"
+        },                {
+            "fqsen": "\\Utils\u003A\u003AcategoriesCache\u0028\u0029",
+            "name": "categoriesCache",
+            "summary": "Returns\u0020an\u0020array\u0020of\u0020categories\u0020values\u0020with\u0020an\u0020addition\u0020of\u0020depth\u0020for\u0020parent\/child\u0020relation.",
+            "url": "classes/Utils.html#method_categoriesCache"
+        },                {
+            "fqsen": "\\Utils\u003A\u003AconstructCategorySelectOptions\u0028\u0029",
+            "name": "constructCategorySelectOptions",
+            "summary": "Returns\u0020a\u0020list\u0020of\u0020\u003Coption\u003E\u0020fields,\u0020optionally\u0020with\u0020one\u0020selected.",
+            "url": "classes/Utils.html#method_constructCategorySelectOptions"
+        },                {
+            "fqsen": "\\Utils\u003A\u003AconstructCategoryChooserOptions\u0028\u0029",
+            "name": "constructCategoryChooserOptions",
+            "summary": "Returns\u0020an\u0020array\u0020representing\u0020the\u0020list\u0020of\u0020categories.",
+            "url": "classes/Utils.html#method_constructCategoryChooserOptions"
+        },                {
+            "fqsen": "\\Utils\u003A\u003AbuildParentCache\u0028\u0029",
+            "name": "buildParentCache",
+            "summary": "Builds\u0020a\u0020cache\u0020with\u0020parents\u0020informations\u0020to\u0020create\u0020parentlist\u0020and\u0020childlist.",
+            "url": "classes/Utils.html#method_buildParentCache"
+        },                {
+            "fqsen": "\\Utils\u003A\u003AbuildCategoryGenealogy\u0028\u0029",
+            "name": "buildCategoryGenealogy",
+            "summary": "Recalculates\u0020category\u0020parent\u0020and\u0020child\u0020lists,\u0020then\u0020saves\u0020them\u0020back\u0020to\u0020the\u0020category\u0020table.",
+            "url": "classes/Utils.html#method_buildCategoryGenealogy"
+        },                {
+            "fqsen": "\\Utils\u003A\u003AfetchCategoryChildList\u0028\u0029",
+            "name": "fetchCategoryChildList",
+            "summary": "Recursive\u0020function\u0020to\u0020populate\u0020the\u0020category\u0020cache\u0020with\u0020correct\u0020child\u0020list\u0020fields.",
+            "url": "classes/Utils.html#method_fetchCategoryChildList"
         },                {
             "fqsen": "\\Utils\u003A\u003AcreateCountryList\u0028\u0029",
             "name": "createCountryList",
@@ -3311,6 +3636,11 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020add\u0020or\u0020edit\u0020customer\u0020form.",
             "url": "classes/ViewCustomer.html#method_CustomerAddEdit"
         },                {
+            "fqsen": "\\ViewCustomer\u003A\u003ACustomerDeleteConfirmation\u0028\u0029",
+            "name": "CustomerDeleteConfirmation",
+            "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020delete\u0020customer\u0020form.",
+            "url": "classes/ViewCustomer.html#method_CustomerDeleteConfirmation"
+        },                {
             "fqsen": "\\ViewCustomer\u003A\u003AViewCustomerProfile\u0028\u0029",
             "name": "ViewCustomerProfile",
             "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020customer\u0020profile",
@@ -3341,6 +3671,11 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020add\u0020or\u0020edit\u0020deliver\u0020form.",
             "url": "classes/ViewDeliver.html#method_DeliverAddEdit"
         },                {
+            "fqsen": "\\ViewDeliver\u003A\u003ADeliverDeleteConfirmation\u0028\u0029",
+            "name": "DeliverDeleteConfirmation",
+            "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020delete\u0020deliver\u0020form.",
+            "url": "classes/ViewDeliver.html#method_DeliverDeleteConfirmation"
+        },                {
             "fqsen": "\\ViewProduct",
             "name": "ViewProduct",
             "summary": "Class\u0020to\u0020display\u0020HTML\u0020content\u0020about\u0020products\u0020in\u0020front.",
@@ -3356,6 +3691,11 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020add\u0020or\u0020edit\u0020product\u0020form.",
             "url": "classes/ViewProduct.html#method_ProductAddEdit"
         },                {
+            "fqsen": "\\ViewProduct\u003A\u003AProductDeleteConfirmation\u0028\u0029",
+            "name": "ProductDeleteConfirmation",
+            "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020delete\u0020product\u0020form.",
+            "url": "classes/ViewProduct.html#method_ProductDeleteConfirmation"
+        },                {
             "fqsen": "\\ViewTrademark",
             "name": "ViewTrademark",
             "summary": "Class\u0020to\u0020display\u0020HTML\u0020content\u0020about\u0020roles\u0020in\u0020back.",
@@ -3370,6 +3710,11 @@ Search.appendIndex(
             "name": "TrademarkAddEdit",
             "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020add\u0020or\u0020edit\u0020trademark\u0020form.",
             "url": "classes/ViewTrademark.html#method_TrademarkAddEdit"
+        },                {
+            "fqsen": "\\ViewTrademark\u003A\u003ATrademarkDeleteConfirmation\u0028\u0029",
+            "name": "TrademarkDeleteConfirmation",
+            "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020delete\u0020trademark\u0020form.",
+            "url": "classes/ViewTrademark.html#method_TrademarkDeleteConfirmation"
         },                {
             "fqsen": "\\ViewCustomer\u003A\u003ARegisterForm\u0028\u0029",
             "name": "RegisterForm",
@@ -3416,6 +3761,16 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020a\u0020specific\u0020customer\u0020order\u0020details.",
             "url": "classes/ViewCustomer.html#method_DisplayOrder"
         },                {
+            "fqsen": "\\ViewCustomer\u003A\u003AViewMessages\u0028\u0029",
+            "name": "ViewMessages",
+            "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020customer\u0020messages.",
+            "url": "classes/ViewCustomer.html#method_ViewMessages"
+        },                {
+            "fqsen": "\\ViewCustomer\u003A\u003AViewMessage\u0028\u0029",
+            "name": "ViewMessage",
+            "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020messages\u0020list\u0020of\u0020a\u0020conversation.",
+            "url": "classes/ViewCustomer.html#method_ViewMessage"
+        },                {
             "fqsen": "\\ViewError\u003A\u003ADisplayError\u0028\u0029",
             "name": "DisplayError",
             "summary": "Returns\u0020the\u0020HTMl\u0020code\u0020to\u0020display\u0020any\u0020error\u0020message.",
@@ -3428,7 +3783,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\ViewIndex\u003A\u003ADisplayIndex\u0028\u0029",
             "name": "DisplayIndex",
-            "summary": "Returns\u0020the\u0020HTMl\u0020code\u0020to\u0020display\u0020the\u0020index\u0020page.",
+            "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020index\u0020page.",
             "url": "classes/ViewIndex.html#method_DisplayIndex"
         },                {
             "fqsen": "\\ViewTemplate\u003A\u003AFrontHead\u0028\u0029",
@@ -3496,6 +3851,11 @@ Search.appendIndex(
             "summary": "Process\u0020the\u0020payment.",
             "url": "namespaces/default.html#function_paymentProcess"
         },                {
+            "fqsen": "\\paymentSuccess\u0028\u0029",
+            "name": "paymentSuccess",
+            "summary": "Displays\u0020the\u0020success\u0020payment\u0020page.",
+            "url": "namespaces/default.html#function_paymentSuccess"
+        },                {
             "fqsen": "\\Ecommerce\\Stripe\\Stripe",
             "name": "Stripe",
             "summary": "Class\u0020to\u0020handle\u0020every\u0020part\u0020of\u0020Stripe\u0020payment\u0020system.",
@@ -3528,7 +3888,7 @@ Search.appendIndex(
         },                {
             "fqsen": "\\ViewCategory\u003A\u003ADisplayCategory\u0028\u0029",
             "name": "DisplayCategory",
-            "summary": "Returns\u0020the\u0020HTMl\u0020code\u0020to\u0020display\u0020the\u0020category\u0020page.",
+            "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020category\u0020page.",
             "url": "classes/ViewCategory.html#method_DisplayCategory"
         },                {
             "fqsen": "\\ViewProduct\u003A\u003ADisplayProduct\u0028\u0029",
@@ -3561,6 +3921,11 @@ Search.appendIndex(
             "summary": "Returns\u0020the\u0020HTMl\u0020code\u0020to\u0020display\u0020the\u0020place\u0020order\u0020page.",
             "url": "classes/ViewShopping.html#method_PlaceOrder"
         },                {
+            "fqsen": "\\ViewShopping\u003A\u003APaymentSuccess\u0028\u0029",
+            "name": "PaymentSuccess",
+            "summary": "Returns\u0020the\u0020HTMl\u0020code\u0020to\u0020display\u0020the\u0020success\u0020payment\u0020page.",
+            "url": "classes/ViewShopping.html#method_PaymentSuccess"
+        },                {
             "fqsen": "\\ListOrders\u0028\u0029",
             "name": "ListOrders",
             "summary": "Lists\u0020all\u0020orders.",
@@ -3568,13 +3933,63 @@ Search.appendIndex(
         },                {
             "fqsen": "\\ViewOrder",
             "name": "ViewOrder",
-            "summary": "Class\u0020to\u0020display\u0020HTML\u0020content\u0020about\u0020dashboard\u0020in\u0020back.",
+            "summary": "Class\u0020to\u0020display\u0020HTML\u0020content\u0020about\u0020orders\u0020in\u0020back.",
             "url": "classes/ViewOrder.html"
         },                {
             "fqsen": "\\ViewOrder\u003A\u003AOrdersList\u0028\u0029",
             "name": "OrdersList",
-            "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020dashboard.",
+            "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020orders\u0020list.",
             "url": "classes/ViewOrder.html#method_OrdersList"
+        },                {
+            "fqsen": "\\ListMessages\u0028\u0029",
+            "name": "ListMessages",
+            "summary": "Lists\u0020all\u0020conversations.",
+            "url": "namespaces/default.html#function_ListMessages"
+        },                {
+            "fqsen": "\\ViewConversation\u0028\u0029",
+            "name": "ViewConversation",
+            "summary": "Display\u0020the\u0020HTML\u0020code\u0020for\u0020a\u0020list\u0020of\u0020messages\u0020in\u0020a\u0020conversation.",
+            "url": "namespaces/default.html#function_ViewConversation"
+        },                {
+            "fqsen": "\\SendReply\u0028\u0029",
+            "name": "SendReply",
+            "summary": "Adds\u0020the\u0020reply\u0020into\u0020the\u0020database.",
+            "url": "namespaces/default.html#function_SendReply"
+        },                {
+            "fqsen": "\\viewContact\u0028\u0029",
+            "name": "viewContact",
+            "summary": "Displays\u0020the\u0020contact\u0020page.",
+            "url": "namespaces/default.html#function_viewContact"
+        },                {
+            "fqsen": "\\sendContact\u0028\u0029",
+            "name": "sendContact",
+            "summary": "",
+            "url": "namespaces/default.html#function_sendContact"
+        },                {
+            "fqsen": "\\ViewMessage",
+            "name": "ViewMessage",
+            "summary": "Class\u0020to\u0020display\u0020HTML\u0020content\u0020about\u0020messages\u0020in\u0020back.",
+            "url": "classes/ViewMessage.html"
+        },                {
+            "fqsen": "\\ViewMessage\u003A\u003AMessageList\u0028\u0029",
+            "name": "MessageList",
+            "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020message\u0020list.",
+            "url": "classes/ViewMessage.html#method_MessageList"
+        },                {
+            "fqsen": "\\ViewMessage\u003A\u003AViewConversation\u0028\u0029",
+            "name": "ViewConversation",
+            "summary": "Returns\u0020the\u0020HTML\u0020code\u0020to\u0020display\u0020the\u0020messages\u0020list\u0020of\u0020a\u0020conversation.",
+            "url": "classes/ViewMessage.html#method_ViewConversation"
+        },                {
+            "fqsen": "\\ViewContact",
+            "name": "ViewContact",
+            "summary": "Class\u0020to\u0020display\u0020HTML\u0020content\u0020about\u0020categories\u0020in\u0020front.",
+            "url": "classes/ViewContact.html"
+        },                {
+            "fqsen": "\\ViewContact\u003A\u003ADisplayContactForm\u0028\u0029",
+            "name": "DisplayContactForm",
+            "summary": "Returns\u0020the\u0020HTMl\u0020code\u0020to\u0020display\u0020the\u0020category\u0020page.",
+            "url": "classes/ViewContact.html#method_DisplayContactForm"
         },                {
             "fqsen": "\\",
             "name": "\\",
