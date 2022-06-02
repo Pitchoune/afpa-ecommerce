@@ -377,7 +377,6 @@ class ViewTemplate
 										<ul class="payment">
 											<li><a href="https://www.visa.com/"><img src="assets/images/footervisa.png" class="img-fluid" alt="VISA" /></a></li>
 											<li><a href="https://www.mastercard.com/"><img src="assets/images/footermastercard.png" class="img-fluid" alt="MasterCard" /></a></li>
-											<li><a href="https://www.paypal.com/"><img src="assets/images/footerpaypal.png" class="img-fluid" alt="PayPal" /></a></li>
 											<li><a href="https://www.americanexpress.com/"><img src="assets/images/footeraa.png" class="img-fluid" alt="American Express" /></a></li>
 											<li><a href="https://www.discover.com/"><img src="assets/images/footerdiscover.png" class="img-fluid" alt="Discover" /></a></li>
 										</ul>
@@ -426,11 +425,10 @@ class ViewTemplate
 						<div class="col-xl-6 col-md-4 col-sm-12">
 							<div class="footer-right">
 								<ul class="social">
-									<li><a href="javascript:void(0)"><i class="fab fa-facebook-f"></i></a></li>
-									<li><a href="javascript:void(0)"><i class="fab fa-google-plus-g"></i></a></li>
-									<li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
-									<li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
-									<li><a href="javascript:void(0)"><i class="fas fa-rss"></i></a></li>
+									<li class="fb-color"><a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a></li>
+									<li class="twt-color"><a href="https://twitter.com/"><i class="fab fa-twitter"></i></a></li>
+									<li class="insta-color"><a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a></li>
+									<li class="linkedin-color"><a href="https://www.linkedin.com.com/"><i class="fab fa-linkedin-in"></i></a></li>
 								</ul>
 							</div>
 						</div>

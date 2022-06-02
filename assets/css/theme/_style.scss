@@ -3040,6 +3040,26 @@ header {
 						background-color: $theme-color1;
 						border-color: $theme-color1;
 						color: $white;
+
+						&.fb-color {
+							background-color: $fbcolor;
+							border: 1px solid $fbcolor;
+						}
+
+						&.twt-color {
+							background-color: $twtcolor;
+							border: 1px solid $twtcolor;
+						}
+
+						&.insta-color {
+							background-color: $instacolor;
+							border: 1px solid $instacolor;
+						}
+
+						&.linkedin-color {
+							background-color: $linkedin-color;
+							border: 1px solid $linkedin-color;
+						}
 					}
 				}
 			}
@@ -4332,6 +4352,26 @@ footer {
 
 						svg {
 							color: $white;
+						}
+
+						&.fb-color {
+							background-color: $fbcolor;
+							border: 1px solid $fbcolor;
+						}
+
+						&.twt-color {
+							background-color: $twtcolor;
+							border: 1px solid $twtcolor;
+						}
+
+						&.insta-color {
+							background-color: $instacolor;
+							border: 1px solid $instacolor;
+						}
+
+						&.linkedin-color {
+							background-color: $linkedin-color;
+							border: 1px solid $linkedin-color;
 						}
 					}
 				}

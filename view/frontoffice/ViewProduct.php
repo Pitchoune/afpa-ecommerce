@@ -92,11 +92,10 @@ class ViewProduct
 											<div class="pro-group pb-0">
 												<h6 class="product-title">Partager</h6>
 												<ul class="product-social">
-													<li><a href="javascript:void(0)"><i class="fab fa-facebook-f"></i></a></li>
-													<li><a href="javascript:void(0)"><i class="fab fa-google-plus-g"></i></a></li>
-													<li><a href="javascript:void(0)"><i class="fab fa-twitter"></i></a></li>
-													<li><a href="javascript:void(0)"><i class="fab fa-instagram"></i></a></li>
-													<li><a href="javascript:void(0)"><i class="fas fa-rss"></i></a></li>
+													<li><a href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']) ?>" class="fb-color"><i class="fab fa-facebook-f"></i></a></li>
+													<li><a href="https://twitter.com/intent/tweet?text=Produit <?= $trademark['nom'] ?> - <?= $product['nom'] ?>&url=<?= urlencode($_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']) ?>" class="twt-color"><i class="fab fa-twitter"></i></a></li>
+													<li><a href="https://www.instagram.com/" class="insta-color"><i class="fab fa-instagram"></i></a></li>
+													<li><a href="https://www.linkedin.com/sharing/share-offsite/?url=<?= urlencode($_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']) ?>" class="linkedin-color"><i class="fab fa-linkedin-in"></i></a></li>
 												</ul>
 											</div>
 										</div>

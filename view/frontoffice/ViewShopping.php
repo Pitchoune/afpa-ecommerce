@@ -9,13 +9,11 @@ use \Ecommerce\Model\ModelDeliver;
 
 /**
  * Class to display HTML content about shopping in front.
- *
- * @date $Date$
  */
 class ViewShopping
 {
 	/**
-	 * Returns the HTMl code to display the cart.
+	 * Returns the HTML code to display the cart.
 	 *
 	 * @return void
 	 */
@@ -89,7 +87,7 @@ class ViewShopping
 	}
 
 	/**
-	 * Returns the HTMl code to display the checkout.
+	 * Returns the HTML code to display the checkout.
 	 *
 	 * @return void
 	 */
@@ -258,7 +256,7 @@ class ViewShopping
 	}
 
 	/**
-	 * Returns the HTMl code to display the place order page.
+	 * Returns the HTML code to display the place order page.
 	 *
 	 * @param string $price Price of the whole checkout.
 	 * @param integer $deliver Deliver ID selected in the checkout.
@@ -315,9 +313,6 @@ class ViewShopping
 															</li>
 															<li>
 																<img src="assets/images/mastercard.png" alt="" class="payment-method">
-															</li>
-															<li>
-																<img src="assets/images/paypal.png" alt="" class="payment-method">
 															</li>
 															<li>
 																<img src="assets/images/visa.png" alt="" class="payment-method">
@@ -404,7 +399,7 @@ class ViewShopping
 	}
 
 	/**
-	 * Returns the HTMl code to display the success payment page.
+	 * Returns the HTML code to display the success payment page.
 	 *
 	 * @return void
 	 */

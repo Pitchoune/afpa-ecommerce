@@ -2428,6 +2428,22 @@ header {
   border-color: #fb0000;
   color: #ffffff;
 }
+.product-right .pro-group .product-social li:hover a.fb-color {
+  background-color: #39539a;
+  border: 1px solid #39539a;
+}
+.product-right .pro-group .product-social li:hover a.twt-color {
+  background-color: #2fb0f6;
+  border: 1px solid #2fb0f6;
+}
+.product-right .pro-group .product-social li:hover a.insta-color {
+  background-color: #c42253;
+  border: 1px solid #c42253;
+}
+.product-right .pro-group .product-social li:hover a.linkedin-color {
+  background-color: #0C66C2;
+  border: 1px solid #0C66C2;
+}
 
 /* Dashboard */
 .dashboard-left {
@@ -3443,6 +3459,22 @@ footer .subfooter .footer-right ul.social li:hover {
 }
 footer .subfooter .footer-right ul.social li:hover svg {
   color: #ffffff;
+}
+footer .subfooter .footer-right ul.social li:hover.fb-color {
+  background-color: #39539a;
+  border: 1px solid #39539a;
+}
+footer .subfooter .footer-right ul.social li:hover.twt-color {
+  background-color: #2fb0f6;
+  border: 1px solid #2fb0f6;
+}
+footer .subfooter .footer-right ul.social li:hover.insta-color {
+  background-color: #c42253;
+  border: 1px solid #c42253;
+}
+footer .subfooter .footer-right ul.social li:hover.linkedin-color {
+  background-color: #0C66C2;
+  border: 1px solid #0C66C2;
 }
 footer .subfooter .footer-right ul.social.social-inverse li:hover {
   background-color: #fb0000;
