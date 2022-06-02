@@ -335,7 +335,7 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 	$address = trim(strval($address));
 	$city = trim(strval($city));
 	$zipcode = intval($zipcode);
-	$telephone = intval($telephone);
+	$telephone = trim(strval($telephone));
 
 	$customers = new ModelCustomer($config);
 
