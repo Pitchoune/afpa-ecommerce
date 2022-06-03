@@ -624,10 +624,10 @@ class ViewTemplate
 					e.preventDefault();
 					let regexListe =
 					{
-						firstname: /^[\p{L}\s-]{2,}$/u,
-						lastname: /^[\p{L}\s-]{2,}$/u,
-						title: /^[\p{L}\s-[:punct:]]{2,}$/u,
-						message: /^[\p{L}\s-[:punct:]]{2,}$/u,
+						firstname: /^[\p{L}\d\s[:punct:]]{2,}$/u,
+						lastname: /^[\p{L}\d\s[:punct:]]{2,}$/u,
+						title: /^[\p{L}\d\s[:punct:]]{2,}$/u,
+						message: /^[\p{L}\d\s[:punct:]]{2,}$/u,
 						mail: /^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si,
 						telephone: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
 						address: /^[\d\w\-\s]{5,100}$/,
