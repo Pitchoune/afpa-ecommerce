@@ -104,19 +104,7 @@ class ViewDeliver
 																		?>
 																		<tr class="<?= (($quantity++ % 2) == 0 ? 'tablegrid-row' : 'tablegrid-alt-row') ?>">
 																				<td class="tablegrid-cell" style="width: 75px">
-																				<?php
-																				if ($data['logo'])
-																				{
-																				?>
-																					<img src="../attachments/delivers/<?= $data['logo'] ?>" alt="" width="50px" height="50px" />
-																				<?php
-																				}
-																				else
-																				{
-																				?>
-																					&nbsp;
-																					<?php
-																				} ?>
+																				<?= ($data['logo'] ? '<img src="../attachments/delivers/' . $data['logo'] . '" alt="" width="50px" height="50px" />' : '') ?>
 																				</td>
 																			<td class="tablegrid-cell" style="width: 125px"><?= $data['nom']; ?></td>
 																			<?php

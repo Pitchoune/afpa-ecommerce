@@ -101,19 +101,7 @@ class ViewProduct
 																		?>
 																		<tr class="<?= (($quantity++ % 2) == 0 ? 'tablegrid-row' : 'tablegrid-alt-row') ?>">
 																				<td class="tablegrid-cell" style="width: 75px">
-																				<?php
-																				if ($data['photo'])
-																				{
-																				?>
-																					<img src="../attachments/products/<?= $data['photo'] ?>" alt="" width="50px" height="50px" />
-																				<?php
-																				}
-																				else
-																				{
-																				?>
-																					&nbsp;
-																					<?php
-																				} ?>
+																				<?= ($data['photo'] ? '<img src="../attachments/products/' . $data['photo'] . '" alt="" width="50px" height="50px" />' : '') ?>
 																				</td>
 																			<td class="tablegrid-cell" style="width: 125px"><?= $data['nom']; ?></td>
 																			<?php
@@ -131,12 +119,9 @@ class ViewProduct
 
 																					if (Utils::cando(26))
 																					{
-																						//if ($data['compteur'] == 0 OR $quantity >= 1)
-																						//{
 																						?>
 																							<a class="tablegrid-button tablegrid-delete-button" type="button" title="Supprimer" href="index.php?do=deleteproduct&amp;id=<?= $data['id'] ?>"></a>
 																						<?php
-																						//}
 																					}
 																					?>
 																				</td>
