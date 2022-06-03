@@ -56,6 +56,7 @@ function ViewConversation($id)
 	$messageids[] = $id;
 	$title = '';
 	$latestid = 0;
+	$customerid = 0;
 
 	do {
 		// Grab the next id from the latest grabbed
@@ -73,6 +74,11 @@ function ViewConversation($id)
 
 		// Get the latest id only for send reply save
 		$latestid = $i['id'];
+
+		if (!empty($i['id_client']))
+		{
+			$customerid = $i['id_client'];
+		}
 	} while (true);
 
 	// Now we have the ids list array filled with the correct ids, we can transform it
@@ -98,8 +104,7 @@ function ViewConversation($id)
 	}
 
 	$customer = new ModelCustomer($config);
-	$customer->set_id($_SESSION['user']['id']);
-
+	$customer->set_id($customerid);
 	$customerinfos = $customer->getCustomerInfosFromId();
 
 	ViewMessage::ViewConversation($id, $messages, $title, $customerinfos, $latestid);
@@ -141,10 +146,29 @@ function SendReply($id, $latestid, $reply, $customerid)
 		// Send an email to the customer
 		$customers = new ModelCustomer($config);
 		$customers->set_id($customerid);
+		$customer = $customers->getCustomerInfosFromId();
 
-		// Return to the original page
-		$_SESSION['employee']['messaging']['replied'] = 1;
-		header('Location: index.php?do=viewconversation&id=' . $id);
+		$messages->set_id($id);
+		$messagetitle = $messages->getMessageFromDiscussion();
+
+		$message = 'Bonjour,
+
+Vous avez reçu une réponse à la converssation « ' . $messagetitle['titre'] . ' ».
+
+Vous pouvez la consulter à l\'adresse suivante :
+
+https://' . $_SERVER['HTTP_HOST'] . str_replace('/admin', '', $_SERVER['DOCUMENT_URI']) . '?do=viewmessage&id=' . $id;
+
+		$headers = 'From: ' . $config['Misc']['emailaddress'] . "\r\n" . 'Reply-To: ' . $config['Misc']['emailaddress'] . "\r\n" . 'X-Mailer: PHP/' . phpversion();
+
+		$sentmail = mail($customer['mail'], 'Réponse à la conversation « ' . $messagetitle['titre'] . ' »', $message, $headers);
+
+		if ($sentmail)
+		{
+			// Return to the original page
+			$_SESSION['employee']['messaging']['replied'] = 1;
+			header('Location: index.php?do=viewconversation&id=' . $id);
+		}
 	}
 	else
 	{

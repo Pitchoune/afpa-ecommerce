@@ -56,6 +56,11 @@ $config['Misc']['path'] = '';
 $config['Misc']['superadminid'] = '1';
 
 /**
+ * Email address of the super admin.
+ */
+$config['Misc']['emailaddress'] = 'admin@yrg.ovh';
+
+/**
  * The Strip API private key.
  */
 $config['Stripe']['privatekey'] = 'sk_test_51KrojCIKwGeta4eBYr9rnf1wCE8ZPcyFyk04TN5JCd7kj4j8Fevn6JyMIPt7zulB17jJNLTjXUqL5ovjmpxQky2L00j2ZQWbjt';

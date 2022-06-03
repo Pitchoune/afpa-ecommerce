@@ -940,6 +940,11 @@ function viewMessage($id)
 		$latestid = $i['id'];
 	} while (true);
 
+	if ($latestid === 0)
+	{
+		$latestid = $id;
+	}
+
 	// Now we have the ids list array filled with the correct ids, we can transform it
 	// into a comma-separated id list for the query to grab all messages
 	$list = implode(',', $messageids);
@@ -1016,7 +1021,7 @@ function addReplyToMessage($id, $latestid, $message)
 		throw new Exception('Veuillez remplir le message.');
 	}
 
-	if (!preg_match('/^[\p{L}\s-[:punct:]]{2,}$/u', $message))
+	if (!preg_match('/^[\p{L}\d\s[:punct:]]{2,}$/u', $message))
 	{
 		throw new Exception('Le format du message n\'est pas valide.');
 	}

@@ -219,7 +219,7 @@ class ModelMessage extends Model
 	{
 		$db = $this->dbConnect();
 		$query = $db->prepare("
-			SELECT m.id
+			SELECT m.id, m.id_client
 			FROM message AS m
 			INNER JOIN message AS n ON (m.precedent_id = n.id)
 			WHERE n.id = ?
