@@ -103,9 +103,18 @@ function ViewConversation($id)
 		throw new Exception('Vous ne pouvez pas ouvrir une conversation depuis un message qui n\'est pas le premier message.');
 	}
 
-	$customer = new ModelCustomer($config);
-	$customer->set_id($customerid);
-	$customerinfos = $customer->getCustomerInfosFromId();
+	if (!$customerid)
+	{
+		$customer = new ModelCustomer($config);
+		$customer->set_id($messages[0]['id_client']);
+		$customerinfos = $customer->getCustomerInfosFromId();
+	}
+	else
+	{
+		$customer = new ModelCustomer($config);
+		$customer->set_id($customerid);
+		$customerinfos = $customer->getCustomerInfosFromId();
+	}
 
 	ViewMessage::ViewConversation($id, $messages, $title, $customerinfos, $latestid);
 }

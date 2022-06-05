@@ -237,7 +237,7 @@ class ViewMessage
 		$navtitle = 'Visualisation de la conversation';
 
 		$navbits = [
-			'index.php?do=listmessages' => $pagetitle,
+			'listmessages' => $pagetitle,
 			'' => $navtitle
 		];
 
