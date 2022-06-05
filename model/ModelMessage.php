@@ -487,3 +487,5 @@ class ModelMessage extends Model
 		return $this->id_employee;
 	}
 }
+
+?>

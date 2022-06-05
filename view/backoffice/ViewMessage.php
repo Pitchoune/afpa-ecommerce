@@ -298,7 +298,7 @@ class ViewMessage
 																		<div class="message-body">
 																			<div class="message-content">
 																				<div class="content">
-																					<?= $data['message'] ?>
+																					<?= Utils::htmlSpecialCharsUni($data['message'], false) ?>
 																				</div>
 																			</div>
 																		</div>
@@ -319,8 +319,11 @@ class ViewMessage
 														</div>
 													</div>
 													<form class="messages-form" action="index.php?do=sendreply&amp;originalid=<?= $id ?>&amp;latestid=<?= $latestid ?>" method="post">
-														<div class="messages-form-control">
-															<input type="text" name="message" placeholder="Écrire ici" class="form-control input-pill input-solid message-input" />
+														<div class="messages-form-control col-xl-10">
+															<input type="text" id="message" name="message" placeholder="Écrire ici" class="form-control input-pill input-solid message-input" />
+														</div>
+														<div class="col-xl-2">
+															<input type="submit" id="validation" class="btn btn-primary" value="Répondre" />
 															<input type="hidden" name="do" value="sendreply" />
 															<input type="hidden" name="customerid" value="<?= $customerinfos['id'] ?>" />
 															<input type="hidden" name="originalid" value="<?= $id ?>" />
@@ -376,6 +379,8 @@ class ViewMessage
 
 				<?php
 				ViewTemplate::BackFoot();
+
+				ViewTemplate::BackFormValidation('validation', 5, 1);
 
 				if ($_SESSION['employee']['messaging']['replied'] === 1)
 				{

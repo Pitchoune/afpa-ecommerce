@@ -236,16 +236,16 @@ class ViewCustomer
 	/**
 	 * Returns the HTML code to display the add or edit customer form.
 	 *
-	 * @param integer $id ID of the customer if we need to edit an existing customer. Empty for a new customer.
 	 * @param string $navtitle Title of the page to show in the breadcrumb.
 	 * @param array $navbits Breadcrumb content.
 	 * @param array $customerinfos Default values to show as default in fields.
 	 * @param string $formredirect Redirect part of the URL to save data.
 	 * @param string $pagetitle Title of the page.
+	 * @param integer $id ID of the customer if we need to edit an existing customer. Empty for a new customer.
 	 *
 	 * @return void
 	 */
-	public static function CustomerAddEdit($id = '', $navtitle, $navbits, $customerinfos, $formredirect, $pagetitle)
+	public static function CustomerAddEdit($navtitle, $navbits, $customerinfos, $formredirect, $pagetitle, $id = '')
 	{
 		?>
 		<!DOCTYPE html>
@@ -276,42 +276,42 @@ class ViewCustomer
 											<div class="card-body">
 												<form class="digital-add" enctype="multipart/form-data" method="post" action="index.php?do=<?= $formredirect ?>">
 													<div class="form-group">
-														<label for="firstname" class="col-form-label pt-0"><span>*</span> Nom</label>
+														<label for="firstname" class="col-form-label pt-0"> Nom <span>*</span></label>
 														<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du nom n'est pas valide." placeholder="Insérez votre nom" value="<?= $customerinfos['nom'] ?>" required />
 														<small id="firstnameHelp" class="form-text text-muted"></small>
 													</div>
 													<div class="form-group">
-														<label for="lastname" class="col-form-label pt-0"><span>*</span> Prénom</label>
+														<label for="lastname" class="col-form-label pt-0">Prénom <span>*</span></label>
 														<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du prénom n'est pas valide." placeholder="Insérez votre prénom" value="<?= $customerinfos['prenom'] ?>" required />
 														<small id="lastnameHelp" class="form-text text-muted"></small>
 													</div>
 													<div class="form-group">
-														<label for="mail" class="col-form-label pt-0"><span>*</span> Email</label>
+														<label for="mail" class="col-form-label pt-0">Email <span>*</span></label>
 														<input type="text" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." placeholder="Insérez votre adresse email" value="<?= $customerinfos['mail'] ?>" required />
 														<small id="emailHelp" class="form-text text-muted"></small>
 													</div>
 													<div class="form-group">
-														<label for="password" class="col-form-label pt-0"><span>*</span> Mot de passe</label>
+														<label for="password" class="col-form-label pt-0">Mot de passe <span>*</span></label>
 														<input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" data-type="password" data-message="Le format du mot de passe n'est pas valide." required />
 														<small id="passwordHelp" class="form-text text-muted"></small>
 													</div>
 													<div class="form-group">
-														<label for="telephone" class="col-form-label pt-0"><span>*</span> Téléphone</label>
+														<label for="telephone" class="col-form-label pt-0">Téléphone <span>*</span></label>
 														<input type="text" class="form-control" id="telephone" name="telephone" aria-describedby="telephoneHelp" data-type="telephone" data-message="Le format du numéro de téléphone n'est pas valide." placeholder="Insérez votre téléphone" value="<?= $customerinfos['tel'] ?>" required />
 														<small id="telephoneHelp" class="form-text text-muted"></small>
 													</div>
 													<div class="form-group">
-														<label for="address" class="col-form-label pt-0"><span>*</span> Adresse</label>
+														<label for="address" class="col-form-label pt-0">Adresse <span>*</span></label>
 														<input type="text" class="form-control" id="address" name="address" aria-describedby="addressHelp" data-type="address" data-message="Le format de l'adresse postale n'est pas valide." placeholder="Adresse" value="<?= $customerinfos['adresse'] ?>" required />
 														<small id="addressHelp" class="form-text text-muted"></small>
 													</div>
 													<div class="form-group">
-														<label for="city" class="col-form-label pt-0"><span>*</span> Ville</label>
+														<label for="city" class="col-form-label pt-0">Ville <span>*</span></label>
 														<input type="text" class="form-control" id="city" name="city" aria-describedby="cityHelp" data-type="city" data-message="Le format de la ville n'est pas valide." placeholder="Ville" value="<?= $customerinfos['ville'] ?>" required />
 														<small id="cityHelp" class="form-text text-muted"></small>
 													</div>
 													<div class="form-group">
-														<label for="zipcode" class="col-form-label pt-0"><span>*</span> Code postal</label>
+														<label for="zipcode" class="col-form-label pt-0">Code postal <span>*</span></label>
 														<input type="text" class="form-control" id="zipcode" name="zipcode" aria-describedby="zipcodeHelp" data-type="zipcode" data-message="Le format du code postal n'est pas valide." placeholder="Code postal" value="<?= $customerinfos['code_post'] ?>" required />
 														<small id="zipcodeHelp" class="form-text text-muted"></small>
 													</div>
@@ -326,7 +326,7 @@ class ViewCustomer
 															<?php
 															}
 															?>
-															<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
+															<input type="submit" class="btn btn-primary" id="validation" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
 															<input type="reset" class="btn btn-light" value="Annuler"/>
 														</div>
 													</div>
@@ -349,14 +349,7 @@ class ViewCustomer
 				<?php
 				ViewTemplate::BackFoot();
 
-				if ($id)
-				{
-					ViewTemplate::BackFormValidation('valider', 4, 1);
-				}
-				else
-				{
-					ViewTemplate::BackFormValidation('valider', 3, 1);
-				}
+				ViewTemplate::BackFormValidation('validation', $id ? 4 : 3, 1);
 				?>
 			</body>
 		</html>

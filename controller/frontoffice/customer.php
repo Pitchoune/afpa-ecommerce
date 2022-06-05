@@ -6,6 +6,7 @@ require_once(DIR . '/model/ModelOrder.php');
 require_once(DIR . '/model/ModelOrderDetails.php');
 require_once(DIR . '/model/ModelTrademark.php');
 require_once(DIR . '/model/ModelMessage.php');
+require_once(DIR . '/view/frontoffice/ViewCustomer.php');
 use \Ecommerce\Model\ModelCustomer;
 use \Ecommerce\Model\ModelEmployee;
 use \Ecommerce\Model\ModelOrder;
@@ -25,8 +26,6 @@ function register()
 		throw new Exception('Vous êtes déjà identifié. Vous ne pouvez pas vous inscrire.');
 	}
 
-	// We generate HTML code from the view
-	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
 	ViewCustomer::RegisterForm();
 }
 
@@ -57,66 +56,51 @@ function doRegister($firstname, $lastname, $email, $password, $passwordconfirm)
 	$password = trim(strval($password));
 	$passwordconfirm = trim(strval($passwordconfirm));
 
-	// Enabling the model call here, useful to validate data
-	$customer = new ModelCustomer($config);
+	// Validate firstname
+	$validmessage = Utils::datavalidation($firstname, 'firstname', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
 
-	// Validate first name
-	if (empty($firstname))
+	if ($validmessage)
 	{
-		throw new Exception('Veuillez insérer votre prénom.');
-	}
-	else if (!preg_match('/^[\p{L}\s]{2,}$/u', $firstname))
-	{
-		throw new Exception('Le prénom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
+		throw new Exception($validmessage);
 	}
 
-	// Validate last name
-	if (empty($lastname))
+	// Validate lastname
+	$validmessage = Utils::datavalidation($lastname, 'lastname', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
+
+	if ($validmessage)
 	{
-		throw new Exception('Veuillez insérer votre nom.');
-	}
-	else if (!preg_match('/^[\p{L}\s]{2,}$/u', $lastname))
-	{
-		throw new Exception('Le nom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
+		throw new Exception($validmessage);
 	}
 
 	// Validate email
-	if (empty($email))
-	{
-		throw new Exception('Veuillez insérer votre adresse email.');
-	}
-	else if (!preg_match('/^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si', $email))
-	{
-		throw new Exception('Veuillez insérer une adresse email valide.');
-	}
-	else
-	{
-		$customer->set_email($email);
-		$customeremail = $customer->getCustomerId();
+	$validmessage = Utils::datavalidation($email, 'mail');
 
-		if ($customeremail['id'])
-		{
-			throw new Exception('Cette adresse email existe déjà.');
-		}
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
 	}
 
 	// Validate password
-	if (empty($password))
+	$validmessage = Utils::datavalidation($password, 'pass', '', $passwordconfirm);
+
+	if ($validmessage)
 	{
-		throw new Exception('Veuillez insérer un mot de passe.');
+		throw new Exception($validmessage);
 	}
-	else if ($password !== $passwordconfirm)
+
+	// Prepare data to save
+	$customer->set_email($email);
+	$customeremail = $customer->getCustomerId();
+
+	if ($customeremail['id'])
 	{
-		throw new Exception('Les mots de passe ne correspondent pas.');
-	}
-	else if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $password))
-	{
-		throw new Exception('Le mot de passe utilise des caractères interdits. Il doit contenir des caractères minuscules, majuscules, des chiffres et des caractères spéciaux, sur 8 caractères de long. Veuillez recommencer.');
+		throw new Exception('Cette adresse email existe déjà.');
 	}
 
 	$hashedpassword = password_hash($password, PASSWORD_DEFAULT);
 
 	// No error - we insert the new user with the model
+	$customer = new ModelCustomer($config);
 	$customer->set_firstname($firstname);
 	$customer->set_lastname($lastname);
 	$customer->set_email($email);
@@ -125,14 +109,12 @@ function doRegister($firstname, $lastname, $email, $password, $passwordconfirm)
 	if ($customer->saveNewCustomer())
 	{
 		$_SESSION['userregistered'] = 1;
+		header('Location: index.php');
 	}
 	else
 	{
 		throw new Exception('L\'inscription n\'a pas pu aller jusqu\'au bout. Veuillez recommencer. Si le problème persiste, veuillez contacter l\'équipe.');
 	}
-
-	// We generate HTML code from the view
-	header('Location: index.php');
 }
 
 /**
@@ -148,8 +130,6 @@ function login()
 		header('Location: index.php');
 	}
 
-	// We generate HTML code from the view
-	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
 	ViewCustomer::LoginForm();
 }
 
@@ -174,37 +154,31 @@ function doLogin($email, $password)
 	$email = trim(strval($email));
 	$password = trim(strval($password));
 
-	// Enabling the model call here, useful to validate data
-	$customer = new ModelCustomer($config);
-
 	// Validate email
-	if (empty($email))
-	{
-		throw new Exception('Veuillez insérer votre adresse email.');
-	}
-	else if (!preg_match('/^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si', $email))
-	{
-		throw new Exception('Veuillez insérer une adresse email valide.');
-	}
-	else
-	{
-		$customer->set_email($email);
-		$customerid = $customer->getCustomerId();
+	$validmessage = Utils::datavalidation($email, 'mail');
 
-		if (!$customerid['id'])
-		{
-			throw new Exception('Une erreur est survenue, veuillez recommencer.');
-		}
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
 	}
 
 	// Validate password
-	if (empty($password))
+	$validmessage = Utils::datavalidation($password, 'pass');
+
+	if ($validmessage)
 	{
-		throw new Exception('Veuillez insérer un mot de passe.');
+		throw new Exception($validmessage);
 	}
-	else if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $password))
+
+	// Enabling the model call here, useful to validate data
+	$customer = new ModelCustomer($config);
+
+	$customer->set_email($email);
+	$customerid = $customer->getCustomerId();
+
+	if (!$customerid['id'])
 	{
-		throw new Exception('Le mot de passe utilise des caractères interdits. Il doit contenir des caractères minuscules, majuscules, des chiffres et des caractères spéciaux, sur 8 caractères de long. Veuillez recommencer.');
+		throw new Exception('Une erreur est survenue, veuillez recommencer.');
 	}
 
 	// No error - we insert the new user with the model
@@ -224,14 +198,12 @@ function doLogin($email, $password)
 		$_SESSION['user']['id'] = $user['id'];
 		$_SESSION['user']['email'] = $user['mail'];
 		$_SESSION['userloggedin'] = 1;
+		header('Location: index.php');
 	}
 	else
 	{
 		throw new Exception('Une erreur est survenue, veuillez recommencer. Si le problème persiste, veuillez contacter l\'équipe.');
 	}
-
-	// We generate HTML code from the view
-	header('Location: index.php');
 }
 
 /**
@@ -254,7 +226,6 @@ function doLogout()
 	session_start();
 	$_SESSION['userloggedout'] = 1;
 
-	// We generate HTML code from the view
 	header('Location: index.php');
 }
 
@@ -277,7 +248,6 @@ function viewDashboard()
 	$customer->set_id($_SESSION['user']['id']);
 	$data = $customer->getCustomerInfosFromId();
 
-	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
 	ViewCustomer::CustomerDashboard($data);
 }
 
@@ -300,7 +270,6 @@ function editProfile()
 	$customer->set_id($_SESSION['user']['id']);
 	$data = $customer->getCustomerInfosFromId();
 
-	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
 	ViewCustomer::CustomerProfile($data);
 }
 
@@ -320,8 +289,6 @@ function editProfile()
  */
 function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipcode, $telephone)
 {
-	global $config;
-
 	if (!$_SESSION['user']['loggedin'])
 	{
 		$_SESSION['nonallowed'] = 1;
@@ -337,84 +304,66 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 	$zipcode = intval($zipcode);
 	$telephone = trim(strval($telephone));
 
+	// Validate first name
+	$validmessage = Utils::datavalidation($firstname, 'firstname', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	// Validate last name
+	$validmessage = Utils::datavalidation($lastname, 'lastname', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	// Validate email
+	$validmessage = Utils::datavalidation($email, 'mail');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	// Validate address
+	$validmessage = Utils::datavalidation($address, 'address');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	// Validate city
+	$validmessage = Utils::datavalidation($city, 'city');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	// Validate zipcode
+	$validmessage = Utils::datavalidation($zipcode, 'zipcode');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	// Validate telephone
+	$validmessage = Utils::datavalidation($telephone, 'telephone');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	// No error - proceed to save data
+	global $config;
+
 	$customers = new ModelCustomer($config);
-
-	// Verify first name
-	if ($firstname === '')
-	{
-		throw new Exception('Veuillez remplir le prénom.');
-	}
-
-	if (!preg_match('/^[\p{L}\s]{2,}$/u', $firstname))
-	{
-		throw new Exception('Le format du prénom n\'est pas valide.');
-	}
-
-	// Verify last name
-	if ($lastname === '')
-	{
-		throw new Exception('Veuillez remplir le nom.');
-	}
-
-	if (!preg_match('/^[\p{L}\s]{2,}$/u', $lastname))
-	{
-		throw new Exception('Le format du nom n\'est pas valide.');
-	}
-
-	// Verify email address
-	if ($email === '')
-	{
-		throw new Exception('Veuillez remplir l\'adresse email.');
-	}
-
-	if (!preg_match('/^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si', $email))
-	{
-		throw new Exception('Le format de l\'adresse email n\'est pas valide.');
-	}
-
-	// Verify address
-	if ($address === '')
-	{
-		throw new Exception('Veuillez remplir l\'adresse postale.');
-	}
-
-	if (!preg_match('/^[\d\w\-\s]{5,100}$/', $address))
-	{
-		throw new Exception('Le format de l\'adresse postale n\'est pas valide.');
-	}
-
-	// Verify city
-	if ($city === '')
-	{
-		throw new Exception('Veuillez remplir la ville.');
-	}
-
-	if (!preg_match('/^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/u', $city))
-	{
-		throw new Exception('Le format de la ville n\'est pas valide.');
-	}
-
-	// Verify zipcode
-	if ($zipcode === '')
-	{
-		throw new Exception('Veuillez remplir le code postal.');
-	}
-
-	if (!preg_match('/^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/', $zipcode))
-	{
-		throw new Exception('Le format du code postal n\'est pas valide.');
-	}
-
-	// Verify telephone
-	if ($telephone === '')
-	{
-		throw new Exception('Veuillez remplir le téléphone.');
-	}
-
-	if (!preg_match('/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/', $telephone))
-	{
-		throw new Exception('Le format du téléphone n\'est pas valide.');
-	}
 
 	$customers->set_id($id);
 	$customers->set_firstname($firstname);
@@ -429,13 +378,12 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 	if ($customers->saveCustomerData())
 	{
 		$_SESSION['profile']['edit'] = 1;
+		header('Location: index.php?do=editprofile');
 	}
 	else
 	{
 		throw new Exception('La mise à jour de vos données ne s\'est pas effectué, veuillez recommencer. Si le problème persiste, veuillez contacter l\'équipe.');
 	}
-
-	header('Location: index.php?do=editprofile');
 }
 
 /**
@@ -462,7 +410,7 @@ function editPassword($email = '', $token = '')
 			$customers->set_email($email);
 			$customerid = $customers->getCustomerId();
 
-			if ($customers->getCustomerId())
+			if ($customerid)
 			{
 				// ID exists, check the token
 				$savedtoken = $customers->getCustomerToken();
@@ -492,7 +440,6 @@ function editPassword($email = '', $token = '')
 
 	$data = $customer->getCustomerInfosFromId();
 
-	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
 	ViewCustomer::CustomerPassword($data, $savedtoken);
 }
 
@@ -500,38 +447,29 @@ function editPassword($email = '', $token = '')
  * Saves the new password defined by the customer.
  *
  * @param integer $id ID of the customer.
- * @param string $password Current password of the customer. Empty if from the forgot password email.
  * @param string $newpassword New password of the customer.
  * @param string $confirmpassword New password confirmation of the customer.
+ * @param string $password Current password of the customer. Empty if from the forgot password email.
  * @param string $token Token of the customer if filled. Necessary on forgot password.
  *
  * @return void
  */
-function savePassword($id, $password = '', $newpassword, $confirmpassword, $token = '')
+function savePassword($id, $newpassword, $confirmpassword, $password = '', $token = '')
 {
-	global $config;
-
 	$id = intval($id);
 	$password = trim(strval($password));
 	$newpassword = trim(strval($newpassword));
 	$confirmpassword = trim(strval($confirmpassword));
 	$token = trim(strval($token));
 
-	$customers = new ModelCustomer($config);
-	$customers->set_id(intval($id));
-	$customer = $customers->getCustomerInfosFromId();
-
 	if (!$token)
 	{
-		// Verify password
-		if ($password === '')
-		{
-			throw new Exception('Veuillez remplir le mot de passe actuel.');
-		}
+		// Validate password
+		$validmessage = Utils::datavalidation($password, 'pass');
 
-		if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $password))
+		if ($validmessage)
 		{
-			throw new Exception('Le mot de passe actuel n\'est pas valide. Il doit contenir des caractères minuscules, majuscules, des chiffres et des caractères spéciaux, sur 8 caractères de long.');
+			throw new Exception($validmessage);
 		}
 
 		$checkpassword = password_verify($password, $customer['pass']);
@@ -543,27 +481,19 @@ function savePassword($id, $password = '', $newpassword, $confirmpassword, $toke
 		$checkpassword = true;
 	}
 
-	// Verify new password
-	if ($newpassword === '')
+	// Validate newpassword
+	$validmessage = Utils::datavalidation($newpassword, 'pass', '', $confirmpassword);
+
+	if ($validmessage)
 	{
-		throw new Exception('Veuillez remplir le nouveau mot de passe.');
+		throw new Exception($validmessage);
 	}
 
-	if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $newpassword))
-	{
-		throw new Exception('Le nouveau mot de passe n\'est pas valide. Il doit contenir des caractères minuscules, majuscules, des chiffres et des caractères spéciaux, sur 8 caractères de long.');
-	}
+	global $config;
 
-	// Verify confirm password
-	if ($confirmpassword === '')
-	{
-		throw new Exception('Veuillez remplir la confirmation du nouveau mot de passe.');
-	}
-
-	if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $confirmpassword))
-	{
-		throw new Exception('La confirmation du mot de passe n\'est pas valide. Il doit contenir des caractères minuscules, majuscules, des chiffres et des caractères spéciaux, sur 8 caractères de long.');
-	}
+	$customers = new ModelCustomer($config);
+	$customers->set_id(intval($id));
+	$customer = $customers->getCustomerInfosFromId();
 
 	// Change password with the original password
 	if ($checkpassword)
@@ -586,6 +516,7 @@ function savePassword($id, $password = '', $newpassword, $confirmpassword, $toke
 					}
 
 					$_SESSION['password']['edit'] = 1;
+					header('Location: index.php?do=editpassword');
 				}
 				else
 				{
@@ -606,8 +537,6 @@ function savePassword($id, $password = '', $newpassword, $confirmpassword, $toke
 	{
 		throw new Exception('Le mot de passe actuel ne correpond pas. Veuillez recommencer.');
 	}
-
-	header('Location: index.php?do=editpassword');
 }
 
 /**
@@ -629,7 +558,6 @@ function forgotPassword()
 	$customer->set_id($_SESSION['user']['id']);
 	$data = $customer->getCustomerInfosFromId();
 
-	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
 	ViewCustomer::CustomerForgotPassword($data);
 }
 
@@ -681,6 +609,7 @@ https://' . $_SERVER['HTTP_HOST'] . $_SERVER['DOCUMENT_URI'] . '?do=editpassword
 			if ($sentmail)
 			{
 				$_SESSION['password']['forgot'] = 1;
+				header('Location: index.php?do=forgotpassword');
 			}
 		}
 		else
@@ -692,8 +621,6 @@ https://' . $_SERVER['HTTP_HOST'] . $_SERVER['DOCUMENT_URI'] . '?do=editpassword
 	{
 		throw new Exception('Une erreur est survenue pendant la réinitialisation du mot de passe. Veuillez recommencer. Si le problème persiste, veuillez contacter l\'équipe.');
 	}
-
-	header('Location: index.php?do=forgotpassword');
 }
 
 /**
@@ -716,7 +643,6 @@ function deleteProfile()
 
 	$data = $customer->getCustomerInfosFromId();
 
-	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
 	ViewCustomer::CustomerDeleteProfile($data);
 }
 
@@ -730,8 +656,6 @@ function deleteProfile()
  */
 function doDeleteProfile($id, $deletion)
 {
-	global $config;
-
 	if (!$_SESSION['user']['loggedin'])
 	{
 		$_SESSION['nonallowed'] = 1;
@@ -746,6 +670,8 @@ function doDeleteProfile($id, $deletion)
 		// Create a new empty session to store the notify.
 		session_start();
 
+		global $config;
+
 		// Delete only the customer account, not the previous orders
 		$customers = new ModelCustomer($config);
 		$customers->set_id($id);
@@ -753,14 +679,13 @@ function doDeleteProfile($id, $deletion)
 		if ($customers->deleteCustomer())
 		{
 			$_SESSION['customerremoved'] = 1;
+			header('Location: index.php');
 		}
 	}
 	else
 	{
 		throw new Exception('Vous n\'avez pas coché la case de confirmation de suppression de votre compte, veuillez recommencer.');
 	}
-
-	header('Location: index.php');
 }
 
 /**
@@ -796,7 +721,6 @@ function viewOrders()
 		$orders = $orderlist->getAllCustomerOrders($limitlower, $perpage);
 	}
 
-	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
 	ViewCustomer::DisplayOrders($orders, $orderlist, $totalorders, $perpage);
 }
 
@@ -835,7 +759,6 @@ function viewOrder($id)
 		throw new Exception('Vous n\'êtes pas autorisé à afficher cette page.');
 	}
 
-	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
 	ViewCustomer::DisplayOrder($id, $orderdetail);
 }
 
@@ -846,49 +769,45 @@ function viewOrder($id)
  */
 function viewMessages()
 {
-	if ($_SESSION['user']['loggedin'])
+	if (!$_SESSION['user']['loggedin'])
 	{
-		global $config, $pagenumber;
-
-		$customer = new ModelCustomer($config);
-		$customer->set_id($_SESSION['user']['id']);
-
-		$data = $customer->getCustomerInfosFromId();
-
-		$messagelist = new ModelMessage($config);
-		$messagelist->set_customer($data['id']);
-		$messagelist->set_type('contact', 'notif');
-		$totalmessages = $messagelist->countMessagesFromCustomer();
-
-		$perpage = 10;
-		$limitlower = Utils::define_pagination_values($totalmessages['nbmessages'], $pagenumber, $perpage);
-
-		$getmessage = $messagelist->getAllMessagesFromCustomer($limitlower, $perpage);
-
-		$messages = [];
-
-		foreach ($getmessage AS $key => $value)
-		{
-			$messages[$key] = $value;
-
-			if ($value['id_client'])
-			{
-				// If the client started the message, displays its first and last name
-				$customer->set_id($value['id_client']);
-				$customerinfo = $customer->getCustomerInfosFromId();
-				$messages[$key]['nom_client'] = $customerinfo['prenom'] . ' ' . $customerinfo['nom'];
-			}
-		}
-
-		require_once(DIR . '/view/frontoffice/ViewCustomer.php');
-		ViewCustomer::viewMessages($messages, $perpage, $totalmessages['nbmessages']);
-	}
-	else
-	{
-
 		$_SESSION['nonallowed'] = 1;
 		header('Location: index.php');
 	}
+
+	global $config, $pagenumber;
+
+	$customer = new ModelCustomer($config);
+	$customer->set_id($_SESSION['user']['id']);
+
+	$data = $customer->getCustomerInfosFromId();
+
+	$messagelist = new ModelMessage($config);
+	$messagelist->set_customer($data['id']);
+	$messagelist->set_type('contact', 'notif');
+	$totalmessages = $messagelist->countMessagesFromCustomer();
+
+	$perpage = 10;
+	$limitlower = Utils::define_pagination_values($totalmessages['nbmessages'], $pagenumber, $perpage);
+
+	$getmessage = $messagelist->getAllMessagesFromCustomer($limitlower, $perpage);
+
+	$messages = [];
+
+	foreach ($getmessage AS $key => $value)
+	{
+		$messages[$key] = $value;
+
+		if ($value['id_client'])
+		{
+			// If the client started the message, displays its first and last name
+			$customer->set_id($value['id_client']);
+			$customerinfo = $customer->getCustomerInfosFromId();
+			$messages[$key]['nom_client'] = $customerinfo['prenom'] . ' ' . $customerinfo['nom'];
+		}
+	}
+
+	ViewCustomer::viewMessages($messages, $perpage, $totalmessages['nbmessages']);
 }
 
 /**
@@ -982,7 +901,6 @@ function viewMessage($id)
 		throw new Exception('Vous ne pouvez pas consulter les messages des autres clients.');
 	}
 
-	require_once(DIR . '/view/frontoffice/ViewCustomer.php');
 	ViewCustomer::viewMessage($id, $messages, $title, $customerinfos, $latestid, $employee);
 }
 
@@ -1015,15 +933,12 @@ function addReplyToMessage($id, $latestid, $message)
 
 	$data = $customer->getCustomerInfosFromId();
 
-	// Verify message
-	if ($message === '' OR empty($message))
-	{
-		throw new Exception('Veuillez remplir le message.');
-	}
+	// Validate message
+	$validmessage = Utils::datavalidation($message, 'message', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- _ ~ - ! @ # : " \' = . , ; $ % ^ & * ( ) [ ] &lt; &gt;');
 
-	if (!preg_match('/^[\p{L}\d\s[:punct:]]{2,}$/u', $message))
+	if ($validmessage)
 	{
-		throw new Exception('Le format du message n\'est pas valide.');
+		throw new Exception($validmessage);
 	}
 
 	$date = date("Y-m-d H:i:s");

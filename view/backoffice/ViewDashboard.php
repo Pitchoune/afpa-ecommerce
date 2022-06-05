@@ -137,14 +137,6 @@ class ViewDashboard
 				</div>
 
 				<?= ViewTemplate::BackFoot() ?>
-
-				<script>
-					$('.single-item').slick({
-							arrows: false,
-							dots: true
-						}
-					);
-				</script>
 			</body>
 		</html>
 

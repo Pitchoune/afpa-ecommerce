@@ -311,3 +311,5 @@ class ModelDeliver extends Model
 		return $this->logo;
 	}
 }
+
+?>

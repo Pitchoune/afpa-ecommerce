@@ -86,7 +86,7 @@ class ViewContact
 										</div>
 										<div class="col-md-12">
 											<input type="hidden" name="do" value="sendcontact" />
-											<button class="btn btn-normal" type="submit" id="validate">Envoyer votre message</button>
+											<button class="btn btn-normal" type="submit" id="validation">Envoyer votre message</button>
 										</div>
 									</div>
 								</form>
@@ -98,7 +98,7 @@ class ViewContact
 				<?php
 				ViewTemplate::FrontFooter();
 
-				ViewTemplate::FrontFormValidation('validate', 2, 1);
+				ViewTemplate::FrontFormValidation('validation', 2, 1);
 				?>
 			</body>
 		</html>

@@ -13,25 +13,28 @@ use \Ecommerce\Model\ModelMessage;
  */
 function ListMessages()
 {
-	if (Utils::cando(18))
+	if (!Utils::cando(37))
 	{
-		global $config, $pagenumber;
-
-		$messages = new ModelMessage($config);
-		$messages->set_type('contact');
-		$totalmessages = $messages->countMessagesFromType();
-
-		$perpage = 10;
-		$limitlower = Utils::define_pagination_values($totalmessages['nbmessages'], $pagenumber, $perpage);
-
-		$messagelist = $messages->getSomeMessages($limitlower, $perpage);
-
-		ViewMessage::MessageList($messages, $messagelist, $totalmessages, $limitlower, $perpage);
+		throw new Exception('Vous n\'êtes pas autorisé à afficher la liste des conversations.');
 	}
-	else
+
+	global $config, $pagenumber;
+
+	$messages = new ModelMessage($config);
+	$messages->set_type('contact');
+	$totalmessages = $messages->countMessagesFromType();
+
+	if (!$totalmessages)
 	{
-		throw new Exception('Vous n\'êtes pas autorisé à afficher la liste des transporteurs.');
+		throw new Exception('Il n\'y a pas de messages à afficher.');
 	}
+
+	$perpage = 10;
+	$limitlower = Utils::define_pagination_values($totalmessages['nbmessages'], $pagenumber, $perpage);
+
+	$messagelist = $messages->getSomeMessages($limitlower, $perpage);
+
+	ViewMessage::MessageList($messages, $messagelist, $totalmessages, $limitlower, $perpage);
 }
 
 /**
@@ -43,6 +46,11 @@ function ListMessages()
  */
 function ViewConversation($id)
 {
+	if (!Utils::cando(88))
+	{
+		throw new Exception('Vous n\'êtes pas autorisé à afficher cette conversation.');
+	}
+
 	global $config;
 
 	$messagelist = new ModelMessage($config);
@@ -88,6 +96,11 @@ function ViewConversation($id)
 	// Get messages
 	$messages = $messagelist->grabAllMessagesFromDiscussion($list);
 
+	if (!$messages)
+	{
+		throw new Exception('Il n\'y a pas de messages à afficher.');
+	}
+
 	// Get only the first title if there is any other (should not)
 	$title = $messages[0]['titre'];
 
@@ -131,16 +144,24 @@ function ViewConversation($id)
  */
 function SendReply($id, $latestid, $message, $customerid)
 {
-	global $config;
-
 	$id = intval($id);
 	$latestid = intval($latestid);
-	$message = trim(strval($message));
 	$customerid = intval($customerid);
+	$message = trim(strval($message));
 
-	$messages = new ModelMessage($config);
+	// verify message
+	$validmessage = Utils::datavalidation($message, 'message', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- _ ~ - ! @ # : " \' = . , ; $ % ^ & * ( ) [ ] &lt; &gt;');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	global $config;
 
 	$date = date("Y-m-d H:i:s");
+
+	$messages = new ModelMessage($config);
 
 	$messages->set_type('contact');
 	$messages->set_title(NULL);

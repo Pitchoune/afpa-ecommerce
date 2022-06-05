@@ -214,7 +214,7 @@ class ViewTemplate
 							<div class="navbar-menu">
 								<div class="logo-block">
 									<div class="brand-logo logo-sm-center">
-										<a href="index.html">
+										<a href="index.php">
 											<img src="assets/images/NRS.png" alt="logo">
 										</a>
 									</div>
@@ -367,7 +367,7 @@ class ViewTemplate
 									</div>
 									<div class="footer-content">
 										<div class="footer-logo">
-											<a href="index.html">
+											<a href="index.php">
 												<img src="assets/images/NRS.png" alt="logo">
 											</a>
 										</div>
@@ -624,16 +624,26 @@ class ViewTemplate
 					e.preventDefault();
 					let regexListe =
 					{
-						firstname: /^[\p{L}\d\s[:punct:]]{2,}$/u,
-						lastname: /^[\p{L}\d\s[:punct:]]{2,}$/u,
-						title: /^[\p{L}\d\s[:punct:]]{2,}$/u,
-						message: /^[\p{L}\d\s[:punct:]]{2,}$/u,
-						mail: /^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si,
+						firstname: /^[\p{L}\d\s\-]{2,}$/u,
+						lastname: /^[\p{L}\d\s\-]{2,}$/u,
+						title: /^[\p{L}\d\s\-]{2,}$/u,
+						name: /^[\p{L}\d\s\-]{2,}$/u,
+						mail: /^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,63}))$/si,
 						telephone: /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/,
 						address: /^[\d\w\-\s]{5,100}$/,
-						city: /^([a-zA-Z]+(?:[\s-][a-zA-Z]+)*){1,}$/u,
+						city: /^([a-zA-Z]+(?:[\s\-][a-zA-Z]+)*){1,}$/u,
 						zipcode: /^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/,
 						pass: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+						ref: /^[\p{L}\d\s\-]{2,}$/u,
+						description: /^[\p{L}\d\s_~\-!@#:\\"'=\.,;\$%\^&\*\(\)\[\]<>]{2,}$/u,
+						quantity: /^[0-9]{2,}$/,
+						price: /^[0-9]{1,5}\.[0-9]{2}$/,
+						displayorder: /^[0-9]+$/,
+						message: /^[\p{L}\d\s_~\-!@#:\\"'=\.,;\$%\^&\*\(\)\[\]<>]{2,}$/u,
+						query: /^[\p{L}\d\s_~\-!@#:\\"'=\.,;\$%\^&\*\(\)\[\]]{2,}$/u,
+						deliver: /^[0-9]{1,}$/,
+						delivermode: /^[\p{L}\d\s]{2,}$/u,
+						stripetoken: /^[A-Za-z0-9_]{27}$/,
 					};
 
 					$("small").text("");

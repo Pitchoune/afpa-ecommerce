@@ -479,3 +479,5 @@ class ModelEmployee extends Model
 		return $this->role;
 	}
 }
+
+?>

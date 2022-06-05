@@ -3,6 +3,7 @@
 require_once(DIR . '/model/ModelProduct.php');
 require_once(DIR . '/model/ModelTrademark.php');
 require_once(DIR . '/model/ModelCategory.php');
+require_once(DIR . '/view/frontoffice/ViewProduct.php');
 use \Ecommerce\Model\ModelProduct;
 use \Ecommerce\Model\ModelTrademark;
 use \Ecommerce\Model\ModelCategory;
@@ -18,6 +19,9 @@ use \Ecommerce\Model\ModelCategory;
 function viewProduct($id = '', $ref = '')
 {
 	global $config;
+
+	$id = intval($id);
+	$ref = trim(strval($ref));
 
 	$products = new ModelProduct($config);
 
@@ -74,8 +78,6 @@ function viewProduct($id = '', $ref = '')
 		$navbits['viewproduct&amp;id=' . $product['id']] = 'Produit « ' . $product['nom'] . ' »';
 	}
 
-	// We generate HTML code from the view
-	require_once(DIR . '/view/frontoffice/ViewProduct.php');
 	ViewProduct::DisplayProduct($pagetitle, $product, $trademark, $navbits);
 }
 
@@ -83,46 +85,36 @@ function viewProduct($id = '', $ref = '')
  * Does a search and returns results to the customer.
  *
  * @param string $query Customer query.
- * @param string $category ID of the category. '0' for all categories.
  * @param string $type Type of query: 'json' for predictive search, else nothing.
  *
  * @return void
  */
-function searchResults($query, $category, $type = '')
+function searchResults($query, $type = '')
 {
-	// Verify query
-	if ($query === '')
-	{
-		throw new Exception('La requête de recherche est vide.');
-	}
+	$query = trim($query);
+	$type = trim(strval($type));
 
 	if ($type !== 'json')
 	{
-		if (!preg_match('/^[\p{L}\s]{2,}$/', $query))
+		// Validate query
+		$validmessage = Utils::datavalidation($query, 'query', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- _ ~ - ! @ # : " \' = . , ; $ % ^ & * ( ) [ ]');
+
+		if ($validmessage)
 		{
-			throw new Exception('La requête de recherche contient des caractères non valides.');
+			throw new Exception($validmessage);
 		}
 	}
 
-	if (intval($category) === false)
-	{
-		throw new Exception('La catégorie sélectionnée n\'est pas correcte.');
-	}
+	global $config;
 
-	$query = trim($query);
-	$category = intval($category);
+	$products = new ModelProduct($config);
+	$products->set_name($query);
+	$products->set_ref($query);
+	$products->set_description($query);
+	$product = $products->searchProductsWithoutCategory();
 
 	if ($type == 'json')
 	{
-		global $config;
-
-
-		$products = new ModelProduct($config);
-		$products->set_name($query);
-		$products->set_ref($query);
-		$products->set_description($query);
-		$product = $products->searchProductsWithoutCategory();
-
 		$encode = [];
 
 		foreach ($product AS $key => $value)
@@ -134,29 +126,6 @@ function searchResults($query, $category, $type = '')
 	}
 	else
 	{
-		global $config;
-
-		$pagetitle = 'Résultats de la recherche';
-
-		$products = new ModelProduct($config);
-		$products->set_name($query);
-		$products->set_ref($query);
-		$products->set_description($query);
-
-		if ($category !== 0)
-		{
-			// Search in a specific category
-			$products->set_category($category);
-			$product = $products->searchProductsWithCategory();
-		}
-		else
-		{
-			// Search despite the category (in all categories)
-			$product = $products->searchProductsWithoutCategory();
-		}
-
-		// We generate HTML code from the view
-		require_once(DIR . '/view/frontoffice/ViewProduct.php');
 		ViewProduct::SearchResults($pagetitle, $product);
 	}
 }

@@ -311,3 +311,5 @@ class ModelTrademark extends Model
 		return $this->logo;
 	}
 }
+
+?>

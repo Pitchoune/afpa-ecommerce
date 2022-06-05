@@ -15,18 +15,37 @@ class ViewError
 	public static function DisplayLoggedOutError($errorMessage)
 	{
 		?>
-		<!-- error -->
-		<div class="container-fluid">
-			<div class="card">
-				<div class="card-header">
-					<h5>Erreur</h5>
+		<!DOCTYPE html>
+		<html lang="fr">
+			<head>
+				<?= ViewTemplate::BackHead('Erreur') ?>
+			</head>
+
+			<body>
+				<div class="page-wrapper">
+					<div class="page-body-wrapper">
+						<!-- error -->
+						<div class="authentication-box">
+							<div class="container">
+								<div class="row">
+									<div class="card">
+										<div class="card-header">
+											<h5>Erreur</h5>
+										</div>
+										<div class="card-body">
+											<?= $errorMessage; ?>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- / error -->
+						<?= ViewTemplate::BackFooter() ?>
+					</div>
 				</div>
-				<div class="card-body vendor-table">
-					<?= $errorMessage; ?>
-				</div>
-			</div>
-		</div>
-		<!-- / error-->
+				<?= ViewTemplate::BackFoot() ?>
+			</body>
+		</html>
 		<?php
 	}
 
@@ -82,3 +101,5 @@ class ViewError
 		<?php
 	}
 }
+
+?>

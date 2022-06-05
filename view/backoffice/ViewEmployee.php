@@ -83,13 +83,9 @@ class ViewEmployee
 												</svg>
 											</div>
 
-											<div class="single-item">
-												<div>
-													<div>
-														<h3>Welcome to Nintendo Retro Shop</h3>
-														<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.</p>
-													</div>
-												</div>
+											<div>
+												<h3>Welcome to Nintendo Retro Shop</h3>
+												<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy.</p>
 											</div>
 										</div>
 									</div>
@@ -105,13 +101,15 @@ class ViewEmployee
 													<div class="tab-pane fade show active" id="top-profile" role="tabpanel" aria-labelledby="top-profile-tab">
 														<form class="form-horizontal auth-form" action="index.php?do=dologin" method="post">
 															<div class="form-group">
-																<input required name="email" type="email" class="form-control" placeholder="Adresse email" />
+																<input type="email" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." placeholder="Adresse email" required />
+																<small id="emailHelp" class="form-text text-muted"></small>
 															</div>
 															<div class="form-group">
-																<input required name="pass" type="password" class="form-control" placeholder="Mot de passe" />
+																<input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" data-type="password" data-message="Le format du mot de passe n'est pas valide." placeholder="Mot de passe" required />
+																<small id="passwordHelp" class="form-text text-muted"></small>
 															</div>
 															<div class="form-button">
-																<button class="btn btn-primary" type="submit">S'identifier</button>
+																<button class="btn btn-primary" id="validation" type="submit">S'identifier</button>
 															</div>
 														</form>
 													</div>
@@ -126,7 +124,11 @@ class ViewEmployee
 					<!-- / body -->
 				</div>
 
-				<?= ViewTemplate::BackFoot() ?>
+				<?php
+				ViewTemplate::BackFoot();
+
+				ViewTemplate::BackFormValidation('validation', 1, 0);
+				?>
 			</body>
 		</html>
 		<?php
@@ -359,30 +361,18 @@ class ViewEmployee
 	/**
 	 * Returns the HTML code to display the add or edit employee form.
 	 *
-	 * @param integer $id ID of the employee if we need to edit an existing employee. Empty for a new employee.
 	 * @param string $navtitle Title of the page to show in the breadcrumb.
 	 * @param array $navbits Breadcrumb content.
 	 * @param array $emmloyeeinfos Default values to show as default in fields.
 	 * @param string $formredirect Redirect part of the URL to save data.
 	 * @param string $pagetitle Title of the page.
 	 * @param string $options <option> HTML code for the role selection.
+	 * @param integer $id ID of the employee if we need to edit an existing employee. Empty for a new employee.
 	 *
 	 * @return void
 	 */
-	public static function EmployeeAddEdit($id = '', $navtitle, $navbits, $employeeinfos, $formredirect, $pagetitle, $options)
+	public static function EmployeeAddEdit($navtitle, $navbits, $employeeinfos, $formredirect, $pagetitle, $options, $id = '')
 	{
-		if ($rolelist)
-		{
-			foreach ($rolelist AS $key => $value)
-			{
-				$options .= '<option value="' . $value['id'] . '">' . $value['nom'] . '</option>';
-			}
-		}
-		else
-		{
-			$options .= '<option value="0" disabled>Il n\'y a pas de rôle à lister.</option>';
-		}
-
 		$navbits = [
 			'index.php?do=listemployees' => $pagetitle,
 			'' => $navtitle
@@ -437,7 +427,7 @@ class ViewEmployee
 													</div>
 													<div class="form-group">
 														<label class="col-form-label">Rôle <span>*</span></label>
-														<select class="custom-select form-control" id="selectChoose" name="role" aria-describedby="selectHelp" data-type="selectChoose" data-message="La sélection du rôle est obligatoire." required>
+														<select class="custom-select form-control" id="selectChoose" name="role" aria-describedby="selectHelp" data-type="selectChoose" data-message="La sélection du rôle est obligatoire." required />
 														<?= $options ?>
 														</select>
 														<small id="selectHelp" class="form-text text-muted"></small>
@@ -474,14 +464,7 @@ class ViewEmployee
 				<?php
 				ViewTemplate::BackFoot();
 
-				if ($id)
-				{
-					ViewTemplate::BackFormValidation('valider', 4, 1);
-				}
-				else
-				{
-					ViewTemplate::BackFormValidation('valider', 3, 1);
-				}
+				ViewTemplate::BackFormValidation('valider', $id ? 4 : 3, 1);
 				?>
 			</body>
 		</html>
@@ -619,7 +602,7 @@ class ViewEmployee
 														<div class="text-center">
 															<input type="hidden" name="do" value="updateprofile" />
 															<input type="hidden" name="id" value="<?= $employee['id'] ?>" />
-															<input type="submit" class="btn btn-primary" id="valider" value="Modifier" />
+															<input type="submit" class="btn btn-primary" id="validation" value="Modifier" />
 															<input type="reset" class="btn btn-primary" value="Annuler"/>
 														</div>
 													</div>
@@ -639,7 +622,7 @@ class ViewEmployee
 				<?php
 				ViewTemplate::BackFoot();
 
-				ViewTemplate::BackFormValidation('valider', 4, 1);
+				ViewTemplate::BackFormValidation('validation', 4, 1);
 				?>
 			</body>
 		</html>

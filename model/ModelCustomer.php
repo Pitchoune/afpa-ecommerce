@@ -690,3 +690,5 @@ class ModelCustomer extends Model
 		return $this->country;
 	}
 }
+
+?>

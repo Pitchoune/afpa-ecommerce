@@ -15,24 +15,22 @@ use \Ecommerce\Model\ModelMessage;
  */
 function ListCustomers()
 {
-	if (Utils::cando(28))
-	{
-		global $config, $pagenumber;
-
-		$customers = new ModelCustomer($config);
-		$totalcustomers = $customers->getTotalNumberOfCustomers();
-
-		$perpage = 10;
-		$limitlower = Utils::define_pagination_values($totalcustomers['nbcustomers'], $pagenumber, $perpage);
-
-		$customerlist = $customers->getSomeCustomers($limitlower, $perpage);
-
-		ViewCustomer::CustomerList($customers, $customerlist, $totalcustomers, $limitlower, $perpage);
-	}
-	else
+	if (!Utils::cando(28))
 	{
 		throw new Exception('Vous n\'êtes pas autorisé à afficher la liste des clients.');
 	}
+
+	global $config, $pagenumber;
+
+	$customers = new ModelCustomer($config);
+	$totalcustomers = $customers->getTotalNumberOfCustomers();
+
+	$perpage = 10;
+	$limitlower = Utils::define_pagination_values($totalcustomers['nbcustomers'], $pagenumber, $perpage);
+
+	$customerlist = $customers->getSomeCustomers($limitlower, $perpage);
+
+	ViewCustomer::CustomerList($customers, $customerlist, $totalcustomers, $limitlower, $perpage);
 }
 
 /**
@@ -42,31 +40,31 @@ function ListCustomers()
  */
 function AddCustomer()
 {
-	if (Utils::cando(29))
-	{
-		global $config;
-
-		$customers = new ModelCustomer($config);
-
-		$customerinfos = [
-			'nom' => ''
-		];
-
-		$pagetitle = 'Gestion des clients';
-		$navtitle = 'Ajouter un client';
-		$formredirect = 'insertcustomer';
-
-		$navbits = [
-			'index.php?do=listcustomers' => $pagetitle,
-			'' => $navtitle
-		];
-
-		ViewCustomer::CustomerAddEdit('', $navtitle, $navbits, $customerinfos, $formredirect, $pagetitle);
-	}
-	else
+	if (!Utils::cando(29))
 	{
 		throw new Exception('Vous n\'êtes pas autorisé à ajouter des clients.');
 	}
+
+	$customerinfos = [
+		'nom' => '',
+		'prenom' => '',
+		'mail' => '',
+		'tel' => '',
+		'adresse' => '',
+		'ville' => '',
+		'code_post' => '',
+	];
+
+	$pagetitle = 'Gestion des clients';
+	$navtitle = 'Ajouter un client';
+	$formredirect = 'insertcustomer';
+
+	$navbits = [
+		'index.php?do=listcustomers' => $pagetitle,
+		'' => $navtitle
+	];
+
+	ViewCustomer::CustomerAddEdit($navtitle, $navbits, $customerinfos, $formredirect, $pagetitle);
 }
 
 /**
@@ -85,135 +83,106 @@ function AddCustomer()
  */
 function InsertCustomer($firstname, $lastname, $email, $password, $telephone, $address, $city, $zipcode)
 {
-	if (Utils::cando(29))
+	if (!Utils::cando(29))
 	{
-		global $config;
+		throw new Exception('Vous n\'êtes pas autorisé à ajouter des clients.');
+	}
 
-		$firstname = trim(strval($firstname));
-		$lastname = trim(strval($lastname));
-		$email = trim(strval($email));
-		$password = trim(strval($password));
-		$telephone = trim(strval($telephone));
-		$address = trim(strval($address));
-		$city = trim(strval($city));
-		$zipcode = trim(strval($zipcode));
+	$firstname = trim(strval($firstname));
+	$lastname = trim(strval($lastname));
+	$email = trim(strval($email));
+	$password = trim(strval($password));
+	$telephone = trim(strval($telephone));
+	$address = trim(strval($address));
+	$city = trim(strval($city));
+	$zipcode = trim(strval($zipcode));
 
-		$customers = new ModelCustomer($config);
+	// Validate firstname
+	$validmessage = Utils::datavalidation($firstname, 'firstname', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
 
-		// Verify first name
-		if ($firstname === '' OR empty($firstname))
-		{
-			throw new Exception('Le prénom est vide.');
-		}
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
 
-		if (!preg_match('/^[\p{L}\s-]{2,}$/u', trim($firstname)))
-		{
-			throw new Exception('Le prénom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
-		}
+	// Validate lastname
+	$validmessage = Utils::datavalidation($lastname, 'lastname', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
 
-		// Verify last name
-		if ($lastname === '' OR empty($lastname))
-		{
-			throw new Exception('Le nom est vide.');
-		}
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
 
-		if (!preg_match('/^[\p{L}\s]{1,}$/u', $lastname))
-		{
-			throw new Exception('Le nom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
-		}
+	// Validate email
+	$validmessage = Utils::datavalidation($email, 'mail');
 
-		// Verify email address
-		if ($email === '' OR empty($email))
-		{
-			throw new Exception('L\'adresse email est vide.');
-		}
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
 
-		if (!preg_match('/^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si', $email))
-		{
-			throw new Exception('L\'adresse email n\'est pas valide.');
-		}
+	// Validate password
+	$validmessage = Utils::datavalidation($password, 'pass', '', $passwordconfirm);
 
-		// Verify password
-		if ($password === '' OR empty($password))
-		{
-			throw new Exception('Le mot de passe est vide.');
-		}
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
 
-		if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $password))
-		{
-			throw new Exception('Le mot de passe n\'est pas valide.');
-		}
+	// Validate telephone
+	$validmessage = Utils::datavalidation($telephone, 'telephone');
 
-		// Verify telephone
-		if ($telephone === '' OR empty($telephone))
-		{
-			throw new Exception('Le téléphone est vide.');
-		}
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
 
-		if (!preg_match('/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/', $telephone))
-		{
-			throw new Exception('Le téléphone n\'est pas valide.');
-		}
+	// Validate address
+	$validmessage = Utils::datavalidation($address, 'address');
 
-		// Verify address
-		if ($address === '' OR empty($address))
-		{
-			throw new Exception('L\'adresse est vide.');
-		}
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
 
-		if (!preg_match('/^[\d\w\-\s]{5,100}$/', $address))
-		{
-			throw new Exception('L\'adresse n\'est pas valide.');
-		}
+	// Validate city
+	$validmessage = Utils::datavalidation($city, 'city');
 
-		// Verify city
-		if ($city === '' OR empty($city))
-		{
-			throw new Exception('La ville est vide.');
-		}
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
 
-		if (!preg_match('/^([a-zA-Z]+(?:[\s-][a-zA-Z]+)*){1,}$/u', $city))
-		{
-			throw new Exception('La ville n\'est pas valide.');
-		}
+	// Validate zipcode
+	$validmessage = Utils::datavalidation($zipcode, 'zipcode');
 
-		// Verify zip code
-		if ($zipcode === '' OR empty($zipcode))
-		{
-			throw new Exception('Le code postal est vide.');
-		}
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
 
-		if (!preg_match('/^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/', $zipcode))
-		{
-			throw new Exception('Le code postal n\'est pas valide.');
-		}
+	$hashedpassword = password_hash($password, PASSWORD_DEFAULT);
 
-		$hashedpassword = password_hash($password, PASSWORD_DEFAULT);
+	global $config;
 
-		$customers->set_firstname($firstname);
-		$customers->set_lastname($lastname);
-		$customers->set_email($email);
-		$customers->set_password($hashedpassword);
-		$customers->set_telephone($telephone);
-		$customers->set_address($address);
-		$customers->set_city($city);
-		$customers->set_zipcode($zipcode);
+	$customers = new ModelCustomer($config);
+	$customers->set_firstname($firstname);
+	$customers->set_lastname($lastname);
+	$customers->set_email($email);
+	$customers->set_password($hashedpassword);
+	$customers->set_telephone($telephone);
+	$customers->set_address($address);
+	$customers->set_city($city);
+	$customers->set_zipcode($zipcode);
 
-		if ($customers->saveNewCustomerFromBack())
-		{
-			$_SESSION['customer']['add'] = 1;
-		}
-		else
-		{
-			throw new Exception('Le client n\'a pas été ajouté.');
-		}
-
-		// Save is correctly done, redirects to the customers list
+	if ($customers->saveNewCustomerFromBack())
+	{
+		$_SESSION['customer']['add'] = 1;
 		header('Location: index.php?do=listcustomers');
 	}
 	else
 	{
-		throw new Exception('Vous n\'êtes pas autorisé à ajouter des clients.');
+		throw new Exception('Le client n\'a pas été ajouté.');
 	}
 }
 
@@ -224,32 +193,35 @@ function InsertCustomer($firstname, $lastname, $email, $password, $telephone, $a
  */
 function EditCustomer($id)
 {
-	if (Utils::cando(30))
-	{
-		global $config;
-
-		$customers = new ModelCustomer($config);
-
-		$id = intval($id);
-
-		$customers->set_id($id);
-		$customerinfos = $customers->getCustomerInfosFromId();
-
-		$pagetitle = 'Gestion des clients';
-		$navtitle = 'Modifier un client';
-		$formredirect = 'updatecustomer';
-
-		$navbits = [
-			'index.php?do=listcustomers' => $pagetitle,
-			'' => $navtitle
-		];
-
-		ViewCustomer::CustomerAddEdit($id, $navtitle, $navbits, $customerinfos, $formredirect, $pagetitle);
-	}
-	else
+	if (!Utils::cando(30))
 	{
 		throw new Exception('Vous n\'êtes pas autorisé à modifier des clients.');
 	}
+
+	global $config;
+
+	$customers = new ModelCustomer($config);
+
+	$id = intval($id);
+
+	$customers->set_id($id);
+	$customerinfos = $customers->getCustomerInfosFromId();
+
+	if (!$customerinfos)
+	{
+		throw new Exception('Le client n\'existe pas.');
+	}
+
+	$pagetitle = 'Gestion des clients';
+	$navtitle = 'Modifier un client';
+	$formredirect = 'updatecustomer';
+
+	$navbits = [
+		'index.php?do=listcustomers' => $pagetitle,
+		'' => $navtitle
+	];
+
+	ViewCustomer::CustomerAddEdit($navtitle, $navbits, $customerinfos, $formredirect, $pagetitle, $id);
 }
 
 /**
@@ -269,148 +241,119 @@ function EditCustomer($id)
  */
 function UpdateCustomer($id, $firstname, $lastname, $email, $password, $telephone, $address, $city, $zipcode)
 {
-	if (Utils::cando(30))
+	if (!Utils::cando(30))
 	{
-		global $config;
+		throw new Exception('Vous n\'êtes pas autorisé à modifier des clients.');
+	}
 
-		$id = intval($id);
-		$firstname = trim(strval($firstname));
-		$lastname = trim(strval($lastname));
-		$email = trim(strval($email));
-		$password = trim(strval(password));
-		$telephone = trim(strval(telephone));
-		$address = trim(strval(address));
-		$city = trim(strval(city));
-		$zipcode = trim(strval(zipcode));
+	$id = intval($id);
+	$firstname = trim(strval($firstname));
+	$lastname = trim(strval($lastname));
+	$email = trim(strval($email));
+	$password = trim(strval(password));
+	$telephone = trim(strval(telephone));
+	$address = trim(strval(address));
+	$city = trim(strval(city));
+	$zipcode = trim(strval(zipcode));
 
-		$customers = new ModelCustomer($config);
+	// Validate firstname
+	$validmessage = Utils::datavalidation($firstname, 'firstname', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
 
-		// Verify first name
-		if ($firstname === '')
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	// Validate lastname
+	$validmessage = Utils::datavalidation($lastname, 'lastname', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	// Validate email
+	$validmessage = Utils::datavalidation($email, 'mail');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	if ($password)
+	{
+		// Validate password
+		$validmessage = Utils::datavalidation($password, 'pass', '', $passwordconfirm);
+
+		if ($validmessage)
 		{
-			throw new Exception('Le prénom est vide.');
+			throw new Exception($validmessage);
 		}
+	}
 
-		if (!preg_match('/^[\p{L}\s]{2,}$/u', $firstname))
-		{
-			throw new Exception('Le prénom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
-		}
+	// Validate telephone
+	$validmessage = Utils::datavalidation($telephone, 'telephone');
 
-		// Verify last name
-		if ($lastname === '')
-		{
-			throw new Exception('Le nom est vide.');
-		}
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
 
-		if (!preg_match('/^[\p{L}\s]{1,}$/u', $lastname))
-		{
-			throw new Exception('Le nom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
-		}
+	// Validate address
+	$validmessage = Utils::datavalidation($address, 'address');
 
-		// Verify email address
-		if ($email === '')
-		{
-			throw new Exception('L\'adresse email est vide.');
-		}
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
 
-		if (!preg_match('/^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si', $email))
-		{
-			throw new Exception('L\'adresse email n\'est pas valide.');
-		}
+	// Validate city
+	$validmessage = Utils::datavalidation($city, 'city');
 
-		if ($password)
-		{
-			// Verify password
-			if ($password === '' OR empty($password))
-			{
-				throw new Exception('Le mot de passe est vide.');
-			}
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
 
-			if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $password))
-			{
-				throw new Exception('Le mot de passe n\'est pas valide.');
-			}
-		}
+	// Validate zipcode
+	$validmessage = Utils::datavalidation($zipcode, 'zipcode');
 
-		// Verify telephone
-		if ($telephone === '')
-		{
-			throw new Exception('Le téléphone est vide.');
-		}
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
 
-		if (!preg_match('/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/', $telephone))
-		{
-			throw new Exception('Le téléphone n\'est pas valide.');
-		}
+	global $config;
 
-		// Verify address
-		if ($address === '')
-		{
-			throw new Exception('L\'adresse est vide.');
-		}
+	$customers = new ModelCustomer($config);
+	$customers->set_id($id);
+	$customers->set_firstname($firstname);
+	$customers->set_lastname($lastname);
+	$customers->set_email($email);
+	$customers->set_telephone($telephone);
+	$customers->set_address($address);
+	$customers->set_city($city);
+	$customers->set_zipcode($zipcode);
 
-		if (!preg_match('/^[\d\w\-\s]{5,100}$/', $address))
-		{
-			throw new Exception('L\'adresse n\'est pas valide.');
-		}
+	if ($password)
+	{
+		$hashedpassword = password_hash($password, PASSWORD_DEFAULT);
+		$customers->set_password($hashedpassword);
+		$customer = $customers->saveCustomerDataWithPassword();
+	}
+	else
+	{
+		$customer = $customers->saveCustomerData();
+	}
 
-		// Verify city
-		if ($city === '')
-		{
-			throw new Exception('La ville est vide.');
-		}
-
-		if (!preg_match('/^([a-zA-Z]+(?:[\s-][a-zA-Z]+)*){1,}$/u', $city))
-		{
-			throw new Exception('La ville n\'est pas valide.');
-		}
-
-		// Verify zip code
-		if ($zipcode === '')
-		{
-			throw new Exception('Le code postal est vide.');
-		}
-
-		if (!preg_match('/^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/', $zipcode))
-		{
-			throw new Exception('Le code postal n\'est pas valide.');
-		}
-
-		$customers->set_id($id);
-		$customers->set_firstname($firstname);
-		$customers->set_lastname($lastname);
-		$customers->set_email($email);
-		$customers->set_telephone($telephone);
-		$customers->set_address($address);
-		$customers->set_city($city);
-		$customers->set_zipcode($zipcode);
-
-		if ($password)
-		{
-			$hashedpassword = password_hash($password, PASSWORD_DEFAULT);
-			$customers->set_password($hashedpassword);
-			$customer = $customers->saveCustomerDataWithPassword();
-		}
-		else
-		{
-			$customer = $customers->saveCustomerData();
-		}
-
-		if ($customer)
-		{
-			$_SESSION['customer']['edit'] = 1;
-		}
-		else
-		{
-			throw new Exception('Le client n\'a pas été enregistré.');
-		}
-
-		// Save is correctly done, redirects to the customers list
+	if ($customer)
+	{
+		$_SESSION['customer']['edit'] = 1;
 		header('Location: index.php?do=listcustomers');
 	}
 	else
 	{
-		throw new Exception('Vous n\'êtes pas autorisé à modifier des clients.');
+		throw new Exception('Le client n\'a pas été enregistré.');
 	}
 }
 
@@ -423,23 +366,26 @@ function UpdateCustomer($id, $firstname, $lastname, $email, $password, $telephon
  */
 function DeleteCustomer($id)
 {
-	if (Utils::cando(35))
-	{
-		global $config;
-
-		$customers = new ModelCustomer($config);
-
-		$id = intval($id);
-
-		$customers->set_id($id);
-		$customer = $customers->getCustomerInfosFromId();
-
-		ViewCustomer::CustomerDeleteConfirmation($id, $customer);
-	}
-	else
+	if (!Utils::cando(35))
 	{
 		throw new Exception('Vous n\'êtes pas autorisé à supprimer des clients.');
 	}
+
+	global $config;
+
+	$customers = new ModelCustomer($config);
+
+	$id = intval($id);
+
+	$customers->set_id($id);
+	$customer = $customers->getCustomerInfosFromId();
+
+	if (!$customer)
+	{
+		throw new Exception('Le client n\'existe pas.');
+	}
+
+	ViewCustomer::CustomerDeleteConfirmation($id, $customer);
 }
 
 /**
@@ -451,27 +397,22 @@ function DeleteCustomer($id)
  */
 function KillCustomer($id)
 {
-	if (Utils::cando(35))
-	{
-		global $config;
-
-		$id = intval($id);
-
-		$customers = new ModelCustomer($config);
-
-		$customers->set_id($id);
-
-		if ($customers->deleteCustomer())
-		{
-			$_SESSION['customer']['delete'] = 1;
-		}
-
-		// Save is correctly done, redirects to the customers list
-		header('Location: index.php?do=listcustomers');
-	}
-	else
+	if (!Utils::cando(35))
 	{
 		throw new Exception('Vous n\'êtes pas autorisé à supprimer des clients.');
+	}
+
+	global $config;
+
+	$id = intval($id);
+
+	$customers = new ModelCustomer($config);
+	$customers->set_id($id);
+
+	if ($customers->deleteCustomer())
+	{
+		$_SESSION['customer']['delete'] = 1;
+		header('Location: index.php?do=listcustomers');
 	}
 }
 
@@ -484,25 +425,28 @@ function KillCustomer($id)
  */
 function ViewCustomerProfile($id)
 {
-	if (Utils::cando(33))
-	{
-		global $config;
-
-		$customers = new ModelCustomer($config);
-		$customers->set_id($id);
-		$data = $customers->getCustomerInfosFromId();
-
-		// Grab an external value and add it into the data array filled above
-		$orders = new ModelOrder($config);
-		$orders->set_customer($data['id']);
-		$data += $orders->getNumberOfOrdersForCustomer();
-
-		ViewCustomer::ViewCustomerProfile($id, $orders, $data);
-	}
-	else
+	if (!Utils::cando(33))
 	{
 		throw new Exception('Vous n\'êtes pas autorisé à consulter le profil des clients.');
 	}
+
+	global $config;
+
+	$customers = new ModelCustomer($config);
+	$customers->set_id($id);
+	$data = $customers->getCustomerInfosFromId();
+
+	if (!$data)
+	{
+		throw new Exception('Le client n\'existe pas.');
+	}
+
+	// Grab an external value and add it into the data array filled above
+	$orders = new ModelOrder($config);
+	$orders->set_customer($data['id']);
+	$data += $orders->getNumberOfOrdersForCustomer();
+
+	ViewCustomer::ViewCustomerProfile($id, $orders, $data);
 }
 /**
  * Returns the HTML code to display all orders made by the specified customer.
@@ -513,11 +457,21 @@ function ViewCustomerProfile($id)
  */
 function ViewCustomerAllOrders($id)
 {
+	if (!Utils::cando(31))
+	{
+		throw new Exception('Vous n\'êtes pas autorisé à consulter les commandes des clients.');
+	}
+
 	global $config;
 
 	$customers = new ModelCustomer($config);
 	$customers->set_id($id);
 	$data = $customers->getCustomerInfosFromId();
+
+	if (!$data)
+	{
+		throw new Exception('Le client n\'existe pas.');
+	}
 
 	$orders = new ModelOrder($config);
 	$orders->set_customer($data['id']);
@@ -540,26 +494,34 @@ function ViewCustomerAllOrders($id)
  */
 function ViewCustomerOrderDetails($id)
 {
-	if (Utils::cando(32))
-	{
-		global $config;
-
-		// Grab an external value and add it into the data array filled above
-		$orders = new ModelOrder($config);
-		$orders->set_id($id);
-		$data = $orders->getOrderDetails();
-
-		// Get customer informations
-		$customers = new ModelCustomer($config);
-		$customers->set_id($data['id_client']);
-		$customer = $customers->getCustomerInfosFromId();
-
-		ViewCustomer::ViewOrderDetails($id, $data, $customer);
-	}
-	else
+	if (!Utils::cando(32))
 	{
 		throw new Exception('Vous n\'êtes pas autorisé à consulter le profil des clients.');
 	}
+
+	global $config;
+
+	// Grab an external value and add it into the data array filled above
+	$orders = new ModelOrder($config);
+	$orders->set_id($id);
+	$data = $orders->getOrderDetails();
+
+	if (!$data)
+	{
+		throw new Exception('Le client n\'a pas de commande.');
+	}
+
+	// Get customer informations
+	$customers = new ModelCustomer($config);
+	$customers->set_id($data['id_client']);
+	$customer = $customers->getCustomerInfosFromId();
+
+	if (!$customer)
+	{
+		throw new Exception('Le client n\'existe pas.');
+	}
+
+	ViewCustomer::ViewOrderDetails($id, $data, $customer);
 }
 
 /**
@@ -570,62 +532,60 @@ function ViewCustomerOrderDetails($id)
  */
 function ChangeOrderStatus($id, $status)
 {
-	if (Utils::cando(34))
+	if (!Utils::cando(34))
 	{
-		global $config;
+		throw new Exception('Vous n\'êtes pas autorisé à modifier l\'état des commandes');
+	}
 
-		$id = intval($id);
-		$status = intval($status);
+	$id = intval($id);
+	$status = intval($status);
+
+	switch($status)
+	{
+		case 2:
+			$mode = 'En préparation';
+			break;
+		case 3:
+			$mode = 'Envoyé';
+			break;
+	}
+
+	global $config;
+
+	$orders = new ModelOrder($config);
+	$orders->set_id($id);
+	$orders->set_status($mode);
+
+	if ($orders->updateStatus())
+	{
+		// Get customer ID
+		$orders->set_id($id);
+		$order = $orders->getCustomerId();
+
+		// Send a notification in message
+		$messages = new ModelMessage($config);
+		$messages->set_type('notif');
+		$messages->set_message('Commande ' . $id . ' marqué en préparation');
+		$messages->set_employee($_SESSION['employee']['id']);
+		$messages->set_customer($order['id_client']);
+		$messages->set_previous(NULL);
 
 		switch($status)
 		{
 			case 2:
-				$mode = 'En préparation';
+				$messages->set_message('Commande #' . $id . ' marqué en préparation');
+				$_SESSION['employee']['order']['statusprepare'] = 1;
 				break;
 			case 3:
-				$mode = 'Envoyé';
+				$messages->set_message('Commande #' . $id . ' marqué comme envoyé');
+				$_SESSION['employee']['order']['statussent'] = 1;
 				break;
 		}
 
-		$orders = new ModelOrder($config);
-		$orders->set_id($id);
-		$orders->set_status($mode);
-
-		if ($orders->updateStatus())
+		if ($messages->saveNewMessage())
 		{
-			// Get customer ID
-			$orders->set_id($id);
-			$order = $orders->getCustomerId();
-
-			// Send a notification in message
-			$messages = new ModelMessage($config);
-			$messages->set_type('notif');
-			$messages->set_message('Commande ' . $id . ' marqué en préparation');
-			$messages->set_employee($_SESSION['employee']['id']);
-			$messages->set_customer($order['id_client']);
-			$messages->set_previous(NULL);
-
-			switch($status)
-			{
-				case 2:
-					$messages->set_message('Commande #' . $id . ' marqué en préparation');
-					$_SESSION['employee']['order']['statusprepare'] = 1;
-					break;
-				case 3:
-					$messages->set_message('Commande #' . $id . ' marqué comme envoyé');
-					$_SESSION['employee']['order']['statussent'] = 1;
-					break;
-			}
-
-			if ($messages->saveNewMessage())
-			{
-				header('Location: index.php?do=viewcustomerorderdetails&id=' . $id);
-			}
+			header('Location: index.php?do=viewcustomerorderdetails&id=' . $id);
 		}
-	}
-	else
-	{
-		throw new Exception('Vous n\'êtes pas autorisé à modifier l\'état des commandes');
 	}
 }
 

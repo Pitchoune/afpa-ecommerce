@@ -90,9 +90,9 @@ try
 			break;
 		case 'savepassword':
 			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
-			$password = isset($_POST['password']) ? filter_var($_POST['password'], FILTER_SANITIZE_STRING) : NULL;
 			$newpassword = isset($_POST['newpassword']) ? filter_var($_POST['newpassword'], FILTER_SANITIZE_STRING) : NULL;
 			$confirmpassword = isset($_POST['confirmpassword']) ? filter_var($_POST['confirmpassword'], FILTER_SANITIZE_STRING) : NULL;
+			$password = isset($_POST['password']) ? filter_var($_POST['password'], FILTER_SANITIZE_STRING) : NULL;
 			$token = isset($_POST['token']) ? filter_var($_POST['token'], FILTER_SANITIZE_STRING) : NULL;
 			savePassword($id, $password, $newpassword, $confirmpassword, $token);
 			break;
@@ -128,7 +128,7 @@ try
 		case 'sendreply':
 			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
 			$latestid = isset($_POST['latestid']) ? filter_var($_POST['latestid'], FILTER_VALIDATE_INT) : NULL;
-			$message = isset($_POST['message']) ? filter_var($_POST['message'], FILTER_SANITIZE_STRING) : NULL;
+			$message = isset($_POST['message']) ? $_POST['message'] : NULL; // No need to clean it, there is a better validator later
 			addReplyToMessage($id, $latestid, $message);
 			break;
 		case 'logout':
@@ -142,9 +142,8 @@ try
 			break;
 		case 'search':
 			$query = isset($_GET['query']) ? filter_var($_GET['query'], FILTER_SANITIZE_STRING) : NULL;
-			$category = isset($_GET['category']) ? filter_var($_GET['category'], FILTER_VALIDATE_INT) : NULL;
 			$type = isset($_GET['type']) ? filter_var($_GET['type'], FILTER_SANITIZE_STRING) : NULL;
-			searchResults($query, $category, $type);
+			searchResults($query, $type);
 			break;
 		// Categories
 		case 'viewcategory':
@@ -189,7 +188,7 @@ try
 			$email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) : NULL;
 			$telephone = isset($_POST['telephone']) ? filter_var($_POST['telephone'], FILTER_SANITIZE_STRING) : NULL;
 			$title = isset($_POST['title']) ? filter_var($_POST['title'], FILTER_SANITIZE_STRING) : NULL;
-			$message = isset($_POST['message']) ? filter_var($_POST['message'], FILTER_SANITIZE_STRING) : NULL;
+			$message = isset($_POST['message']) ? $_POST['message'] : NULL; // No need to clean it, there is a better validator later
 			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
 			sendContact($firstname, $lastname, $email, $telephone, $title, $message, $id);
 			break;
@@ -204,4 +203,5 @@ catch(Exception $e)
 	ViewError::DisplayError($errorMessage);
 	exit;
 }
+
 ?>

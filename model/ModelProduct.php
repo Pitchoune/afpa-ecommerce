@@ -750,3 +750,5 @@ class ModelProduct extends Model
 		return $this->id_trademark;
 	}
 }
+
+?>

@@ -80,7 +80,7 @@ class ViewCustomer
 												<label for="passwordconfirm">Confirmation du mot de passe</label>
 												<input type="password" class="form-control" id="passwordconfirm" name="passwordconfirm" placeholder="Confirmez le mot de passe" />
 											</div>
-											<div class="col-md-12 form-group"><input type="submit" id="validate" class="btn btn-normal" value="S'inscrire" /></div>
+											<div class="col-md-12 form-group"><input type="submit" id="validation" class="btn btn-normal" value="S'inscrire" /></div>
 										</div>
 										<div class="row g-3">
 											<div class="col-md-12 ">
@@ -97,7 +97,7 @@ class ViewCustomer
 				<?php
 				ViewTemplate::FrontFooter();
 
-				ViewTemplate::FrontFormValidation('validate', 2, 1);
+				ViewTemplate::FrontFormValidation('validation', 2, 1);
 				?>
 			</body>
 		</html>
@@ -145,7 +145,7 @@ class ViewCustomer
 											<input type="password" class="form-control" id="password" name="password" aria-describedby="password" data-message="Le format du mot de passe n'est pas valide." placeholder="Insérez votre mot de passe" autocomplete="on">
 											<small id="password" class="form-text text-muted"></small>
 										</div>
-										<input type="submit" class="btn btn-normal" id="validate" value="S'identifier" />
+										<input type="submit" class="btn btn-normal" id="validation" value="S'identifier" />
 										<a class="float-end txt-default mt-2" href="index.php?do=forgotpassword">Oubli de votre mot de passe ?</a>
 									</form>
 									<p class="mt-3">Inscrivez-vous gratuitement sur notre boutique. L'inscription est rapide et facile. Ceci vous permettra d'effectuer vos achats depuis notre boutique. Pour commencer, cliquez sur « Créez votre compte ».</p>
@@ -159,7 +159,7 @@ class ViewCustomer
 				<?php
 				ViewTemplate::FrontFooter();
 
-				ViewTemplate::FrontFormValidation('validate', 2, 1);
+				ViewTemplate::FrontFormValidation('validation', 2, 1);
 				?>
 			</body>
 		</html>
@@ -374,7 +374,7 @@ class ViewCustomer
 												</div>
 												<div class="col-md-12">
 													<input type="hidden" name="id" value="<?= $data['id'] ?>" />
-													<button class="btn btn-sm btn-normal" type="submit" id="validate">Enregistrer les modifications</button>
+													<button class="btn btn-sm btn-normal" type="submit" id="validation">Enregistrer les modifications</button>
 													<button class="btn btn-sm btn-danger" type="reset">Réinitialiser</button>
 												</div>
 											</div>
@@ -394,7 +394,7 @@ class ViewCustomer
 						unset($_SESSION['profile']['edit']);
 					}
 
-					ViewTemplate::FrontFormValidation('validate', 3, 1);
+					ViewTemplate::FrontFormValidation('validation', 3, 1);
 					?>
 				</body>
 			</html>
@@ -442,7 +442,7 @@ class ViewCustomer
 													<div class="col-md-12">
 														<div class="form-group">
 															<label >Mot de passe actuel *</label>
-															<input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" data-message="Le mot de passe original est manquant." placeholder="Mot de passe" />
+															<input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" data-message="Le mot de passe original est manquant." placeholder="Mot de passe actuel" />
 															<small id="passwordHelp" class="form-text text-muted"></small>
 														</div>
 													</div>
@@ -459,13 +459,13 @@ class ViewCustomer
 												<div class="col-md-12">
 													<div class="form-group">
 														<label >Confirmation du nouveau mot de passe *</label>
-														<input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Confirmation du mot de passe" />
+														<input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Confirmation du nouveau mot de passe" />
 													</div>
 												</div>
 												<div class="col-md-12">
 													<input type="hidden" name="id" value="<?= $data['id'] ?>" />
 													<?= ($token ? '<input type="hidden" name="token" value="' . $token['token'] . '" />' : '') ?>
-													<button class="btn btn-sm btn-normal" id="validate" type="submit">Enregistrer les modifications</button>
+													<button class="btn btn-sm btn-normal" id="validation" type="submit">Enregistrer les modifications</button>
 													<button class="btn btn-sm btn-danger" type="reset">Réinitialiser</button>
 												</div>
 											</div>
@@ -485,7 +485,7 @@ class ViewCustomer
 						unset($_SESSION['password']['edit']);
 					}
 
-					ViewTemplate::FrontFormValidation('validate', $token ? 4 : 3, 1);
+					ViewTemplate::FrontFormValidation('validation', $token ? 4 : 3, 1);
 					?>
 				</body>
 			</html>
@@ -535,7 +535,7 @@ class ViewCustomer
 												  <small id="emailHelp" class="form-text text-muted"></small>
 											  </div>
 											  <div class="form-group mb-0">
-												<button class="btn btn-normal" id="valider" type="submit">Envoyer</button>
+												<button class="btn btn-normal" id="validation" type="submit">Envoyer</button>
 											  </div>
 											</div>
 										</div>
@@ -556,7 +556,7 @@ class ViewCustomer
 						unset($_SESSION['password']['forgot']);
 					}
 
-					ViewTemplate::FrontFormValidation('valider', 1, 1);
+					ViewTemplate::FrontFormValidation('validation', 1, 1);
 					?>
 				</body>
 			</html>
@@ -624,8 +624,6 @@ class ViewCustomer
 						ViewTemplate::FrontNotify('Oubli du mot de passe', 'Demande de nouveau mot de passe effectuée avec succès !', 'success');
 						unset($_SESSION['password']['forgot']);
 					}
-
-					ViewTemplate::FrontFormValidation('valider', 1, 1);
 					?>
 				</body>
 			</html>
@@ -1084,7 +1082,7 @@ class ViewCustomer
 																	<div class="message-body">
 																		<div class="message-content">
 																			<div class="content">
-																				<?= $data['message'] ?>
+																				<?= Utils::htmlSpecialCharsUni($data['message'], false) ?>
 																			</div>
 																		</div>
 																	</div>
@@ -1158,7 +1156,7 @@ class ViewCustomer
 												<input type="hidden" name="do" value="sendreply" />
 												<input type="hidden" name="id" value="<?= $id ?>" />
 												<input type="hidden" name="latestid" value="<?= $latestid ?>" />
-												<button class="btn btn-normal" type="submit" id="validate">Envoyer votre message</button>
+												<button class="btn btn-normal" type="submit" id="validation">Envoyer votre message</button>
 											</div>
 										</div>
 									</form>
@@ -1176,7 +1174,7 @@ class ViewCustomer
 						unset($_SESSION['user']['sendreply']);
 					}
 
-					ViewTemplate::FrontFormValidation('validate', 3, 1);
+					ViewTemplate::FrontFormValidation('validation', 3, 1);
 					?>
 				</body>
 			</html>

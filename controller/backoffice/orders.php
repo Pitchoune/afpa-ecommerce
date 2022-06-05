@@ -11,25 +11,28 @@ use \Ecommerce\Model\ModelOrder;
  */
 function ListOrders()
 {
-    if (Utils::cando(35))
-    {
-        global $config, $pagenumber;
+	if (!Utils::cando(35))
+	{
+		throw new Exception('Vous n\'êtes pas autorisé à affichier la liste des commandes.');
+	}
 
-        $orders = new ModelOrder($config);
-        $totalorders = $orders->getTotalNumberOfOrders();
+	global $config, $pagenumber;
 
-        // Number max per page
-        $perpage = 10;
-        $limitlower = Utils::define_pagination_values($totalorders['nborders'], $pagenumber, $perpage);
+	$orders = new ModelOrder($config);
+	$totalorders = $orders->getTotalNumberOfOrders();
 
-        $orderlist = $orders->getAllOrders($limitlower, $perpage);
+	if (!$totalorders)
+	{
+		throw new Exception('Il n\'y a pas de commandes à afficher.');
+	}
 
-	    ViewOrder::OrdersList($orders, $orderlist, $totalorders, $limitlower, $perpage);
-    }
-    else
-    {
-        throw new Exception('Vous n\'êtes pas autorisé à affichier la liste des commandes.');
-    }
+	// Number max per page
+	$perpage = 10;
+	$limitlower = Utils::define_pagination_values($totalorders['nborders'], $pagenumber, $perpage);
+
+	$orderlist = $orders->getAllOrders($limitlower, $perpage);
+
+	ViewOrder::OrdersList($orders, $orderlist, $totalorders, $limitlower, $perpage);
 }
 
 ?>

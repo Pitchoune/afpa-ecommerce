@@ -221,7 +221,6 @@ class ViewProduct
 	/**
 	 * Returns the HTML code to display the add or edit product form.
 	 *
-	 * @param integer $id ID of the product if we need to edit an existing product. Empty for a new product.
 	 * @param string $navtitle Title of the page to show in the breadcrumb.
 	 * @param array $navbits Breadcrumb content.
 	 * @param array $productinfos Default values to show as default in fields.
@@ -229,10 +228,11 @@ class ViewProduct
 	 * @param string $pagetitle Title of the page.
 	 * @param mixed $catlist HTML code for the category <select>.
 	 * @param array $trademarklist Array of all trademarks.
+	 * @param integer $id ID of the product if we need to edit an existing product. Empty for a new product.
 	 *
 	 * @return void
 	 */
-	public static function ProductAddEdit($id = '', $navtitle, $navbits, $productinfos, $formredirect, $pagetitle, $catlist, $trademarkslist)
+	public static function ProductAddEdit($navtitle, $navbits, $productinfos, $formredirect, $pagetitle, $catlist, $trademarkslist, $id = '')
 	{
 		?>
 		<!DOCTYPE html>
@@ -331,7 +331,7 @@ class ViewProduct
 																<?php
 															}
 															?>
-															<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
+															<input type="submit" class="btn btn-primary" id="validation" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
 															<input type="reset" class="btn btn-primary" value="Annuler"/>
 														</div>
 													</div>
@@ -354,14 +354,7 @@ class ViewProduct
 				<?php
 				ViewTemplate::BackFoot();
 
-				if ($id)
-				{
-					ViewTemplate::BackFormValidation('valider', 4, 1);
-				}
-				else
-				{
-					ViewTemplate::BackFormValidation('valider', 3, 1);
-				}
+				ViewTemplate::BackFormValidation('validation', $id ? 4 : 3, 1);
 				?>
 			</body>
 		</html>

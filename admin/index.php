@@ -51,8 +51,8 @@ try
 			break;
 		case 'dologin':
 			$email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_SANITIZE_STRING) : NULL;
-			$pass = isset($_POST['pass']) ? filter_var($_POST['pass'], FILTER_SANITIZE_STRING) : NULL;
-			doLogin($email, $pass);
+			$password = isset($_POST['password']) ? filter_var($_POST['password'], FILTER_SANITIZE_STRING) : NULL;
+			doLogin($email, $password);
 			exit;
 		case 'logout':
 			doLogout();
@@ -341,7 +341,7 @@ try
 		case 'sendreply':
 			$id = isset($_POST['originalid']) ? filter_var($_POST['originalid'], FILTER_VALIDATE_INT) : NULL;
 			$latestid = isset($_POST['latestid']) ? filter_var($_POST['latestid'], FILTER_VALIDATE_INT) : NULL;
-			$message = isset($_POST['message']) ? filter_var($_POST['message'], FILTER_SANITIZE_STRING) : NULL;
+			$message = isset($_POST['message']) ? $_POST['message'] : NULL; // No need to clean it, there is a better validator later
 			$customerid = isset($_POST['customerid']) ? filter_var($_POST['customerid'], FILTER_VALIDATE_INT) : NULL;
 			SendReply($id, $latestid, $message, $customerid);
 			break;

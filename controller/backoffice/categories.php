@@ -11,22 +11,20 @@ use \Ecommerce\Model\ModelCategory;
  */
 function ListCategories()
 {
-	if (Utils::cando(9))
-	{
-		global $config;
-
-		$categories = new ModelCategory($config);
-
-		$categorieslist = $categories->listAllCategories();
-		$cache = Utils::categoriesCache($categorieslist);
-		$categorylist = Utils::constructCategoryChooserOptions($cache, false);
-
-		ViewCategory::CategoryList($categories, $categorieslist, $categorylist);
-	}
-	else
+	if (!Utils::cando(9))
 	{
 		throw new Exception('Vous n\'êtes pas autorisé à afficher la liste des catégories.');
 	}
+
+	global $config;
+
+	$categories = new ModelCategory($config);
+
+	$categorieslist = $categories->listAllCategories();
+	$cache = Utils::categoriesCache($categorieslist);
+	$categorylist = Utils::constructCategoryChooserOptions($cache, false);
+
+	ViewCategory::CategoryList($categories, $categorieslist, $categorylist);
 }
 
 /**
@@ -36,120 +34,118 @@ function ListCategories()
  */
 function AddCategory()
 {
-	if (Utils::cando(10))
-	{
-		global $config;
-
-		$categories = new ModelCategory($config);
-
-		$categoryinfos = [
-			'nom' => '',
-			'displayorder' => 1
-		];
-
-		$pagetitle = 'Gestion des catégories';
-		$navtitle = 'Ajouter une catégorie';
-		$formredirect = 'insertcategory';
-
-		$navbits = [
-			'listcategories' => $pagetitle,
-			'' => $navtitle
-		];
-
-		// Create a sort of cache to autobuild categories with depth status to have parent and child categories in the whole system
-		$catlist = $categories->listAllCategories();
-		$cache = Utils::categoriesCache($catlist);
-		$categorylist = Utils::constructCategoryChooserOptions($cache);
-		$categoriesselect = Utils::constructCategorySelectOptions($categorylist, $categoryinfos['parent_id']);
-
-		ViewCategory::CategoryAddEdit('', $navtitle, $navbits, $categoryinfos, $categoriesselect, $formredirect, $pagetitle);
-	}
-	else
+	if (!Utils::cando(10))
 	{
 		throw new Exception('Vous n\'êtes pas autorisé à ajouter des catégories.');
 	}
+
+	global $config;
+
+	$categories = new ModelCategory($config);
+
+	$categoryinfos = [
+		'nom' => '',
+		'displayorder' => 1
+	];
+
+	$pagetitle = 'Gestion des catégories';
+	$navtitle = 'Ajouter une catégorie';
+	$formredirect = 'insertcategory';
+
+	$navbits = [
+		'listcategories' => $pagetitle,
+		'' => $navtitle
+	];
+
+	// Create a sort of cache to autobuild categories with depth status to have parent and child categories in the whole system
+	$catlist = $categories->listAllCategories();
+	$cache = Utils::categoriesCache($catlist);
+	$categorylist = Utils::constructCategoryChooserOptions($cache);
+	$categoriesselect = Utils::constructCategorySelectOptions($categorylist, $categoryinfos['parent_id']);
+
+	ViewCategory::CategoryAddEdit('', $navtitle, $navbits, $categoryinfos, $categoriesselect, $formredirect, $pagetitle);
 }
 
 /**
  * Inserts a new category into the database.
  *
  * @param string $title Title of the category.
- * @param string $parent ID of the parent.
+ * @param string $parent ID of the parents. Valid values: -1 (string) or any unsigned integer.
  * @param integer $displayorder Display order of the category.
  *
  * @return void
  */
 function InsertCategory($title, $parent, $displayorder)
 {
-	if (Utils::cando(10))
+	if (!Utils::cando(10))
 	{
-		global $config;
+		throw new Exception('Vous n\'êtes pas autorisé à ajouter des catégories.');
+	}
 
-		$title = trim(strval($title));
+	$title = trim(strval($title));
 
-		if ($parent === '-1')
+	if ($parent === '-1')
+	{
+		$parent = trim(strval($parent));
+	}
+	else
+	{
+		$parent = intval($parent);
+	}
+
+	$displayorder = intval($displayorder);
+
+	// Validate title
+	$validmessage = Utils::datavalidation($title, 'title', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	// Validate displayorder
+	$validmessage = Utils::datavalidation($displayorder, 'displayorder');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	global $config;
+
+	$categories = new ModelCategory($config);
+	$categories->set_name($title);
+
+	// Verify category parent
+	$cats = $categories->listAllCategories();
+	$categoryCache = Utils::categoriesCache($cats);
+
+	if (count($categoryCache) > 0)
+	{
+		if (!isset($categoryCache["$parent"]) AND $parent != '-1')
 		{
-			$parent = trim(strval($parent));
+			throw new Exception('La catégorie parente spécifiée n\'est pas valide.');
 		}
-		else
-		{
-			$parent = intval($parent);
-		}
+	}
 
-		$displayorder = intval($displayorder);
+	$categories->set_parentid($parent);
+	$categories->set_displayorder($displayorder);
 
-		$categories = new ModelCategory($config);
-
-		// Verify title
-		if ($title === '')
-		{
-			throw new Exception('Le titre est vide.');
-		}
-
-		if (!preg_match('/^[\p{L}\s-]{2,}$/u', $title))
-		{
-			throw new Exception('L\'intitulé de la catégorie contient des caractères interdits.');
-		}
-
-		$categories->set_name($title);
-
-		// Verify category parent
+	// Save the new category in the database
+	if ($categories->saveNewCategory())
+	{
+		// You need to do again listAllCategories method with updated values
 		$cats = $categories->listAllCategories();
 		$categoryCache = Utils::categoriesCache($cats);
+		$parentCache = Utils::buildParentCache($categoryCache);
+		Utils::buildCategoryGenealogy($categoryCache, $parentCache);
 
-		if (count($categoryCache) > 0)
-		{
-			if (!isset($categoryCache["$parent"]) AND $parent != '-1')
-			{
-				throw new Exception('La catégorie parente spécifiée n\'est pas valide.');
-			}
-		}
-
-		$categories->set_parentid($parent);
-		$categories->set_displayorder($displayorder);
-
-		// Save the new category in the database
-		if ($categories->saveNewCategory())
-		{
-			// You need to do again listAllCategories method with updated values
-			$cats = $categories->listAllCategories();
-			$categoryCache = Utils::categoriesCache($cats);
-			$parentCache = Utils::buildParentCache($categoryCache);
-			Utils::buildCategoryGenealogy($categoryCache, $parentCache);
-
-			$_SESSION['category']['add'] = 1;
-		}
-		else
-		{
-			throw new Exception('La catégorie n\'a pas été ajoutée.');
-		}
-
-		// Save is correctly done, redirects to the category list
+		$_SESSION['category']['add'] = 1;
 		header('Location: index.php?do=listcategories');
 	}
 	else
 	{
-		throw new Exception('Vous n\'êtes pas autorisé à ajouter des catégories.');
+		throw new Exception('La catégorie n\'a pas été ajoutée.');
 	}
 }
 
@@ -162,41 +158,43 @@ function InsertCategory($title, $parent, $displayorder)
  */
 function EditCategory($id)
 {
-	if (Utils::cando(11))
-	{
-		global $config;
-
-		$categories = new ModelCategory($config);
-
-		$categories->set_id($id);
-		$categoryinfos = $categories->listCategoryInfos();
-
-		$pagetitle = 'Gestion des catégories';
-		$navtitle = 'Modifier une catégorie';
-		$formredirect = 'updatecategory';
-		$compteur = $categories->getNumberOfProductsInCategory();
-		$categoryinfos['compteur'] = $compteur['compteur'];
-
-		if ($categoryinfos)
-		{
-			$navbits = [
-				'listcategories' => $pagetitle,
-				'' => $navtitle
-			];
-
-			// Create a sort of cache to autobuild categories with depth status to have parent and child categories in the whole system
-			$catlist = $categories->listAllCategories();
-			$cache = Utils::categoriesCache($catlist);
-			$categorylist = Utils::constructCategoryChooserOptions($cache);
-			$categoriesselect = Utils::constructCategorySelectOptions($categorylist, $categoryinfos['parent_id']);
-
-			ViewCategory::CategoryAddEdit($id, $navtitle, $navbits, $categoryinfos, $categoriesselect, $formredirect, $pagetitle);
-		}
-	}
-	else
+	if (!Utils::cando(11))
 	{
 		throw new Exception('Vous n\'êtes pas autorisé à modifier des catégories.');
 	}
+
+	$id = intval($id);
+
+	global $config;
+
+	$categories = new ModelCategory($config);
+
+	$categories->set_id($id);
+	$categoryinfos = $categories->listCategoryInfos();
+
+	if (!$categoryinfos)
+	{
+		throw new Exception('La catégorie n\'existe pas.');
+	}
+
+	$pagetitle = 'Gestion des catégories';
+	$navtitle = 'Modifier une catégorie';
+	$formredirect = 'updatecategory';
+	$compteur = $categories->getNumberOfProductsInCategory();
+	$categoryinfos['compteur'] = $compteur['compteur'];
+
+	$navbits = [
+		'listcategories' => $pagetitle,
+		'' => $navtitle
+	];
+
+	// Create a sort of cache to autobuild categories with depth status to have parent and child categories in the whole system
+	$catlist = $categories->listAllCategories();
+	$cache = Utils::categoriesCache($catlist);
+	$categorylist = Utils::constructCategoryChooserOptions($cache);
+	$categoriesselect = Utils::constructCategorySelectOptions($categorylist, $categoryinfos['parent_id']);
+
+	ViewCategory::CategoryAddEdit($id, $navtitle, $navbits, $categoryinfos, $categoriesselect, $formredirect, $pagetitle);
 }
 
 /**
@@ -211,74 +209,74 @@ function EditCategory($id)
  */
 function UpdateCategory($id, $title, $parent, $displayorder)
 {
-	if (Utils::cando(11))
+	if (!Utils::cando(11))
 	{
-		global $config;
+		throw new Exception('Vous n\'êtes pas autorisé à modifier des catégories.');
+	}
 
-		$title = trim(strval($title));
+	$title = trim(strval($title));
 
-		if ($parent === '-1')
+	if ($parent === '-1')
+	{
+		$parent = trim(strval($parent));
+	}
+	else
+	{
+		$parent = intval($parent);
+	}
+
+	$displayorder = intval($displayorder);
+
+	// Validate title
+	$validmessage = Utils::datavalidation($title, 'title', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	// Validate displayorder
+	$validmessage = Utils::datavalidation($displayorder, 'displayorder');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	global $config;
+
+	$categories = new ModelCategory($config);
+	$categories->set_id($id);
+	$categories->set_name($title);
+
+	// Verify category parent
+	$cats = $categories->listAllCategories();
+	$categoryCache = Utils::categoriesCache($cats);
+
+	if (count($categoryCache) > 0 AND $parent !== 0)
+	{
+		if (!isset($categoryCache["$parent"]) AND $parent !== '-1')
 		{
-			$parent = trim(strval($parent));
+			throw new Exception('La catégorie parente spécifiée n\'est pas valide.');
 		}
-		else
-		{
-			$parent = intval($parent);
-		}
+	}
 
-		$displayorder = intval($displayorder);
+	$categories->set_parentid($parent);
+	$categories->set_displayorder($displayorder);
 
-		$categories = new ModelCategory($config);
-
-		// Verify title
-		if ($title === '')
-		{
-			throw new Exception('Le titre est vide.');
-		}
-
-		if (!preg_match('/^[\p{L}\s-]{2,}$/u', $title))
-		{
-			throw new Exception('L\'intitulé de la catégorie contient des caractères interdits.');
-		}
-
-		$categories->set_id($id);
-		$categories->set_name($title);
-
-		// Verify category parent
-		$cats = $categories->listAllCategories();
+	// Save the new category in the database
+	if ($categories->saveEditCategory())
+	{
 		$categoryCache = Utils::categoriesCache($cats);
+		$parentCache = Utils::buildParentCache($categoryCache);
+		Utils::buildCategoryGenealogy($categoryCache, $parentCache);
 
-		if (count($categoryCache) > 0 AND $parent !== 0)
-		{
-			if (!isset($categoryCache["$parent"]) AND $parent !== '-1')
-			{
-				throw new Exception('La catégorie parente spécifiée n\'est pas valide.');
-			}
-		}
-
-		$categories->set_parentid($parent);
-		$categories->set_displayorder($displayorder);
-
-		// Save the new category in the database
-		if ($categories->saveEditCategory())
-		{
-			$categoryCache = Utils::categoriesCache($cats);
-			$parentCache = Utils::buildParentCache($categoryCache);
-			Utils::buildCategoryGenealogy($categoryCache, $parentCache);
-
-			$_SESSION['category']['edit'] = 1;
-		}
-		else
-		{
-			throw new Exception('La catégorie n\'a pas été enregistrée.');
-		}
-
-		// Save is correctly done, redirects to the category list
+		$_SESSION['category']['edit'] = 1;
 		header('Location: index.php?do=listcategories');
 	}
 	else
 	{
-		throw new Exception('Vous n\'êtes pas autorisé à modifier des catégories.');
+		throw new Exception('La catégorie n\'a pas été enregistrée.');
 	}
 }
 
@@ -291,23 +289,26 @@ function UpdateCategory($id, $title, $parent, $displayorder)
  */
 function DeleteCategory($id)
 {
-	if (Utils::cando(12))
-	{
-		global $config;
-
-		$id = intval($id);
-
-		$categories = new ModelCategory($config);
-
-		$categories->set_id($id);
-		$category = $categories->listCategoryInfos();
-
-		ViewCategory::CategoryDeleteConfirmation($id, $category);
-	}
-	else
+	if (!Utils::cando(12))
 	{
 		throw new Exception('Vous n\'êtes pas autorisé à supprimer des catégories.');
 	}
+
+	global $config;
+
+	$id = intval($id);
+
+	$categories = new ModelCategory($config);
+
+	$categories->set_id($id);
+	$category = $categories->listCategoryInfos();
+
+	if (!$category)
+	{
+		throw new Exception('La catégorie n\'existe pas.');
+	}
+
+	ViewCategory::CategoryDeleteConfirmation($id, $category);
 }
 
 /**
@@ -319,38 +320,33 @@ function DeleteCategory($id)
  */
 function KillCategory($id)
 {
-	if (Utils::cando(12))
+	if (!Utils::cando(12))
 	{
-		global $config;
+		throw new Exception('Vous n\'êtes pas autorisé à supprimer des catégories.');
+	}
 
-		$id = intval($id);
+	global $config;
 
-		$categories = new ModelCategory($config);
+	$id = intval($id);
 
-		$categories->set_id($id);
+	$categories = new ModelCategory($config);
+	$categories->set_id($id);
 
-		// Delete the category from the database
-		if ($categories->deleteCategory())
-		{
-			$cats = $categories->listAllCategories();
+	// Delete the category from the database
+	if ($categories->deleteCategory())
+	{
+		$cats = $categories->listAllCategories();
 
-			$categoryCache = Utils::categoriesCache($cats);
-			$parentCache = Utils::buildParentCache($categoryCache);
-			Utils::buildCategoryGenealogy($categoryCache, $parentCache);
+		$categoryCache = Utils::categoriesCache($cats);
+		$parentCache = Utils::buildParentCache($categoryCache);
+		Utils::buildCategoryGenealogy($categoryCache, $parentCache);
 
-			$_SESSION['category']['delete'] = 1;
-		}
-		else
-		{
-			throw new Exception('La catégorie n\'a pas été supprimée.');
-		}
-
-		// Save is correctly done, redirects to the category list
+		$_SESSION['category']['delete'] = 1;
 		header('Location: index.php?do=listcategories');
 	}
 	else
 	{
-		throw new Exception('Vous n\'êtes pas autorisé à supprimer des catégories.');
+		throw new Exception('La catégorie n\'a pas été supprimée.');
 	}
 }
 
@@ -371,15 +367,33 @@ function UpdateCategoriesOrder($order)
 	{
 		$listcategories = $categories->listAllCategories();
 
-
 		foreach ($listcategories AS $key => $value)
 		{
+			$value['id'] = intval($value['id']);
+			$value['displayorder'] = intval($value['displayorder']);
+
+			// Validate displayorder
+			$validmessage = Utils::datavalidation($value['displayorder'], 'displayorder');
+
+			if ($validmessage)
+			{
+				throw new Exception($validmessage);
+			}
+
 			if (!isset($order["$value[id]"]))
 			{
-				continuer;
+				continue;
 			}
 
 			$displayorder = intval($order["$value[id]"]);
+
+			// Validate displayorder
+			$validmessage = Utils::datavalidation($displayorder, 'displayorder');
+
+			if ($validmessage)
+			{
+				throw new Exception($validmessage);
+			}
 
 			if ($value['displayorder'] != $displayorder)
 			{
@@ -399,7 +413,6 @@ function UpdateCategoriesOrder($order)
 	Utils::buildCategoryGenealogy($categoryCache, $parentCache);
 
 	$_SESSION['category']['orders'] = 1;
-
 	header('Location: index.php?do=listcategories');
 }
 

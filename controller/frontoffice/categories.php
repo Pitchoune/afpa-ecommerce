@@ -14,8 +14,12 @@ use \Ecommerce\Model\ModelProduct;
  *
  * @return void
  */
-function viewCategory($id = '', $perpage, $sortby)
+function viewCategory($id, $perpage, $sortby)
 {
+    $id = intval($id);
+    $perpage = intval($perpage);
+    $sortby = trim(strval(array_search($sortby, ['asc', 'desc'])));
+
     global $config, $pagenumber;
 
     $categories = new ModelCategory($config);

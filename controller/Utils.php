@@ -68,9 +68,7 @@ class Utils
 	}
 
 	/**
-	 * Converts a size data into full size.
-	 *
-	 * This allows to convert a value like 3M to 3145728.
+	 * Converts a size data into full size. This allows to convert a value like 3M to 3145728.
 	 *
 	 * @param string $val Value to convert.
 	 *
@@ -98,45 +96,74 @@ class Utils
 	 *
 	 * @param string $str Value to verify.
 	 * @param string $type Type of value to verify.
+	 * @param string $text More text to display next of the main error message.
+	 * @param string $confirm Used to pass confirm password field only.
 	 *
 	 * @return string Error message to display into a try/catch.
 	 */
-	public static function datavalidation($str, $type)
+	public static function datavalidation($str, $type, $text = '', $confirm = '')
 	{
-		$str = trim(strip_tags((string)$str));
-
 		$tabRegex = [
-		  "test" => '/[\w]123/',
-		  "nom" => "/^[\p{L}\s]{2,}$/u",
-		  "prenom" => "/^[\p{L}\s]{2,}$/u",
-		  "tel" => "/^[\+]?[0-9]{10}$/",
-		  "photo" => "/^[\w\s\-\.]{1,22}(.jpg|.jpeg|.png|.gif)$/",
-		  "id" => "/[\d]+/"
-
+			"firstname" => "/^[\p{L}\d\s-]{2,}$/u",
+			"lastname" => "/^[\p{L}\d\s-]{2,}$/u",
+			"title" => "/^[\p{L}\d\s-]{2,}$/u",
+			"name" => "/^[\p{L}\d\s-]{2,}$/u",
+			"mail" => "/^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'\"<>@,;]+\.+[a-z]{2,63}))$/si",
+			"telephone" => "/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/",
+			"address" => "/^[\d\w\-\s]{5,100}$/",
+			"city" => "/^([a-zA-Z]+(?:[\s-][a-zA-Z]+)*){1,}$/u",
+			"zipcode" => "/^[a-z0-9][a-z0-9\- ]{0,10}[a-z0-9]$/",
+			"pass" => "/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/",
+			"ref" => "/^[\p{L}\s-]{2,}$/u",
+			"description" => "/^[\p{L}\d\s_~\-!@#:\"\'=\.,;\$%\^&\*\(\)\[\]<>]{2,}$/u",
+			"quantity" => "/^[0-9]{1,}$/",
+			"price" => "/^[0-9]{1,5}\.[0-9]{2}$/",
+			"displayorder" => "/^[0-9]+$/",
+			"message" => "/^[\p{L}\d\s_~\-!@#:\"\'=\.,;\$%\^&\*\(\)\[\]<>]{2,}$/u",
+			"query" => "/^[\p{L}\d\s_~\-!@#:\"\'=\.,;\$%\^&\*\(\)\[\]]{2,}$/u",
+			"deliver" => "/^[0-9]{1,}$/",
+			"delivermode" => "/^[\p{L}\d\s]{2,}$/u",
+			"stripetoken" => "/^[A-Za-z0-9_]{27}$/",
 		];
 
-		switch ($type)
+		// Proceed here only if we're not in the search in top
+		if ($type !== 'query')
 		{
-			case "email":
-				if (!filter_var($str, FILTER_VALIDATE_EMAIL))
-				{
-					$return = 'Le champ \'Adresse email\' n\'est pas valide.';
-				}
-				break;
-			case "url":
-				if (!filter_var($str, FILTER_VALIDATE_URL))
-				{
-					$return = 'Le champ \'URL\' n\'est pas valide.';
-				}
-				break;
-			default:
-				if (!preg_match($tabRegex[$type], $str))
-				{
-					$return = 'Le champ \'' . $type . '\' n\'est pas au format demandé.';
-				}
-		}
+			// Check if empty
+			if ($str === '' OR empty($str))
+			{
+				return 'Le champ \'' . ucfirst($type) . '\' ne peut pas être vide.';
+			}
 
-		return $return;
+			// Check for the specific password case with confirm password
+			if ($confirm)
+			{
+				if ($str !== $confirm)
+				{
+					return 'Les mots de passe ne correspondent pas.';
+				}
+			}
+
+			// Check if valid
+			if (!preg_match($tabRegex[$type], $str))
+			{
+				return 'Le champ de la recherche n\'est pas au format demandé.' . ($text ? ' ' . $text : '');
+			}
+		}
+		else
+		{
+			// Check if empty
+			if ($str === '' OR empty($str))
+			{
+				return 'Le champ \'' . ucfirst($type) . '\' ne peut pas être vide.';
+			}
+
+			// Check if valid
+			if (!preg_match($tabRegex[$type], $str))
+			{
+				return 'Le champ de la recherche n\'est pas au format demandé.' . ($text ? ' ' . $text : '');
+			}
+		}
 	}
 
 	/**
@@ -157,7 +184,7 @@ class Utils
 	 * @param array $value Array of values to debug.
 	 * @param boolean $exit Do we stop the script process just after its execution?
 	 *
-	 * @return voir
+	 * @return void
 	 */
 	public static function printr($value, $exit = false)
 	{
@@ -706,7 +733,7 @@ class Utils
 	 *
 	 * @param string $selected Value stored in the database for the customer.
 	 *
-	 * @return string Returns  string with all values stored in &lt;option> tags
+	 * @return string Returns string with all values stored in &lt;option> tags
 	 */
 	public static function createCountryList($selected = '')
 	{
@@ -762,6 +789,111 @@ class Utils
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Unicode-safe version of htmlspecialchars().
+	 *
+	 * @param string $text Text to be made html-safe.
+	 * @param boolean $entities Convert entities?
+	 *
+	 * @return string Text.
+	 */
+	public static function htmlSpecialCharsUni($text, $entities = true)
+	{
+		if ($entities)
+		{
+			$text = preg_replace_callback('/&((#([0-9]+)|[a-z]+);)?/si', array(__CLASS__, 'htmlSpecialCharsUniCallback'), $text);
+		}
+		else
+		{
+			$text = preg_replace('/&(?!(#[0-9]+|[a-z]+);)/si', '&amp;', $text);
+		}
+
+		return str_replace( array('<', '>', '"'), array('&lt;', '&gt;', '&quot;'), $text);
+	}
+
+	/**
+	 * Callback for htmlSpecialCharsUni.
+	 *
+	 * @param array $matches Matching parts of the regex.
+	 *
+	 * @return string Text.
+	 */
+	protected static function htmlSpecialCharsUniCallback($matches)
+	{
+		if (count($matches) == 1)
+		{
+			return '&amp;';
+		}
+
+		if (strpos($matches[2], '#') === false)
+		{
+			// &gt; like
+			if ($matches[2] == 'shy')
+			{
+				return '&shy;';
+			}
+			else
+			{
+				return "&amp;$matches[2];";
+			}
+		}
+		else
+		{
+			// Only convert chars that are in ISO-8859-1
+			if (($matches[3] >= 32 AND $matches[3] <= 126) OR ($matches[3] >= 160 AND $matches[3] <= 255))
+			{
+				return "&amp;#$matches[3];";
+			}
+			else
+			{
+				return "&#$matches[3];";
+			}
+		}
+	}
+
+	/**
+	 * XSS filter
+	 *
+	 * @param string $data Data to clean.
+	 *
+	 * @return string Data cleaned
+	 */
+	public static function xss_clean($data)
+	{
+		// Fix &entity\n;
+		$data = str_replace(array('&amp;','&lt;','&gt;'), array('&amp;amp;','&amp;lt;','&amp;gt;'), $data);
+		$data = preg_replace('/(&#*\w+)[\x00-\x20]+;/u', '$1;', $data);
+		$data = preg_replace('/(&#x*[0-9A-F]+);*/iu', '$1;', $data);
+		$data = html_entity_decode($data, ENT_COMPAT, 'UTF-8');
+
+		// Remove any attribute starting with "on" or xmlns
+		$data = preg_replace('#(<[^>]+?[\x00-\x20"\'])(?:on|xmlns)[^>]*+>#iu', '$1>', $data);
+
+		// Remove javascript: and vbscript: protocols
+		$data = preg_replace('#([a-z]*)[\x00-\x20]*=[\x00-\x20]*([`\'"]*)[\x00-\x20]*j[\x00-\x20]*a[\x00-\x20]*v[\x00-\x20]*a[\x00-\x20]*s[\x00-\x20]*c[\x00-\x20]*r[\x00-\x20]*i[\x00-\x20]*p[\x00-\x20]*t[\x00-\x20]*:#iu', '$1=$2nojavascript...', $data);
+		$data = preg_replace('#([a-z]*)[\x00-\x20]*=([\'"]*)[\x00-\x20]*v[\x00-\x20]*b[\x00-\x20]*s[\x00-\x20]*c[\x00-\x20]*r[\x00-\x20]*i[\x00-\x20]*p[\x00-\x20]*t[\x00-\x20]*:#iu', '$1=$2novbscript...', $data);
+		$data = preg_replace('#([a-z]*)[\x00-\x20]*=([\'"]*)[\x00-\x20]*-moz-binding[\x00-\x20]*:#u', '$1=$2nomozbinding...', $data);
+
+		// Only works in IE: <span style="width: expression(alert('Ping!'));"></span>
+		$data = preg_replace('#(<[^>]+?)style[\x00-\x20]*=[\x00-\x20]*[`\'"]*.*?expression[\x00-\x20]*\([^>]*+>#i', '$1>', $data);
+		$data = preg_replace('#(<[^>]+?)style[\x00-\x20]*=[\x00-\x20]*[`\'"]*.*?behaviour[\x00-\x20]*\([^>]*+>#i', '$1>', $data);
+		$data = preg_replace('#(<[^>]+?)style[\x00-\x20]*=[\x00-\x20]*[`\'"]*.*?s[\x00-\x20]*c[\x00-\x20]*r[\x00-\x20]*i[\x00-\x20]*p[\x00-\x20]*t[\x00-\x20]*:*[^>]*+>#iu', '$1>', $data);
+
+		// Remove namespaced elements (we do not need them)
+		$data = preg_replace('#</*\w+:\w[^>]*+>#i', '', $data);
+
+		do
+		{
+			// Remove really unwanted tags
+			$old_data = $data;
+			$data = preg_replace('#</*(?:applet|b(?:ase|gsound|link)|embed|frame(?:set)?|i(?:frame|layer)|l(?:ayer|ink)|meta|object|s(?:cript|tyle)|title|xml)[^>]*+>#i', '', $data);
+		}
+		while ($old_data !== $data);
+
+		// we are done...
+		return $data;
 	}
 }
 

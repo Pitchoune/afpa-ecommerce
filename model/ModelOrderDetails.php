@@ -208,3 +208,5 @@ class ModelOrderDetails extends Model
 		return $this->quantity;
 	}
 }
+
+?>

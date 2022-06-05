@@ -4,6 +4,7 @@ require_once(DIR . '/controller/stripe.php');
 require_once(DIR . '/model/ModelOrder.php');
 require_once(DIR . '/model/ModelOrderDetails.php');
 require_once(DIR . '/model/ModelProduct.php');
+require_once(DIR . '/view/frontoffice/ViewShopping.php');
 use \Ecommerce\Stripe\Stripe;
 use \Ecommerce\Model\ModelOrder;
 use \Ecommerce\Model\ModelOrderDetails;
@@ -16,8 +17,6 @@ use \Ecommerce\Model\ModelProduct;
  */
 function viewCart()
 {
-	// We generate HTML code from the view
-	require_once(DIR . '/view/frontoffice/ViewShopping.php');
 	ViewShopping::DisplayCart();
 }
 
@@ -28,8 +27,6 @@ function viewCart()
  */
 function viewCheckout()
 {
-	// We generate HTML code from the view
-	require_once(DIR . '/view/frontoffice/ViewShopping.php');
 	ViewShopping::DisplayCheckout();
 }
 
@@ -37,15 +34,13 @@ function viewCheckout()
  * Display the place order page.
  *
  * @param string $price Total price of the checkout.
- * @param $deliver Deliver ID selected in the checkout.
+ * @param integer $deliver Deliver ID selected in the checkout.
  * @param integer $delivermode Deliver mode selected in the checkout.
  *
  * @return void
  */
 function placeOrder($price, $deliver, $delivermode)
 {
-	// We generate HTML code from the view
-	require_once(DIR . '/view/frontoffice/ViewShopping.php');
 	ViewShopping::PlaceOrder($price, $deliver, $delivermode);
 }
 
@@ -65,6 +60,54 @@ function placeOrder($price, $deliver, $delivermode)
 function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $item)
 {
 	global $config;
+
+	// Validate name
+	$validmessage = Utils::datavalidation($name, 'name', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	// Validate email
+	$validmessage = Utils::datavalidation($email, 'mail');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	// Validate price
+	$validmessage = Utils::datavalidation($price, 'price');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	// Validate deliver
+	$validmessage = Utils::datavalidation($deliver, 'deliver');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	// Validate delivermode
+	$validmessage = Utils::datavalidation($delivermode, 'delivermode');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	// Validate token
+	$validmessage = Utils::datavalidation($token, 'stripetoken');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
 
 	// Call stripe class
 	$stripe = new Stripe();
@@ -116,6 +159,26 @@ function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $
 
 			foreach ($item AS $key => $value)
 			{
+				$value['id'] = intval($value['id']);
+				$value['price'] = trim(strval($value['price']));
+				$value['quantity'] = intval($value['quantity']);
+
+				// Validate price
+				$validmessage = Utils::datavalidation($value['price'], 'price');
+
+				if ($validmessage)
+				{
+					throw new Exception($validmessage);
+				}
+
+				// Validate quantity
+				$validmessage = Utils::datavalidation($value['quantity'], 'quantity');
+
+				if ($validmessage)
+				{
+					throw new Exception($validmessage);
+				}
+
 				// Save order details
 				$orderdetails->set_order($orderid);
 				$orderdetails->set_product(intval($value['id']));
@@ -150,14 +213,12 @@ function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $
 				$_SESSION['user']['order']['id'] = $orderid;
 				$_SESSION['user']['order']['price'] = $price;
 				$_SESSION['user']['order']['date'] = $date;
-
 				header('Location: index.php?do=paymentsuccess');
 			}
 		}
 		else
 		{
 			$_SESSION['order']['failed'] = 1;
-
 			header('Location: index.php?do=placeorder');
 		}
 	}
@@ -170,8 +231,6 @@ function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $
  */
 function paymentSuccess()
 {
-	// We generate HTML code from the view
-	require_once(DIR . '/view/frontoffice/ViewShopping.php');
 	ViewShopping::PaymentSuccess();
 }
 

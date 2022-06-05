@@ -37,36 +37,31 @@ function login()
  *
  * @return mixed If there is an error, throw an exception else redirects to index.php
  */
-function doLogin($email, $pass)
+function doLogin($email, $password)
 {
 	global $config;
 
 	$email = trim(strval($email));
-	$pass = trim(strval($pass));
+	$password = trim(strval($password));
 
 	// Enabling the model call here, useful to validate data
 	$employees = new ModelEmployee($config);
 
 	// Validate email
-	if (empty($email))
+	$validmessage = Utils::datavalidation($email, 'mail');
+
+	if ($validmessage)
 	{
-		throw new Exception('Veuillez insérer votre adresse email.');
-	}
-	else if (!preg_match('/^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si', $email))
-	{
-		throw new Exception('Veuillez insérer une adresse email valide.');
+		throw new Exception($validmessage);
 	}
 
 	// Validate password
-	if (empty($pass))
-	{
-		throw new Exception('Veuillez insérer un mot de passe valide.');
-	}
+	$validmessage = Utils::datavalidation($password, 'pass');
 
-	/*if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $password))
+	if ($validmessage)
 	{
-		throw new Exception('Le format du mot de passe n\'est pas valide.');
-	}*/
+		throw new Exception($validmessage);
+	}
 
 	// No error - get the employee informations to login
 	$employees->set_email($email);
@@ -76,7 +71,7 @@ function doLogin($email, $pass)
 	if ($employe !== false)
 	{
 		// Employee found, verify password
-		if (password_verify($pass, $employe['pass']))
+		if (password_verify($password, $employe['pass']))
 		{
 			// Store session informations
 			$_SESSION['employee']['loggedin'] = true;
@@ -116,9 +111,16 @@ function doLogin($email, $pass)
  */
 function doLogout()
 {
+	// If employee have a valid session in frontoffice, let's stay logged-in
+	$user = $_SESSION['user'];
+
 	// Kill the whole session
 	$_SESSION['employee'] = [];
 	session_destroy();
+
+	// Recreate session for frontoffice
+	session_start();
+	$_SESSION['user'] = $user;
 
 	// Redirects the user to the index.php page
 	header('Location: index.php');
@@ -131,24 +133,22 @@ function doLogout()
  */
 function ListEmployees()
 {
-	if (Utils::cando(5))
-	{
-		global $config, $pagenumber;
-
-		$employees = new ModelEmployee($config);
-		$totalemployees = $employees->getTotalNumberOfEmployees();
-
-		$perpage = 10;
-		$limitlower = Utils::define_pagination_values($totalemployees['nbemployees'], $pagenumber, $perpage);
-
-		$employeeslist = $employees->getSomeEmployees($limitlower, $perpage);
-
-		ViewEmployee::EmployeeList($employees, $employeeslist, $totalemployees, $limitlower, $perpage);
-	}
-	else
+	if (!Utils::cando(5))
 	{
 		throw new Exception('Vous n\'êtes pas autorisé à afficher la liste des employés.');
 	}
+
+	global $config, $pagenumber;
+
+	$employees = new ModelEmployee($config);
+	$totalemployees = $employees->getTotalNumberOfEmployees();
+
+	$perpage = 10;
+	$limitlower = Utils::define_pagination_values($totalemployees['nbemployees'], $pagenumber, $perpage);
+
+	$employeeslist = $employees->getSomeEmployees($limitlower, $perpage);
+
+	ViewEmployee::EmployeeList($employees, $employeeslist, $totalemployees, $limitlower, $perpage);
 }
 
 /**
@@ -158,50 +158,49 @@ function ListEmployees()
  */
 function AddEmployee()
 {
-	if (Utils::cando(6))
-	{
-		global $config;
-
-		$employees = new ModelEmployee($config);
-
-		$employeeinfos = [
-			'nom' => '',
-			'prenom' => '',
-			'mail' => '',
-			'role' => ''
-		];
-
-		$pagetitle = 'Gestion des employées';
-		$navtitle = 'Ajouter un employé';
-		$formredirect = 'insertemployee';
-		$options = '<option value="0" selected disabled>Sélectionnez un rôle</option>';
-
-		$roles = new ModelRole($config);
-		$rolelist = $roles->listAllRoles();
-
-		if ($rolelist)
-		{
-			foreach ($rolelist AS $key => $value)
-			{
-				$options .= '<option value="' . $value['id'] . '">' . $value['nom'] . '</option>';
-			}
-		}
-		else
-		{
-			$options .= '<option value="0" disabled>Il n\'y a pas de rôle à lister.</option>';
-		}
-
-		$navbits = [
-			'index.php?do=listemployees' => $pagetitle,
-			'' => $navtitle
-		];
-
-		ViewEmployee::EmployeeAddEdit('', $navtitle, $navbits, $employeeinfos, $formredirect, $pagetitle, $options);
-	}
-	else
+	if (!Utils::cando(6))
 	{
 		throw new Exception('Vous n\'êtes pas autorisé à ajouter des employés.');
 	}
+
+	global $config;
+
+	$employees = new ModelEmployee($config);
+
+	$employeeinfos = [
+		'nom' => '',
+		'prenom' => '',
+		'mail' => '',
+		'role' => ''
+	];
+
+	$pagetitle = 'Gestion des employées';
+	$navtitle = 'Ajouter un employé';
+	$formredirect = 'insertemployee';
+
+	$roles = new ModelRole($config);
+	$rolelist = $roles->listAllRoles();
+
+	if ($rolelist)
+	{
+		$options = '<option value="0" selected disabled>Sélectionnez un rôle</option>';
+
+		foreach ($rolelist AS $key => $value)
+		{
+			$options .= '<option value="' . $value['id'] . '">' . $value['nom'] . '</option>';
+		}
+	}
+	else
+	{
+		$options = '<option value="0" disabled>Il n\'y a pas de rôle à lister.</option>';
+	}
+
+	$navbits = [
+		'index.php?do=listemployees' => $pagetitle,
+		'' => $navtitle
+	];
+
+	ViewEmployee::EmployeeAddEdit($navtitle, $navbits, $employeeinfos, $formredirect, $pagetitle, $options);
 }
 
 /**
@@ -217,93 +216,70 @@ function AddEmployee()
  */
 function InsertEmployee($firstname, $lastname, $email, $password, $role)
 {
-	if (Utils::cando(6))
-	{
-		global $config;
-
-		$firstname = trim(strval($firstname));
-		$lastname =  trim(strval($lastname));
-		$email = trim(strval($email));
-		$password  = trim(strval($password));
-		$role = trim(strval($role));
-
-		$employees = new ModelEmployee($config);
-
-		// Verify firstname
-		if ($firstname === '' OR empty($firstname))
-		{
-			throw new Exception('Le prénom est vide.');
-		}
-
-		if (!preg_match('/^[\p{L}\s-]{2,}$/u', trim($firstname)))
-		{
-			throw new Exception('Le prénom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
-		}
-
-		// Verify lastname
-		if ($lastname === '' OR empty($lastname))
-		{
-			throw new Exception('Le nom est vide.');
-		}
-
-		if (!preg_match('/^[\p{L}\s]{1,}$/u', $lastname))
-		{
-			throw new Exception('Le nom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
-		}
-
-		// Verify email
-		if ($email === '' OR empty($email))
-		{
-			throw new Exception('L\'adresse email est vide.');
-		}
-
-		if (!preg_match('/^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si', $email))
-		{
-			throw new Exception('L\'adresse email n\'est pas valide.');
-		}
-
-		// Verify password
-		if ($password === '' OR empty($password))
-		{
-			throw new Exception('Le nmot de passe est vide.');
-		}
-
-		if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $password))
-		{
-			throw new Exception('Le mot de passe n\'est pas valide.');
-		}
-
-		// Verify role
-		if ($role === '' OR (empty($role)))
-		{
-			throw new Exception('Le rôle est vide.');
-		}
-
-		if ($role === '0')
-		{
-			throw new Exception('Le rôle indiqué n\'est pas valide. Ceci est sûrement dû à cause d\'une liste de rôles disponibles vide. Veuillez contacter votre responsable.');
-		}
-
-		$hashedpassword = password_hash($password, PASSWORD_DEFAULT);
-
-		$employees->set_firstname($firstname);
-		$employees->set_lastname($lastname);
-		$employees->set_email($email);
-		$employees->set_password($hashedpassword);
-		$employees->set_role($role);
-
-		// Save the new employee in the database
-		if ($employees->saveNewEmployee())
-		{
-			$_SESSION['employee']['add'] = 1;
-		}
-
-		// Save is correctly done, redirects to the employees list
-		header('Location: index.php?do=listemployees');
-	}
-	else
+	if (!Utils::cando(6))
 	{
 		throw new Exception('Vous n\'êtes pas autorisé à ajouter des employés.');
+	}
+
+	$firstname = trim(strval($firstname));
+	$lastname =  trim(strval($lastname));
+	$email = trim(strval($email));
+	$password  = trim(strval($password));
+	$role = intval($role);
+
+	// Validate firstname
+	$validmessage = Utils::datavalidation($firstname, 'firstname', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	// Validate lastname
+	$validmessage = Utils::datavalidation($lastname, 'lastname', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	// Validate email
+	$validmessage = Utils::datavalidation($email, 'mail');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	// Validate password
+	$validmessage = Utils::datavalidation($password, 'pass');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	if ($role === 0)
+	{
+		throw new Exception('Le rôle indiqué n\'est pas valide. Ceci est sûrement dû à cause d\'une liste de rôles disponibles vide. Veuillez contacter votre responsable.');
+	}
+
+	$hashedpassword = password_hash($password, PASSWORD_DEFAULT);
+
+	global $config;
+
+	$employees = new ModelEmployee($config);
+	$employees->set_firstname($firstname);
+	$employees->set_lastname($lastname);
+	$employees->set_email($email);
+	$employees->set_password($hashedpassword);
+	$employees->set_role($role);
+
+	// Save the new employee in the database
+	if ($employees->saveNewEmployee())
+	{
+		$_SESSION['employee']['add'] = 1;
+		header('Location: index.php?do=listemployees');
 	}
 }
 
@@ -314,48 +290,45 @@ function InsertEmployee($firstname, $lastname, $email, $password, $role)
  */
 function EditEmployee($id)
 {
-	if (Utils::cando(7))
-	{
-		global $config;
-
-		$employees = new ModelEmployee($config);
-
-		$id = intval($id);
-
-		$employees->set_id($id);
-		$employeeinfos = $employees->listEmployeeInfos();
-
-		$pagetitle = 'Gestion des employées';
-		$navtitle = 'Modifier un employé';
-		$formredirect = 'updateemployee';
-		$options = '<option value="0" disabled>Sélectionnez un rôle</option>';
-
-		$roles = new ModelRole($config);
-		$rolelist = $roles->listAllRoles();
-
-		if ($rolelist)
-		{
-			foreach ($rolelist AS $key => $value)
-			{
-				$options .= '<option value="' . $value['id'] . '">' . $value['nom'] . '</option>';
-			}
-		}
-		else
-		{
-			$options .= '<option value="0" disabled>Il n\'y a pas de rôle à lister.</option>';
-		}
-
-		$navbits = [
-			'index.php?do=listemployees' => $pagetitle,
-			'' => $navtitle
-		];
-
-		ViewEmployee::EmployeeAddEdit($id, $navtitle, $navbits, $employeeinfos, $formredirect, $pagetitle, $options);
-	}
-	else
+	if (!Utils::cando(7))
 	{
 		throw new Exception('Vous n\'êtes pas autorisé à modifier des employés.');
 	}
+
+	$id = intval($id);
+
+	global $config;
+
+	$employees = new ModelEmployee($config);
+	$employees->set_id($id);
+	$employeeinfos = $employees->listEmployeeInfos();
+
+	$pagetitle = 'Gestion des employées';
+	$navtitle = 'Modifier un employé';
+	$formredirect = 'updateemployee';
+	$options = '<option value="0" disabled>Sélectionnez un rôle</option>';
+
+	$roles = new ModelRole($config);
+	$rolelist = $roles->listAllRoles();
+
+	if ($rolelist)
+	{
+		foreach ($rolelist AS $key => $value)
+		{
+			$options .= '<option value="' . $value['id'] . '">' . $value['nom'] . '</option>';
+		}
+	}
+	else
+	{
+		$options = '<option value="0" disabled>Il n\'y a pas de rôle à lister.</option>';
+	}
+
+	$navbits = [
+		'index.php?do=listemployees' => $pagetitle,
+		'' => $navtitle
+	];
+
+	ViewEmployee::EmployeeAddEdit($navtitle, $navbits, $employeeinfos, $formredirect, $pagetitle, $options, $id);
 }
 
 /**
@@ -372,132 +345,113 @@ function EditEmployee($id)
  */
 function UpdateEmployee($id, $firstname, $lastname, $email, $password, $role)
 {
-	if (Utils::cando(7))
-	{
-		global $config;
-
-		$id = intval($id);
-		$firstname = trim(strval($firstname));
-		$lastname = trim(strval($lastname));
-		$email = trim(strval($email));
-		$password = trim(strval($password));
-		$role = trim(strval($role));
-
-		$employees = new ModelEmployee($config);
-
-		// Verify firstname
-		if ($firstname === '' OR empty($firstname))
-		{
-			throw new Exception('Le prénom est vide.');
-		}
-
-		if (!preg_match('/^[\p{L}\s-]{2,}$/u', trim($firstname)))
-		{
-			throw new Exception('Le prénom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
-		}
-
-		// Verify lastname
-		if ($lastname === '' OR empty($lastname))
-		{
-			throw new Exception('Le nom est vide.');
-		}
-
-		if (!preg_match('/^[\p{L}\s]{1,}$/u', $lastname))
-		{
-			throw new Exception('Le nom peut contenir uniquement des lettres, des chiffres et des caractères spéciaux.');
-		}
-
-		// Verify email
-		if ($email === '' OR empty($email))
-		{
-			throw new Exception('L\'adresse email est vide.');
-		}
-
-		if (!preg_match('/^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si', $email))
-		{
-			throw new Exception('L\'adresse email n\'est pas valide.');
-		}
-
-		if ($password)
-		{
-			// Verify password
-			if ($password === '')
-			{
-				throw new Exception('Le nmot de passe est vide.');
-			}
-
-			if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $password))
-			{
-				throw new Exception('Le mot de passe n\'est pas valide.');
-			}
-		}
-
-		// Verify role
-		if ($role === '' OR (empty($role)))
-		{
-			throw new Exception('Le rôle est vide.');
-		}
-
-		if ($role === '0')
-		{
-			throw new Exception('Le rôle indiqué n\'est pas valide. Ceci est sûrement dû à cause d\'une liste de rôles disponibles vide. Veuillez contacter votre responsable.');
-		}
-
-		$employees->set_id($id);
-		$employees->set_firstname($firstname);
-		$employees->set_lastname($lastname);
-		$employees->set_email($email);
-		$employees->set_role($role);
-
-		if (isset($password))
-		{
-			$hashedpassword = password_hash($password, PASSWORD_DEFAULT);
-			$employees->set_password($hashedpassword);
-
-			// Save the employee in the database
-			if ($employees->saveEditEmployeeWithPassword())
-			{
-				$_SESSION['employee']['edit'] = 1;
-			}
-		}
-		else
-		{
-			// Save the employee in the database
-			if ($employees->saveEditEmployeeWithoutPassword())
-			{
-				$_SESSION['employee']['edit'] = 1;
-			}
-		}
-
-		// Save is correctly done, redirects to the employees list
-		header('Location: index.php?do=listemployees');
-	}
-	else
+	if (!Utils::cando(7))
 	{
 		throw new Exception('Vous n\'êtes pas autorisé à modifier des employés.');
 	}
+
+	$id = intval($id);
+	$firstname = trim(strval($firstname));
+	$lastname = trim(strval($lastname));
+	$email = trim(strval($email));
+	$password = trim(strval($password));
+	$role = intval($role);
+
+	// Validate firstname
+	$validmessage = Utils::datavalidation($firstname, 'firstname', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	// Validate lastname
+	$validmessage = Utils::datavalidation($lastname, 'lastname', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	// Validate email
+	$validmessage = Utils::datavalidation($email, 'mail');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	if ($password)
+	{
+		// Validate password
+		$validmessage = Utils::datavalidation($password, 'pass');
+
+		if ($validmessage)
+		{
+			throw new Exception($validmessage);
+		}
+	}
+
+	if ($role === 0)
+	{
+		throw new Exception('Le rôle indiqué n\'est pas valide. Ceci est sûrement dû à cause d\'une liste de rôles disponibles vide. Veuillez contacter votre responsable.');
+	}
+
+	global $config;
+
+	$employees = new ModelEmployee($config);
+	$employees->set_id($id);
+	$employees->set_firstname($firstname);
+	$employees->set_lastname($lastname);
+	$employees->set_email($email);
+	$employees->set_role($role);
+
+	if (isset($password))
+	{
+		$hashedpassword = password_hash($password, PASSWORD_DEFAULT);
+		$employees->set_password($hashedpassword);
+
+		// Save the employee in the database
+		if ($employees->saveEditEmployeeWithPassword())
+		{
+			$_SESSION['employee']['edit'] = 1;
+		}
+	}
+	else
+	{
+		// Save the employee in the database
+		if ($employees->saveEditEmployeeWithoutPassword())
+		{
+			$_SESSION['employee']['edit'] = 1;
+		}
+	}
+
+	header('Location: index.php?do=listemployees');
 }
 
 
 function DeleteEmployee($id)
 {
-	if (Utils::cando(8))
-	{
-		global $config;
-
-		$id = intval($id);
-
-		$employees = new ModelEmployee($config);
-
-		$employees->set_id($id);
-		$employee = $employees->listEmployeeInfos();
-
-		ViewEmployee::EmployeeDeleteConfirmation($id, $employee);
-	}
-	else
+	if (!Utils::cando(8))
 	{
 		throw new Exception('Vous n\'êtes pas autorisé à supprimer des employés.');
 	}
+
+	global $config;
+
+	$id = intval($id);
+
+	$employees = new ModelEmployee($config);
+
+	$employees->set_id($id);
+	$employee = $employees->listEmployeeInfos();
+
+	if (!$employee)
+	{
+		throw new Exception('L\'employé n\'existe pas.');
+	}
+
+	ViewEmployee::EmployeeDeleteConfirmation($id, $employee);
 }
 
 /**
@@ -509,36 +463,32 @@ function DeleteEmployee($id)
  */
 function KillEmployee($id)
 {
-	if (Utils::cando(8))
+	if (!Utils::cando(8))
 	{
-		global $config;
+		throw new Exception('Vous n\'êtes pas autorisé à supprimer des employés.');
+	}
 
-		$id = intval($id);
+	$id = intval($id);
 
-		$employees = new ModelEmployee($config);
+	global $config;
 
-		$total = $employees->getTotalNumberOfEmployees();
+	$employees = new ModelEmployee($config);
 
-		if ($total['nbemployees'] > 1)
+	$total = $employees->getTotalNumberOfEmployees();
+
+	if ($total['nbemployees'] > 1)
+	{
+		$employees->set_id($id);
+
+		if ($employees->deleteEmployee())
 		{
-			$employees->set_id($id);
-
-			if ($employees->deleteEmployee())
-			{
-				$_SESSION['employee']['delete'] = 1;
-			}
-
-			// Save is correctly done, redirects to the employees list
+			$_SESSION['employee']['delete'] = 1;
 			header('Location: index.php?do=listemployees');
-		}
-		else
-		{
-			throw new Exception('Vous ne pouvez pas supprimer le dernier employé.');
 		}
 	}
 	else
 	{
-		throw new Exception('Vous n\'êtes pas autorisé à supprimer des employés.');
+		throw new Exception('Vous ne pouvez pas supprimer le dernier employé.');
 	}
 }
 
@@ -577,26 +527,23 @@ function UpdateProfile($id, $email, $password)
 
 	$employees = new ModelEmployee($config);
 
-	// Verify email
-	if ($email === '' OR empty($email))
+	// Validate email
+	$validmessage = Utils::datavalidation($email, 'mail');
+
+	if ($validmessage)
 	{
-		throw new Exception('L\'adresse email est vide.');
+		throw new Exception($validmessage);
 	}
 
-	if (!preg_match('/^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si', $email))
+	if ($password)
 	{
-		throw new Exception('L\'adresse email n\'est pas valide.');
-	}
+		// Validate password
+		$validmessage = Utils::datavalidation($password, 'pass');
 
-	// Verify password
-	if ($password === '' OR empty($password))
-	{
-		throw new Exception('Le mot de passe est vide.');
-	}
-
-	if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/', $password))
-	{
-		throw new Exception('Le mot de passe n\'est pas valide.');
+		if ($validmessage)
+		{
+			throw new Exception($validmessage);
+		}
 	}
 
 	$employees->set_id($id);
@@ -622,7 +569,6 @@ function UpdateProfile($id, $email, $password)
 		}
 	}
 
-	// Save is correctly done, redirects to the profile
 	header('Location: index.php?do=profile');
 }
 

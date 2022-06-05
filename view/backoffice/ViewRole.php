@@ -299,7 +299,7 @@ class ViewRole
 																	<?php
 																}
 																?>
-																<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
+																<input type="submit" class="btn btn-primary" id="validation" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
 																<input type="reset" class="btn btn-primary" value="Annuler"/>
 															</div>
 														</div>
@@ -376,14 +376,7 @@ class ViewRole
 				<?php
 				ViewTemplate::BackFoot();
 
-				if ($id)
-				{
-					ViewTemplate::BackFormValidation('valider', 4, 1);
-				}
-				else
-				{
-					ViewTemplate::BackFormValidation('valider', 3, 1);
-				}
+				ViewTemplate::BackFormValidation('validation', $id ? 4 : 3, 1);
 				?>
 			</body>
 		</html>

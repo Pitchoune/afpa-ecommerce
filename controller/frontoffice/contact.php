@@ -2,6 +2,8 @@
 
 require_once(DIR . '/model/ModelCustomer.php');
 require_once(DIR . '/model/ModelMessage.php');
+
+require_once(DIR . '/view/frontoffice/ViewContact.php');
 use \Ecommerce\Model\ModelCustomer;
 use \Ecommerce\Model\ModelMessage;
 
@@ -21,15 +23,22 @@ function viewContact()
 		$customer = $customers->getCustomerInfosFromId();
 	}
 
-	// We generate HTML code from the view
-	require_once(DIR . '/view/frontoffice/ViewContact.php');
 	ViewContact::DisplayContactForm($customer);
 }
 
 /**
+ * Sends the contact form.
  *
+ * @param string $firstname First name of the contact.
+ * @param string $lastname Last name of the contact.
+ * @param string $email Email address of the contact.
+ * @param string $telephone Phone of the contact.
+ * @param string $title Title of the message.
+ * @param string $message Content of the message.
+ *
+ * @return void
  */
-function sendContact($firstname, $lastname, $email, $telephone, $title, $message, $id = '')
+function sendContact($firstname, $lastname, $email, $telephone, $title, $message)
 {
 	global $config;
 
@@ -39,7 +48,8 @@ function sendContact($firstname, $lastname, $email, $telephone, $title, $message
 	$telephone = trim(strval($telephone));
 	$title = trim(strval($title));
 	$message = trim(strval($message));
-	$id = intval($id);
+
+	$message = nl2br($message);
 
 	if ($_SESSION['user']['id'])
 	{
@@ -47,70 +57,52 @@ function sendContact($firstname, $lastname, $email, $telephone, $title, $message
 		$customers->set_id($_SESSION['user']['id']);
 	}
 
-	// Verify first name
-	if ($firstname === '' OR empty($firstname))
+	// Validate first name
+	$validmessage = Utils::datavalidation($firstname, 'firstname', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
+
+	if ($validmessage)
 	{
-		throw new Exception('Veuillez remplir le prénom.');
+		throw new Exception($validmessage);
 	}
 
-	if (!preg_match('/^[\p{L}\s]{2,}$/u', $firstname))
+	// Validate last name
+	$validmessage = Utils::datavalidation($lastname, 'lastname', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
+
+	if ($validmessage)
 	{
-		throw new Exception('Le format du prénom n\'est pas valide.');
+		throw new Exception($validmessage);
 	}
 
-	// Verify last name
-	if ($lastname === '' OR empty($lastname))
+	// Validate email
+	$validmessage = Utils::datavalidation($email, 'mail');
+
+	if ($validmessage)
 	{
-		throw new Exception('Veuillez remplir le nom.');
+		throw new Exception($validmessage);
 	}
 
-	if (!preg_match('/^[\p{L}\s]{2,}$/u', $lastname))
+	// Validate telephone
+	$validmessage = Utils::datavalidation($telephone, 'telephone');
+
+	if ($validmessage)
 	{
-		throw new Exception('Le format du nom n\'est pas valide.');
+		throw new Exception($validmessage);
 	}
 
-	// Verify email address
-	if ($email === '' OR empty($email))
+	// Validate title
+	$validmessage = Utils::datavalidation($title, 'title');
+
+	if ($validmessage)
 	{
-		throw new Exception('Veuillez remplir l\'adresse email.');
+		throw new Exception($validmessage);
 	}
 
-	if (!preg_match('/^[a-z0-9.!#$%&\'*+\-\/=?^_`{|}~]+@([0-9.]+|([^\s\'"<>@,;]+\.+[a-z]{2,24}))$/si', $email))
-	{
-		throw new Exception('Le format de l\'adresse email n\'est pas valide.');
-	}
+	// Validate message
+	$validmessage = Utils::datavalidation($message, 'message', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- _ ~ - ! @ # : " \' = . , ; $ % ^ & * ( ) [ ] &lt; &gt;');
 
-	// Verify telephone
-	if ($telephone === '' OR empty($telephone))
+	if ($validmessage)
 	{
-		throw new Exception('Veuillez remplir le téléphone.');
-	}
-
-	if (!preg_match('/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/', $telephone))
-	{
-		throw new Exception('Le format du téléphone n\'est pas valide.');
-	}
-
-	// Verify title
-	if ($title === '' OR empty($title))
-	{
-		throw new Exception('Veuillez remplir l\'intitulé.');
-	}
-
-	if (!preg_match('/^[\p{L}\s-[:punct:]]{2,}$/u', $title))
-	{
-		throw new Exception('Le format de l\'intitulé n\'est pas valide.');
-	}
-
-	// Verify message
-	if ($message === '' OR empty($message))
-	{
-		throw new Exception('Veuillez remplir le message.');
-	}
-
-	if (!preg_match('/^[\p{L}\s-[:punct:]]{2,}$/u', $message))
-	{
-		throw new Exception('Le format du message n\'est pas valide.');
+		throw new Exception($validmessage);
 	}
 
 	$date = date("Y-m-d H:i:s");

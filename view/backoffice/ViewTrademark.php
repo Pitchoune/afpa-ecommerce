@@ -229,16 +229,16 @@ class ViewTrademark
 	/**
 	 * Returns the HTML code to display the add or edit trademark form.
 	 *
-	 * @param integer $id ID of the trademark if we need to edit an existing trademark. Empty for a new trademark.
 	 * @param string $navtitle Title of the page to show in the breadcrumb.
 	 * @param array $navbits Breadcrumb content.
 	 * @param array $trademarkinfos Default values to show as default in fields.
 	 * @param string $formredirect Redirect part of the URL to save data.
 	 * @param string $pagetitle Title of the page.
+	 * @param integer $id ID of the trademark if we need to edit an existing trademark. Empty for a new trademark.
 	 *
 	 * @return void
 	 */
-	public static function TrademarkAddEdit($id = '', $navtitle, $navbits, $trademarkinfos, $formredirect, $pagetitle)
+	public static function TrademarkAddEdit($navtitle, $navbits, $trademarkinfos, $formredirect, $pagetitle, $id = '')
 	{
 		?>
 		<!DOCTYPE html>
@@ -295,7 +295,7 @@ class ViewTrademark
 															<?php
 															}
 															?>
-															<input type="submit" class="btn btn-primary" id="valider" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
+															<input type="submit" class="btn btn-primary" id="validation" value="<?= ($id ? 'Modifier' : 'Ajouter') ?>" />
 															<input type="reset" class="btn btn-primary" value="Annuler"/>
 														</div>
 													</div>
@@ -318,14 +318,7 @@ class ViewTrademark
 				<?php
 				ViewTemplate::BackFoot();
 
-				if ($id)
-				{
-					ViewTemplate::BackFormValidation('valider', 4, 1);
-				}
-				else
-				{
-					ViewTemplate::BackFormValidation('valider', 3, 1);
-				}
+				ViewTemplate::BackFormValidation('validation', $id ? 4 : 3, 1);
 				?>
 			</body>
 		</html>

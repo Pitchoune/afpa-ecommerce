@@ -433,3 +433,5 @@ class ModelOrder extends Model
 		return $this->id_deliver;
 	}
 }
+
+?>

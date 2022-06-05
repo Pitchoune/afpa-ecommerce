@@ -395,4 +395,5 @@ class ViewCategory
 		<?php
 	}
 }
+
 ?>

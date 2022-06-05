@@ -2028,32 +2028,18 @@ header {
 }
 
 .messages-form {
-	display: table;
+	display: flex;
 	width: 100%;
 	margin-top: 30px;
 	border-top: 1px solid #eee;
 	padding-top: 20px;
 
 	.messages-form-control {
-		display: table-cell;
 		padding-right: 15px;
 	}
 
-	.messages-form-tool {
-		display: table-cell;
-		text-align: right;
-		width: 50px;
-
-		.attachment {
-			height: 100%;
-			line-height: 1;
-			color: #888c91;
-			background: #e8e8e8;
-			font-size: 17px;
-			padding: 10px 12px;
-			border-radius: 50%;
-			margin-left: auto;
-		}
+	.col-xl-2 input {
+		width: 100%;
 	}
 }
 

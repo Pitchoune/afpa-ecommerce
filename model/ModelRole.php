@@ -361,3 +361,5 @@ class ModelRole extends Model
 		return $this->perms;
 	}
 }
+
+?>
