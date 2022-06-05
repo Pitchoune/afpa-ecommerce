@@ -156,7 +156,6 @@ class ModelRole extends Model
 			SELECT id, module, description
 			FROM permission
 		");
-		$query->bindParam(1, $this->id, \PDO::PARAM_INT);
 
 		$query->execute();
 		return $query->fetchAll();
@@ -283,7 +282,7 @@ class ModelRole extends Model
 	 */
 	public function getSomeRoles($limitlower, $perpage)
 	{
-		$db = $this->dbConnect($config);
+		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT *
 			FROM role

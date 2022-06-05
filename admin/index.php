@@ -341,9 +341,9 @@ try
 		case 'sendreply':
 			$id = isset($_POST['originalid']) ? filter_var($_POST['originalid'], FILTER_VALIDATE_INT) : NULL;
 			$latestid = isset($_POST['latestid']) ? filter_var($_POST['latestid'], FILTER_VALIDATE_INT) : NULL;
-			$reply = isset($_POST['reply']) ? filter_var($_POST['reply'], FILTER_SANITIZE_STRING) : NULL;
+			$message = isset($_POST['message']) ? filter_var($_POST['message'], FILTER_SANITIZE_STRING) : NULL;
 			$customerid = isset($_POST['customerid']) ? filter_var($_POST['customerid'], FILTER_VALIDATE_INT) : NULL;
-			SendReply($id, $latestid, $reply, $customerid);
+			SendReply($id, $latestid, $message, $customerid);
 			break;
 	}
 }

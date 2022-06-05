@@ -18,6 +18,8 @@ class ViewRole
 	 */
 	public static function RoleList($roles, $roleslist, $totalroles, $limitlower, $perpage)
 	{
+		global $pagenumber;
+
 		$pagetitle = 'Gestion des rôles';
 		$navtitle = 'Liste des rôles';
 
@@ -227,18 +229,18 @@ class ViewRole
 	/**
 	 * Returns the HTML code to display the add or edit role form.
 	 *
-	 * @param integer $id ID of the role if we need to edit an existing role. Empty for a new role.
 	 * @param string $navtitle Title of the page to show in the breadcrumb.
 	 * @param array $navbits Breadcrumb content.
 	 * @param array $roleinfos Default values to show as default in fields.
 	 * @param string $formredirect Redirect part of the URL to save data.
 	 * @param string $pagetitle Title of the page.
+	 * @param integer $id ID of the role if we need to edit an existing role. Empty for a new role.
 	 * @param array $permissions Array of permissions available for the system.
 	 * @param array $perms Current permissions values for the given role.
 	 *
 	 * @return void
 	 */
-	public static function RoleAddEdit($id = '', $navtitle, $navbits, $roleinfos, $formredirect, $pagetitle, $permissions = '', $perms = '')
+	public static function RoleAddEdit($navtitle, $navbits, $roleinfos, $formredirect, $pagetitle, $id = '', $permissions = '', $perms = '')
 	{
 		?>
 		<!DOCTYPE html>

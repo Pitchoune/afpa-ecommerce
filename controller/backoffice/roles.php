@@ -13,7 +13,7 @@ function ListRoles()
 {
 	if (Utils::cando(1))
 	{
-		global $config;
+		global $config, $pagenumber;
 
 		$roles = new ModelRole($config);
 
@@ -59,7 +59,7 @@ function AddRole()
 			'' => $navtitle
 		];
 
-		ViewRole::RoleAddEdit('', $navtitle, $navbits, $roleinfos, $formredirect, $pagetitle);
+		ViewRole::RoleAddEdit($navtitle, $navbits, $roleinfos, $formredirect, $pagetitle);
 	}
 	else
 	{
@@ -123,7 +123,6 @@ function EditRole($id)
 		$id = intval($id);
 
 		$roles = new ModelRole($config);
-
 		$roles->set_id($id);
 		$roleinfos = $roles->listRoleInfos();
 
@@ -135,8 +134,6 @@ function EditRole($id)
 			'index.php?do=listroles' => $pagetitle,
 			'' => $navtitle
 		];
-
-		$roles->set_id($id);
 
 		// Build all roles array
 		$rolespermslist = $roles->getAllRolePermissions();
@@ -158,7 +155,7 @@ function EditRole($id)
 			$perms["$value[module]"]["$value[id]"] = 1;
 		}
 
-		ViewRole::RoleAddEdit($id, $navtitle, $navbits, $roleinfos, $formredirect, $pagetitle, $permissions, $perms);
+		ViewRole::RoleAddEdit($navtitle, $navbits, $roleinfos, $formredirect, $pagetitle, $id, $permissions, $perms);
 	}
 	else
 	{

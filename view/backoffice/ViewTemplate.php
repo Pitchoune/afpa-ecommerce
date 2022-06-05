@@ -609,7 +609,8 @@ class ViewTemplate
 						description: /^[\p{L}\s-]{2,}$/u,
 						quantity: /^[0-9]{2,}$/,
 						price: /^[0-9]{1,5}\.[0-9]{2}$/,
-						displayorder: /^[0-9]+$/
+						displayorder: /^[0-9]+$/,
+						message: '/^[\p{L}\d\s[:punct:]]{2,}$/u'
 					};
 
 					$("small").text("");
@@ -670,13 +671,6 @@ class ViewTemplate
 								$(formElements[i]).addClass("is-invalid");
 								$(formElements[i]).next().html(`<p class="invalid-text">${$(formElements[i]).attr("data-message")}</p>`);
 							}
-
-							/*if (parseInt(formElements[i].value) === 0)
-							{
-								error = true;
-								$(formElements[i]).addClass("is-invalid");
-								$(formElements[i]).next().html(`<p class="invalid-text">${$(formElements[i]).attr("data-message")}</p>`);
-							}*/
 						}
 						else if ($(formElements[i]).attr("type") === "file")
 						{

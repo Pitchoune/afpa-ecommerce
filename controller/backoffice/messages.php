@@ -115,18 +115,18 @@ function ViewConversation($id)
  *
  * @param integer $id ID of the conversation.
  * @param integer $latestid ID of the latest reply.
- * @param string $reply Message of the employee.
+ * @param string $message Message of the employee.
  * @param integer $customerid ID of the customer.
  *
  * @return void
  */
-function SendReply($id, $latestid, $reply, $customerid)
+function SendReply($id, $latestid, $message, $customerid)
 {
 	global $config;
 
 	$id = intval($id);
 	$latestid = intval($latestid);
-	$reply = trim(strval($reply));
+	$message = trim(strval($message));
 	$customerid = intval($customerid);
 
 	$messages = new ModelMessage($config);
@@ -135,7 +135,7 @@ function SendReply($id, $latestid, $reply, $customerid)
 
 	$messages->set_type('contact');
 	$messages->set_title(NULL);
-	$messages->set_message($reply);
+	$messages->set_message($message);
 	$messages->set_date($date);
 	$messages->set_previous($latestid);
 	$messages->set_customer(NULL);

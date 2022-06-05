@@ -320,7 +320,7 @@ class ViewMessage
 													</div>
 													<form class="messages-form" action="index.php?do=sendreply&amp;originalid=<?= $id ?>&amp;latestid=<?= $latestid ?>" method="post">
 														<div class="messages-form-control">
-															<input type="text" name="reply" placeholder="Écrire ici" class="form-control input-pill input-solid message-input" />
+															<input type="text" name="message" placeholder="Écrire ici" class="form-control input-pill input-solid message-input" />
 															<input type="hidden" name="do" value="sendreply" />
 															<input type="hidden" name="customerid" value="<?= $customerinfos['id'] ?>" />
 															<input type="hidden" name="originalid" value="<?= $id ?>" />

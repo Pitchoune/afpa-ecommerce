@@ -41,7 +41,7 @@ class ModelOrderDetails extends Model
 	 * Constructor.
 	 *
 	 * @param array $config Database informations.
-	  * @param integer $id_order The order ID of the order details.
+	 * @param integer $id_order The order ID of the order details.
 	 * @param integer $id_product The product ID of the order details.
 	 * @param string $price The price of the order details.
 	 * @param integer $quantity The quantity of the order details.
