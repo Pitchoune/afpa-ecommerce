@@ -360,7 +360,7 @@ class ModelCustomer extends Model
 	 */
 	public function deleteCustomerToken()
 	{
-		$db = $this->dbConnect($config);
+		$db = $this->dbConnect();
 		$query = $db->prepare("
 			UPDATE client SET
 				token = ?
@@ -415,7 +415,7 @@ class ModelCustomer extends Model
 	 */
 	public function getTotalNumberOfCustomers()
 	{
-		$db = $this->dbConnect($config);
+		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT COUNT(*) AS nbcustomers
 			FROM client
@@ -435,7 +435,7 @@ class ModelCustomer extends Model
 	 */
 	public function getSomeCustomers($limitlower, $perpage)
 	{
-		$db = $this->dbConnect($config);
+		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT *
 			FROM client

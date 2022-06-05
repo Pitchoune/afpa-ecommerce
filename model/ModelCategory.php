@@ -290,7 +290,7 @@ class ModelCategory extends Model
 	 */
 	public function getTotalNumberOfCategories()
 	{
-		$db = $this->dbConnect($config);
+		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT COUNT(*) AS nbcats
 			FROM categorie
@@ -310,7 +310,7 @@ class ModelCategory extends Model
 	 */
 	public function getSomeCategories($limitlower, $perpage)
 	{
-		$db = $this->dbConnect($config);
+		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT *
 			FROM categorie
@@ -333,7 +333,7 @@ class ModelCategory extends Model
 	 */
 	public function getSomeCategoriesContent($limitlower, $perpage)
 	{
-		$db = $this->dbConnect($config);
+		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT *
 			FROM categorie
@@ -355,7 +355,7 @@ class ModelCategory extends Model
 	 */
 	public function getChildCategoriesIds()
 	{
-		$db = $this->dbConnect($config);
+		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT id
 			FROM categorie
@@ -372,7 +372,7 @@ class ModelCategory extends Model
 	 */
 	public function UpdateCategoryDisplayOrder()
 	{
-		$db = $this->dbConnect($config);
+		$db = $this->dbConnect();
 		$query = $db->prepare("
 			UPDATE categorie SET
 				displayorder = ?

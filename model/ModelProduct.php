@@ -396,7 +396,7 @@ class ModelProduct extends Model
 	 */
 	public function getTotalNumberOfProducts()
 	{
-		$db = $this->dbConnect($config);
+		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT COUNT(*) AS nbproducts
 			FROM produit
@@ -416,7 +416,7 @@ class ModelProduct extends Model
 	 */
 	public function getSomeProducts($limitlower, $perpage)
 	{
-		$db = $this->dbConnect($config);
+		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT *
 			FROM produit
@@ -436,7 +436,7 @@ class ModelProduct extends Model
 	 */
 	public function getTotalNumberOfProductsForSpecificCategory()
 	{
-		$db = $this->dbConnect($config);
+		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT COUNT(*) AS nbproducts
 			FROM produit
@@ -462,7 +462,7 @@ class ModelProduct extends Model
 		$pp = $this->white_list($perpage, [24, 50, 100], 'Le nombre de produits par page n\'est pas valide.');
 		$direction = $this->white_list($sortby, ['ASC', 'DESC'], 'L\'ordre de tri n\'est pas valide.');
 
-		$db = $this->dbConnect($config);
+		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT *
 			FROM produit
@@ -493,7 +493,7 @@ class ModelProduct extends Model
 		$pp = $this->white_list($perpage, [24, 50, 100], 'Le nombre de produits par page n\'est pas valide.');
 		$direction = $this->white_list($sortby, ['ASC', 'DESC'], 'L\'ordre de tri n\'est pas valide.');
 
-		$db = $this->dbConnect($config);
+		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT *
 			FROM produit
@@ -538,7 +538,7 @@ class ModelProduct extends Model
 	 */
 	public function getLatestNewProductsFromSpecificRange($min, $max)
 	{
-		$db = $this->dbConnect($config);
+		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT *
 			FROM produit

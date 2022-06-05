@@ -212,7 +212,7 @@ class ModelTrademark extends Model
 	 */
 	public function getTotalNumberOfTrademarks()
 	{
-		$db = $this->dbConnect($config);
+		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT COUNT(*) AS nbtrademarks
 			FROM marque
@@ -232,7 +232,7 @@ class ModelTrademark extends Model
 	 */
 	public function getSomeTrademarks($limitlower, $perpage)
 	{
-		$db = $this->dbConnect($config);
+		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT *
 			FROM marque

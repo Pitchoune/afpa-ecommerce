@@ -212,7 +212,7 @@ class ModelDeliver extends Model
 	 */
 	public function getTotalNumberOfDelivers()
 	{
-		$db = $this->dbConnect($config);
+		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT COUNT(*) AS nbdelivers
 			FROM transporteur
@@ -232,7 +232,7 @@ class ModelDeliver extends Model
 	 */
 	public function getSomeDelivers($limitlower, $perpage)
 	{
-		$db = $this->dbConnect($config);
+		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT *
 			FROM transporteur

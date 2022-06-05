@@ -104,7 +104,7 @@ class ModelOrderDetails extends Model
 	 */
 	public function getBestSellingProductsFromSpecificRange($min, $max)
 	{
-		$db = $this->dbConnect($config);
+		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT d.*, p.nom
 			FROM details_commande AS d

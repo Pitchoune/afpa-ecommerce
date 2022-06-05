@@ -314,7 +314,7 @@ class ModelEmployee extends Model
 	 */
 	public function getTotalNumberOfEmployees()
 	{
-		$db = $this->dbConnect($config);
+		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT COUNT(*) AS nbemployees
 			FROM employe
@@ -334,7 +334,7 @@ class ModelEmployee extends Model
 	 */
 	public function getSomeEmployees($limitlower, $perpage)
 	{
-		$db = $this->dbConnect($config);
+		$db = $this->dbConnect();
 		$query = $db->prepare("
 			SELECT *
 			FROM employe
