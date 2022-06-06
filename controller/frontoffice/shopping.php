@@ -101,14 +101,6 @@ function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $
 		throw new Exception($validmessage);
 	}
 
-	// Validate token
-	$validmessage = Utils::datavalidation($token, 'stripetoken');
-
-	if ($validmessage)
-	{
-		throw new Exception($validmessage);
-	}
-
 	// Call stripe class
 	$stripe = new Stripe();
 
@@ -181,9 +173,9 @@ function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $
 
 				// Save order details
 				$orderdetails->set_order($orderid);
-				$orderdetails->set_product(intval($value['id']));
-				$orderdetails->set_price(trim($value['price']));
-				$orderdetails->set_quantity(intval($value['quantity']));
+				$orderdetails->set_product($value['id']);
+				$orderdetails->set_price($value['price']);
+				$orderdetails->set_quantity($value['quantity']);
 				$orderdetails->saveOrderDetails();
 
 
@@ -218,8 +210,8 @@ function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $
 		}
 		else
 		{
-			$_SESSION['order']['failed'] = 1;
-			header('Location: index.php?do=placeorder');
+			$_SESSION['user']['order']['failed'] = 1;
+			header('Location: index.php?do=paymentfailed');
 		}
 	}
 }
@@ -232,6 +224,11 @@ function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $
 function paymentSuccess()
 {
 	ViewShopping::PaymentSuccess();
+}
+
+function paymentFailed()
+{
+	ViewShopping::PaymentFailed();
 }
 
 ?>

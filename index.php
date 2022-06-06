@@ -178,6 +178,9 @@ try
 		case 'paymentsuccess':
 			paymentSuccess();
 			break;
+		case 'paymentfailed':
+			paymentFailed();
+			break;
 		// Contact
 		case 'contact':
 			viewContact();

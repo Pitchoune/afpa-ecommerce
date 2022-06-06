@@ -2863,6 +2863,25 @@ header {
   height: auto;
 }
 
+/* Order failed */
+.danger-text {
+  text-align: center;
+}
+.danger-text svg {
+  font-size: 50px;
+  color: #ff0000;
+  margin-bottom: 20px;
+}
+.danger-text h2 {
+  text-transform: uppercase;
+  font-size: calc(20px + 16 * (100vw - 320px) / 1600);
+  color: #333333;
+  font-weight: 700;
+}
+.danger-text p {
+  font-size: calc(14px + 4 * (100vw - 320px) / 1600);
+}
+
 /* Order success */
 .success-text {
   text-align: center;
@@ -2880,9 +2899,6 @@ header {
 }
 .success-text p {
   font-size: calc(14px + 4 * (100vw - 320px) / 1600);
-}
-.success-text.order-fail i {
-  color: #fb0000;
 }
 
 .order-success-sec h4 {

@@ -3588,6 +3588,28 @@ header {
 	}
 }
 
+/* Order failed */
+.danger-text {
+	text-align: center;
+
+	svg {
+		font-size: 50px;
+		color: $red;
+		margin-bottom: 20px;
+	}
+
+	h2 {
+		text-transform: uppercase;
+		font-size: calc(20px + (36 - 20) * ((100vw - 320px) / (1920 - 320)));
+		color: $font-color;
+		font-weight: 700;
+	}
+
+	p {
+		font-size: calc(14px + (18 - 14) * ((100vw - 320px) / (1920 - 320)));
+	}
+}
+
 /* Order success */
 .success-text {
 	text-align: center;
@@ -3607,12 +3629,6 @@ header {
 
 	p {
 		font-size: calc(14px + (18 - 14) * ((100vw - 320px) / (1920 - 320)));
-	}
-
-	&.order-fail {
-		i {
-			color: $theme-color1;
-		}
 	}
 }
 

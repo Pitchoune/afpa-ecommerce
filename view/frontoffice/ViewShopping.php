@@ -25,19 +25,14 @@ class ViewShopping
 		<!DOCTYPE html>
 		<html>
 			<head>
-				<?php
-				ViewTemplate::FrontHead($pagetitle);
-				?>
+				<?= ViewTemplate::FrontHead($pagetitle) ?>
 			</head>
-
 			<body class="bg-light">
-
 				<?php
 				ViewTemplate::FrontHeader();
 
 				ViewTemplate::FrontBreadcrumb($pagetitle, ['viewcart' => $pagetitle]);
 				?>
-
 				<!-- cart -->
 				<section class="cart-section section-big-py-space b-g-light">
 					<div class="custom-container">
@@ -77,10 +72,7 @@ class ViewShopping
 					</div>
 				</section>
 				<!-- / cart -->
-
-				<?php
-				ViewTemplate::FrontFooter();
-				?>
+				<?= ViewTemplate::FrontFooter() ?>
 			</body>
 		</html>
 		<?php
@@ -107,19 +99,14 @@ class ViewShopping
 			<!DOCTYPE html>
 			<html>
 				<head>
-					<?php
-					ViewTemplate::FrontHead($pagetitle);
-					?>
+					<?= ViewTemplate::FrontHead($pagetitle) ?>
 				</head>
-
 				<body class="bg-light">
-
 					<?php
 					ViewTemplate::FrontHeader();
 
 					ViewTemplate::FrontBreadcrumb($pagetitle, ['viewcheckout' => $pagetitle]);
 					?>
-
 					<!-- checkout -->
 					<section class="section-big-py-space b-g-light">
 						<div class="custom-container">
@@ -241,10 +228,7 @@ class ViewShopping
 						</div>
 					</section>
 					<!-- checkout -->
-
-					<?php
-					ViewTemplate::FrontFooter();
-					?>
+					<?= ViewTemplate::FrontFooter() ?>
 				</body>
 			</html>
 			<?php
@@ -280,19 +264,14 @@ class ViewShopping
 			<!DOCTYPE html>
 			<html>
 				<head>
-					<?php
-					ViewTemplate::FrontHead($pagetitle);
-					?>
+					<?= ViewTemplate::FrontHead($pagetitle) ?>
 				</head>
-
 				<body class="bg-light">
-
 					<?php
 					ViewTemplate::FrontHeader();
 
 					ViewTemplate::FrontBreadcrumb($pagetitle, ['placeorder' => $pagetitle]);
 					?>
-
 					<section class="checkout-second section-big-py-space b-g-light">
 						<div class="custom-container">
 							<div class="row">
@@ -357,9 +336,7 @@ class ViewShopping
 						</div>
 					</section>
 
-					<?php
-					ViewTemplate::FrontFooter();
-					?>
+					<?= ViewTemplate::FrontFooter() ?>
 
 					<!-- Stripe - use v2, v3 requires app auth from your bank with paymentInstants -->
 					<script src="https://js.stripe.com/v2/"></script>
@@ -424,13 +401,9 @@ class ViewShopping
 			<!DOCTYPE html>
 			<html>
 				<head>
-					<?php
-					ViewTemplate::FrontHead($pagetitle);
-					?>
+					<?= ViewTemplate::FrontHead($pagetitle) ?>
 				</head>
-
 				<body class="bg-light">
-
 					<?php
 					ViewTemplate::FrontHeader();
 
@@ -540,25 +513,75 @@ class ViewShopping
 						<!-- / order success -->
 						<?php
 						unset($_SESSION['user']['order']);
+
+						ViewTemplate::FrontFooter();
 					}
 					else
 					{
+						ViewTemplate::FrontFooter();
+
 						$_SESSION['user']['order']['confirmpaid'] = 1;
 						?>
 						<script>
 						// Empty cart
-						$(window).on('load', function()
+						$(document).ready(function()
 						{
-							shoppingCart.clearCart();
-							location.reload();
+							$(window).on('load', function()
+							{
+								shoppingCart.clearCart();
+								location.reload();
+							});
 						});
 						</script>
 						<?php
 					}
-
-					ViewTemplate::FrontFooter();
 					?>
+				</body>
+			</html>
+			<?php
+		}
+		else
+		{
+			throw new Exception('Vous n\'avez pas l\'autorisation d\'être sur cette page.');
+		}
+	}
 
+	/**
+	 * Returns the HTML code to display the failed payment page.
+	 *
+	 * @return void
+	 */
+	public static function PaymentFailed()
+	{
+		if ($_SESSION['user']['order']['failed'])
+		{
+			global $config;
+
+			$pagetitle = 'Commande echouée !';
+			?>
+			<!DOCTYPE html>
+			<html>
+				<head>
+					<?= ViewTemplate::FrontHead($pagetitle) ?>
+				</head>
+
+				<body class="bg-light">
+					<?= ViewTemplate::FrontHeader() ?>
+					<!-- order failed -->
+					<section class="section-big-py-space light-layout">
+						<div class="container">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="danger-text"><i class="fas fa-times-circle" aria-hidden="true"></i>
+										<h2>Echec</h2>
+										<p>Le paiement a échouée. Votre panier est conservée tant que vous restez sur cette fenêtre/onglet.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<!-- / order failed -->
+					<?= ViewTemplate::FrontFooter() ?>
 				</body>
 			</html>
 			<?php

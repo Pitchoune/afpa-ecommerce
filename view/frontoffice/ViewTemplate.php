@@ -642,7 +642,7 @@ class ViewTemplate
 						message: /^[\p{L}\d\s_~\-!@#:\\"'=\.,;\$%\^&\*\(\)\[\]<>]{2,}$/u,
 						query: /^[\p{L}\d\s_~\-!@#:\\"'=\.,;\$%\^&\*\(\)\[\]]{2,}$/u,
 						deliver: /^[0-9]{1,}$/,
-						delivermode: /^[\p{L}\d\s]{2,}$/u,
+						delivermode: /^[0-9]{1,}$/u,
 						stripetoken: /^[A-Za-z0-9_]{27}$/,
 					};
 

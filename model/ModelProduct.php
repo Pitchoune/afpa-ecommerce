@@ -230,7 +230,7 @@ class ModelProduct extends Model
 	{
 		$db = $this->dbConnect();
 		$query = $db->prepare("
-			SELECT qty
+			SELECT quantite
 			FROM produit
 			WHERE id = ?
 		");

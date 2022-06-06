@@ -122,8 +122,7 @@ class Utils
 			"message" => "/^[\p{L}\d\s_~\-!@#:\"\'=\.,;\$%\^&\*\(\)\[\]<>]{2,}$/u",
 			"query" => "/^[\p{L}\d\s_~\-!@#:\"\'=\.,;\$%\^&\*\(\)\[\]]{2,}$/u",
 			"deliver" => "/^[0-9]{1,}$/",
-			"delivermode" => "/^[\p{L}\d\s]{2,}$/u",
-			"stripetoken" => "/^[A-Za-z0-9_]{27}$/",
+			"delivermode" => "/^[0-9]{1,}$/u",
 		];
 
 		// Proceed here only if we're not in the search in top
