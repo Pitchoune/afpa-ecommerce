@@ -65,7 +65,7 @@ function viewProduct($id = '', $ref = '')
 
 			// Get the parent name only if there is a parent ID
 			// No parent_id = product is in parent category
-			if ($categoryinfos['parent_id'])
+			if ($categoryinfos['parent_id'] !== '-1')
 			{
 				$categories->set_id($categoryinfos['parent_id']);
 				$category = $categories->getParentName();
