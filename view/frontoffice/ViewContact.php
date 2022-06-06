@@ -80,7 +80,7 @@ class ViewContact
 										<div class="col-md-12">
 											<div>
 												<label for="message">Votre Message</label>
-												<textarea class="form-control" id="message" name="message" aria-describedby="messageHelp" data-type="message" data-message="Le format du message n'est pas valide." placeholder="Écrivez votre message" rows="2"></textarea>
+												<textarea class="form-control" id="message" name="message" aria-describedby="messageHelp" data-type="message" data-message="Le format du message n'est pas valide." placeholder="Écrivez votre message" rows="10"></textarea>
 												<small id="messageHelp" class="form-text text-muted"></small>
 											</div>
 										</div>
