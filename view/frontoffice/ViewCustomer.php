@@ -351,7 +351,7 @@ class ViewCustomer
 										<h3 class="mb-3 spc-responsive">ADRESSE DE LIVRAISON</h3>
 										<div class="theme-form">
 											<div class="row">
-												<div class="col-md-6">
+												<div class="col-md-12">
 													<div class="form-group">
 														<label for="address">Adresse *</label>
 														<input type="text" class="form-control" id="address" name="address" aria-describedby="addressHelp" data-type="address" data-message="Le format de l'adresse postale n'est pas valide." placeholder="Adresse"<?= ($data['adresse'] ? ' value="' . $data["adresse"] . '"' : '') ?> required />
