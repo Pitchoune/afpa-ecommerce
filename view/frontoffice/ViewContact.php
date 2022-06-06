@@ -98,6 +98,12 @@ class ViewContact
 				<?php
 				ViewTemplate::FrontFooter();
 
+				if ($_SESSION['userloggedin'] === 1)
+				{
+					ViewTemplate::FrontNotify('Identification', 'Vous vous êtes identifié avec succès !', 'success');
+					unset($_SESSION['userloggedin']);
+				}
+
 				ViewTemplate::FrontFormValidation('validation', 2, 1);
 				?>
 			</body>

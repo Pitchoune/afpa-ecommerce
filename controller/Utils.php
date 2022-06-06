@@ -123,6 +123,7 @@ class Utils
 			"query" => "/^[\p{L}\d\s_~\-!@#:\"\'=\.,;\$%\^&\*\(\)\[\]]{2,}$/u",
 			"deliver" => "/^[0-9]{1,}$/",
 			"delivermode" => "/^[0-9]{1,}$/u",
+			"doaction" => "/^[a-z0-9&?=]{1,}$/",
 		];
 
 		// Proceed here only if we're not in the search in top

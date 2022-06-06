@@ -353,6 +353,7 @@ class ViewTemplate
 	 */
 	public static function FrontFooter()
 	{
+		global $do;
 		?>
 		<!-- footer -->
 		<footer>
@@ -490,6 +491,7 @@ class ViewTemplate
 						<input type="password" class="form-control" id="password" name="password" placeholder="Insérez votre mot de passe" required />
 					</div>
 					<div class="form-group">
+						<input type="hidden" name="doaction" value="<?= $_SERVER['QUERY_STRING'] ?>" />
 						<input type="submit" class="btn btn-solid btn-md btn-block" value="S'identifier" />
 					</div>
 					<div class="accout-fwd">

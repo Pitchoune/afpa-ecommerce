@@ -63,7 +63,8 @@ try
 		case 'dologin':
 			$email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) : NULL;
 			$password = isset($_POST['password']) ? filter_var($_POST['password'], FILTER_SANITIZE_STRING) : NULL;
-			doLogin($email, $password);
+			$doaction = isset($_POST['doaction']) ? filter_var($_POST['doaction'], FILTER_SANITIZE_STRING) : NULL;
+			doLogin($email, $password, $doaction);
 			break;
 		case 'dashboard':
 			viewDashboard();

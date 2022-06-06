@@ -141,7 +141,7 @@ function login()
  *
  * @return void
  */
-function doLogin($email, $password)
+function doLogin($email, $password, $doaction)
 {
 	global $config;
 
@@ -164,6 +164,14 @@ function doLogin($email, $password)
 
 	// Validate password
 	$validmessage = Utils::datavalidation($password, 'pass');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
+	// Validate doaction
+	$validmessage = Utils::datavalidation($doaction, 'doaction');
 
 	if ($validmessage)
 	{
@@ -198,7 +206,8 @@ function doLogin($email, $password)
 		$_SESSION['user']['id'] = $user['id'];
 		$_SESSION['user']['email'] = $user['mail'];
 		$_SESSION['userloggedin'] = 1;
-		header('Location: index.php');
+
+		header('Location: index.php?' . ($doaction ? $doaction : ''));
 	}
 	else
 	{

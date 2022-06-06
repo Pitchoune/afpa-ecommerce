@@ -181,6 +181,12 @@ class ViewCategory
 				}
 
 				ViewTemplate::FrontFooter();
+
+				if ($_SESSION['userloggedin'] === 1)
+				{
+					ViewTemplate::FrontNotify('Identification', 'Vous vous êtes identifié avec succès !', 'success');
+					unset($_SESSION['userloggedin']);
+				}
 				?>
 				</body>
 			</html>
