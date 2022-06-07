@@ -52,17 +52,29 @@ class ViewProduct
 													<li><?= $product['prix'] ?> &euro;</li>
 												</ul>
 											</div>
+											<?php
+											if ($product['quantite'] <= 10)
+											{
+											?>
+											<div class="pro-group">
+												<h6 class="product-quantity">
+													Plus que <?= $product['quantite'] ?> exemplaires disponibles !
+												</h6>
+											</div>
+											<?php
+											}
+											?>
 											<div class="pro-group addeffect-section product-description border-product mb-0">
 												<h6 class="product-title">Quantité</h6>
 												<div class="qty-box">
 													<div class="input-group">
 														<button class="qty-minus" data-name="<?= $product['nom'] ?>"></button>
-														<input class="qty-adj form-control" type="number" value="1" />
-														<button class="qty-plus" data-name="<?= $product['nom'] ?>"></button>
+														<input class="qty-adj form-control" type="number" value="1" data-name="<?= $product['nom'] ?>" data-maxqty="<?= $product['quantite'] ?>" />
+														<button class="qty-plus" data-name="<?= $product['nom'] ?>" data-maxqty="<?= $product['quantite'] ?>"></button>
 													</div>
 												</div>
 												<div class="product-buttons">
-													<button data-name="<?= $product['nom'] ?>" data-price="<?= $product['prix'] ?>" data-photo="<?= $product['photo'] ?>" data-id="<?= $product['id'] ?>" id="cartEffect" class="btn cart-btn btn-normal tooltip-top add-to-cart">
+													<button data-name="<?= $product['nom'] ?>" data-price="<?= $product['prix'] ?>" data-photo="<?= $product['photo'] ?>" data-id="<?= $product['id'] ?>" data-maxqty="<?= $product['quantite'] ?>" id="cartEffect" class="btn cart-btn btn-normal tooltip-top add-to-cart">
 														<i class="fa fa-shopping-cart"></i>
 														Ajouter au panier
 													</button>
@@ -123,36 +135,36 @@ class ViewProduct
 					</section>
 					<!-- / product -->
 
-					<?php
-					}
-					else
-					{
-						ViewTemplate::FrontBreadcrumb('Erreur', '', false);
-						?>
-						<section class="login-page section-big-py-space b-g-light">
-							<div class="custom-container">
-								<div class="row">
-									<div class="col-xl-4 col-lg-6 col-md-8 offset-xl-4 offset-lg-3 offset-md-2">
-										<div class="theme-card">
-											<div>Aucun produit trouvé.</div>
-										</div>
+				<?php
+				}
+				else
+				{
+					ViewTemplate::FrontBreadcrumb('Erreur', '', false);
+					?>
+					<section class="login-page section-big-py-space b-g-light">
+						<div class="custom-container">
+							<div class="row">
+								<div class="col-xl-4 col-lg-6 col-md-8 offset-xl-4 offset-lg-3 offset-md-2">
+									<div class="theme-card">
+										<div>Aucun produit trouvé.</div>
 									</div>
 								</div>
 							</div>
-						</section>
-						<?php
-					}
+						</div>
+					</section>
+					<?php
+				}
 
-					ViewTemplate::FrontFooter();
+				ViewTemplate::FrontFooter();
 
-					if ($_SESSION['userloggedin'] === 1)
-					{
-						ViewTemplate::FrontNotify('Identification', 'Vous vous êtes identifié avec succès !', 'success');
-						unset($_SESSION['userloggedin']);
-					}
-					?>
-				</body>
-			</html>
+				if ($_SESSION['userloggedin'] === 1)
+				{
+					ViewTemplate::FrontNotify('Identification', 'Vous vous êtes identifié avec succès !', 'success');
+					unset($_SESSION['userloggedin']);
+				}
+				?>
+			</body>
+		</html>
 		<?php
 	}
 

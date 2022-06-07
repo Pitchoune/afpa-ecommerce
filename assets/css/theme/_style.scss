@@ -3014,6 +3014,13 @@ header {
 		font-size: calc(16px + (18 - 16) * ((100vw - 320px) / (1920 - 320)));
 	}
 
+	.product-quantity {
+		color: $theme-color1;
+		font-weight: 700;
+		line-height: 1;
+		font-size: calc(16px + (18 - 16) * ((100vw - 320px) / (1920 - 320)));
+	}
+
 	.pro-group {
 		padding-bottom: 20px;
 

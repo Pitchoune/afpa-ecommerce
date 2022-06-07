@@ -2416,6 +2416,12 @@ header {
   line-height: 1;
   font-size: calc(16px + 2 * (100vw - 320px) / 1600);
 }
+.product-right .product-quantity {
+  color: #fb0000;
+  font-weight: 700;
+  line-height: 1;
+  font-size: calc(16px + 2 * (100vw - 320px) / 1600);
+}
 .product-right .pro-group {
   padding-bottom: 20px;
 }

@@ -73,7 +73,7 @@ class ViewShopping
 				</section>
 				<!-- / cart -->
 				<?php
-				ViewTemplate::FrontFooter(;
+				ViewTemplate::FrontFooter();
 
 				if ($_SESSION['userloggedin'] === 1)
 				{

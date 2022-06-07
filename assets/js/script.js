@@ -210,11 +210,15 @@ $(document).ready(function()
 		});
 	});
 
-	qtyIncs.forEach((qtyDec) => {
-		qtyDec.addEventListener('click', function(e)
+	qtyIncs.forEach((qtyInc) => {
+		qtyInc.addEventListener('click', function(e)
 		{
-			// For each '+' click, increment quantity value
-			e.target.previousElementSibling.value++;
+			// Check if we don't try to add more quantity than the current stock in database
+			if (parseInt(e.target.previousElementSibling.value) != parseInt(qtyInc.dataset.maxqty))
+			{
+				// For each '+' click, increment quantity value
+				e.target.previousElementSibling.value++;
+			}
 		});
 	});
 
@@ -579,13 +583,14 @@ var shoppingCart = (function()
 	cart = [];
 
 	// Constructor
-	function Item(name, price, count, photo, id)
+	function Item(name, price, count, photo, id, maxqty)
 	{
 		this.name = name;
 		this.price = price;
 		this.count = parseInt(count);
 		this.photo = photo;
 		this.id = id;
+		this.maxqty = maxqty;
 	}
 
 	// Save cart
@@ -611,7 +616,7 @@ var shoppingCart = (function()
 	var obj = {};
 
 	// Add new item to cart
-	obj.addNewItemToCart = function(name, price, count, photo, id)
+	obj.addNewItemToCart = function(name, price, count, photo, id, maxqty)
 	{
 		for (var item in cart)
 		{
@@ -623,7 +628,7 @@ var shoppingCart = (function()
 			}
 		}
 
-		var item = new Item(name, price, count, photo, id);
+		var item = new Item(name, price, count, photo, id, maxqty);
 		cart.push(item);
 		saveCart();
 	}
@@ -643,13 +648,22 @@ var shoppingCart = (function()
 	}
 
 	// Set count from item
-	obj.setCountForItem = function(name, count)
+	obj.setCountForItem = function(name, count, maxqty)
 	{
 		for (var i in cart)
 		{
 			if (cart[i].name === name)
 			{
-				cart[i].count = parseInt(cart[i].count) + parseInt(count);
+				// Update the cart quantity only if the addition of
+				// the current count + the new count is not higher than the max quantity
+				if (parseInt(cart[i].count) + parseInt(count) <= maxqty)
+				{
+					cart[i].count = parseInt(cart[i].count) + parseInt(count);
+				}
+				else
+				{
+					cart[i].count = maxqty;
+				}
 				break;
 			}
 		}
@@ -748,9 +762,10 @@ $('.add-to-cart').click(function(e)
 	var count = $('.qty-adj').val();
 	var photo = $(this).data('photo');
 	var id = $(this).data('id');
+	var maxqty = $(this).data('maxqty');
 
 	// Add product into cart
-	shoppingCart.addNewItemToCart(name, price, count, photo, id);
+	shoppingCart.addNewItemToCart(name, price, count, photo, id, maxqty);
 
 	// Update cart
 	displayCart();
@@ -774,8 +789,8 @@ function displayCart()
 		+ "<div class='qty-box'>"
 		+ "<div class='input-group'>"
 		+ "<button class='qty-minus' data-name='" + cartArray[i].name + "'></button>"
-		+ "<input type='number' name='quantity' class='qty-adj form-control' value='" + cartArray[i].count + "' />"
-		+ "<button class='qty-plus' data-name='" + cartArray[i].name + "'></button>"
+		+ "<input type='number' name='quantity' class='qty-adj form-control' value='" + cartArray[i].count + "' data-name='" + cartArray[i].name + "' data-maxqty='" + cartArray[i].maxqty + "' />"
+		+ "<button class='qty-plus' data-name='" + cartArray[i].name + "' data-maxqty='" + cartArray[i].maxqty + "'></button>"
 		+ "</div>"
 		+ "</div>"
 		+ "</div>"
@@ -795,8 +810,8 @@ function displayCart()
 		+ "<div class='qty-box'>"
 		+ "<div class='input-group'>"
 		+ "<button class='qty-minus' data-name='" + cartArray[i].name + "'></button>"
-		+ "<input type='number' class='qty-adj form-control' value='" + cartArray[i].count + "' data-name='" + cartArray[i].name + "' />"
-		+ "<button class='qty-plus' data-name='" + cartArray[i].name + "'></button>"
+		+ "<input type='number' class='qty-adj form-control' value='" + cartArray[i].count + "' data-name='" + cartArray[i].name + "' data-maxqty='" + cartArray[i].maxqty + "' />"
+		+ "<button class='qty-plus' data-name='" + cartArray[i].name + "' data-maxqty='" + cartArray[i].maxqty + "'></button>"
 		+ "</div>"
 		+ "</div>"
 		+ "</div>"
@@ -820,8 +835,8 @@ function displayCart()
 		+ "<div class='qty-box'>"
 		+ "<div class='input-group'>"
 		+ "<button class='qty-minus' data-name='" + cartArray[i].name + "'></button>"
-		+ "<input type='number' class='qty-adj form-control' value='" + cartArray[i].count + "' data-name='" + cartArray[i].name + "' />"
-		+ "<button class='qty-plus' data-name='" + cartArray[i].name + "'></button>"
+		+ "<input type='number' class='qty-adj form-control' value='" + cartArray[i].count + "' data-name='" + cartArray[i].name + "' data-maxqty='" + cartArray[i].maxqty + "' />"
+		+ "<button class='qty-plus' data-name='" + cartArray[i].name + "' data-maxqty='" + cartArray[i].maxqty + "'></button>"
 		+ "</div>"
 		+ "</div>"
 		+ "</td>"
@@ -898,7 +913,13 @@ $('.cart_product').on('click', '.qty-minus', function(e)
 $('.cart_product').on('click', '.qty-plus', function(e)
 {
 	var name = $(this).data('name');
-	shoppingCart.addItemToCart(name);
+	var quantity = $('.cart_product .qty-adj').val();
+	var maxqty = $(this).data('maxqty');
+
+	if (quantity != maxqty)
+	{
+		shoppingCart.addItemToCart(name);
+	}
 	displayCart();
 });
 
@@ -907,7 +928,8 @@ $('.cart_product').on('change', '.qty-adj', function(e)
 {
 	var name = $(this).data('name');
 	var count = Number($(this).val());
-	shoppingCart.setCountForItem(name, count);
+	var maxqty = $(this).data('maxqty');
+	shoppingCart.setCountForItem(name, count, maxqty);
 	displayCart();
 });
 
@@ -925,7 +947,13 @@ $('.cart_list').on('click', '.qty-minus', function(e)
 $('.cart_list').on('click', '.qty-plus', function(e)
 {
 	var name = $(this).data('name');
-	shoppingCart.addItemToCart(name);
+	var quantity = $('.cart_list .qty-adj').val();
+	var maxqty = $(this).data('maxqty');
+
+	if (quantity != maxqty)
+	{
+		shoppingCart.addItemToCart(name);
+	}
 	displayCart();
 });
 
@@ -933,8 +961,10 @@ $('.cart_list').on('click', '.qty-plus', function(e)
 $('.cart_list').on('change', '.qty-adj', function(e)
 {
 	var name = $(this).data('name');
-	var count = Number($(this).val());
-	shoppingCart.setCountForItem(name, count);
+	var count = parseInt($(this).val());
+	var maxqty = $(this).data('maxqty');
+
+	shoppingCart.setCountForItem(name, count, maxqty);
 	displayCart();
 });
 
