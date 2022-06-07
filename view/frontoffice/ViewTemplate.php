@@ -645,7 +645,10 @@ class ViewTemplate
 						query: /^[\p{L}\d\s_~\-!@#:\\"'=\.,;\$%\^&\*\(\)\[\]]{2,}$/u,
 						deliver: /^[0-9]{1,}$/,
 						delivermode: /^[0-9]{1,}$/u,
-						stripetoken: /^[A-Za-z0-9_]{27}$/,
+						doaction: /^[a-z0-9&?=]{1,}$/,
+						pricemin: /^[0-9]{1,5}$/,
+						pricemax: /^[0-9]{1,5}$/,
+						product: /^[\p{L}\d\s-]{2,}$/u,
 					};
 
 					$("small").text("");
@@ -731,7 +734,7 @@ class ViewTemplate
 
 							const type = $(formElements[i]).attr("id");
 							const pattern = regexListe[type];
-
+console.log(type);
 							if (pattern.test(formElements[i].value) === false)
 							{
 								error = true;

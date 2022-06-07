@@ -75,4 +75,9 @@ if (in_array($do, ['contact', 'sendcontact']))
 	require_once(DIR . '/controller/frontoffice/contact.php');
 }
 
+if (in_array($do, ['advancedsearch', 'searchresults']))
+{
+	require_once(DIR . '/controller/frontoffice/search.php');
+}
+
 ?>

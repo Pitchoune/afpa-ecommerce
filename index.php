@@ -196,6 +196,22 @@ try
 			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
 			sendContact($firstname, $lastname, $email, $telephone, $title, $message, $id);
 			break;
+		// Search
+		case 'advancedsearch':
+			AdvancedSearch();
+			break;
+		case 'searchresults':
+			$product = isset($_REQUEST['product']) ? filter_var($_REQUEST['product'], FILTER_SANITIZE_STRING) : NULL;
+			$perpage = isset($_GET['pp']) ? filter_var($_GET['pp'], FILTER_VALIDATE_INT) : NULL;
+			$sortby = isset($_GET['sortby']) ? filter_var($_GET['sortby'], FILTER_SANITIZE_STRING) : NULL;
+			$description = isset($_REQUEST['description']) ? filter_var($_REQUEST['description'], FILTER_VALIDATE_INT) : NULL;
+			$reference = isset($_REQUEST['reference']) ? filter_var($_REQUEST['reference'], FILTER_SANITIZE_STRING) : NULL;
+			$category = isset($_REQUEST['category']) ? filter_var($_REQUEST['category'], FILTER_VALIDATE_INT) : NULL;
+			$pricemin = isset($_REQUEST['price-min']) ? filter_var($_REQUEST['price-min'], FILTER_VALIDATE_INT) : NULL;
+			$pricemax = isset($_REQUEST['price-max']) ? filter_var($_REQUEST['price-max'], FILTER_VALIDATE_INT) : NULL;
+			$trademark = isset($_REQUEST['trademark']) ? filter_var_array($_REQUEST['trademark'], FILTER_VALIDATE_INT) : NULL;
+			SearchResults($product, $perpage, $sortby, $description, $reference, $category, $pricemin, $pricemax, $trademark);
+			break;
 	}
 }
 catch(Exception $e)

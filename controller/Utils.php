@@ -98,10 +98,11 @@ class Utils
 	 * @param string $type Type of value to verify.
 	 * @param string $text More text to display next of the main error message.
 	 * @param string $confirm Used to pass confirm password field only.
+	 * @param boolean $empty Can be empty? Useful for the advanced search.
 	 *
 	 * @return string Error message to display into a try/catch.
 	 */
-	public static function datavalidation($str, $type, $text = '', $confirm = '')
+	public static function datavalidation($str, $type, $text = '', $confirm = '', $empty = false)
 	{
 		$tabRegex = [
 			"firstname" => "/^[\p{L}\d\s-]{2,}$/u",
@@ -124,44 +125,54 @@ class Utils
 			"deliver" => "/^[0-9]{1,}$/",
 			"delivermode" => "/^[0-9]{1,}$/u",
 			"doaction" => "/^[a-z0-9&?=]{1,}$/",
+			"pricemin" => "/^[0-9]{1,5}$/",
+			"pricemax" => "/^[0-9]{1,5}$/",
+			"product" => "/^[\p{L}\d\s-]{2,}$/u",
 		];
 
 		// Proceed here only if we're not in the search in top
 		if ($type !== 'query')
 		{
-			// Check if empty
-			if ($str === '' OR empty($str))
+			if (!$empty)
 			{
-				return 'Le champ \'' . ucfirst($type) . '\' ne peut pas être vide.';
-			}
-
-			// Check for the specific password case with confirm password
-			if ($confirm)
-			{
-				if ($str !== $confirm)
+				// Check if empty
+				if ($str === '' OR empty($str))
 				{
-					return 'Les mots de passe ne correspondent pas.';
+					return 'Le champ \'' . ucfirst($type) . '\' ne peut pas être vide.';
 				}
-			}
 
-			// Check if valid
-			if (!preg_match($tabRegex[$type], $str))
-			{
-				return 'Le champ de la recherche n\'est pas au format demandé.' . ($text ? ' ' . $text : '');
+
+				// Check for the specific password case with confirm password
+				if ($confirm)
+				{
+					if ($str !== $confirm)
+					{
+						return 'Les mots de passe ne correspondent pas.';
+					}
+				}
+
+				// Check if valid
+				if (!preg_match($tabRegex[$type], $str))
+				{
+					return 'Le champ de la recherche n\'est pas au format demandé.' . ($text ? ' ' . $text : '');
+				}
 			}
 		}
 		else
 		{
-			// Check if empty
-			if ($str === '' OR empty($str))
+			if (!$empty)
 			{
-				return 'Le champ \'' . ucfirst($type) . '\' ne peut pas être vide.';
-			}
+				// Check if empty
+				if ($str === '' OR empty($str))
+				{
+					return 'Le champ \'' . ucfirst($type) . '\' ne peut pas être vide.';
+				}
 
-			// Check if valid
-			if (!preg_match($tabRegex[$type], $str))
-			{
-				return 'Le champ de la recherche n\'est pas au format demandé.' . ($text ? ' ' . $text : '');
+				// Check if valid
+				if (!preg_match($tabRegex[$type], $str))
+				{
+					return 'Le champ de la recherche n\'est pas au format demandé.' . ($text ? ' ' . $text : '');
+				}
 			}
 		}
 	}
@@ -600,16 +611,24 @@ class Utils
 	 *
 	 * @param array $categorycache A valid category cache in form of array[id] => data.
 	 * @param boolean $norootcat Specifies if we add the line with id -1.
+	 * @param string $type Defines which root &lt;option> to show. Valid values: 'front', 'back'.
 	 *
 	 * @return array Array representing the list of categories.
 	 */
-	public static function constructCategoryChooserOptions($categorycache, $norootcat = true)
+	public static function constructCategoryChooserOptions($categorycache, $norootcat = true, $type = 'back')
 	{
 		$selectoptions = [];
 
 		if ($norootcat)
 		{
-			$selectoptions[-1] = 'Selectionnez une catégorie parente. Pas de sélection = pas de parent.';
+			if ($type == 'back')
+			{
+				$selectoptions[-1] = 'Selectionnez une catégorie parente. Pas de sélection = pas de parent.';
+			}
+			else if ($type == 'front')
+			{
+				$selectoptions[0] = 'Toutes les catégories';
+			}
 		}
 
 		$startdepth = '';

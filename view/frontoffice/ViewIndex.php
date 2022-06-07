@@ -13,13 +13,14 @@ class ViewIndex
 	/**
 	 * Returns the HTML code to display the index page.
 	 *
+	 * @param string $pagetitle Title of the page.
+	 * @param array $navbits Breadcrumb navigation.
+	 *
 	 * @return void
 	 */
-	public static function DisplayIndex()
+	public static function DisplayIndex($pagetitle, $navbits)
 	{
 		global $config;
-
-		$pagetitle = 'Accueil';
 
 		?>
 			<!DOCTYPE html>

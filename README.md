@@ -58,3 +58,7 @@ https://www.youtube.com/watch?v=VU_f2HJAP5A
 ### Admin permissions system
 
 https://code-boxx.com/php-user-role-management-system/
+
+### Slider in advanced search
+
+https://www.codingnepalweb.com/price-range-slider-html-css-javascript/

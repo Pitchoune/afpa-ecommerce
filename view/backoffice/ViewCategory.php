@@ -230,17 +230,17 @@ class ViewCategory
 	/**
 	 * Returns the HTML code to display the add or edit category form.
 	 *
-	 * @param integer $id ID of the category if we need to edit an existing category. Empty for a new category.
 	 * @param string $navtitle Title of the page to show in the breadcrumb.
 	 * @param array $navbits Breadcrumb content.
 	 * @param array $categoryinfos Default values to show as default in fields.
 	 * @param mixed $categoriesselect HTML-formatted list of the <select> categories.
 	 * @param string $formredirect Redirect part of the URL to save data.
 	 * @param string $pagetitle Title of the page.
+	 * @param integer $id ID of the category if we need to edit an existing category. Empty for a new category.
 	 *
 	 * @return void
 	 */
-	public static function CategoryAddEdit($id, $navtitle, $navbits, $categoryinfos, $categoriesselect, $formredirect, $pagetitle)
+	public static function CategoryAddEdit($navtitle, $navbits, $categoryinfos, $categoriesselect, $formredirect, $pagetitle, $id)
 	{
 		?>
 		<!DOCTYPE html>

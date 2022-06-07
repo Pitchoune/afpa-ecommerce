@@ -45,6 +45,7 @@ function AddCategory()
 
 	$categoryinfos = [
 		'nom' => '',
+		'parent_id' => '-1',
 		'displayorder' => 1
 	];
 
@@ -63,7 +64,7 @@ function AddCategory()
 	$categorylist = Utils::constructCategoryChooserOptions($cache);
 	$categoriesselect = Utils::constructCategorySelectOptions($categorylist, $categoryinfos['parent_id']);
 
-	ViewCategory::CategoryAddEdit('', $navtitle, $navbits, $categoryinfos, $categoriesselect, $formredirect, $pagetitle);
+	ViewCategory::CategoryAddEdit($navtitle, $navbits, $categoryinfos, $categoriesselect, $formredirect, $pagetitle, $id);
 }
 
 /**
@@ -194,7 +195,7 @@ function EditCategory($id)
 	$categorylist = Utils::constructCategoryChooserOptions($cache);
 	$categoriesselect = Utils::constructCategorySelectOptions($categorylist, $categoryinfos['parent_id']);
 
-	ViewCategory::CategoryAddEdit($id, $navtitle, $navbits, $categoryinfos, $categoriesselect, $formredirect, $pagetitle);
+	ViewCategory::CategoryAddEdit($navtitle, $navbits, $categoryinfos, $categoriesselect, $formredirect, $pagetitle, $id);
 }
 
 /**

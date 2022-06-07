@@ -371,6 +371,26 @@ class ModelProduct extends Model
 	}
 
 	/**
+	 * Search in the products list following the advanced search form.
+	 *
+	 * @param string $join Prepared SQL condition to perform the search.
+	 *
+	 * @return mixed Returns the products list if found, else false if it fails.
+	 */
+	public function getProductsFromSearch($join)
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT *
+			FROM produit
+			WHERE " . $join . "
+		");
+
+		$query->execute();
+		return $query->fetchAll();
+	}
+
+	/**
 	 * Returns the latest 15 new products inserted into the database.
 	 *
 	 * @return mixed Returns the products list if there is any result to return, else false if it fails.

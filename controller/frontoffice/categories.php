@@ -28,6 +28,7 @@ function viewCategory($id, $perpage, $sortby)
 
     // Category found, displays products
     $pagetitle = 'Visualisation de la catégorie : « ' . $category['nom'] . ' »';
+    $navbits = [];
 
     $products = new ModelProduct($config);
 

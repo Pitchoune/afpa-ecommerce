@@ -7,9 +7,14 @@
  */
 function index()
 {
+    $pagetitle = 'Accueil';
+
+    $navbits = [];
+    $navbits[''] = $pagetitle;
+
 	// We generate HTML code from the view
 	require_once(DIR . '/view/frontoffice/ViewIndex.php');
-	ViewIndex::DisplayIndex();
+	ViewIndex::DisplayIndex($pagetitle, $navbits);
 }
 
 ?>
