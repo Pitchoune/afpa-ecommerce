@@ -168,28 +168,28 @@ input {
 
 @keyframes heartbit {
 	0% {
-		transform:scale(0);
-		opacity:0
+		transform: scale(0);
+		opacity: 0
 	}
 
 	25% {
-		transform:scale(0.1);
-		opacity:.1
+		transform: scale(0.1);
+		opacity: .1
 	}
 
 	50% {
-		transform:scale(0.5);
-		opacity:.3
+		transform: scale(0.5);
+		opacity: .3
 	}
 
 	75% {
-		transform:scale(0.8);
-		opacity:.5
+		transform: scale(0.8);
+		opacity: .5
 	}
 
 	100% {
-		transform:scale(1);
-		opacity:0
+		transform: scale(1);
+		opacity: 0
 	}
 }
 
@@ -370,14 +370,7 @@ input {
 
 .order-timeline {
 	position: relative;
-	@each $timeline-icon-name, $timeline-icon-color in (primary, $primary-color),
-	(secondary, $secondary-color) ,
-	(success, $success-color),
-	(danger, $danger-color),
-	(info, $info-color),
-	(light, $light-color),
-	(dark, $dark-color),
-	(warning, $warning-color) {
+	@each $timeline-icon-name, $timeline-icon-color in (primary, $primary-color) {
 
 		.timeline-icon-#{$timeline-icon-name} {
 			width: 40px;
@@ -430,8 +423,8 @@ input {
 		tbody {
 			tr {
 				td {
-					padding:.75rem;
-					border:none;
+					padding: 0.75rem;
+					border: none;
 					font-size: 14px;
 				}
 			}
@@ -565,7 +558,7 @@ footer {
 		right: 0;
 		bottom: 0;
 		border: 2px solid $white;
-		transition: .4s;
+		transition: 0.4s;
 
 		&:before {
 			position: absolute;
@@ -575,7 +568,7 @@ footer {
 			left: 4px;
 			bottom: 4px;
 			border: 2px solid $white;
-			transition: .4s;
+			transition: 0.4s;
 			border-radius: 20px;
 		}
 	}
@@ -607,77 +600,84 @@ footer {
 	}
 }
 
-.btn{
-  font-size: $btn-font-size;
-  padding: $btn-padding;
-  border-radius: 5px;
-  letter-spacing: 1px;
-}
-.btn-lg{
-  font-size: $btn-lg-font-size;
-}
-.btn-sm{
-  font-size: $btn-sm-font-size;
-}
-.btn-xs {
-  padding: $btn-xs-padding;
-  font-size: $btn-xs-font-size;
-}
-.large-btn{
-  .btn{
-	margin-right: 5px;
-	margin-bottom: 15px;
-  }
-  margin-bottom: -20px;
-}
-// outline buttons//
-@each $btn-name, $btn-color in (primary, $primary-color),
-		(secondary, $secondary-color) ,
-		(success, $success-color),
-		(danger, $danger-color),
-		(info, $info-color),
-		(light, $light-color),
-		(dark, $dark-color),
-		(warning, $warning-color) {
-  .btn-air-#{$btn-name}{
-	box-shadow: 0 5px 10px 2px rgba(88,103,221,.19)!important;
-	&:hover,&:active,&:not([disabled]):not(.disabled):active{
-	  background-color: darken( $btn-color, 10% );
-	  border-color: darken( $btn-color, 10% );
-	}
-  }
+.btn {
+	font-size: $btn-font-size;
+	padding: $btn-padding;
+	border-radius: 5px;
+	letter-spacing: 1px;
 }
 
+.btn-lg {
+	font-size: $btn-lg-font-size;
+}
+
+.btn-sm {
+	font-size: $btn-sm-font-size;
+}
+
+.btn-xs {
+	padding: $btn-xs-padding;
+	font-size: $btn-xs-font-size;
+}
+
+.large-btn {
+	.btn {
+		margin-right: 5px;
+		margin-bottom: 15px;
+	}
+
+	margin-bottom: -20px;
+}
+
+// outline buttons//
+@each $btn-name, $btn-color in (primary, $primary-color),
+	(secondary, $secondary-color),
+	(success, $success-color),
+	(danger, $danger-color),
+	(info, $info-color),
+	(light, $light-color),
+	(dark, $dark-color),
+	(warning, $warning-color) {
+	.btn-air-#{$btn-name} {
+		box-shadow: 0 5px 10px 2px rgba(88, 103, 221, 0.19) !important;
+
+		&:hover, &:active, &:not([disabled]):not(.disabled):active {
+			background-color: darken( $btn-color, 10% );
+			border-color: darken( $btn-color, 10% );
+		}
+	}
+}
 
 // forms //
 @each $btn-name, $btn-color in (primary, $primary-color),
-		(secondary, $secondary-color) ,
-		(success, $success-color),
-		(danger, $danger-color),
-		(info, $info-color),
-		(light, $light-color),
-		(dark, $dark-color),
-		(warning, $warning-color) {
-  .input-air-#{$btn-name}{
-	box-shadow: 0 3px 5px 1px rgba(88,103,221,.15)!important;
-	&:focus{
-	  border-color:$btn-color;
+	(secondary, $secondary-color),
+	(success, $success-color),
+	(danger, $danger-color),
+	(info, $info-color),
+	(light, $light-color),
+	(dark, $dark-color),
+	(warning, $warning-color) {
+	.input-air-#{$btn-name} {
+		box-shadow: 0 3px 5px 1px rgba(88, 103, 221, 0.15) !important;
+
+		&:focus {
+			border-color: $btn-color;
+		}
 	}
-  }
 }
 
 //input background //
 @each $btn-name, $btn-color in (primary, $primary-color),
-		(secondary, $secondary-color) ,
-		(success, $success-color),
-		(danger, $danger-color),
-		(info, $info-color),
-		(light, $light-color),
-		(dark, $dark-color),
-		(warning, $warning-color) {
+	(secondary, $secondary-color),
+	(success, $success-color),
+	(danger, $danger-color),
+	(info, $info-color),
+	(light, $light-color),
+	(dark, $dark-color),
+	(warning, $warning-color) {
 	.form-bg-#{$btn-name} {
-		background:$btn-color;
-		border-color:$btn-color;
+		background: $btn-color;
+		border-color: $btn-color;
 
 		@if ($btn-name == light) {
 			color: $dark-color;
@@ -691,18 +691,18 @@ footer {
 			background: $btn-color;
 
 			@if ($btn-name == light) {
-				color:$dark-color;
+				color: $dark-color;
 			}
 			@else {
 				color: $white;
 			}
 
 			&:active{
-				border-color:$btn-color;
-				background:$btn-color;
+				border-color: $btn-color;
+				background: $btn-color;
 
 				@if ($btn-name == light) {
-					color:$dark-color;
+					color: $dark-color;
 				}
 				@else {
 					color: $white;
@@ -712,15 +712,6 @@ footer {
 	}
 }
 
-
-
-
-
-
-
-
-
-
 .table {
 	thead {
 		th {
@@ -729,7 +720,7 @@ footer {
 	}
 
 	th, td {
-		padding: .75em;
+		padding: 0.75em;
 	}
 }
 
@@ -787,15 +778,6 @@ footer {
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
 
 .page-wrapper {
 	header {
@@ -1270,9 +1252,9 @@ header {
 	.notification-badge {
 		position: absolute;
 		right: 10px;
-		top: 1px;
+		top: -3px;
 		padding: 4px 7px;
-		border-radius:50%;
+		border-radius: 50%;
 		background-color: $white;
 		color: $theme-color1;
 	}
@@ -1793,7 +1775,7 @@ ul.notification-dropdown.onhover-show-div {
 		thead {
 			tr {
 				th {
-					border-top:0;
+					border-top: 0;
 					font-size: 16px;
 					color: $dark-color;
 					font-weight: 600;
@@ -1817,13 +1799,13 @@ $i:0;
 	$i:$i + 5;
 }
 
-/* Use fot font size from f-0 to f-12 */
+/* Use for font size from f-0 to f-12 */
 
 $i:12;
 
 @while $i <= 100 {
 	.f-#{$i} {
-		font-size:#{$i}px;
+		font-size: #{$i}px;
 	}
 
 	$i:$i + 2;
@@ -1844,24 +1826,24 @@ $i:10;
 /* Use for badge-color */
 
 $badge-name:
-		primary,
-		secondary,
-		success,
-		danger,
-		info,
-		light,
-		dark,
-		warning;
+	primary,
+	secondary,
+	success,
+	danger,
+	info,
+	light,
+	dark,
+	warning;
 
 $badge-color:
-		$primary-color,
-		$secondary-color,
-		$success-color,
-		$danger-color,
-		$info-color,
-		$light-color,
-		$dark-color,
-		$warning-color;
+	$primary-color,
+	$secondary-color,
+	$success-color,
+	$danger-color,
+	$info-color,
+	$light-color,
+	$dark-color,
+	$warning-color;
 
 @each $var in $badge-name {
 	$i: index($badge-name, $var);
@@ -1879,11 +1861,7 @@ $text-name:
 	info,
 	light,
 	dark,
-	warning,
-	google-plus,
-	twitter,
-	linkedin,
-	fb;
+	warning;
 
 $label-color:
 	$primary-color,
@@ -1898,13 +1876,13 @@ $label-color:
 /* Use for buttons */
 
 @each $btn-name, $btn-color in  (primary, $primary-color),
-		(secondary, $secondary-color) ,
-		(success, $success-color),
-		(danger, $danger-color),
-		(info, $info-color),
-		(light, $light-color),
-		(dark, $dark-color),
-		(warning, $warning-color) {
+	(secondary, $secondary-color),
+	(success, $success-color),
+	(danger, $danger-color),
+	(info, $info-color),
+	(light, $light-color),
+	(dark, $dark-color),
+	(warning, $warning-color) {
 
 	.btn-#{$btn-name} {
 		background-color: $btn-color !important;
@@ -1927,7 +1905,7 @@ $label-color:
 		}
 
 		&:focus {
-			box-shadow: 0 0 0 0.2rem lighten( $btn-color, 30% );
+			box-shadow: 0 0 0 0.2rem lighten($btn-color, 30%);
 		}
 	}
 }
@@ -1935,16 +1913,16 @@ $label-color:
 /* Use for outline buttons */
 
 @each $btn-name, $btn-color in  (primary, $primary-color),
-		(secondary, $secondary-color) ,
-		(success, $success-color),
-		(danger, $danger-color),
-		(info, $info-color),
-		(light, $light-color),
-		(dark, $dark-color),
-		(warning, $warning-color) {
+	(secondary, $secondary-color) ,
+	(success, $success-color),
+	(danger, $danger-color),
+	(info, $info-color),
+	(light, $light-color),
+	(dark, $dark-color),
+	(warning, $warning-color) {
 
 	.btn-outline-#{$btn-name} {
-		border-color:$btn-color;
+		border-color: $btn-color;
 		color: $btn-color;
 		background-color: transparent;
 
@@ -1952,14 +1930,14 @@ $label-color:
 			color: $btn-color;
 		}
 
-		@if($btn-name == "light") {
+		@if ($btn-name == "light") {
 			color: $dark-color;
 		}
 
-		&:hover,&:focus,&:active,&.active {
+		&:hover, &:focus, &:active, &.active {
 			color: white;
-			background-color: darken( $btn-color, 10%) !important;
-			border-color: darken( $btn-color, 10% ) !important;
+			background-color: darken($btn-color, 10%) !important;
+			border-color: darken($btn-color, 10%) !important;
 		}
 	}
 }
@@ -1967,28 +1945,28 @@ $label-color:
 /* Use for active buttons */
 
 @each $btn-name, $btn-color in  (primary, $primary-color),
-		(secondary, $secondary-color) ,
-		(success, $success-color),
-		(danger, $danger-color),
-		(info, $info-color),
-		(light, $light-color),
-		(dark, $dark-color),
-		(warning, $warning-color) {
+	(secondary, $secondary-color) ,
+	(success, $success-color),
+	(danger, $danger-color),
+	(info, $info-color),
+	(light, $light-color),
+	(dark, $dark-color),
+	(warning, $warning-color) {
 
 	.btn-#{$btn-name}:not([disabled]):not(.disabled).active {
 		background-color: darken($btn-color,10%);
 		border-color: darken($btn-color,10%);
 		box-shadow: none !important;
 
-		&:hover,&:focus,&:active,&.active {
+		&:hover, &:focus, &:active, &.active {
 			color: white;
-			background-color: darken( $btn-color, 10% );
-			border-color: darken( $btn-color, 10% );
+			background-color: darken($btn-color, 10%);
+			border-color: darken($btn-color, 10%);
 		}
 	}
 }
 
-.tablegrid-cell,.tablegrid-grid-body{
+.tablegrid-cell, .tablegrid-grid-body{
 	border: 1px solid #ebf1ff;
 }
 
@@ -2601,24 +2579,27 @@ $label-color:
 					.page-body {
 						.activity {
 							.media {
-								.gradient-round.gradient-line-1 {
-									&:after {
-										bottom: -41px;
+								.gradient-round {
+									&.gradient-line-1 {
+										&:after {
+											bottom: -41px;
+										}
+									}
+
+									&.small-line {
+										&:after {
+											bottom: -19px;
+											height: 12px;
+										}
+									}
+
+									&.medium-line {
+										&:after {
+											bottom: -34px;
+										}
 									}
 								}
 
-								.gradient-round.small-line {
-									&:after {
-										bottom: -19px;
-										height: 12px;
-									}
-								}
-
-								.gradient-round.medium-line {
-									&:after {
-										bottom: -34px;
-									}
-								}
 							}
 						}
 					}

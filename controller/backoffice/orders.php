@@ -11,9 +11,9 @@ use \Ecommerce\Model\ModelOrder;
  */
 function ListOrders()
 {
-	if (!Utils::cando(35))
+	if (!Utils::cando(36))
 	{
-		throw new Exception('Vous n\'êtes pas autorisé à affichier la liste des commandes.');
+		throw new Exception('Vous n\'êtes pas autorisé à afficher la liste des commandes.');
 	}
 
 	global $config, $pagenumber;

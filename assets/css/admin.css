@@ -4307,7 +4307,6 @@ input:focus {
 .order-timeline .timeline-icon-primary {
   width: 40px;
   height: 40px;
-  background-color: #fb0000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -4318,101 +4317,16 @@ input:focus {
   color: #ffffff;
   width: 18px;
 }
-.order-timeline .timeline-icon-secondary {
+.order-timeline .timeline-icon-#fb0000 {
   width: 40px;
   height: 40px;
-  background-color: #fb0000;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 100%;
   z-index: 2;
 }
-.order-timeline .timeline-icon-secondary svg {
-  color: #ffffff;
-  width: 18px;
-}
-.order-timeline .timeline-icon-success {
-  width: 40px;
-  height: 40px;
-  background-color: #0f5132;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 100%;
-  z-index: 2;
-}
-.order-timeline .timeline-icon-success svg {
-  color: #ffffff;
-  width: 18px;
-}
-.order-timeline .timeline-icon-danger {
-  width: 40px;
-  height: 40px;
-  background-color: #9A444B;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 100%;
-  z-index: 2;
-}
-.order-timeline .timeline-icon-danger svg {
-  color: #ffffff;
-  width: 18px;
-}
-.order-timeline .timeline-icon-info {
-  width: 40px;
-  height: 40px;
-  background-color: #00a8ff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 100%;
-  z-index: 2;
-}
-.order-timeline .timeline-icon-info svg {
-  color: #ffffff;
-  width: 18px;
-}
-.order-timeline .timeline-icon-light {
-  width: 40px;
-  height: 40px;
-  background-color: #f8f8f9;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 100%;
-  z-index: 2;
-}
-.order-timeline .timeline-icon-light svg {
-  color: #ffffff;
-  width: 18px;
-}
-.order-timeline .timeline-icon-dark {
-  width: 40px;
-  height: 40px;
-  background-color: #2a3142;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 100%;
-  z-index: 2;
-}
-.order-timeline .timeline-icon-dark svg {
-  color: #ffffff;
-  width: 18px;
-}
-.order-timeline .timeline-icon-warning {
-  width: 40px;
-  height: 40px;
-  background-color: #00ced1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 100%;
-  z-index: 2;
-}
-.order-timeline .timeline-icon-warning svg {
+.order-timeline .timeline-icon-#fb0000 svg {
   color: #ffffff;
   width: 18px;
 }
@@ -5265,7 +5179,7 @@ header .main-header-right li {
 .nav-menus .notification-badge {
   position: absolute;
   right: 10px;
-  top: 1px;
+  top: -3px;
   padding: 4px 7px;
   border-radius: 50%;
   background-color: #ffffff;
@@ -5664,7 +5578,7 @@ ul.notification-dropdown.onhover-show-div li span svg {
   padding: 50px;
 }
 
-/* Use fot font size from f-0 to f-12 */
+/* Use for font size from f-0 to f-12 */
 .f-12 {
   font-size: 12px;
 }

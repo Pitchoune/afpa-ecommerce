@@ -70,7 +70,14 @@ class ViewOrder
 																		<th class="tablegrid-header-cell" style="width: 125px">Commande #</th>
 																		<th class="tablegrid-header-cell" style="width: 75px">Total</th>
 																		<th class="tablegrid-header-cell" style="width: 75px">État</th>
-																		<th class="tablegrid-header-cell tablegrid-control-field tablegrid-align-center" style="width: 75px">Actions</th>
+																		<?php
+																		if (Utils::cando(32))
+																		{
+																			?>
+																			<th class="tablegrid-header-cell tablegrid-control-field tablegrid-align-center" style="width: 75px">Actions</th>
+																			<?php
+																		}
+																		?>
 																	</tr>
 																</thead>
 															</table>
@@ -101,7 +108,14 @@ class ViewOrder
 																			<td class="tablegrid-cell" style="width: 75px"><?= number_format($totalprice, 2) ?> &euro;</td>
 																			<td class="tablegrid-cell" style="width: 75px"><?= $value['etat'] ?></td>
 																			<td class="tablegrid-cell tablegrid-control-field tablegrid-align-center" style="width: 75px">
-																				<a class="tablegrid-button tablegrid-search-button" type="button" title="Modifier" href="index.php?do=viewcustomerorderdetails&amp;id=<?= $value['id'] ?>"></a>
+																				<?php
+																				if (Utils::cando(32))
+																				{
+																					?>
+																					<a class="tablegrid-button tablegrid-search-button" type="button" title="Modifier" href="index.php?do=viewcustomerorderdetails&amp;id=<?= $value['id'] ?>"></a>
+																					<?php
+																				}
+																				?>
 																			</td>
 																		</tr>
 																		<?php

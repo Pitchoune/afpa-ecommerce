@@ -86,7 +86,7 @@ class ViewTemplate
 						$messagecount = $messages->countMessagesFromType();
 						?>
 						<li class="onhover-dropdown"><i data-feather="bell"></i><span class="badge badge-pill badge-primary pull-right notification-badge"><?= $messagecount['count'] ?></span><span class="dot"></span>
-							<ul class="notification-dropdown custom-scrollbar onhover-show-div p-0">
+							<ul class="notification-dropdown onhover-show-div p-0">
 								<?php
 								$messagelist = $messages->getAllMessagesFromType();
 
@@ -179,236 +179,244 @@ class ViewTemplate
 					<?php
 					if (Utils::cando(1) OR Utils::cando(2))
 					{
-					?>
-					<li>
-						<a class="sidebar-header" href="javascript:void(0)">
-							<i data-feather="user-check"></i>
-							<span>Rôles</span>
-							<i class="fa fa-angle-right pull-right"></i>
-						</a>
-						<ul class="sidebar-submenu">
-							<?php
-							if (Utils::cando(1))
-							{
-								?>
-								<li><a href="index.php?do=listroles"><i class="fa fa-circle"></i>Liste des rôles</a></li>
+						?>
+						<li>
+							<a class="sidebar-header" href="javascript:void(0)">
+								<i data-feather="user-check"></i>
+								<span>Rôles</span>
+								<i class="fa fa-angle-right pull-right"></i>
+							</a>
+							<ul class="sidebar-submenu">
 								<?php
-							}
+								if (Utils::cando(1))
+								{
+									?>
+									<li><a href="index.php?do=listroles"><i class="fa fa-circle"></i>Liste des rôles</a></li>
+									<?php
+								}
 
-							if (Utils::cando(2))
-							{
+								if (Utils::cando(2))
+								{
+									?>
+									<li><a href="index.php?do=addrole"><i class="fa fa-circle"></i>Ajouter un rôle</a></li>
+									<?php
+								}
 								?>
-								<li><a href="index.php?do=addrole"><i class="fa fa-circle"></i>Ajouter un rôle</a></li>
-								<?php
-							}
-							?>
-						</ul>
-					</li>
-					<?php
+							</ul>
+						</li>
+						<?php
 					}
 
 					if (Utils::cando(5) OR Utils::cando(6))
 					{
-					?>
-					<li>
-						<a class="sidebar-header" href="javascript:void(0)">
-							<i data-feather="users"></i>
-							<span>Employés</span>
-							<i class="fa fa-angle-right pull-right"></i>
-						</a>
-						<ul class="sidebar-submenu">
-							<?php
-							if (Utils::cando(5))
-							{
-								?>
-								<li><a href="index.php?do=listemployees"><i class="fa fa-circle"></i>Liste des employés</a></li>
+						?>
+						<li>
+							<a class="sidebar-header" href="javascript:void(0)">
+								<i data-feather="users"></i>
+								<span>Employés</span>
+								<i class="fa fa-angle-right pull-right"></i>
+							</a>
+							<ul class="sidebar-submenu">
 								<?php
-							}
+								if (Utils::cando(5))
+								{
+									?>
+									<li><a href="index.php?do=listemployees"><i class="fa fa-circle"></i>Liste des employés</a></li>
+									<?php
+								}
 
-							if (Utils::cando(6))
-							{
+								if (Utils::cando(6))
+								{
+									?>
+									<li><a href="index.php?do=addemployee"><i class="fa fa-circle"></i>Ajouter un employé</a></li>
+									<?php
+								}
 								?>
-								<li><a href="index.php?do=addemployee"><i class="fa fa-circle"></i>Ajouter un employé</a></li>
-								<?php
-							}
-							?>
-						</ul>
-					</li>
-					<?php
+							</ul>
+						</li>
+						<?php
 					}
 
 					if (Utils::cando(9) OR Utils::cando(10))
 					{
-					?>
-					<li>
-						<a class="sidebar-header" href="javascript:void(0)">
-							<i data-feather="list"></i>
-							<span>Catégories</span>
-							<i class="fa fa-angle-right pull-right"></i>
-						</a>
-						<ul class="sidebar-submenu">
-							<?php
-							if (Utils::cando(9))
-							{
-								?>
-								<li><a href="index.php?do=listcategories"><i class="fa fa-circle"></i>Liste des catégories</a></li>
+						?>
+						<li>
+							<a class="sidebar-header" href="javascript:void(0)">
+								<i data-feather="list"></i>
+								<span>Catégories</span>
+								<i class="fa fa-angle-right pull-right"></i>
+							</a>
+							<ul class="sidebar-submenu">
 								<?php
-							}
+								if (Utils::cando(9))
+								{
+									?>
+									<li><a href="index.php?do=listcategories"><i class="fa fa-circle"></i>Liste des catégories</a></li>
+									<?php
+								}
 
-							if (Utils::cando(10))
-							{
+								if (Utils::cando(10))
+								{
+									?>
+									<li><a href="index.php?do=addcategory"><i class="fa fa-circle"></i>Ajouter une catégorie</a></li>
+									<?php
+								}
 								?>
-								<li><a href="index.php?do=addcategory"><i class="fa fa-circle"></i>Ajouter une catégorie</a></li>
-								<?php
-							}
-							?>
-						</ul>
-					</li>
-					<?php
+							</ul>
+						</li>
+						<?php
 					}
 
 					if (Utils::cando(13) OR Utils::cando(14))
 					{
-					?>
-					<li>
-						<a class="sidebar-header" href="javascrpt:void(0)">
-							<i data-feather="trello"></i>
-							<span>Marques</span>
-							<i class="fa fa-angle-right pull-right"></i>
-						</a>
-						<ul class="sidebar-submenu">
-							<?php
-							if (Utils::cando(13))
-							{
-								?>
-								<li><a href="index.php?do=listtrademarks"><i class="fa fa-circle"></i>Liste des marques</a></li>
+						?>
+						<li>
+							<a class="sidebar-header" href="javascrpt:void(0)">
+								<i data-feather="trello"></i>
+								<span>Marques</span>
+								<i class="fa fa-angle-right pull-right"></i>
+							</a>
+							<ul class="sidebar-submenu">
 								<?php
-							}
+								if (Utils::cando(13))
+								{
+									?>
+									<li><a href="index.php?do=listtrademarks"><i class="fa fa-circle"></i>Liste des marques</a></li>
+									<?php
+								}
 
-							if (Utils::cando(14))
-							{
+								if (Utils::cando(14))
+								{
+									?>
+									<li><a href="index.php?do=addtrademark"><i class="fa fa-circle"></i>Ajouter une marque</a></li>
+									<?php
+								}
 								?>
-								<li><a href="index.php?do=addtrademark"><i class="fa fa-circle"></i>Ajouter une marque</a></li>
-								<?php
-							}
-							?>
-						</ul>
-					</li>
-					<?php
+							</ul>
+						</li>
+						<?php
 					}
 
 					if (Utils::cando(18) OR Utils::cando(19))
 					{
-					?>
-					<li>
-						<a class="sidebar-header" href="javascrpt:void(0)">
-							<i data-feather="truck"></i>
-							<span>Transporteurs</span>
-							<i class="fa fa-angle-right pull-right"></i>
-						</a>
-						<ul class="sidebar-submenu">
-							<?php
-							if (Utils::cando(18))
-							{
-								?>
-								<li><a href="index.php?do=listdelivers"><i class="fa fa-circle"></i>Liste des transporteurs</a></li>
+						?>
+						<li>
+							<a class="sidebar-header" href="javascrpt:void(0)">
+								<i data-feather="truck"></i>
+								<span>Transporteurs</span>
+								<i class="fa fa-angle-right pull-right"></i>
+							</a>
+							<ul class="sidebar-submenu">
 								<?php
-							}
+								if (Utils::cando(18))
+								{
+									?>
+									<li><a href="index.php?do=listdelivers"><i class="fa fa-circle"></i>Liste des transporteurs</a></li>
+									<?php
+								}
 
-							if (Utils::cando(19))
-							{
+								if (Utils::cando(19))
+								{
+									?>
+									<li><a href="index.php?do=adddeliver"><i class="fa fa-circle"></i>Ajouter un transporteur</a></li>
+									<?php
+								}
 								?>
-								<li><a href="index.php?do=adddeliver"><i class="fa fa-circle"></i>Ajouter un transporteur</a></li>
-								<?php
-							}
-							?>
-						</ul>
-					</li>
-					<?php
+							</ul>
+						</li>
+						<?php
 					}
 
 					if (Utils::cando(23) OR Utils::cando(24))
 					{
-					?>
-					<li>
-						<a class="sidebar-header" href="javascript:void(0)">
-							<i data-feather="box"></i>
-							<span>Produits</span>
-							<i class="fa fa-angle-right pull-right"></i>
-						</a>
-						<ul class="sidebar-submenu">
-							<?php
-							if (Utils::cando(23))
-							{
-								?>
-								<li><a href="index.php?do=listproducts"><i class="fa fa-circle"></i>Liste des produits</a></li>
+						?>
+						<li>
+							<a class="sidebar-header" href="javascript:void(0)">
+								<i data-feather="box"></i>
+								<span>Produits</span>
+								<i class="fa fa-angle-right pull-right"></i>
+							</a>
+							<ul class="sidebar-submenu">
 								<?php
-							}
+								if (Utils::cando(23))
+								{
+									?>
+									<li><a href="index.php?do=listproducts"><i class="fa fa-circle"></i>Liste des produits</a></li>
+									<?php
+								}
 
-							if (Utils::cando(24))
-							{
+								if (Utils::cando(24))
+								{
+									?>
+									<li><a href="index.php?do=addproduct"><i class="fa fa-circle"></i>Ajouter un produit</a></li>
+									<?php
+								}
 								?>
-								<li><a href="index.php?do=addproduct"><i class="fa fa-circle"></i>Ajouter un produit</a></li>
-								<?php
-							}
-							?>
-						</ul>
-					</li>
-					<?php
+							</ul>
+						</li>
+						<?php
 					}
 
 					if (Utils::cando(28) OR Utils::cando(29))
 					{
-					?>
-					<li>
-						<a class="sidebar-header" href="javascript:void(0)">
-							<i data-feather="user-plus"></i>
-							<span>Clients</span>
-							<i class="fa fa-angle-right pull-right"></i>
-						</a>
-						<ul class="sidebar-submenu">
-							<?php
-							if (Utils::cando(28))
-							{
-								?>
-								<li><a href="index.php?do=listcustomers"><i class="fa fa-circle"></i>Liste des clients</a></li>
+						?>
+						<li>
+							<a class="sidebar-header" href="javascript:void(0)">
+								<i data-feather="user-plus"></i>
+								<span>Clients</span>
+								<i class="fa fa-angle-right pull-right"></i>
+							</a>
+							<ul class="sidebar-submenu">
 								<?php
-							}
+								if (Utils::cando(28))
+								{
+									?>
+									<li><a href="index.php?do=listcustomers"><i class="fa fa-circle"></i>Liste des clients</a></li>
+									<?php
+								}
 
-							if (Utils::cando(29))
-							{
+								if (Utils::cando(29))
+								{
+									?>
+									<li><a href="index.php?do=addcustomer"><i class="fa fa-circle"></i>Ajouter un client</a></li>
+									<?php
+								}
 								?>
-								<li><a href="index.php?do=addcustomer"><i class="fa fa-circle"></i>Ajouter un client</a></li>
-								<?php
-							}
-							?>
-							<li><a href="index.php?do=listorders"><i class="fa fa-circle"></i>Liste des commandes</a></li>
-						</ul>
-					</li>
-					<?php
+							</ul>
+						</li>
+						<?php
 					}
 
 					if (Utils::cando(36))
 					{
-					?>
-					<li>
-						<a class="sidebar-header" href="javascript:void(0)">
-							<i data-feather="message-circle"></i>
-							<span>Messages</span>
-							<i class="fa fa-angle-right pull-right"></i>
-						</a>
-						<ul class="sidebar-submenu">
-							<?php
-							if (Utils::cando(36))
-							{
-							?>
-							<li><a href="index.php?do=listmessages"><i class="fa fa-circle"></i>Liste des messages</a></li>
-							<?php
-							}
-							?>
-						</ul>
-					</li>
-					<?php
+						?>
+						<li>
+							<a class="sidebar-header" href="javascript:void(0)">
+								<i data-feather="box"></i>
+								<span>Commandes</span>
+								<i class="fa fa-angle-right pull-right"></i>
+							</a>
+							<ul class="sidebar-submenu">
+								<li><a href="index.php?do=listorders"><i class="fa fa-circle"></i>Liste des commandes</a></li>
+							</ul>
+						</li>
+						<?php
+					}
+
+					if (Utils::cando(37))
+					{
+						?>
+						<li>
+							<a class="sidebar-header" href="javascript:void(0)">
+								<i data-feather="message-circle"></i>
+								<span>Messages</span>
+								<i class="fa fa-angle-right pull-right"></i>
+							</a>
+							<ul class="sidebar-submenu">
+								<li><a href="index.php?do=listmessages"><i class="fa fa-circle"></i>Liste des messages</a></li>
+							</ul>
+						</li>
+						<?php
 					}
 					?>
 					<li>

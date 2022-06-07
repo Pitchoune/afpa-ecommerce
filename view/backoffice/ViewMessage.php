@@ -59,16 +59,6 @@ class ViewMessage
 												<h5><?= $navtitle ?></h5>
 											</div>
 											<div class="card-body">
-												<?php
-												if (Utils::cando(19))
-												{
-													?>
-													<div class="btn-popup pull-right">
-														<a href="index.php?do=adddeliver" type="button" class="btn btn-secondary">Ajouter un transporteur</a>
-													</div>
-													<?php
-												}
-												?>
 												<div class="table-responsive">
 													<div class="tablegrid">
 														<div class="tablegrid-grid-header">
@@ -77,7 +67,7 @@ class ViewMessage
 																	<tr class="tablegrid-header-row">
 																		<th class="tablegrid-header-cell tablegrid-header-sortable" style="width: 125px">Intitulé</th>
 																		<?php
-																		if (Utils::cando(20) OR Utils::cando(22))
+																		if (Utils::cando(38))
 																		{
 																			?>
 																			<th class="tablegrid-header-cell tablegrid-control-field tablegrid-align-center" style="width: 75px">Actions</th>
@@ -98,34 +88,15 @@ class ViewMessage
 																	foreach ($messagelist AS $data)
 																	{
 																		$messages->set_id($data['id']);
-																		//$compteur = $messages->getNumberOfOrdersInDeliver();
-																		$data['compteur'] = 0;//intval($compteur['compteur']);
 																		?>
 																		<tr class="<?= (($quantity++ % 2) == 0 ? 'tablegrid-row' : 'tablegrid-alt-row') ?>">
 																			<td class="tablegrid-cell" style="width: 125px"><?= $data['titre']; ?></td>
 																			<?php
-																			if (Utils::cando(20) OR Utils::cando(22))
+																			if (Utils::cando(38))
 																			{
 																				?>
 																				<td class="tablegrid-cell tablegrid-control-field tablegrid-align-center" style="width: 75px">
-																					<?php
-																					if (Utils::cando(20))
-																					{
-																						?>
-																						<a class="tablegrid-button tablegrid-search-button" type="button" title="Modifier" href="index.php?do=viewconversation&amp;id=<?= $data['id'] ?>"></a>
-																						<?php
-																					}
-
-																					if (Utils::cando(22))
-																					{
-																						if ($data['compteur'] === 0 OR $totalmessages['nbmessages'] >= 2)
-																						{
-																						?>
-																							<a class="tablegrid-button tablegrid-delete-button" type="button" title="Supprimer" href="index.php?do=deleteconversation&amp;id=<?= $data['id'] ?>"></a>
-																						<?php
-																						}
-																					}
-																					?>
+																					<a class="tablegrid-button tablegrid-search-button" type="button" title="Modifier" href="index.php?do=viewconversation&amp;id=<?= $data['id'] ?>"></a>
 																				</td>
 																				<?php
 																			}
@@ -165,16 +136,6 @@ class ViewMessage
 												<h5>Liste des messages</h5>
 											</div>
 											<div class="card-body">
-												<?php
-												if (Utils::cando(19))
-												{
-													?>
-													<div class="btn-popup pull-right">
-														<a href="index.php?do=addmessage" type="button" class="btn btn-secondary">Ajouter un message</a>
-													</div>
-													<?php
-												}
-												?>
 												<div class="table-responsive">
 													<div class="text-center">Il n'y a pas de message.</div>
 												</div>
@@ -194,27 +155,7 @@ class ViewMessage
 					<!-- / body -->
 				</div>
 
-				<?php
-				ViewTemplate::BackFoot();
-
-				if ($_SESSION['deliver']['add'] === 1)
-				{
-					ViewTemplate::BackToast('Ajout de transporteur', 'Transporteur ajouté avec succès !');
-					unset($_SESSION['deliver']['add']);
-				}
-
-				if ($_SESSION['deliver']['edit'] === 1)
-				{
-					ViewTemplate::BackToast('Modification de transporteur', 'Transporteur modifié avec succès !');
-					unset($_SESSION['deliver']['edit']);
-				}
-
-				if ($_SESSION['deliver']['delete'] === 1)
-				{
-					ViewTemplate::BackToast('Suppression de transporteur', 'Transporteur supprimé avec succès !');
-					unset($_SESSION['deliver']['delete']);
-				}
-				?>
+				<?= ViewTemplate::BackFoot() ?>
 			</body>
 		</html>
 		<?php

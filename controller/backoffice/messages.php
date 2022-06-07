@@ -46,7 +46,7 @@ function ListMessages()
  */
 function ViewConversation($id)
 {
-	if (!Utils::cando(88))
+	if (!Utils::cando(38))
 	{
 		throw new Exception('Vous n\'êtes pas autorisé à afficher cette conversation.');
 	}
