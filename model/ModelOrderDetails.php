@@ -106,7 +106,7 @@ class ModelOrderDetails extends Model
 	{
 		$db = $this->dbConnect();
 		$query = $db->prepare("
-			SELECT d.*, p.nom
+			SELECT d.*, p.nom, p.photo
 			FROM details_commande AS d
 			INNER JOIN produit AS p ON (p.id = d.id_produit)
 			GROUP BY d.id_produit
