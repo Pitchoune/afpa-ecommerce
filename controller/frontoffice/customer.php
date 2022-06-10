@@ -13,6 +13,7 @@ use \Ecommerce\Model\ModelOrder;
 use \Ecommerce\Model\ModelOrderDetails;
 use \Ecommerce\Model\ModelTrademark;
 use \Ecommerce\Model\ModelMessage;
+use Dompdf\Dompdf;
 
 /**
  * Displays the register form.
@@ -1185,6 +1186,154 @@ L\'équipe.';
 	{
 		ViewCustomer::ApplyClaimOrder($id, $messageid);
 	}
+}
+
+/**
+ * Exports an invoice for the customer.
+ *
+ * @param integer $id ID of the order.
+ *
+ * @return void
+ */
+function exportPdf($id)
+{
+	if (!$_SESSION['user']['loggedin'])
+	{
+		$_SESSION['nonallowed'] = 1;
+		header('Location: index.php');
+	}
+
+	global $config;
+
+	$id = intval($id);
+
+	$customer = new ModelCustomer($config);
+	$customer->set_id($_SESSION['user']['id']);
+
+	$data = $customer->getCustomerInfosFromId();
+
+	if ($data['id'] === $_SESSION['user']['id'])
+	{
+		$orderdetails = new ModelOrderDetails($config);
+		$orderdetails->set_order($id);
+		$orderdetail = $orderdetails->getOrderDetails();
+	}
+	else
+	{
+		throw new Exception('Vous n\'êtes pas autorisé à afficher cette page.');
+	}
+
+	$html = '<doctype html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8" />
+	<title>Facture de la commande #' . $id . '</title>
+	<style>
+		* {
+			font-family: Verdana, Arial, sans-serif;
+		}
+
+		table {
+			font-size: x-small;
+		}
+
+		tfoot tr td {
+			font-weight: bold;
+			font-size: x-small;
+		}
+
+		.gray {
+			background-color: lightgray;
+		}
+	</style>
+</head>
+<body>
+	<table width="100%">
+		<tr>
+			<td valign="top"><img src="assets/images/NRS.png" /></td>
+			<td align="right">
+				<h3>' . $data['prenom'] . ' ' . $data['nom'] . '</h3>
+				<pre>
+					' . $data['adresse'] . '
+					' . $data['code_post'] . ' ' . $data['ville'] . '
+					' . $data['phone'] . '
+				</pre>
+			</td>
+		</tr>
+	</table>
+
+	<table width="100%">
+		<tr>
+			<td><strong>De : </strong>Nintendo Retro Shop</td>
+			<td><strong>À : </strong>' . $data['prenom'] . ' ' . $data['nom'] . '</td>
+		</tr>
+		<tr>
+			<td colspan="2">&nbsp;</td>
+		</tr>
+		<tr>
+			<td><strong>Facture :</strong> #' . $id . '</td>
+		</tr>
+	</table>
+
+	<br /><br />
+
+	<table width="100%">
+		<thead class="gray">
+			<tr>
+				<th>#</th>
+				<th>Description</th>
+				<th>Quantité</th>
+				<th>Prix unitaire</th>
+				<th>Total</th>
+			</tr>
+		</thead>
+		<tbody>';
+		$totalprice = 0;
+
+		foreach ($orderdetail AS $key => $value)
+		{
+			$totalprice += $value['prix'] * $value['quantite'];
+
+			$trademarks = new ModelTrademark($config);
+			$trademarks->set_id($value['id_marque']);
+			$trademark = $trademarks->listTrademarkInfos();
+			$html .= '
+			<tr>
+				<td scope="row"></td>
+				<td>' . $value['nom'] . '</td>
+				<td align="right">' . $value['quantite'] . '</td>
+				<td align="right">' . $value['prix'] . '</td>
+				<td align="right">' . number_format($value['prix'] * $value['quantite'], 2) . '</td>
+			</tr>';
+		}
+		$html .= '
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="3"></td>
+				<td align="right">Sous-total</td>
+				<td align="right">' . $totalprice . '</td>
+			</tr>
+			<tr>
+				<td colspan="3"></td>
+				<td align="right">Frais</td>
+				<td align="right">Gratuit</td>
+			</tr>
+			<tr>
+				<td colspan="3"></td>
+				<td align="right">Total</td>
+				<td align="right" class="gray">' . $totalprice . '</td>
+			</tr>
+		</tfoot>
+	</table>
+</body>
+</html>';
+
+	$dompdf = new Dompdf();
+	$dompdf->getOptions()->setChroot(DIR);
+	$dompdf->loadHtml($html);
+	$dompdf->render();
+	$dompdf->stream('Facture de la commande #' . $id);
 }
 
 ?>

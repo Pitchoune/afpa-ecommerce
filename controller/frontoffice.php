@@ -43,6 +43,7 @@ else
 
 // Include it for all, use everywhere
 require_once(DIR . '/controller/Utils.php');
+require_once(DIR . '/vendor/autoload.php');
 
 // Here, import files only on specific routing
 if (in_array($do, ['index']))
@@ -50,7 +51,7 @@ if (in_array($do, ['index']))
 	require_once(DIR . '/controller/frontoffice/index.php');
 }
 
-if (in_array($do, ['register', 'doregister', 'login', 'dologin', 'dashboard', 'editprofile', 'saveprofile', 'editpassword', 'savepassword', 'forgotpassword', 'sendpassword', 'deleteprofile', 'dodeleteprofile', 'vieworders', 'vieworder', 'viewmessages', 'viewmessage', 'sendreply', 'claim', 'doclaim', 'logout']))
+if (in_array($do, ['register', 'doregister', 'login', 'dologin', 'dashboard', 'editprofile', 'saveprofile', 'editpassword', 'savepassword', 'forgotpassword', 'sendpassword', 'deleteprofile', 'dodeleteprofile', 'vieworders', 'vieworder', 'viewmessages', 'viewmessage', 'sendreply', 'claim', 'doclaim', 'exportpdf', 'logout']))
 {
 	require_once(DIR . '/controller/frontoffice/customer.php');
 }

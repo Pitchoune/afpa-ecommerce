@@ -879,7 +879,7 @@ class ViewCustomer
 																<li class="pt-0">
 																	<div class="buttons">
 																		<a href="index.php?do=claim&id=<?= $id ?>" class="btn btn-normal btn-sm btn-block">Faire une réclamation</a>
-																		<a href="javascript:void(0)" class="btn btn-normal btn-sm btn-block">Exporter ma facture</a>
+																		<a href="index.php?do=exportpdf&amp;id=<?= $id ?>" class="btn btn-normal btn-sm btn-block">Exporter ma facture</a>
 																	</div>
 																</li>
 															</ul>

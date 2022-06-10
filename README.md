@@ -62,3 +62,7 @@ https://code-boxx.com/php-user-role-management-system/
 ### Slider in advanced search
 
 https://www.codingnepalweb.com/price-range-slider-html-css-javascript/
+
+### DOMPDF template
+
+https://gist.github.com/alfredoem/c7a6fbcba33c57948132

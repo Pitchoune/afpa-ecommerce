@@ -141,6 +141,10 @@ try
 			$reason = isset($_POST['reason']) ? filter_var_array($_POST['reason'], FILTER_VALIDATE_INT) : NULL;
 			doClaim($id, $reason);
 			break;
+		case 'exportpdf':
+			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
+			exportPdf($id);
+			break;
 		case 'logout':
 			doLogout();
 			break;

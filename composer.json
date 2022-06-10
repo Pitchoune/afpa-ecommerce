@@ -1,6 +1,7 @@
 {
     "require": {
         "geoip2/geoip2": "~2.0",
-        "maxmind-db/reader": "~1.0"
+        "maxmind-db/reader": "~1.0",
+        "dompdf/dompdf": "^1.2"
     }
 }
