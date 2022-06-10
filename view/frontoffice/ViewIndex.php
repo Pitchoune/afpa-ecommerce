@@ -205,10 +205,10 @@ class ViewIndex
 						unset($_SESSION['user']['contact']);
 					}
 
-					if ($_SESSION['notallowed'] === 1)
+					if ($_SESSION['nonallowed'] === 1)
 					{
-						ViewTemplate::FrontNotify('Erreur', 'Vous n\’avez pas la permission d\'accéder à cette page.', 'success');
-						unset($_SESSION['userregistered']);
+						ViewTemplate::FrontNotify('Erreur', 'Vous ne pouvez pas accéder à cette page.', 'danger');
+						unset($_SESSION['nonallowed']);
 					}
 					?>
 

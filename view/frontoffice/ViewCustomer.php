@@ -792,7 +792,7 @@ class ViewCustomer
 					<?php
 					ViewTemplate::FrontHeader();
 
-					ViewTemplate::FrontBreadcrumb($pagetitle, ['dashboard' => 'Tableau de bord', 'vieworders' => 'Liste des commandes', 'vieworder' => $pagetitle]);
+					ViewTemplate::FrontBreadcrumb($pagetitle, ['dashboard' => 'Tableau de bord', 'vieworders' => 'Liste des commandes', 'vieworder&amp;id=' . $id => $pagetitle]);
 					?>
 					<!-- order details -->
 					<section class="order-tracking section-big-my-space">
@@ -807,7 +807,7 @@ class ViewCustomer
 														<div class="order-tracking-contain order-tracking-box">
 															<div class="tracking-group">
 																<div class="delivery-code">
-																	<h4>Commande #<?= intval($id) ?></h4>
+																	<h4>Commande #<?= $id ?></h4>
 																</div>
 															</div>
 															<div class="tracking-group pb-0">
@@ -868,7 +868,7 @@ class ViewCustomer
 																</li>
 																<li class="pt-0">
 																	<div class="buttons">
-																		<a href="javascript:void(0)" class="btn btn-normal btn-sm btn-block">Faire une réclamation</a>
+																		<a href="index.php?do=claim&id=<?= $id ?>" class="btn btn-normal btn-sm btn-block">Faire une réclamation</a>
 																		<a href="javascript:void(0)" class="btn btn-normal btn-sm btn-block">Exporter ma facture</a>
 																	</div>
 																</li>
@@ -945,7 +945,7 @@ class ViewCustomer
 														</div>
 													</td>
 													<td>
-														<?= ($value['type'] == 'contact' ? '<a href="index.php?do=viewmessage&amp;id=' . $value['id'] . '">' : '') ?><span class="dark-data"><?= $value['titre'] ?></span><?= ($value['type'] == 'contact' ? '</a>' : '') ?>
+														<?= (in_array($value['type'], array('contact', 'reclam')) ? '<a href="index.php?do=viewmessage&amp;id=' . $value['id'] . '">' : '') ?><span class="dark-data"><?= $value['titre'] ?></span><?= ($value['type'] == 'contact' ? '</a>' : '') ?>
 													</td>
 													<td>
 														<?= $value['date'] ?>
@@ -1001,7 +1001,7 @@ class ViewCustomer
 					<?php
 					ViewTemplate::FrontHeader();
 
-					ViewTemplate::FrontBreadcrumb($pagetitle, ['dashboard' => 'Tableau de bord', 'viewmessages' => 'Liste des messages', 'viewmessage&amp;id=' => $pagetitle]);
+					ViewTemplate::FrontBreadcrumb($pagetitle, ['dashboard' => 'Tableau de bord', 'viewmessages' => 'Liste des messages', 'viewmessage&amp;id=' . $id => $pagetitle]);
 					?>
 					<!-- messaging -->
 					<section class="order-tracking section-big-mt-space">
@@ -1043,10 +1043,9 @@ class ViewCustomer
 					</section>
 
 					<section class="order-tracking section-big-mt-space">
-					<div class="container">
-						<div class="row">
-							<div class="col-md-12">
-								<div>
+						<div class="container">
+							<div class="row">
+								<div class="col-md-12">
 									<fieldset>
 										<div class="container p-0">
 											<div class="conversations">
@@ -1064,42 +1063,42 @@ class ViewCustomer
 												</div>
 												<div class="conversations-body">
 													<div class="conversations-content">
-														<?php
-														foreach ($messages AS $data)
-														{
-															?>
-															<div class="message-content-wrapper">
-																<div class="message message-<?= ($data['id_client'] ? 'out' : 'in') ?>">
-																	<?php
-																	if ($data['id_employe'])
-																		{ ?>
-																		<div class="me-2">
-																			<img class="img-40 rounded-circle" src="assets/images/noavatar.png" alt="Avatar de l'employé" />
-																		</div>
-																		<?php
-																		}
-																	?>
-																	<div class="message-body">
-																		<div class="message-content">
-																			<div class="content">
-																				<?= Utils::htmlSpecialCharsUni($data['message'], false) ?>
-																			</div>
-																		</div>
+													<?php
+													foreach ($messages AS $data)
+													{
+														?>
+														<div class="message-content-wrapper">
+															<div class="message message-<?= ($data['id_client'] ? 'out' : 'in') ?>">
+																<?php
+																if ($data['id_employe'])
+																	{ ?>
+																	<div class="me-2">
+																		<img class="img-40 rounded-circle" src="assets/images/noavatar.png" alt="Avatar de l'employé" />
 																	</div>
 																	<?php
-																	if ($data['id_client'])
-																		{ ?>
-																		<div class="ms-2">
-																			<img class="img-40 rounded-circle" src="assets/images/noavatar.png" alt="Avatar de l'employé" />
+																	}
+																?>
+																<div class="message-body">
+																	<div class="message-content">
+																		<div class="content">
+																			<?= Utils::htmlSpecialCharsUni($data['message'], false) ?>
 																		</div>
-																		<?php
-																		}
-																	?>
+																	</div>
 																</div>
+																<?php
+																if ($data['id_client'])
+																	{ ?>
+																	<div class="ms-2">
+																		<img class="img-40 rounded-circle" src="assets/images/noavatar.png" alt="Avatar de l'employé" />
+																	</div>
+																	<?php
+																	}
+																?>
 															</div>
-															<?php
-														}
-														?>
+														</div>
+														<?php
+													}
+													?>
 													</div>
 												</div>
 											</div>
@@ -1174,8 +1173,178 @@ class ViewCustomer
 						unset($_SESSION['user']['sendreply']);
 					}
 
-					ViewTemplate::FrontFormValidation('validation', 3, 1);
+					ViewTemplate::FrontFormValidation('validation', 4, 1);
 					?>
+				</body>
+			</html>
+		<?php
+	}
+
+	/**
+	 *
+	 */
+	public static function ViewClaimOrder($id, $orderdetail)
+	{
+		global $config;
+
+		$pagetitle = 'Réclamation sur la commande « #' . $id . ' »';
+		?>
+			<!DOCTYPE html>
+			<html>
+				<head>
+					<?php
+					ViewTemplate::FrontHead($pagetitle);
+					?>
+				</head>
+				<body class="bg-light">
+					<?php
+					ViewTemplate::FrontHeader();
+
+					ViewTemplate::FrontBreadcrumb($pagetitle, ['dashboard' => 'Tableau de bord', 'vieworders' => 'Liste des commandes', 'vieworder&amp;id=' . $id => $pagetitle]);
+					?>
+
+					<!-- claim -->
+					<section class="order-tracking section-big-my-space">
+						<div class="container" >
+							<div class="row">
+								<div class="col-md-12">
+									<div>
+										<fieldset>
+											<div class="container p-0">
+												<form action="index.php?do=doclaim&amp;id=<?= $id ?>" method="post">
+													<div class="row shipping-block">
+														<div class="col-lg-8">
+															<div class="order-tracking-contain order-tracking-box">
+																<div class="tracking-group">
+																	<div class="delivery-code">
+																		<h4>Faire une réclamation</h4>
+																	</div>
+																</div>
+																<div class="tracking-group pb-0">
+																	<h4 class="tracking-title">Choisir les articles à retourner</h4>
+																	<ul class="may-product">
+																		<?php
+																		$totalprice = 0;
+
+																		foreach ($orderdetail AS $key => $value)
+																		{
+																			$totalprice += $value['prix'] * $value['quantite'];
+
+																			if (empty($value['photo']))
+																			{
+																				$value['photo'] = 'assets/images/nophoto.jpg';
+																			}
+																			else
+																			{
+																				$value['photo'] = 'attachments/products/' . $value['photo'];
+																			}
+
+																			$trademarks = new ModelTrademark($config);
+																			$trademarks->set_id($value['id_marque']);
+																			$trademark = $trademarks->listTrademarkInfos();
+																			?>
+																			<li>
+																				<div class="media">
+																					<img src="<?= $value['photo'] ?>" class="img-fluid" alt="<?= $value['nom'] ?>" />
+																					<div class="media-body">
+																						<h3><a href="index.php?do=viewproduct&amp;id=<?= $value['id_produit'] ?>"><?= $trademark['nom'] ?> - <?= $value['nom'] ?></a></h3>
+																						<h5>Prix à l'unité : <?= number_format($value['prix'], 2) ?> &euro;</h5>
+																						<h5>Quantité : <?= $value['quantite'] ?></h5>
+																						<br />
+																						<h4><?= number_format($value['prix'] * $value['quantite'], 2) ?> &euro;</h4>
+																						<br />
+																						<select name="reason[<?= $value['id_produit'] ?>]" class="pull-right">
+																							<option value="0" selected disabled>Choisir une réponse</option>
+																							<option value="1">Produit incompatible ou inutile</option>
+																							<option value="2">Produit endommagé mais emballage intact</option>
+																							<option value="3">Achat effectué par erreur</option>
+																							<option value="4">Achat non autorisé</option>
+																							<option value="5">Produit et boîte d'expédition endommagés</option>
+																							<option value="6">Meilleur prix trouvé ailleurs</option>
+																							<option value="7">Pièces ou accessoires manquants</option>
+																							<option value="8">Date de livraison estimée manquée</option>
+																							<option value="9">Le produit reçu n'est pas le bon</option>
+																							<option value="10">Description erronée sur le site</option>
+																							<option value="11">Plus besoin du produit</option>
+																							<option value="12">Arrivée en plus de ce qui a été commandé</option>
+																							<option value="13">Le produit est défectueux ou ne fonctionne pas</option>
+																							<option value="14">Performances ou qualité non adéquates</option>
+																						</select>
+																					</div>
+																				</div>
+																			</li>
+																			<?php
+																		}
+																		?>
+																	</ul>
+																</div>
+															</div>
+														</div>
+														<div class="col-lg-4">
+															<div class="order-tracking-sidebar order-tracking-box">
+																<ul class="cart_total">
+																	<li class="pt-0">
+																		<div class="buttons">
+																			<input type="hidden" name="do" value="doclaim" />
+																			<input type="hidden" name="id" value="<?= $id ?>" />
+																			<input type="submit" value="Envoyer la réclamation" class="btn btn-normal btn-sm btn-block" />
+																		</div>
+																	</li>
+																</ul>
+															</div>
+														</div>
+													</div>
+												</form>
+											</div>
+										</fieldset>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<!-- / claim -->
+
+					<?= ViewTemplate::FrontFooter() ?>
+				</body>
+			</html>
+		<?php
+	}
+
+	/**
+	 *
+	 */
+	public static function ApplyClaimOrder($id, $messageid)
+	{
+		$pagetitle = 'Réclamation sur la commande « #' . $id . ' »';
+		?>
+			<!DOCTYPE html>
+			<html>
+				<head>
+					<?php
+					ViewTemplate::FrontHead($pagetitle);
+					?>
+				</head>
+				<body class="bg-light">
+					<?php
+					ViewTemplate::FrontHeader();
+
+					ViewTemplate::FrontBreadcrumb($pagetitle, ['dashboard' => 'Tableau de bord', 'vieworders' => 'Liste des commandes', 'vieworder&amp;id=' . $id => $pagetitle]);
+					?>
+
+					<section class="login-page section-big-py-space b-g-light">
+						<div class="custom-container">
+							<div class="row">
+								<div class="col-xl-4 col-lg-6 col-md-8 offset-xl-4 offset-lg-3 offset-md-2">
+									<div class="theme-card">
+										<div>La réclamation a bien été effectuée, vous pouvez la retrouver et y ajouter des commentaires <a href="index.php?do=viewmessage&amp;id=<?= $messageid ?>">ici</a>.
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					<?= ViewTemplate::FrontFooter() ?>
 				</body>
 			</html>
 		<?php

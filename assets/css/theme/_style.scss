@@ -4203,7 +4203,8 @@ header {
 							}
 
 							img {
-								height: 200px;
+								/* height: 200px; */
+								max-width: 280px;
 							}
 
 							.media-left {
@@ -4230,6 +4231,12 @@ header {
 								h4 {
 									color: $theme-color1;
 									margin-bottom: 5px;
+								}
+
+								select {
+									padding: 12px 25px;
+									appearance: none;
+									cursor: pointer;
 								}
 							}
 						}
@@ -5037,6 +5044,21 @@ footer {
 						font-size: 18px;
 						padding-left: 5px;
 						text-transform: uppercase;
+					}
+				}
+			}
+		}
+	}
+
+	.order-tracking {
+		.order-tracking-contain {
+			.tracking-group {
+				ul.may-product {
+					> li {
+						.media {
+							display: flex;
+							flex-direction: column;
+						}
 					}
 				}
 			}

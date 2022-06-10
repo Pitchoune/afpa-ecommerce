@@ -99,7 +99,7 @@ class ViewTemplate
 		<!-- loader -->
 		<div class="loader-wrapper">
 			<div>
-				<img src="assets/images/loader.gif" alt="loader">
+				<img src="assets/images/loader2.gif" alt="loader">
 			</div>
 		</div>
 		<!-- / loader -->

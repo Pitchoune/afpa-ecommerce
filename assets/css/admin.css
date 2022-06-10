@@ -3366,7 +3366,8 @@ header {
   align-items: stretch;
 }
 .order-tracking .order-tracking-contain .tracking-group ul.may-product > li .media img {
-  height: 200px;
+  /* height: 200px; */
+  max-width: 280px;
 }
 .order-tracking .order-tracking-contain .tracking-group ul.may-product > li .media .media-left {
   width: 150px;
@@ -3388,6 +3389,11 @@ header {
 .order-tracking .order-tracking-contain .tracking-group ul.may-product > li .media .media-body h4 {
   color: #fb0000;
   margin-bottom: 5px;
+}
+.order-tracking .order-tracking-contain .tracking-group ul.may-product > li .media .media-body select {
+  padding: 12px 25px;
+  appearance: none;
+  cursor: pointer;
 }
 .order-tracking .order-tracking-sidebar ul li {
   display: block;
@@ -3985,6 +3991,10 @@ footer .subfooter.footer-border {
     font-size: 18px;
     padding-left: 5px;
     text-transform: uppercase;
+  }
+  .order-tracking .order-tracking-contain .tracking-group ul.may-product > li .media {
+    display: flex;
+    flex-direction: column;
   }
 }
 body {

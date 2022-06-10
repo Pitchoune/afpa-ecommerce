@@ -100,7 +100,31 @@ class ModelOrderDetails extends Model
 	}
 
 	/**
+	 * Returns all products from a specific order detail.
 	 *
+	 * @return mixed Returns the requested data or false if there is an error.
+	 */
+	public function getOrderDetail()
+	{
+		$db = $this->dbConnect();
+		$query = $db->prepare("
+			SELECT d.prix, d.quantite, p.nom, p.id_marque
+			FROM details_commande AS d
+				INNER JOIN produit AS p ON (p.id = d.id_produit)
+			WHERE d.id_commande = ?
+				AND d.id_produit = ?
+		");
+		$query->bindParam(1, $this->id_order, \PDO::PARAM_INT);
+		$query->bindParam(2, $this->id_product, \PDO::PARAM_INT);
+
+		$query->execute();
+		return $query->fetch();
+	}
+
+	/**
+	 * Returns all best selling products.
+	 *
+	 * @return mixed Returns the requested data or false if there is an error.
 	 */
 	public function getBestSellingProductsFromSpecificRange($min, $max)
 	{

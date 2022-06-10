@@ -132,6 +132,15 @@ try
 			$message = isset($_POST['message']) ? $_POST['message'] : NULL; // No need to clean it, there is a better validator later
 			addReplyToMessage($id, $latestid, $message);
 			break;
+		case 'claim':
+			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
+			viewClaimOrder($id);
+			break;
+		case 'doclaim':
+			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
+			$reason = isset($_POST['reason']) ? filter_var_array($_POST['reason'], FILTER_VALIDATE_INT) : NULL;
+			doClaim($id, $reason);
+			break;
 		case 'logout':
 			doLogout();
 			break;

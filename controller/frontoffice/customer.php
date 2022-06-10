@@ -171,7 +171,7 @@ function doLogin($email, $password, $doaction)
 	}
 
 	// Validate doaction
-	$validmessage = Utils::datavalidation($doaction, 'doaction');
+	$validmessage = Utils::datavalidation($doaction, 'doaction', '', '', true);
 
 	if ($validmessage)
 	{
@@ -966,6 +966,213 @@ function addReplyToMessage($id, $latestid, $message)
 	{
 		$_SESSION['user']['sendreply'] = 1;
 		header('Location: index.php?do=viewmessage&id=' . $id);
+	}
+}
+
+/**
+ * Display the HTML code to claim about an order.
+ *
+ * @param integer $id ID of the order.
+ *
+ * @return void
+ */
+function viewClaimOrder($id)
+{
+	if (!$_SESSION['user']['loggedin'])
+	{
+		$_SESSION['nonallowed'] = 1;
+		header('Location: index.php');
+	}
+
+	global $config;
+
+	$id = intval($id);
+
+	$customer = new ModelCustomer($config);
+	$customer->set_id($_SESSION['user']['id']);
+
+	$data = $customer->getCustomerInfosFromId();
+
+	if ($data['id'] === $_SESSION['user']['id'])
+	{
+		$orderdetails = new ModelOrderDetails($config);
+		$orderdetails->set_order(intval($id));
+		$orderdetail = $orderdetails->getOrderDetails();
+	}
+	else
+	{
+		throw new Exception('Vous n\'êtes pas autorisé à afficher cette page.');
+	}
+
+	ViewCustomer::ViewClaimOrder($id, $orderdetail);
+}
+
+/**
+ *
+ */
+function doClaim($id, $reason)
+{
+	if (!$_SESSION['user']['loggedin'])
+	{
+		$_SESSION['nonallowed'] = 1;
+		header('Location: index.php');
+	}
+// Utils::printr($reason);
+	$id = intval($id);
+
+	global $config;
+
+	$orders = [];
+
+	// Get order details
+	$orderlist = new ModelOrderDetails($config);
+
+	foreach ($reason AS $key => $value)
+	{
+		$orderlist->set_order($id);
+		$orderlist->set_product($key);
+		$orders[$value] = $orderlist->getOrderDetail();
+	}
+// Utils::printr($orders, true);
+	// Create a new conversation with type 'claim'
+	$customer = new ModelCustomer($config);
+	$customer->set_id($_SESSION['user']['id']);
+	$customerinfos = $customer->getCustomerInfosFromId();
+
+	$date = date("Y-m-d H:i:s");
+
+	$title = 'Réclamation sur la commande #' . $id;
+
+	$message = 'Bonjour,
+
+Une réclamation vient d\'être effectuée par ' . $customerinfos['prenom'] . ' ' . $customerinfos['nom'] . '.
+
+Voici les articles en réclamation :
+
+';
+
+	foreach ($orders AS $claimid => $productinfos)
+	{
+		switch($claimid)
+		{
+			case 1:
+				$message .= 'Produit : ' . $productinfos['nom'] . '
+Prix d\'achat : ' . $productinfos['prix'] . '
+Objet de la réclamation : Produit incompatible ou inutile
+
+';
+				break;
+			case 2:
+				$message .= 'Produit : ' . $productinfos['nom'] . '
+Prix d\'achat : ' . $productinfos['prix'] . '
+Objet de la réclamation : Produit endommagé mais emballage intact
+
+';
+				break;
+			case 3:
+				$message .= 'Produit : ' . $productinfos['nom'] . '
+Prix d\'achat : ' . $productinfos['prix'] . '
+Objet de la réclamation : Achat effectué par erreur
+
+';
+				break;
+			case 4:
+				$message .= 'Produit : ' . $productinfos['nom'] . '
+Prix d\'achat : ' . $productinfos['prix'] . '
+Objet de la réclamation : Achat non autorisé
+
+';
+				break;
+			case 5:
+				$message .= 'Produit : ' . $productinfos['nom'] . '
+Prix d\'achat : ' . $productinfos['prix'] . '
+Objet de la réclamation : Produit et boîte d\'expédition endommagés
+
+';
+				break;
+			case 6:
+				$message .= 'Produit : ' . $productinfos['nom'] . '
+Prix d\'achat : ' . $productinfos['prix'] . '
+Objet de la réclamation : Meilleur prix trouvé ailleurs
+
+';
+				break;
+			case 7:
+				$message .= 'Produit : ' . $productinfos['nom'] . '
+Prix d\'achat : ' . $productinfos['prix'] . '
+Objet de la réclamation : Pièces ou accessoires manquants
+
+';
+				break;
+			case 8:
+				$message .= 'Produit : ' . $productinfos['nom'] . '
+Prix d\'achat : ' . $productinfos['prix'] . '
+Objet de la réclamation : Date de livraison estimée manquée
+
+';
+				break;
+			case 9:
+				$message .= 'Produit : ' . $productinfos['nom'] . '
+Prix d\'achat : ' . $productinfos['prix'] . '
+Objet de la réclamation : Le produit reçu n\'est pas le bon
+
+';
+				break;
+			case 10:
+				$message .= 'Produit : ' . $productinfos['nom'] . '
+Prix d\'achat : ' . $productinfos['prix'] . '
+Objet de la réclamation : Description erronée sur le site
+
+';
+				break;
+			case 11:
+				$message .= 'Produit : ' . $productinfos['nom'] . '
+Prix d\'achat : ' . $productinfos['prix'] . '
+Objet de la réclamation : Plus besoin du produit
+
+';
+				break;
+			case 12:
+				$message .= 'Produit : ' . $productinfos['nom'] . '
+Prix d\'achat : ' . $productinfos['prix'] . '
+Objet de la réclamation : Arrivée en plus de ce qui a été commandé
+
+';
+				break;
+			case 13:
+				$message .= 'Produit : ' . $productinfos['nom'] . '
+Prix d\'achat : ' . $productinfos['prix'] . '
+Objet de la réclamation : Le produit est défectueux ou ne fonctionne pas
+
+';
+				break;
+			case 14:
+				$message .= 'Produit : ' . $productinfos['nom'] . '
+Prix d\'achat : ' . $productinfos['prix'] . '
+Objet de la réclamation : Performances ou qualité non adéquates
+
+';
+				break;
+		}
+	}
+
+	$message .= 'Cordialement,
+
+L\'équipe.';
+
+	$messages = new ModelMessage($config);
+	$messages->set_type('reclam');
+	$messages->set_title($title);
+	$messages->set_message(nl2br($message));
+	$messages->set_date($date);
+	$messages->set_previous(NULL);
+	$messages->set_customer($_SESSION['user']['id']);
+	$messages->set_employee(NULL);
+	$messageid = $messages->saveNewMessage();
+
+	if ($messageid)
+	{
+		ViewCustomer::ApplyClaimOrder($id, $messageid);
 	}
 }
 

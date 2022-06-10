@@ -115,7 +115,8 @@ class ModelMessage extends Model
 		$query->bindParam(6, $this->id_customer, \PDO::PARAM_INT);
 		$query->bindParam(7, $this->id_employee, \PDO::PARAM_INT);
 
-		return $query->execute();
+		$query->execute();
+		return $db->lastInsertId();
 	}
 
 	/**
