@@ -53,6 +53,7 @@ function AddCustomer()
 		'adresse' => '',
 		'ville' => '',
 		'code_post' => '',
+		'country' => '',
 	];
 
 	$pagetitle = 'Gestion des clients';
@@ -78,10 +79,11 @@ function AddCustomer()
  * @param string $address Address of the customer.
  * @param string $city City of the customer.
  * @param string $zipcode Zip code of the customer.
+ * @param string $country Country of the customer.
  *
  * @return void
  */
-function InsertCustomer($firstname, $lastname, $email, $password, $telephone, $address, $city, $zipcode)
+function InsertCustomer($firstname, $lastname, $email, $password, $telephone, $address, $city, $zipcode, $country)
 {
 	if (!Utils::cando(29))
 	{
@@ -96,6 +98,7 @@ function InsertCustomer($firstname, $lastname, $email, $password, $telephone, $a
 	$address = trim(strval($address));
 	$city = trim(strval($city));
 	$zipcode = trim(strval($zipcode));
+	$country = trim(strval($country));
 
 	// Validate firstname
 	$validmessage = Utils::datavalidation($firstname, 'firstname', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
@@ -161,6 +164,14 @@ function InsertCustomer($firstname, $lastname, $email, $password, $telephone, $a
 		throw new Exception($validmessage);
 	}
 
+	// Validate country
+	$validmessage = Utils::datavalidation($country, 'country');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
 	$hashedpassword = password_hash($password, PASSWORD_DEFAULT);
 
 	global $config;
@@ -174,6 +185,7 @@ function InsertCustomer($firstname, $lastname, $email, $password, $telephone, $a
 	$customers->set_address($address);
 	$customers->set_city($city);
 	$customers->set_zipcode($zipcode);
+	$customers->set_country($country);
 
 	if ($customers->saveNewCustomerFromBack())
 	{
@@ -236,10 +248,11 @@ function EditCustomer($id)
  * @param string $address Address of the customer.
  * @param string $city City of the customer.
  * @param string $zipcode Zip code of the customer.
+ * @param string $country Country of the customer.
  *
  * @return void
  */
-function UpdateCustomer($id, $firstname, $lastname, $email, $password, $telephone, $address, $city, $zipcode)
+function UpdateCustomer($id, $firstname, $lastname, $email, $password, $telephone, $address, $city, $zipcode, $country)
 {
 	if (!Utils::cando(30))
 	{
@@ -250,11 +263,12 @@ function UpdateCustomer($id, $firstname, $lastname, $email, $password, $telephon
 	$firstname = trim(strval($firstname));
 	$lastname = trim(strval($lastname));
 	$email = trim(strval($email));
-	$password = trim(strval(password));
-	$telephone = trim(strval(telephone));
-	$address = trim(strval(address));
-	$city = trim(strval(city));
-	$zipcode = trim(strval(zipcode));
+	$password = trim(strval($password));
+	$telephone = trim(strval($telephone));
+	$address = trim(strval($address));
+	$city = trim(strval($city));
+	$zipcode = trim(strval($zipcode));
+	$country = trim(strval($country));
 
 	// Validate firstname
 	$validmessage = Utils::datavalidation($firstname, 'firstname', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
@@ -323,6 +337,14 @@ function UpdateCustomer($id, $firstname, $lastname, $email, $password, $telephon
 		throw new Exception($validmessage);
 	}
 
+	// Validate country
+	$validmessage = Utils::datavalidation($country, 'country');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
 	global $config;
 
 	$customers = new ModelCustomer($config);
@@ -334,6 +356,7 @@ function UpdateCustomer($id, $firstname, $lastname, $email, $password, $telephon
 	$customers->set_address($address);
 	$customers->set_city($city);
 	$customers->set_zipcode($zipcode);
+	$customers->set_country($country);
 
 	if ($password)
 	{

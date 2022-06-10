@@ -293,10 +293,11 @@ function editProfile()
  * @param string $city City of the customer.
  * @param string $zipcode Zip code of the customer.
  * @param string $telephone Telephone of the customer.
+ * @param string $country Country of the customer.
  *
  * @return void
  */
-function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipcode, $telephone)
+function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipcode, $telephone, $country)
 {
 	if (!$_SESSION['user']['loggedin'])
 	{
@@ -312,6 +313,7 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 	$city = trim(strval($city));
 	$zipcode = intval($zipcode);
 	$telephone = trim(strval($telephone));
+	$country = trim(strval($country));
 
 	// Validate first name
 	$validmessage = Utils::datavalidation($firstname, 'firstname', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
@@ -369,6 +371,14 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 		throw new Exception($validmessage);
 	}
 
+	// Validate telephone
+	$validmessage = Utils::datavalidation($country, 'country');
+
+	if ($validmessage)
+	{
+		throw new Exception($validmessage);
+	}
+
 	// No error - proceed to save data
 	global $config;
 
@@ -382,6 +392,7 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 	$customers->set_city($city);
 	$customers->set_zipcode($zipcode);
 	$customers->set_telephone($telephone);
+	$customers->set_country($country);
 
 	// Save
 	if ($customers->saveCustomerData())

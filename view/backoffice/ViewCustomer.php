@@ -291,11 +291,6 @@ class ViewCustomer
 														<small id="emailHelp" class="form-text text-muted"></small>
 													</div>
 													<div class="form-group">
-														<label for="password" class="col-form-label pt-0">Mot de passe <span>*</span></label>
-														<input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" data-type="password" data-message="Le format du mot de passe n'est pas valide." required />
-														<small id="passwordHelp" class="form-text text-muted"></small>
-													</div>
-													<div class="form-group">
 														<label for="telephone" class="col-form-label pt-0">Téléphone <span>*</span></label>
 														<input type="text" class="form-control" id="telephone" name="telephone" aria-describedby="telephoneHelp" data-type="telephone" data-message="Le format du numéro de téléphone n'est pas valide." placeholder="Insérez votre téléphone" value="<?= $customerinfos['tel'] ?>" required />
 														<small id="telephoneHelp" class="form-text text-muted"></small>
@@ -314,6 +309,19 @@ class ViewCustomer
 														<label for="zipcode" class="col-form-label pt-0">Code postal <span>*</span></label>
 														<input type="text" class="form-control" id="zipcode" name="zipcode" aria-describedby="zipcodeHelp" data-type="zipcode" data-message="Le format du code postal n'est pas valide." placeholder="Code postal" value="<?= $customerinfos['code_post'] ?>" required />
 														<small id="zipcodeHelp" class="form-text text-muted"></small>
+													</div>
+													<div class="form-group">
+														<label for="country" class="col-form-label pt-0">Pays <span>*</span></label>
+														<select class="form-control" name="country" id="country">
+															<option value="0" <?= (!$customerinfos['pays'] ? ' selected disabled' : '') ?>>Choisissez le pays</option>
+															<?= Utils::createCountryList($customerinfos['pays']) ?>
+														</select>
+														<small id="countryHelp" class="form-text text-muted"></small>
+													</div>
+													<div class="form-group">
+														<label for="password" class="col-form-label pt-0">Mot de passe<?= (!$id ? ' <span>*</span>' : '') ?></label>
+														<input type="password" class="form-control" id="password" name="password" aria-describedby="passwordHelp" data-type="password" data-message="Le format du mot de passe n'est pas valide." required />
+														<small id="passwordHelp" class="form-text text-muted"></small>
 													</div>
 													<div class="form-group mb-0">
 														<div class="product-buttons text-center">
@@ -349,7 +357,7 @@ class ViewCustomer
 				<?php
 				ViewTemplate::BackFoot();
 
-				ViewTemplate::BackFormValidation('validation', $id ? 4 : 3, 1);
+				ViewTemplate::BackFormValidation('validation', $id ? 5 : 4, 1);
 				?>
 			</body>
 		</html>

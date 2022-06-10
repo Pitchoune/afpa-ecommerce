@@ -2049,7 +2049,7 @@ header {
   font-size: calc(14px + 4 * (100vw - 320px) / 1600);
   font-weight: 600;
 }
-.contact-page .theme-form input {
+.contact-page .theme-form input, .contact-page .theme-form select {
   padding: 12px 25px;
   border-radius: 0;
   margin-bottom: 0;
@@ -2060,9 +2060,6 @@ header {
 .contact-page .theme-form textarea {
   padding: 17px 25px;
   height: inherit;
-}
-.contact-page .theme-form select {
-  padding: 12px 25px;
 }
 .contact-page .form-control {
   border-radius: 0;
@@ -2689,6 +2686,11 @@ header {
   height: 45px;
   background: #ffffff;
   border: 1px solid #dddddd;
+}
+.checkout-page .checkout-form select:disabled, .checkout-page .checkout-form textarea:disabled {
+  cursor: default;
+  background: #F0F2F4;
+  color: #3D3D3D;
 }
 
 .order-box {

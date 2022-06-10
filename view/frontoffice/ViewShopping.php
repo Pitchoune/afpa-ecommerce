@@ -156,6 +156,12 @@ class ViewShopping
 															<label class="field-label">Code postal</label>
 															<input type="text" name="field-name" value="<?= $customer['code_post'] ?>" disabled>
 														</div>
+														<div class="form-group col-md-12 col-sm-6 col-xs-12">
+															<label class="field-label">Pays</label>
+															<select disabled>
+																<?= Utils::createCountryList($customer['pays']) ?>
+															</select>
+														</div>
 													</div>
 												</div>
 											</div>

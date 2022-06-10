@@ -73,6 +73,13 @@ class ModelCustomer extends Model
 	private $telephone;
 
 	/**
+	 * The country of the customer.
+	 *
+	 * @var string
+	 */
+	private $country;
+
+	/**
 	 * The token of the customer.
 	 *
 	 * @var string
@@ -91,11 +98,12 @@ class ModelCustomer extends Model
 	 * @param string $city City of the customer.
 	 * @param string $zipcode Zip code of the customer.
 	 * @param string $telephone Telephone of the customer.
+	 * @param string $country Country of the customer.
 	 * @param string $token Token of the customer.
 	 *
 	 * @return void
 	 */
-	public function __construct($config, $id = null, $firstname = null, $lastname = null, $email = null, $password = null,$address = null, $city = null, $zipcode = null, $telephone = null, $token = null)
+	public function __construct($config, $id = null, $firstname = null, $lastname = null, $email = null, $password = null,$address = null, $city = null, $zipcode = null, $telephone = null, $country = null, $token = null)
 	{
 		$this->config = $config;
 		$this->id = $id;
@@ -107,6 +115,7 @@ class ModelCustomer extends Model
 		$this->city = $city;
 		$this->zipcode = $zipcode;
 		$this->telephone = $telephone;
+		$this->country = $country;
 		$this->token = $token;
 	}
 
@@ -232,9 +241,9 @@ class ModelCustomer extends Model
 		$db = $this->dbConnect();
 		$query = $db->prepare("
 			INSERT INTO client
-				(id, nom, prenom, mail, pass, tel, adresse, ville, code_post, token)
+				(id, nom, prenom, mail, pass, tel, adresse, ville, code_post, pays, token)
 			VALUES
-				(NULL, ?, ?, ?, ?, '', '', '', '', NULL)
+				(NULL, ?, ?, ?, ?, NULL, NULL, NULL, NULL, NULL, NULL)
 		");
 		$query->bindParam(1, $this->lastname, \PDO::PARAM_STR);
 		$query->bindParam(2, $this->firstname, \PDO::PARAM_STR);
@@ -254,9 +263,9 @@ class ModelCustomer extends Model
 		$db = $this->dbConnect();
 		$query = $db->prepare("
 			INSERT INTO client
-				(id, nom, prenom, mail, pass, tel, adresse, ville, code_post, token)
+				(id, nom, prenom, mail, pass, tel, adresse, ville, code_post, pays, token)
 			VALUES
-				(NULL, ?, ?, ?, ?, ?, ?, ?, ?, NULL)
+				(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL)
 		");
 		$query->bindParam(1, $this->lastname, \PDO::PARAM_STR);
 		$query->bindParam(2, $this->firstname, \PDO::PARAM_STR);
@@ -266,6 +275,7 @@ class ModelCustomer extends Model
 		$query->bindParam(6, $this->address, \PDO::PARAM_STR);
 		$query->bindParam(7, $this->city, \PDO::PARAM_STR);
 		$query->bindParam(8, $this->zipcode, \PDO::PARAM_INT);
+		$query->bindParam(9, $this->country, \PDO::PARAM_STR);
 
 		return $query->execute();
 	}
@@ -286,7 +296,8 @@ class ModelCustomer extends Model
 				adresse = ?,
 				ville = ?,
 				code_post = ?,
-				tel = ?
+				tel = ?,
+				pays = ?
 			WHERE id = ?
 		");
 		$query->bindParam(1, $this->lastname, \PDO::PARAM_STR);
@@ -296,7 +307,8 @@ class ModelCustomer extends Model
 		$query->bindParam(5, $this->city, \PDO::PARAM_STR);
 		$query->bindParam(6, $this->zipcode, \PDO::PARAM_STR);
 		$query->bindParam(7, $this->telephone, \PDO::PARAM_STR);
-		$query->bindParam(8, $this->id, \PDO::PARAM_INT);
+		$query->bindParam(8, $this->country, \PDO::PARAM_STR);
+		$query->bindParam(9, $this->id, \PDO::PARAM_INT);
 
 		return $query->execute();
 	}
@@ -318,7 +330,8 @@ class ModelCustomer extends Model
 				adresse = ?,
 				ville = ?,
 				code_post = ?,
-				tel = ?
+				tel = ?,
+				pays = ?
 			WHERE id = ?
 		");
 		$query->bindParam(1, $this->lastname, \PDO::PARAM_STR);
@@ -329,7 +342,8 @@ class ModelCustomer extends Model
 		$query->bindParam(6, $this->city, \PDO::PARAM_STR);
 		$query->bindParam(7, $this->zipcode, \PDO::PARAM_STR);
 		$query->bindParam(8, $this->telephone, \PDO::PARAM_STR);
-		$query->bindParam(9, $this->id, \PDO::PARAM_INT);
+		$query->bindParam(9, $this->country, \PDO::PARAM_STR);
+		$query->bindParam(10, $this->id, \PDO::PARAM_INT);
 
 		return $query->execute();
 	}

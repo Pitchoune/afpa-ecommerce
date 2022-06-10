@@ -316,28 +316,28 @@ class ViewCustomer
 										<h3 class="mb-3">INFORMATIONS PERSONNELLES</h3>
 											<div class="theme-form">
 											<div class="row">
-												<div class="col-md-6">
+												<div class="col-md-12">
 													<div class="form-group">
 														<label for="firstname">Prénom</label>
 														<input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="firstnameHelp" data-type="firstname" data-message="Le format du prénom n'est pas valide." placeholder="Insérez votre prénom"<?= ($data['prenom'] ? ' value="' . $data["prenom"] . '"' : '') ?> required />
 														<small id="firstnameHelp" class="form-text text-muted"></small>
 													</div>
 												</div>
-												<div class="col-md-6">
+												<div class="col-md-12">
 													<div class="form-group">
 														<label for="lastname">Nom</label>
 														<input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="lastnameHelp" data-type="lastname" data-message="Le format du nom n'est pas valide." placeholder="Insérez votre nom"<?= ($data['nom'] ? ' value="' . $data["nom"] . '"' : '') ?> required />
 														<small id="lastnameHelp" class="form-text text-muted"></small>
 													</div>
 												</div>
-												<div class="col-md-6">
+												<div class="col-md-12">
 													<div class="form-group">
 														<label for="telephone">Téléphone</label>
 														<input type="text" class="form-control" id="telephone" name="telephone" aria-describedby="telephoneHelp" data-type="telephone" data-message="Le format du numéro de téléphone n'est pas valide." placeholder="Insérez votre téléphone"<?= ($data['tel'] ? ' value="' . $data["tel"] . '"' : '') ?> required />
 														<small id="telephoneHelp" class="form-text text-muted"></small>
 													</div>
 												</div>
-												<div class="col-md-6">
+												<div class="col-md-12">
 													<div class="form-group">
 														<label for="mail">Adresse Email</label>
 														<input type="text" class="form-control" id="mail" name="email" aria-describedby="emailHelp" data-type="email" data-message="Le format de l'adresse email n'est pas valide." placeholder="Insérez votre adresse email"<?= ($data['mail'] ? ' value="' . $data["mail"] . '"' : '') ?> required />
@@ -370,6 +370,16 @@ class ViewCustomer
 														<label for="city">Ville *</label>
 														<input type="text" class="form-control" id="city" name="city" aria-describedby="cityHelp" data-type="city" data-message="Le format de la ville n'est pas valide." placeholder="Ville"<?= ($data['ville'] ? ' value="' . $data["ville"] . '"' : '') ?> required />
 														<small id="cityHelp" class="form-text text-muted"></small>
+													</div>
+												</div>
+												<div class="col-md-12">
+													<div class="form-group">
+														<label for="country">Pays *</label>
+														<select class="form-control" name="country" id="country">
+															<option value="0" <?= (!$data['pays'] ? ' selected disabled' : '') ?>>Choisissez le pays</option>
+															<?= Utils::createCountryList($data['pays']) ?>
+														</select>
+														<small id="countryHelp" class="form-text text-muted"></small>
 													</div>
 												</div>
 												<div class="col-md-12">

@@ -283,7 +283,8 @@ try
 			$address = isset($_POST['address']) ? filter_var($_POST['address'], FILTER_SANITIZE_STRING) : NULL;
 			$city = isset($_POST['city']) ? filter_var($_POST['city'], FILTER_SANITIZE_STRING) : NULL;
 			$zipcode = isset($_POST['zipcode']) ? filter_var($_POST['zipcode'], FILTER_SANITIZE_STRING) : NULL;
-			InsertCustomer($firstname, $lastname, $email, $password, $telephone, $address, $city, $zipcode);
+			$country = isset($_POST['country']) ? filter_var($_POST['country'], FILTER_SANITIZE_STRING) : NULL;
+			InsertCustomer($firstname, $lastname, $email, $password, $telephone, $address, $city, $zipcode, $country);
 			break;
 		case 'editcustomer':
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
@@ -299,7 +300,8 @@ try
 			$address = isset($_POST['address']) ? filter_var($_POST['address'], FILTER_SANITIZE_STRING) : NULL;
 			$city = isset($_POST['city']) ? filter_var($_POST['city'], FILTER_SANITIZE_STRING) : NULL;
 			$zipcode = isset($_POST['zipcode']) ? filter_var($_POST['zipcode'], FILTER_SANITIZE_STRING) : NULL;
-			UpdateCustomer($id, $firstname, $lastname, $email, $password, $telephone, $address, $city, $zipcode);
+			$country = isset($_POST['country']) ? filter_var($_POST['country'], FILTER_SANITIZE_STRING) : NULL;
+			UpdateCustomer($id, $firstname, $lastname, $email, $password, $telephone, $address, $city, $zipcode, $country);
 			break;
 		case 'deletecustomer':
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;

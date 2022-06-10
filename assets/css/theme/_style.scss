@@ -2526,7 +2526,7 @@ header {
 			font-weight: 600;
 		}
 
-		input {
+		input, select {
 			padding: 12px 25px;
 			border-radius: 0;
 			margin-bottom: 0;
@@ -2539,10 +2539,6 @@ header {
 		textarea {
 			padding: 17px 25px;
 			height: inherit;
-		}
-
-		select {
-			padding: 12px 25px;
 		}
 	}
 
@@ -3368,6 +3364,12 @@ header {
 			height: 45px;
 			background: $white;
 			border: 1px solid $light-border;
+
+			&:disabled {
+				cursor: default;
+				background: #F0F2F4;
+				color: #3D3D3D;
+			}
 		}
 	}
 }
