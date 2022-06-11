@@ -121,7 +121,7 @@ class Utils
 			"quantity" => "/^[0-9]{1,}$/",
 			"price" => "/^[0-9]{1,5}\.[0-9]{2}$/",
 			"displayorder" => "/^[0-9]+$/",
-			"message" => "/^[\p{L}\d\s_~\-!@#:\"\'=\.,;\$%\^&\*\(\)\[\]<>]{2,}$/u",
+			"message" => "/^[\p{L}\d\s_~\-!@#:\"\'=\.,;\$%\^&\*\(\)\[\]<>]{2,}$/um",
 			"query" => "/^[\p{L}\d\s_~\-!@#:\"\'=\.,;\$%\^&\*\(\)\[\]]{2,}$/u",
 			"deliver" => "/^[0-9]{1,}$/",
 			"delivermode" => "/^[0-9]{1,}$/u",
@@ -155,7 +155,7 @@ class Utils
 				// Check if valid
 				if (!preg_match($tabRegex[$type], $str))
 				{
-					return 'Le champ de la recherche n\'est pas au format demandé.' . ($text ? ' ' . $text : '');
+					return 'Le champ \'' . ucfirst($type) . '\' n\'est pas au format demandé.' . ($text ? ' ' . $text : '');
 				}
 			}
 		}
