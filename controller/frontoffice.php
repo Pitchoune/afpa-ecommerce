@@ -45,6 +45,8 @@ else
 require_once(DIR . '/controller/Utils.php');
 require_once(DIR . '/vendor/autoload.php');
 
+date_default_timezone_set('Europe/Paris');
+
 // Here, import files only on specific routing
 if (in_array($do, ['index']))
 {
