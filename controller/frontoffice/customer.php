@@ -6,6 +6,7 @@ require_once(DIR . '/model/ModelOrder.php');
 require_once(DIR . '/model/ModelOrderDetails.php');
 require_once(DIR . '/model/ModelTrademark.php');
 require_once(DIR . '/model/ModelMessage.php');
+require_once(DIR . '/controller/securityservice.php');
 require_once(DIR . '/view/frontoffice/ViewCustomer.php');
 use \Ecommerce\Model\ModelCustomer;
 use \Ecommerce\Model\ModelEmployee;
@@ -13,6 +14,7 @@ use \Ecommerce\Model\ModelOrder;
 use \Ecommerce\Model\ModelOrderDetails;
 use \Ecommerce\Model\ModelTrademark;
 use \Ecommerce\Model\ModelMessage;
+use \Ecommerce\SecurityService\SecurityService;
 use Dompdf\Dompdf;
 
 /**
@@ -38,10 +40,11 @@ function register()
  * @param string $email Email address of the user.
  * @param string $password Password of the user.
  * @param string $passwordconfirm Password confirmation.
+ * @param string $token CSRF token.
  *
  * @return void
  */
-function doRegister($firstname, $lastname, $email, $password, $passwordconfirm)
+function doRegister($firstname, $lastname, $email, $password, $passwordconfirm, $token)
 {
 	global $config;
 
@@ -56,6 +59,7 @@ function doRegister($firstname, $lastname, $email, $password, $passwordconfirm)
 	$email = trim(strval($email));
 	$password = trim(strval($password));
 	$passwordconfirm = trim(strval($passwordconfirm));
+	$token = trim(strval($token));
 
 	// Validate firstname
 	$validmessage = Utils::datavalidation($firstname, 'firstname', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
@@ -98,6 +102,10 @@ function doRegister($firstname, $lastname, $email, $password, $passwordconfirm)
 		throw new Exception('Cette adresse email existe déjà.');
 	}
 
+	// Verify CSRF attempt is valid
+	$antiCSRF = new SecurityService();
+	$csrfResponse = $antiCSRF->validate();
+
 	$hashedpassword = password_hash($password, PASSWORD_DEFAULT);
 
 	// No error - we insert the new user with the model
@@ -139,10 +147,12 @@ function login()
  *
  * @param string $email Email of the user.
  * @param string $password Corresponding password of the user.
+ * @param string $doaction Action to redirects the user if the login is not on default page
+ * @param string $token CSRF token.
  *
  * @return void
  */
-function doLogin($email, $password, $doaction)
+function doLogin($email, $password, $doaction, $token)
 {
 	global $config;
 
@@ -154,6 +164,8 @@ function doLogin($email, $password, $doaction)
 
 	$email = trim(strval($email));
 	$password = trim(strval($password));
+	$doaction = trim(strval($doaction));
+	$token = trim(strval($token));
 
 	// Validate email
 	$validmessage = Utils::datavalidation($email, 'mail');
@@ -179,40 +191,51 @@ function doLogin($email, $password, $doaction)
 		throw new Exception($validmessage);
 	}
 
-	// Enabling the model call here, useful to validate data
-	$customer = new ModelCustomer($config);
+	// Verify CSRF attempt is valid
+	$antiCSRF = new SecurityService();
+	$csrfResponse = $antiCSRF->validate();
 
-	$customer->set_email($email);
-	$customerid = $customer->getCustomerId();
-
-	if (!$customerid['id'])
+	if (!empty($csrfResponse))
 	{
-		throw new Exception('Une erreur est survenue, veuillez recommencer.');
-	}
+		// Enabling the model call here, useful to validate data
+		$customer = new ModelCustomer($config);
 
-	// No error - we insert the new user with the model
-	$customer->set_email($email);
-	$user = $customer->getCustomerInfosFromEmail();
+		$customer->set_email($email);
+		$customerid = $customer->getCustomerId();
 
-	if (!$user)
-	{
-		throw new Exception('L\'identification n\'a pas pu aller jusqu\'au bout. Veuillez recommencer. Si le problème persiste, veuillez contacter l\'équipe.');
-	}
+		if (!$customerid['id'])
+		{
+			throw new Exception('Une erreur est survenue, veuillez recommencer.');
+		}
 
-	// Verify password
-	if (password_verify($password, $user['pass']))
-	{
-		// Store session informations
-		$_SESSION['user']['loggedin'] = true;
-		$_SESSION['user']['id'] = $user['id'];
-		$_SESSION['user']['email'] = $user['mail'];
-		$_SESSION['userloggedin'] = 1;
+		// No error - we insert the new user with the model
+		$customer->set_email($email);
+		$user = $customer->getCustomerInfosFromEmail();
 
-		header('Location: index.php?' . ($doaction ? $doaction : ''));
+		if (!$user)
+		{
+			throw new Exception('L\'identification n\'a pas pu aller jusqu\'au bout. Veuillez recommencer. Si le problème persiste, veuillez contacter l\'équipe.');
+		}
+
+		// Verify password
+		if (password_verify($password, $user['pass']))
+		{
+			// Store session informations
+			$_SESSION['user']['loggedin'] = true;
+			$_SESSION['user']['id'] = $user['id'];
+			$_SESSION['user']['email'] = $user['mail'];
+			$_SESSION['userloggedin'] = 1;
+
+			header('Location: index.php?' . ($doaction ? $doaction : ''));
+		}
+		else
+		{
+			throw new Exception('Une erreur est survenue, veuillez recommencer. Si le problème persiste, veuillez contacter l\'équipe.');
+		}
 	}
 	else
 	{
-		throw new Exception('Une erreur est survenue, veuillez recommencer. Si le problème persiste, veuillez contacter l\'équipe.');
+		throw new Exception('Une erreur inconnue est survenue. Veuillez recommencer.');
 	}
 }
 
@@ -229,11 +252,16 @@ function doLogout()
 		header('Location: index.php');
 	}
 
+	// If the customer have access to admin, don't logs out.
+	$session = $_SESSION['employee'];
+
 	// Kill the whole session
 	session_destroy();
 
 	// Create a new session to store the value for the notification
 	session_start();
+
+	$_SESSION['employee'] = $session;
 	$_SESSION['userloggedout'] = 1;
 
 	header('Location: index.php');
@@ -295,10 +323,11 @@ function editProfile()
  * @param string $zipcode Zip code of the customer.
  * @param string $telephone Telephone of the customer.
  * @param string $country Country of the customer.
+ * @param string $token CSRF token.
  *
  * @return void
  */
-function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipcode, $telephone, $country)
+function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipcode, $telephone, $country, $token)
 {
 	if (!$_SESSION['user']['loggedin'])
 	{
@@ -315,6 +344,7 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 	$zipcode = intval($zipcode);
 	$telephone = trim(strval($telephone));
 	$country = trim(strval($country));
+	$token = trim(strval($token));
 
 	// Validate first name
 	$validmessage = Utils::datavalidation($firstname, 'firstname', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
@@ -380,30 +410,41 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 		throw new Exception($validmessage);
 	}
 
-	// No error - proceed to save data
-	global $config;
+	// Verify CSRF attempt is valid
+	$antiCSRF = new SecurityService();
+	$csrfResponse = $antiCSRF->validate();
 
-	$customers = new ModelCustomer($config);
-
-	$customers->set_id($id);
-	$customers->set_firstname($firstname);
-	$customers->set_lastname($lastname);
-	$customers->set_email($email);
-	$customers->set_address($address);
-	$customers->set_city($city);
-	$customers->set_zipcode($zipcode);
-	$customers->set_telephone($telephone);
-	$customers->set_country($country);
-
-	// Save
-	if ($customers->saveCustomerData())
+	if (!empty($csrfResponse))
 	{
-		$_SESSION['profile']['edit'] = 1;
-		header('Location: index.php?do=editprofile');
+		// No error - proceed to save data
+		global $config;
+
+		$customers = new ModelCustomer($config);
+
+		$customers->set_id($id);
+		$customers->set_firstname($firstname);
+		$customers->set_lastname($lastname);
+		$customers->set_email($email);
+		$customers->set_address($address);
+		$customers->set_city($city);
+		$customers->set_zipcode($zipcode);
+		$customers->set_telephone($telephone);
+		$customers->set_country($country);
+
+		// Save
+		if ($customers->saveCustomerData())
+		{
+			$_SESSION['profile']['edit'] = 1;
+			header('Location: index.php?do=editprofile');
+		}
+		else
+		{
+			throw new Exception('La mise à jour de vos données ne s\'est pas effectué, veuillez recommencer. Si le problème persiste, veuillez contacter l\'équipe.');
+		}
 	}
 	else
 	{
-		throw new Exception('La mise à jour de vos données ne s\'est pas effectué, veuillez recommencer. Si le problème persiste, veuillez contacter l\'équipe.');
+		throw new Exception('Une erreur inconnue est survenue. Veuillez recommencer.');
 	}
 }
 
@@ -470,17 +511,19 @@ function editPassword($email = '', $token = '')
  * @param integer $id ID of the customer.
  * @param string $newpassword New password of the customer.
  * @param string $confirmpassword New password confirmation of the customer.
+ * @param string $token2 CSRF token.
  * @param string $password Current password of the customer. Empty if from the forgot password email.
  * @param string $token Token of the customer if filled. Necessary on forgot password.
  *
  * @return void
  */
-function savePassword($id, $newpassword, $confirmpassword, $password = '', $token = '')
+function savePassword($id, $newpassword, $confirmpassword, $token2, $password = '', $token = '')
 {
 	$id = intval($id);
-	$password = trim(strval($password));
 	$newpassword = trim(strval($newpassword));
 	$confirmpassword = trim(strval($confirmpassword));
+	$token2 = trim(strval($token2));
+	$password = trim(strval($password));
 	$token = trim(strval($token));
 
 	if (!$token)
@@ -510,53 +553,64 @@ function savePassword($id, $newpassword, $confirmpassword, $password = '', $toke
 		throw new Exception($validmessage);
 	}
 
-	global $config;
+	// Verify CSRF attempt is valid
+	$antiCSRF = new SecurityService();
+	$csrfResponse = $antiCSRF->validate();
 
-	$customers = new ModelCustomer($config);
-	$customers->set_id(intval($id));
-	$customer = $customers->getCustomerInfosFromId();
-
-	// Change password with the original password
-	if ($checkpassword)
+	if (!empty($csrfResponse))
 	{
-		if ($newpassword === $confirmpassword)
+		global $config;
+
+		$customers = new ModelCustomer($config);
+		$customers->set_id(intval($id));
+		$customer = $customers->getCustomerInfosFromId();
+
+		// Change password with the original password
+		if ($checkpassword)
 		{
-			if (!password_verify($newpassword, $customer['pass']))
+			if ($newpassword === $confirmpassword)
 			{
-				// All checks are OK - save the hashed password into the database
-				$hashedpassword = password_hash($newpassword, PASSWORD_DEFAULT);
-				$customers->set_password($hashedpassword);
-
-				if ($customers->saveNewPassword())
+				if (!password_verify($newpassword, $customer['pass']))
 				{
-					// Delete the token
-					if ($token)
-					{
-						$customers->set_token($token);
-						$customers->deleteCustomerToken();
-					}
+					// All checks are OK - save the hashed password into the database
+					$hashedpassword = password_hash($newpassword, PASSWORD_DEFAULT);
+					$customers->set_password($hashedpassword);
 
-					$_SESSION['password']['edit'] = 1;
-					header('Location: index.php?do=editpassword');
+					if ($customers->saveNewPassword())
+					{
+						// Delete the token
+						if ($token)
+						{
+							$customers->set_token($token);
+							$customers->deleteCustomerToken();
+						}
+
+						$_SESSION['password']['edit'] = 1;
+						header('Location: index.php?do=editpassword');
+					}
+					else
+					{
+						throw new Exception('La modification du mot de passe a échoué. Veuillez recommencer. Si le problème persiste, veuillez contacter l\'éqauipe.');
+					}
 				}
 				else
 				{
-					throw new Exception('La modification du mot de passe a échoué. Veuillez recommencer. Si le problème persiste, veuillez contacter l\'éqauipe.');
+					throw new Exception('Le nouveau mot de passe ne peut pas être l\'ancien mot de passe. Veuillez recommencer.');
 				}
 			}
 			else
 			{
-				throw new Exception('Le nouveau mot de passe ne peut pas être l\'ancien mot de passe. Veuillez recommencer.');
+				throw new Exception('Le nouveau mot de passe ne conrrespond pas à la confirmation du nouveau mot de passe. Veuillez recommencer.');
 			}
 		}
 		else
 		{
-			throw new Exception('Le nouveau mot de passe ne conrrespond pas à la confirmation du nouveau mot de passe. Veuillez recommencer.');
+			throw new Exception('Le mot de passe actuel ne correpond pas. Veuillez recommencer.');
 		}
 	}
 	else
 	{
-		throw new Exception('Le mot de passe actuel ne correpond pas. Veuillez recommencer.');
+		throw new Exception('Une erreur inconnue est survenue. Veuillez recommencer.');
 	}
 }
 
@@ -589,7 +643,7 @@ function forgotPassword()
  *
  * @return void
  */
-function sendPassword($email)
+function sendPassword($email, $token)
 {
 	if ($_SESSION['user']['loggedin'])
 	{
@@ -601,36 +655,47 @@ function sendPassword($email)
 
 	$email = trim(strval($email));
 
-	$customers = new ModelCustomer($config);
-	$customers->set_email($email);
-	$customer = $customers->getCustomerInfosFromEmail();
+	// Verify CSRF attempt is valid
+	$antiCSRF = new SecurityService();
+	$csrfResponse = $antiCSRF->validate();
 
-	// Check if the email address is valid
-	if ($customer)
+	if (!empty($csrfResponse))
 	{
-		// User found, generate a token
-		// Define the length to 50 as the final token will have the defined length x 2
-		$token = bin2hex(random_bytes(50));
-		$customers->set_token($token);
-		$customers->set_id($customer['id']);
+		$customers = new ModelCustomer($config);
+		$customers->set_email($email);
+		$customer = $customers->getCustomerInfosFromEmail();
 
-		if ($customers->saveCustomerToken())
+		// Check if the email address is valid
+		if ($customer)
 		{
-			// Send the generate password link to send to the customer
-			$message = 'Bonjour,
+			// User found, generate a token
+			// Define the length to 50 as the final token will have the defined length x 2
+			$token = bin2hex(random_bytes(50));
+			$customers->set_token($token);
+			$customers->set_id($customer['id']);
+
+			if ($customers->saveCustomerToken())
+			{
+				// Send the generate password link to send to the customer
+				$message = 'Bonjour,
 
 Voici le lien pour modifier votre mot de passe oublié :
 
 https://' . $_SERVER['HTTP_HOST'] . $_SERVER['DOCUMENT_URI'] . '?do=editpassword&t=' . $token . '&email=' . $email;
 
-			$headers = 'From: admin@yrg.ovh' . "\r\n" . 'Reply-To: admin@yrg.ovh' . "\r\n" . 'X-Mailer: PHP/' . phpversion();
+				$headers = 'From: admin@yrg.ovh' . "\r\n" . 'Reply-To: admin@yrg.ovh' . "\r\n" . 'X-Mailer: PHP/' . phpversion();
 
-			$sentmail = mail($email, 'Oubli de votre mot de passe', $message, $headers);
+				$sentmail = mail($email, 'Oubli de votre mot de passe', $message, $headers);
 
-			if ($sentmail)
+				if ($sentmail)
+				{
+					$_SESSION['password']['forgot'] = 1;
+					header('Location: index.php?do=forgotpassword');
+				}
+			}
+			else
 			{
-				$_SESSION['password']['forgot'] = 1;
-				header('Location: index.php?do=forgotpassword');
+				throw new Exception('Une erreur est survenue pendant la réinitialisation du mot de passe. Veuillez recommencer. Si le problème persiste, veuillez contacter l\'équipe.');
 			}
 		}
 		else
@@ -640,7 +705,7 @@ https://' . $_SERVER['HTTP_HOST'] . $_SERVER['DOCUMENT_URI'] . '?do=editpassword
 	}
 	else
 	{
-		throw new Exception('Une erreur est survenue pendant la réinitialisation du mot de passe. Veuillez recommencer. Si le problème persiste, veuillez contacter l\'équipe.');
+		throw new Exception('Une erreur inconnue est survenue. Veuillez recommencer.');
 	}
 }
 
@@ -675,7 +740,7 @@ function deleteProfile()
  *
  * @return void
  */
-function doDeleteProfile($id, $deletion)
+function doDeleteProfile($id, $deletion, $token)
 {
 	if (!$_SESSION['user']['loggedin'])
 	{
@@ -683,29 +748,40 @@ function doDeleteProfile($id, $deletion)
 		header('Location: index.php');
 	}
 
-	if ($deletion)
+	// Verify CSRF attempt is valid
+	$antiCSRF = new SecurityService();
+	$csrfResponse = $antiCSRF->validate();
+
+	if (!empty($csrfResponse))
 	{
-		// Kill the session - kill also the admin session too
-		session_destroy();
-
-		// Create a new empty session to store the notify.
-		session_start();
-
-		global $config;
-
-		// Delete only the customer account, not the previous orders
-		$customers = new ModelCustomer($config);
-		$customers->set_id($id);
-
-		if ($customers->deleteCustomer())
+		if ($deletion)
 		{
-			$_SESSION['customerremoved'] = 1;
-			header('Location: index.php');
+			// Kill the session - kill also the admin session too
+			session_destroy();
+
+			// Create a new empty session to store the notify.
+			session_start();
+
+			global $config;
+
+			// Delete only the customer account, not the previous orders
+			$customers = new ModelCustomer($config);
+			$customers->set_id($id);
+
+			if ($customers->deleteCustomer())
+			{
+				$_SESSION['customerremoved'] = 1;
+				header('Location: index.php');
+			}
+		}
+		else
+		{
+			throw new Exception('Vous n\'avez pas coché la case de confirmation de suppression de votre compte, veuillez recommencer.');
 		}
 	}
 	else
 	{
-		throw new Exception('Vous n\'avez pas coché la case de confirmation de suppression de votre compte, veuillez recommencer.');
+		throw new Exception('Une erreur inconnue est survenue. Veuillez recommencer.');
 	}
 }
 
@@ -934,7 +1010,7 @@ function viewMessage($id)
  *
  * @return void
  */
-function addReplyToMessage($id, $latestid, $message)
+function addReplyToMessage($id, $latestid, $message, $token)
 {
 	if (!$_SESSION['user']['id'])
 	{
@@ -962,22 +1038,33 @@ function addReplyToMessage($id, $latestid, $message)
 		throw new Exception($validmessage);
 	}
 
-	$date = date("Y-m-d H:i:s");
+	// Verify CSRF attempt is valid
+	$antiCSRF = new SecurityService();
+	$csrfResponse = $antiCSRF->validate();
 
-	// Save the message
-	$messages = new ModelMessage($config);
-	$messages->set_type('contact');
-	$messages->set_title($title);
-	$messages->set_message($message);
-	$messages->set_date($date);
-	$messages->set_previous($latestid);
-	$messages->set_customer($_SESSION['user']['id']);
-	$messages->set_employee(NULL);
-
-	if ($messages->saveNewMessage())
+	if (!empty($csrfResponse))
 	{
-		$_SESSION['user']['sendreply'] = 1;
-		header('Location: index.php?do=viewmessage&id=' . $id);
+		$date = date("Y-m-d H:i:s");
+
+		// Save the message
+		$messages = new ModelMessage($config);
+		$messages->set_type('contact');
+		$messages->set_title($title);
+		$messages->set_message($message);
+		$messages->set_date($date);
+		$messages->set_previous($latestid);
+		$messages->set_customer($_SESSION['user']['id']);
+		$messages->set_employee(NULL);
+
+		if ($messages->saveNewMessage())
+		{
+			$_SESSION['user']['sendreply'] = 1;
+			header('Location: index.php?do=viewmessage&id=' . $id);
+		}
+	}
+	else
+	{
+		throw new Exception('Une erreur inconnue est survenue. Veuillez recommencer.');
 	}
 }
 
@@ -1022,40 +1109,46 @@ function viewClaimOrder($id)
 /**
  *
  */
-function doClaim($id, $reason)
+function doClaim($id, $reason, $token)
 {
 	if (!$_SESSION['user']['loggedin'])
 	{
 		$_SESSION['nonallowed'] = 1;
 		header('Location: index.php');
 	}
-// Utils::printr($reason);
+
 	$id = intval($id);
 
 	global $config;
 
-	$orders = [];
+	// Verify CSRF attempt is valid
+	$antiCSRF = new SecurityService();
+	$csrfResponse = $antiCSRF->validate();
 
-	// Get order details
-	$orderlist = new ModelOrderDetails($config);
-
-	foreach ($reason AS $key => $value)
+	if (!empty($csrfResponse))
 	{
-		$orderlist->set_order($id);
-		$orderlist->set_product($key);
-		$orders[$value] = $orderlist->getOrderDetail();
-	}
-// Utils::printr($orders, true);
-	// Create a new conversation with type 'claim'
-	$customer = new ModelCustomer($config);
-	$customer->set_id($_SESSION['user']['id']);
-	$customerinfos = $customer->getCustomerInfosFromId();
+		$orders = [];
 
-	$date = date("Y-m-d H:i:s");
+		// Get order details
+		$orderlist = new ModelOrderDetails($config);
 
-	$title = 'Réclamation sur la commande #' . $id;
+		foreach ($reason AS $key => $value)
+		{
+			$orderlist->set_order($id);
+			$orderlist->set_product($key);
+			$orders[$value] = $orderlist->getOrderDetail();
+		}
 
-	$message = 'Bonjour,
+		// Create a new conversation with type 'claim'
+		$customer = new ModelCustomer($config);
+		$customer->set_id($_SESSION['user']['id']);
+		$customerinfos = $customer->getCustomerInfosFromId();
+
+		$date = date("Y-m-d H:i:s");
+
+		$title = 'Réclamation sur la commande #' . $id;
+
+		$message = 'Bonjour,
 
 Une réclamation vient d\'être effectuée par ' . $customerinfos['prenom'] . ' ' . $customerinfos['nom'] . '.
 
@@ -1063,128 +1156,133 @@ Voici les articles en réclamation :
 
 ';
 
-	foreach ($orders AS $claimid => $productinfos)
-	{
-		switch($claimid)
+		foreach ($orders AS $claimid => $productinfos)
 		{
-			case 1:
-				$message .= 'Produit : ' . $productinfos['nom'] . '
+			switch($claimid)
+			{
+				case 1:
+					$message .= 'Produit : ' . $productinfos['nom'] . '
 Prix d\'achat : ' . $productinfos['prix'] . '
 Objet de la réclamation : Produit incompatible ou inutile
 
 ';
-				break;
-			case 2:
-				$message .= 'Produit : ' . $productinfos['nom'] . '
+					break;
+				case 2:
+					$message .= 'Produit : ' . $productinfos['nom'] . '
 Prix d\'achat : ' . $productinfos['prix'] . '
 Objet de la réclamation : Produit endommagé mais emballage intact
 
 ';
-				break;
-			case 3:
-				$message .= 'Produit : ' . $productinfos['nom'] . '
+					break;
+				case 3:
+					$message .= 'Produit : ' . $productinfos['nom'] . '
 Prix d\'achat : ' . $productinfos['prix'] . '
 Objet de la réclamation : Achat effectué par erreur
 
 ';
-				break;
-			case 4:
-				$message .= 'Produit : ' . $productinfos['nom'] . '
+					break;
+				case 4:
+					$message .= 'Produit : ' . $productinfos['nom'] . '
 Prix d\'achat : ' . $productinfos['prix'] . '
 Objet de la réclamation : Achat non autorisé
 
 ';
-				break;
-			case 5:
-				$message .= 'Produit : ' . $productinfos['nom'] . '
+					break;
+				case 5:
+					$message .= 'Produit : ' . $productinfos['nom'] . '
 Prix d\'achat : ' . $productinfos['prix'] . '
 Objet de la réclamation : Produit et boîte d\'expédition endommagés
 
 ';
-				break;
-			case 6:
-				$message .= 'Produit : ' . $productinfos['nom'] . '
+					break;
+				case 6:
+					$message .= 'Produit : ' . $productinfos['nom'] . '
 Prix d\'achat : ' . $productinfos['prix'] . '
 Objet de la réclamation : Meilleur prix trouvé ailleurs
 
 ';
-				break;
-			case 7:
-				$message .= 'Produit : ' . $productinfos['nom'] . '
+					break;
+				case 7:
+					$message .= 'Produit : ' . $productinfos['nom'] . '
 Prix d\'achat : ' . $productinfos['prix'] . '
 Objet de la réclamation : Pièces ou accessoires manquants
 
 ';
-				break;
-			case 8:
-				$message .= 'Produit : ' . $productinfos['nom'] . '
+					break;
+				case 8:
+					$message .= 'Produit : ' . $productinfos['nom'] . '
 Prix d\'achat : ' . $productinfos['prix'] . '
 Objet de la réclamation : Date de livraison estimée manquée
 
 ';
-				break;
-			case 9:
-				$message .= 'Produit : ' . $productinfos['nom'] . '
+					break;
+				case 9:
+					$message .= 'Produit : ' . $productinfos['nom'] . '
 Prix d\'achat : ' . $productinfos['prix'] . '
 Objet de la réclamation : Le produit reçu n\'est pas le bon
 
 ';
-				break;
-			case 10:
-				$message .= 'Produit : ' . $productinfos['nom'] . '
+					break;
+				case 10:
+					$message .= 'Produit : ' . $productinfos['nom'] . '
 Prix d\'achat : ' . $productinfos['prix'] . '
 Objet de la réclamation : Description erronée sur le site
 
 ';
-				break;
-			case 11:
-				$message .= 'Produit : ' . $productinfos['nom'] . '
+					break;
+				case 11:
+					$message .= 'Produit : ' . $productinfos['nom'] . '
 Prix d\'achat : ' . $productinfos['prix'] . '
 Objet de la réclamation : Plus besoin du produit
 
 ';
-				break;
-			case 12:
-				$message .= 'Produit : ' . $productinfos['nom'] . '
+					break;
+				case 12:
+					$message .= 'Produit : ' . $productinfos['nom'] . '
 Prix d\'achat : ' . $productinfos['prix'] . '
 Objet de la réclamation : Arrivée en plus de ce qui a été commandé
 
 ';
-				break;
-			case 13:
-				$message .= 'Produit : ' . $productinfos['nom'] . '
+					break;
+				case 13:
+					$message .= 'Produit : ' . $productinfos['nom'] . '
 Prix d\'achat : ' . $productinfos['prix'] . '
 Objet de la réclamation : Le produit est défectueux ou ne fonctionne pas
 
 ';
-				break;
-			case 14:
-				$message .= 'Produit : ' . $productinfos['nom'] . '
+					break;
+				case 14:
+					$message .= 'Produit : ' . $productinfos['nom'] . '
 Prix d\'achat : ' . $productinfos['prix'] . '
 Objet de la réclamation : Performances ou qualité non adéquates
 
 ';
-				break;
+					break;
+			}
 		}
-	}
 
-	$message .= 'Cordialement,
+		$message .= 'Cordialement,
 
 L\'équipe.';
 
-	$messages = new ModelMessage($config);
-	$messages->set_type('reclam');
-	$messages->set_title($title);
-	$messages->set_message(nl2br($message));
-	$messages->set_date($date);
-	$messages->set_previous(NULL);
-	$messages->set_customer($_SESSION['user']['id']);
-	$messages->set_employee(NULL);
-	$messageid = $messages->saveNewMessage();
+		$messages = new ModelMessage($config);
+		$messages->set_type('reclam');
+		$messages->set_title($title);
+		$messages->set_message(nl2br($message));
+		$messages->set_date($date);
+		$messages->set_previous(NULL);
+		$messages->set_customer($_SESSION['user']['id']);
+		$messages->set_employee(NULL);
+		$messageid = $messages->saveNewMessage();
 
-	if ($messageid)
+		if ($messageid)
+		{
+			ViewCustomer::ApplyClaimOrder($id, $messageid);
+		}
+	}
+	else
 	{
-		ViewCustomer::ApplyClaimOrder($id, $messageid);
+		throw new Exception('Une erreur inconnue est survenue. Veuillez recommencer.');
 	}
 }
 

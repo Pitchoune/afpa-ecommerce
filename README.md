@@ -66,3 +66,7 @@ https://www.codingnepalweb.com/price-range-slider-html-css-javascript/
 ### DOMPDF template
 
 https://gist.github.com/alfredoem/c7a6fbcba33c57948132
+
+### CSRF protection
+
+https://github.com/EssyG10/csrf-protection/tree/main/csrf-protection-using-php

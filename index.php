@@ -7,6 +7,7 @@ session_start();
 error_reporting(E_ALL & ~E_NOTICE);
 
 use \Ecommerce\Model\ModelCustomer;
+use \Ecommerce\SecurityService\SecurityService;
 
 // Sanitize do= values, others required per page are sanitized when necessary
 $do = isset($_REQUEST['do']) ? filter_var($_REQUEST['do'], FILTER_SANITIZE_STRING) : NULL;
@@ -35,6 +36,11 @@ if (isset($_SESSION['user']['id']))
 	$customer = $customers->getCustomerInfosFromId();
 }
 
+// CSRF init
+require_once(DIR . '/controller/securityservice.php');
+$antiCSRF = new SecurityService();
+
+
 // We define which action does and will search in the controller the called function
 try
 {
@@ -55,7 +61,8 @@ try
 			$email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) : NULL;
 			$password = isset($_POST['password']) ? filter_var($_POST['password'], FILTER_SANITIZE_STRING) : NULL;
 			$passwordconfirm = isset($_POST['passwordconfirm']) ? filter_var($_POST['passwordconfirm'], FILTER_SANITIZE_STRING) : NULL;
-			doRegister($firstname, $lastname, $email, $password, $passwordconfirm);
+			$token = isset($_POST['eg-csrf-token-label']) ? filter_var($_POST['eg-csrf-token-label'], FILTER_SANITIZE_STRING) : NULL;
+			doRegister($firstname, $lastname, $email, $password, $passwordconfirm, $token);
 			break;
 		case 'login':
 			login();
@@ -64,7 +71,8 @@ try
 			$email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) : NULL;
 			$password = isset($_POST['password']) ? filter_var($_POST['password'], FILTER_SANITIZE_STRING) : NULL;
 			$doaction = isset($_POST['doaction']) ? filter_var($_POST['doaction'], FILTER_SANITIZE_STRING) : NULL;
-			doLogin($email, $password, $doaction);
+			$token = isset($_POST['eg-csrf-token-label']) ? filter_var($_POST['eg-csrf-token-label'], FILTER_SANITIZE_STRING) : NULL;
+			doLogin($email, $password, $doaction, $token);
 			break;
 		case 'dashboard':
 			viewDashboard();
@@ -82,7 +90,8 @@ try
 			$zipcode = isset($_POST['zipcode']) ? filter_var($_POST['zipcode'], FILTER_SANITIZE_STRING) : NULL;
 			$telephone = isset($_POST['telephone']) ? filter_var($_POST['telephone'], FILTER_SANITIZE_STRING) : NULL;
 			$country = isset($_POST['country']) ? filter_var($_POST['country'], FILTER_SANITIZE_STRING) : NULL;
-			saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipcode, $telephone, $country);
+			$token = isset($_POST['eg-csrf-token-label']) ? filter_var($_POST['eg-csrf-token-label'], FILTER_SANITIZE_STRING) : NULL;
+			saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipcode, $telephone, $country, $token);
 			break;
 		case 'editpassword':
 			$email = isset($_GET['email']) ? filter_var($_GET['email'], FILTER_VALIDATE_EMAIL) : NULL;
@@ -91,18 +100,20 @@ try
 			break;
 		case 'savepassword':
 			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
-			$newpassword = isset($_POST['newpassword']) ? filter_var($_POST['newpassword'], FILTER_SANITIZE_STRING) : NULL;
-			$confirmpassword = isset($_POST['confirmpassword']) ? filter_var($_POST['confirmpassword'], FILTER_SANITIZE_STRING) : NULL;
 			$password = isset($_POST['password']) ? filter_var($_POST['password'], FILTER_SANITIZE_STRING) : NULL;
+			$newpassword = isset($_POST['newpassword']) ? filter_var($_POST['newpassword'], FILTER_SANITIZE_STRING) : NULL;
+			$token2 = isset($_POST['eg-csrf-token-label']) ? filter_var($_POST['eg-csrf-token-label'], FILTER_SANITIZE_STRING) : NULL;
+			$confirmpassword = isset($_POST['confirmpassword']) ? filter_var($_POST['confirmpassword'], FILTER_SANITIZE_STRING) : NULL;
 			$token = isset($_POST['token']) ? filter_var($_POST['token'], FILTER_SANITIZE_STRING) : NULL;
-			savePassword($id, $password, $newpassword, $confirmpassword, $token);
+			savePassword($id, $password, $newpassword, $token2, $confirmpassword, $token);
 			break;
 		case 'forgotpassword':
 			forgotPassword();
 			break;
 		case 'sendpassword':
 			$email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_VALIDATE_EMAIL) : NULL;
-			sendPassword($email);
+			$token = isset($_POST['eg-csrf-token-label']) ? filter_var($_POST['eg-csrf-token-label'], FILTER_SANITIZE_STRING) : NULL;
+			sendPassword($email, $token);
 			break;
 		case 'deleteprofile':
 			deleteProfile();
@@ -110,7 +121,8 @@ try
 		case 'dodeleteprofile':
 			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
 			$deletion = $_POST['deleteprofile'];
-			doDeleteProfile($id, $deletion);
+			$token = isset($_POST['eg-csrf-token-label']) ? filter_var($_POST['eg-csrf-token-label'], FILTER_SANITIZE_STRING) : NULL;
+			doDeleteProfile($id, $deletion, $token);
 			break;
 		case 'vieworders':
 			viewOrders();
@@ -130,7 +142,8 @@ try
 			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
 			$latestid = isset($_POST['latestid']) ? filter_var($_POST['latestid'], FILTER_VALIDATE_INT) : NULL;
 			$message = isset($_POST['message']) ? $_POST['message'] : NULL; // No need to clean it, there is a better validator later
-			addReplyToMessage($id, $latestid, $message);
+			$token = isset($_POST['eg-csrf-token-label']) ? filter_var($_POST['eg-csrf-token-label'], FILTER_SANITIZE_STRING) : NULL;
+			addReplyToMessage($id, $latestid, $message, $token);
 			break;
 		case 'claim':
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
@@ -139,7 +152,8 @@ try
 		case 'doclaim':
 			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
 			$reason = isset($_POST['reason']) ? filter_var_array($_POST['reason'], FILTER_VALIDATE_INT) : NULL;
-			doClaim($id, $reason);
+			$token = isset($_POST['eg-csrf-token-label']) ? filter_var($_POST['eg-csrf-token-label'], FILTER_SANITIZE_STRING) : NULL;
+			doClaim($id, $reason, $token);
 			break;
 		case 'exportpdf':
 			$id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : NULL;
@@ -187,7 +201,8 @@ try
 			$delivermode = isset($_POST['delivermode']) ? filter_var($_POST['delivermode'], FILTER_VALIDATE_INT) : NULL;
 			$token = isset($_POST['stripeToken']) ? filter_var($_POST['stripeToken'], FILTER_SANITIZE_STRING) : NULL;
 			$item = isset($_POST['item']) ? $_POST['item'] : NULL;
-			paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $item);
+			$token2 = isset($_POST['eg-csrf-token-label']) ? filter_var($_POST['eg-csrf-token-label'], FILTER_SANITIZE_STRING) : NULL;
+			paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $item, $token2);
 			break;
 		case 'paymentsuccess':
 			paymentSuccess();
@@ -206,8 +221,8 @@ try
 			$telephone = isset($_POST['telephone']) ? filter_var($_POST['telephone'], FILTER_SANITIZE_STRING) : NULL;
 			$title = isset($_POST['title']) ? filter_var($_POST['title'], FILTER_SANITIZE_STRING) : NULL;
 			$message = isset($_POST['message']) ? $_POST['message'] : NULL; // No need to clean it, there is a better validator later
-			$id = isset($_POST['id']) ? filter_var($_POST['id'], FILTER_VALIDATE_INT) : NULL;
-			sendContact($firstname, $lastname, $email, $telephone, $title, $message, $id);
+			$token = isset($_POST['eg-csrf-token-label']) ? filter_var($_POST['eg-csrf-token-label'], FILTER_SANITIZE_STRING) : NULL;
+			sendContact($firstname, $lastname, $email, $telephone, $title, $message, $token);
 			break;
 		// Search
 		case 'advancedsearch':

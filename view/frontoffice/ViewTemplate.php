@@ -353,7 +353,7 @@ class ViewTemplate
 	 */
 	public static function FrontFooter()
 	{
-		global $do;
+		global $do, $antiCSRF;
 		?>
 		<!-- footer -->
 		<footer>
@@ -492,6 +492,7 @@ class ViewTemplate
 					</div>
 					<div class="form-group">
 						<input type="hidden" name="doaction" value="<?= $_SERVER['QUERY_STRING'] ?>" />
+						<?= $antiCSRF->insertHiddenToken() ?>
 						<input type="submit" class="btn btn-solid btn-md btn-block" value="S'identifier" />
 					</div>
 					<div class="accout-fwd">

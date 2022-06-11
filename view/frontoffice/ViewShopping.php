@@ -266,7 +266,7 @@ class ViewShopping
 	{
 		if ($_SESSION['user']['id'])
 		{
-			global $config;
+			global $config, $antiCSRF;
 
 			$pagetitle = 'Paiement';
 
@@ -340,6 +340,7 @@ class ViewShopping
 													<input type="hidden" name="price" value="<?= $price ?>" />
 													<input type="hidden" name="deliver" value="<?= $deliver ?>" />
 													<input type="hidden" name="delivermode" value="<?= $delivermode ?>" />
+													<?= $antiCSRF->insertHiddenToken() ?>
 													<input type="submit" class="btn btn-normal sendbutton" value="Payer" />
 												</div>
 											</form>

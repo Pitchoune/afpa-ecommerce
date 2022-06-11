@@ -19,6 +19,8 @@ class ViewContact
 	 */
 	public static function DisplayContactForm($customer = '')
 	{
+		global $antiCSRF;
+
 		$pagetitle = 'Contact';
 
 		?>
@@ -86,6 +88,7 @@ class ViewContact
 										</div>
 										<div class="col-md-12">
 											<input type="hidden" name="do" value="sendcontact" />
+											<?= $antiCSRF->insertHiddenToken() ?>
 											<button class="btn btn-normal" type="submit" id="validation">Envoyer votre message</button>
 										</div>
 									</div>
@@ -104,7 +107,7 @@ class ViewContact
 					unset($_SESSION['userloggedin']);
 				}
 
-				ViewTemplate::FrontFormValidation('validation', 2, 1);
+				ViewTemplate::FrontFormValidation('validation', 3, 1);
 				?>
 			</body>
 		</html>

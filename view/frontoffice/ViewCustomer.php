@@ -23,6 +23,8 @@ class ViewCustomer
 	 */
 	public static function RegisterForm()
 	{
+		global $antiCSRF;
+
 		$pagetitle = 'Inscription';
 
 		?>
@@ -80,7 +82,10 @@ class ViewCustomer
 												<label for="passwordconfirm">Confirmation du mot de passe</label>
 												<input type="password" class="form-control" id="passwordconfirm" name="passwordconfirm" placeholder="Confirmez le mot de passe" />
 											</div>
-											<div class="col-md-12 form-group"><input type="submit" id="validation" class="btn btn-normal" value="S'inscrire" /></div>
+											<div class="col-md-12 form-group">
+												<?= $antiCSRF->insertHiddenToken() ?>
+												<input type="submit" id="validation" class="btn btn-normal" value="S'inscrire" />
+											</div>
 										</div>
 										<div class="row g-3">
 											<div class="col-md-12 ">
@@ -111,6 +116,8 @@ class ViewCustomer
 	 */
 	public static function LoginForm()
 	{
+		global $antiCSRF;
+
 		$pagetitle = 'S\'identifier';
 
 		?>
@@ -145,6 +152,7 @@ class ViewCustomer
 											<input type="password" class="form-control" id="password" name="password" aria-describedby="password" data-message="Le format du mot de passe n'est pas valide." placeholder="Insérez votre mot de passe" autocomplete="on">
 											<small id="password" class="form-text text-muted"></small>
 										</div>
+										<?= $antiCSRF->insertHiddenToken() ?>
 										<input type="submit" class="btn btn-normal" id="validation" value="S'identifier" />
 										<a class="float-end txt-default mt-2" href="index.php?do=forgotpassword">Oubli de votre mot de passe ?</a>
 									</form>
@@ -291,6 +299,8 @@ class ViewCustomer
 	 */
 	public static function CustomerProfile($data)
 	{
+		global $antiCSRF;
+
 		$pagetitle = 'Modifier mon profil';
 
 		?>
@@ -384,6 +394,7 @@ class ViewCustomer
 												</div>
 												<div class="col-md-12">
 													<input type="hidden" name="id" value="<?= $data['id'] ?>" />
+													<?= $antiCSRF->insertHiddenToken() ?>
 													<button class="btn btn-sm btn-normal" type="submit" id="validation">Enregistrer les modifications</button>
 													<button class="btn btn-sm btn-danger" type="reset">Réinitialiser</button>
 												</div>
@@ -404,7 +415,7 @@ class ViewCustomer
 						unset($_SESSION['profile']['edit']);
 					}
 
-					ViewTemplate::FrontFormValidation('validation', 3, 1);
+					ViewTemplate::FrontFormValidation('validation', 4, 1);
 					?>
 				</body>
 			</html>
@@ -421,6 +432,8 @@ class ViewCustomer
 	 */
 	public static function CustomerPassword($data, $token = '')
 	{
+		global $antiCSRF;
+
 		$pagetitle = 'Modifier mon mot de passe';
 		?>
 			<!DOCTYPE html>
@@ -473,8 +486,9 @@ class ViewCustomer
 													</div>
 												</div>
 												<div class="col-md-12">
-													<input type="hidden" name="id" value="<?= $data['id'] ?>" />
 													<?= ($token ? '<input type="hidden" name="token" value="' . $token['token'] . '" />' : '') ?>
+													<input type="hidden" name="id" value="<?= $data['id'] ?>" />
+													<?= $antiCSRF->insertHiddenToken() ?>
 													<button class="btn btn-sm btn-normal" id="validation" type="submit">Enregistrer les modifications</button>
 													<button class="btn btn-sm btn-danger" type="reset">Réinitialiser</button>
 												</div>
@@ -495,7 +509,7 @@ class ViewCustomer
 						unset($_SESSION['password']['edit']);
 					}
 
-					ViewTemplate::FrontFormValidation('validation', $token ? 4 : 3, 1);
+					ViewTemplate::FrontFormValidation('validation', $token ? 5 : 4, 1);
 					?>
 				</body>
 			</html>
@@ -511,6 +525,8 @@ class ViewCustomer
 	 */
 	public static function CustomerForgotPassword($data)
 	{
+		global $antiCSRF;
+
 		$pagetitle = 'Mot de passe oublié';
 
 		?>
@@ -545,6 +561,7 @@ class ViewCustomer
 												  <small id="emailHelp" class="form-text text-muted"></small>
 											  </div>
 											  <div class="form-group mb-0">
+												  <?= $antiCSRF->insertHiddenToken() ?>
 												<button class="btn btn-normal" id="validation" type="submit">Envoyer</button>
 											  </div>
 											</div>
@@ -566,7 +583,7 @@ class ViewCustomer
 						unset($_SESSION['password']['forgot']);
 					}
 
-					ViewTemplate::FrontFormValidation('validation', 1, 1);
+					ViewTemplate::FrontFormValidation('validation', 2, 1);
 					?>
 				</body>
 			</html>
@@ -582,6 +599,8 @@ class ViewCustomer
 	 */
 	public static function CustomerDeleteProfile($data)
 	{
+		global $antiCSRF;
+
 		$pagetitle = 'Suppression de compte';
 
 		?>
@@ -616,6 +635,7 @@ class ViewCustomer
 											</div>
 											<div class="col-md-12">
 												<input type="hidden" name="id" value="<?= $data['id'] ?>" />
+												<?= $antiCSRF->insertHiddenToken() ?>
 												<button class="btn btn-normal" type="submit">Supprimer mon compte</button>
 											</div>
 										</div>
@@ -996,7 +1016,7 @@ class ViewCustomer
 	 */
 	public static function ViewMessage($id, $messages, $title, $customerinfos, $latestid, $employee)
 	{
-		global $config;
+		global $config, $antiCSRF;
 
 		$pagetitle = 'Conversation';
 		?>
@@ -1165,6 +1185,7 @@ class ViewCustomer
 												<input type="hidden" name="do" value="sendreply" />
 												<input type="hidden" name="id" value="<?= $id ?>" />
 												<input type="hidden" name="latestid" value="<?= $latestid ?>" />
+												<?= $antiCSRF->insertHiddenToken() ?>
 												<button class="btn btn-normal" type="submit" id="validation">Envoyer votre message</button>
 											</div>
 										</div>
@@ -1183,7 +1204,7 @@ class ViewCustomer
 						unset($_SESSION['user']['sendreply']);
 					}
 
-					ViewTemplate::FrontFormValidation('validation', 4, 1);
+					ViewTemplate::FrontFormValidation('validation', 5, 1);
 					?>
 				</body>
 			</html>
@@ -1195,7 +1216,7 @@ class ViewCustomer
 	 */
 	public static function ViewClaimOrder($id, $orderdetail)
 	{
-		global $config;
+		global $config, $antiCSRF;
 
 		$pagetitle = 'Réclamation sur la commande « #' . $id . ' »';
 		?>
@@ -1297,6 +1318,7 @@ class ViewCustomer
 																		<div class="buttons">
 																			<input type="hidden" name="do" value="doclaim" />
 																			<input type="hidden" name="id" value="<?= $id ?>" />
+																			<?= $antiCSRF->insertHiddenToken() ?>
 																			<input type="submit" value="Envoyer la réclamation" class="btn btn-normal btn-sm btn-block" />
 																		</div>
 																	</li>

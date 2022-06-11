@@ -36,6 +36,7 @@ function AdvancedSearch()
 function SearchResults($product, $perpage, $sortby, $description = '', $reference = '', $category = '', $pricemin = '', $pricemax = '', $trademark = '')
 {
     $product = trim(strval($product));
+    $description = trim(strval($description));
     $reference = trim(strval($reference));
     $category = intval($category);
     $pricemin = intval($pricemin);
@@ -43,6 +44,14 @@ function SearchResults($product, $perpage, $sortby, $description = '', $referenc
 
     // Validate product
     $validmessage = Utils::datavalidation($product, 'product', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
+
+    if ($validmessage)
+    {
+        throw new Exception($validmessage);
+    }
+
+    // Validate description
+    $validmessage = Utils::datavalidation($description, 'description', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- _ ~ - ! @ # : " \' = . , ; $ % ^ & * ( ) [ ] &lt; &gt;', '', true);
 
     if ($validmessage)
     {

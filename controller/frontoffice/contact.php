@@ -2,10 +2,11 @@
 
 require_once(DIR . '/model/ModelCustomer.php');
 require_once(DIR . '/model/ModelMessage.php');
-
+require_once(DIR . '/controller/securityservice.php');
 require_once(DIR . '/view/frontoffice/ViewContact.php');
 use \Ecommerce\Model\ModelCustomer;
 use \Ecommerce\Model\ModelMessage;
+use \Ecommerce\SecurityService\SecurityService;
 
 /**
  * Displays the contact page.
@@ -35,10 +36,11 @@ function viewContact()
  * @param string $telephone Phone of the contact.
  * @param string $title Title of the message.
  * @param string $message Content of the message.
+ * @param string $token CSRF token.
  *
  * @return void
  */
-function sendContact($firstname, $lastname, $email, $telephone, $title, $message)
+function sendContact($firstname, $lastname, $email, $telephone, $title, $message, $token)
 {
 	global $config;
 
@@ -48,6 +50,7 @@ function sendContact($firstname, $lastname, $email, $telephone, $title, $message
 	$telephone = trim(strval($telephone));
 	$title = trim(strval($title));
 	$message = trim(strval($message));
+	$token = trim(strval($token));
 
 	$message = nl2br($message);
 
@@ -105,22 +108,33 @@ function sendContact($firstname, $lastname, $email, $telephone, $title, $message
 		throw new Exception($validmessage);
 	}
 
-	$date = date("Y-m-d H:i:s");
+	// Verify CSRF attempt is valid
+	$antiCSRF = new SecurityService();
+	$csrfResponse = $antiCSRF->validate();
 
-	// Save the message
-	$messages = new ModelMessage($config);
-	$messages->set_type('contact');
-	$messages->set_title($title);
-	$messages->set_message($message);
-	$messages->set_date($date);
-	$messages->set_previous(NULL);
-	$messages->set_customer($_SESSION['user']['id']);
-	$messages->set_employee(NULL);
-
-	if ($messages->saveNewMessage())
+	if (!empty($csrfResponse))
 	{
-		$_SESSION['user']['contact'] = 1;
-		header('Location: index.php');
+		$date = date("Y-m-d H:i:s");
+
+		// Save the message
+		$messages = new ModelMessage($config);
+		$messages->set_type('contact');
+		$messages->set_title($title);
+		$messages->set_message($message);
+		$messages->set_date($date);
+		$messages->set_previous(NULL);
+		$messages->set_customer($_SESSION['user']['id']);
+		$messages->set_employee(NULL);
+
+		if ($messages->saveNewMessage())
+		{
+			$_SESSION['user']['contact'] = 1;
+			header('Location: index.php');
+		}
+	}
+	else
+	{
+		throw new Exception('Une erreur inconnue est survenue. Veuillez recommencer.');
 	}
 }
 
