@@ -139,7 +139,7 @@ class ViewDashboard
 														?>
 														</tbody>
 													</table>
-													<a href="index.php?do=listorders" class="btn btn-primary">Voir toutes les commandes</a>
+													<?= (Utils::cando(36) ? '<a href="index.php?do=listorders" class="btn btn-primary">Voir toutes les commandes</a>' : '') ?>
 												</div>
 											</div>
 										</div>

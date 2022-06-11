@@ -371,7 +371,7 @@ input {
 .order-timeline {
 	position: relative;
 	overflow: scroll;
-	height: 296px;
+	height: 330px;
 
 	@each $timeline-icon-name, $timeline-icon-color in (success, $success-color),
 		(danger, $danger-color),
@@ -1103,8 +1103,6 @@ header {
 					}
 
 					&:nth-child(2) {
-						border-left: 1px solid $light-semi-gray;
-
 						a {
 							svg {
 								margin-bottom: 10px;
@@ -1177,7 +1175,7 @@ header {
 				right: -10px;
 				left: inherit;
 				width: 150px;
-				top: 63px;
+				top: 65px;
 
 				&:before, &:after {
 					left: inherit;
@@ -1233,7 +1231,7 @@ header {
 							width: 16px;
 							height: 16px;
 							vertical-align: middle;
-							margin-top: 7px;
+							margin-top: -5px;
 						}
 					}
 				}
@@ -1319,7 +1317,7 @@ ul.notification-dropdown.onhover-show-div {
 		}
 
 		h6 {
-			margin: 4px 0 !important;
+			margin: 11px 0 !important;
 
 			small {
 				padding-top: 5px;

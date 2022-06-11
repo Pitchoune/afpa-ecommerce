@@ -4324,7 +4324,7 @@ input:focus {
 .order-timeline {
   position: relative;
   overflow: scroll;
-  height: 296px;
+  height: 330px;
 }
 .order-timeline .timeline-icon-success {
   width: 40px;
@@ -5099,9 +5099,6 @@ header .main-header-right .nav-right > ul > li:first-child .search-form .form-gr
   left: 22px;
   color: #8e8e8e;
 }
-header .main-header-right .nav-right > ul > li:nth-child(2) {
-  border-left: 1px solid #eff0f1;
-}
 header .main-header-right .nav-right > ul > li:nth-child(2) a svg {
   margin-bottom: 10px;
 }
@@ -5157,7 +5154,7 @@ header .main-header-right .nav-right .profile-dropdown {
   right: -10px;
   left: inherit;
   width: 150px;
-  top: 63px;
+  top: 65px;
 }
 header .main-header-right .nav-right .profile-dropdown:before, header .main-header-right .nav-right .profile-dropdown:after {
   left: inherit;
@@ -5201,7 +5198,7 @@ header .main-header-right .nav-right .profile-dropdown li a svg {
   width: 16px;
   height: 16px;
   vertical-align: middle;
-  margin-top: 7px;
+  margin-top: -5px;
 }
 header .main-header-right li {
   display: inline-block;
@@ -5264,7 +5261,7 @@ ul.notification-dropdown.onhover-show-div li .notification-icons svg path, ul.no
   color: #ffffff;
 }
 ul.notification-dropdown.onhover-show-div li h6 {
-  margin: 4px 0 !important;
+  margin: 11px 0 !important;
 }
 ul.notification-dropdown.onhover-show-div li h6 small {
   padding-top: 5px;
