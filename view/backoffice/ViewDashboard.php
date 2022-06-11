@@ -60,14 +60,32 @@ class ViewDashboard
 
 													foreach ($messagelist AS $key => $value)
 													{
+														$svg = '';
+														$class = '';
+
+														switch($value['type'])
+														{
+															case 'contact':
+																$svg = 'message-circle';
+																$class = 'success';
+																break;
+															case 'notif':
+																$svg = 'info';
+																$class = 'info';
+																break;
+															case 'reclam':
+																$svg = 'thumbs-down';
+																$class = 'danger';
+																break;
+														}
 														?>
 														<div class="media">
 															<div class="timeline-line"></div>
-															<div class="timeline-icon-primary">
-																<i data-feather="map-pin"></i>
+															<div class="timeline-icon-<?= $class ?>">
+																<i data-feather="<?= $svg ?>"></i>
 															</div>
 															<div class="media-body">
-																<span class="font-primary"><?= $value['message'] ?></span>
+																<span class="font-<?= $class ?>"><a href="index.php?do=viewconversation&amp;id=<?= $value['id'] ?>"><?= ($value['type'] == 'contact' ? 'Prise de contact : ' : '') ?><?= $value['titre'] ?></a></span>
 															</div>
 														</div>
 														<?php

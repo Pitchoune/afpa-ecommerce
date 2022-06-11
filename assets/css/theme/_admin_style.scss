@@ -370,7 +370,12 @@ input {
 
 .order-timeline {
 	position: relative;
-	@each $timeline-icon-name, $timeline-icon-color in (primary, $primary-color) {
+	overflow: scroll;
+	height: 296px;
+
+	@each $timeline-icon-name, $timeline-icon-color in (success, $success-color),
+		(danger, $danger-color),
+		(info, $info-color) {
 
 		.timeline-icon-#{$timeline-icon-name} {
 			width: 40px;
@@ -1962,6 +1967,38 @@ $label-color:
 			color: white;
 			background-color: darken($btn-color, 10%);
 			border-color: darken($btn-color, 10%);
+		}
+	}
+}
+
+$text-name:
+		primary,
+		secondary,
+		success,
+		danger,
+		info,
+		light,
+		dark,
+		warning;
+$text-color : $primary-color,
+$secondary-color,
+$success-color,
+$danger-color,
+$info-color,
+$light-color,
+$dark-color,
+$warning-color;
+
+@each $var in $text-name {
+	$i: index($text-name, $var);
+
+	.font-#{$var} {
+		color: nth($text-color, $i) !important;
+		display: block;
+		margin-top: 7px;
+
+		a {
+			color: nth($text-color, $i) !important;
 		}
 	}
 }

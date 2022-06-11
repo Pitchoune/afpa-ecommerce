@@ -128,11 +128,11 @@ class ModelMessage extends Model
 	{
 		$db = $this->dbConnect();
 		$query = $db->prepare("
-			SELECT *
+			SELECT id, type, titre
 			FROM message
-			WHERE type = ?
+			WHERE titre IS NOT NULL
+			ORDER BY id DESC
 		");
-		$query->bindParam(1, $this->type, \PDO::PARAM_STR);
 
 		$query->execute();
 		return $query->fetchAll();

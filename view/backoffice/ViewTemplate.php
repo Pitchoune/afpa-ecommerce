@@ -92,12 +92,30 @@ class ViewTemplate
 
 								foreach ($messagelist AS $key => $value)
 								{
+									$svg = '';
+									$class = '';
+
+									switch($value['type'])
+									{
+										case 'contact':
+											$svg = 'message-circle';
+											$class = 'success';
+											break;
+										case 'notif':
+											$svg = 'info';
+											$class = 'info';
+											break;
+										case 'reclam':
+											$svg = 'thumbs-down';
+											$class = 'danger';
+											break;
+									}
 									?>
 									<li>
 										<div class="media">
-											<div class="notification-icons bg-success me-3"><i data-feather="thumbs-up"></i></div>
+											<div class="notification-icons bg-<?= $class ?> me-3"><i data-feather="<?= $svg ?>"></i></div>
 											<div class="media-body">
-												<h6 class="font-success"><?= $value['message'] ?></h6>
+												<h6 class="font-<?= $class ?>"><?= $value['titre'] ?></h6>
 											</div>
 										</div>
 									</li>

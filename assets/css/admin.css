@@ -4323,30 +4323,48 @@ input:focus {
 
 .order-timeline {
   position: relative;
+  overflow: scroll;
+  height: 296px;
 }
-.order-timeline .timeline-icon-primary {
+.order-timeline .timeline-icon-success {
   width: 40px;
   height: 40px;
+  background-color: #0f5132;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 100%;
   z-index: 2;
 }
-.order-timeline .timeline-icon-primary svg {
+.order-timeline .timeline-icon-success svg {
   color: #ffffff;
   width: 18px;
 }
-.order-timeline .timeline-icon-#fb0000 {
+.order-timeline .timeline-icon-danger {
   width: 40px;
   height: 40px;
+  background-color: #9A444B;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 100%;
   z-index: 2;
 }
-.order-timeline .timeline-icon-#fb0000 svg {
+.order-timeline .timeline-icon-danger svg {
+  color: #ffffff;
+  width: 18px;
+}
+.order-timeline .timeline-icon-info {
+  width: 40px;
+  height: 40px;
+  background-color: #00a8ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  z-index: 2;
+}
+.order-timeline .timeline-icon-info svg {
   color: #ffffff;
   width: 18px;
 }
@@ -6223,6 +6241,78 @@ ul.notification-dropdown.onhover-show-div li span svg {
   color: white;
   background-color: #009c9e;
   border-color: #009c9e;
+}
+
+.font-primary {
+  color: #fb0000 !important;
+  display: block;
+  margin-top: 7px;
+}
+.font-primary a {
+  color: #fb0000 !important;
+}
+
+.font-secondary {
+  color: #fb0000 !important;
+  display: block;
+  margin-top: 7px;
+}
+.font-secondary a {
+  color: #fb0000 !important;
+}
+
+.font-success {
+  color: #0f5132 !important;
+  display: block;
+  margin-top: 7px;
+}
+.font-success a {
+  color: #0f5132 !important;
+}
+
+.font-danger {
+  color: #9A444B !important;
+  display: block;
+  margin-top: 7px;
+}
+.font-danger a {
+  color: #9A444B !important;
+}
+
+.font-info {
+  color: #00a8ff !important;
+  display: block;
+  margin-top: 7px;
+}
+.font-info a {
+  color: #00a8ff !important;
+}
+
+.font-light {
+  color: #f8f8f9 !important;
+  display: block;
+  margin-top: 7px;
+}
+.font-light a {
+  color: #f8f8f9 !important;
+}
+
+.font-dark {
+  color: #2a3142 !important;
+  display: block;
+  margin-top: 7px;
+}
+.font-dark a {
+  color: #2a3142 !important;
+}
+
+.font-warning {
+  color: #00ced1 !important;
+  display: block;
+  margin-top: 7px;
+}
+.font-warning a {
+  color: #00ced1 !important;
 }
 
 .tablegrid-cell, .tablegrid-grid-body {
