@@ -198,25 +198,25 @@ class ViewCategory
 				<?php
 				ViewTemplate::BackFoot();
 
-				if ($_SESSION['category']['add'] === 1)
+				if (isset($_SESSION['category']['add']) AND $_SESSION['category']['add'] === 1)
 				{
 					ViewTemplate::BackToast('Ajout de catégorie', 'Catégorie ajoutée avec succès !');
 					unset($_SESSION['category']['add']);
 				}
 
-				if ($_SESSION['category']['edit'] === 1)
+				if (isset($_SESSION['category']['edit']) AND $_SESSION['category']['edit'] === 1)
 				{
 					ViewTemplate::BackToast('Modification de catégorie', 'Catégorie modifiée avec succès !');
 					unset($_SESSION['category']['edit']);
 				}
 
-				if ($_SESSION['category']['delete'] === 1)
+				if (isset($_SESSION['category']['delete']) AND $_SESSION['category']['delete'] === 1)
 				{
 					ViewTemplate::BackToast('Suppression de catégorie', 'Catégorie supprimée avec succès !');
 					unset($_SESSION['category']['delete']);
 				}
 
-				if ($_SESSION['category']['orders'] === 1)
+				if (isset($_SESSION['category']['orders']) AND $_SESSION['category']['orders'] === 1)
 				{
 					ViewTemplate::BackToast('Mise à jour des catégories', 'Order d\'affichage modifiée avec succès !');
 					unset($_SESSION['category']['orders']);

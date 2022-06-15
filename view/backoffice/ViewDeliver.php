@@ -201,19 +201,19 @@ class ViewDeliver
 				<?php
 				ViewTemplate::BackFoot();
 
-				if ($_SESSION['deliver']['add'] === 1)
+				if (isset($_SESSION['deliver']['add']) AND $_SESSION['deliver']['add'] === 1)
 				{
 					ViewTemplate::BackToast('Ajout de transporteur', 'Transporteur ajouté avec succès !');
 					unset($_SESSION['deliver']['add']);
 				}
 
-				if ($_SESSION['deliver']['edit'] === 1)
+				if (isset($_SESSION['deliver']['edit']) AND $_SESSION['deliver']['edit'] === 1)
 				{
 					ViewTemplate::BackToast('Modification de transporteur', 'Transporteur modifié avec succès !');
 					unset($_SESSION['deliver']['edit']);
 				}
 
-				if ($_SESSION['deliver']['delete'] === 1)
+				if (isset($_SESSION['deliver']['delete']) AND $_SESSION['deliver']['delete'] === 1)
 				{
 					ViewTemplate::BackToast('Suppression de transporteur', 'Transporteur supprimé avec succès !');
 					unset($_SESSION['deliver']['delete']);

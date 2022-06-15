@@ -330,19 +330,19 @@ class ViewEmployee
 					<?php
 					ViewTemplate::BackFoot();
 
-					if ($_SESSION['employee']['add'] === 1)
+					if (isset($_SESSION['employee']['add']) AND $_SESSION['employee']['add'] === 1)
 					{
 						ViewTemplate::BackToast('Ajout d\'employé', 'Employé ajouté avec succès !');
 						unset($_SESSION['employee']['add']);
 					}
 
-					if ($_SESSION['employee']['edit'] === 1)
+					if (isset($_SESSION['employee']['edit']) AND $_SESSION['employee']['edit'] === 1)
 					{
 						ViewTemplate::BackToast('Modification d\'employé', 'Employé modifié avec succès !');
 						unset($_SESSION['employee']['edit']);
 					}
 
-					if ($_SESSION['employee']['delete'] === 1)
+					if (isset($_SESSION['employee']['delete']) AND $_SESSION['employee']['delete'] === 1)
 					{
 						ViewTemplate::BackToast('Suppression d\'employé', 'Employé supprimé avec succès !');
 						unset($_SESSION['employee']['delete']);

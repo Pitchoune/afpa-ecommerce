@@ -195,19 +195,19 @@ class ViewProduct
 				<?php
 				ViewTemplate::BackFoot();
 
-				if ($_SESSION['product']['add'] === 1)
+				if (isset($_SESSION['product']['add']) AND $_SESSION['product']['add'] === 1)
 				{
 					ViewTemplate::BackToast('Ajout de produit', 'Produit ajouté avec succès !');
 					unset($_SESSION['product']['add']);
 				}
 
-				if ($_SESSION['product']['edit'] === 1)
+				if (isset($_SESSION['product']['edit']) AND $_SESSION['product']['edit'] === 1)
 				{
 					ViewTemplate::BackToast('Modification de produit', 'Produit modifié avec succès !');
 					unset($_SESSION['product']['edit']);
 				}
 
-				if ($_SESSION['product']['delete'] === 1)
+				if (isset($_SESSION['product']['delete']) AND $_SESSION['product']['delete'] === 1)
 				{
 					ViewTemplate::BackToast('Suppression de produit', 'Produit supprimé avec succès !');
 					unset($_SESSION['product']['delete']);

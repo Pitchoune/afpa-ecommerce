@@ -175,37 +175,37 @@ class ViewIndex
 					<?php
 					ViewTemplate::FrontFooter();
 
-					if ($_SESSION['userregistered'] === 1)
+					if (isset($_SESSION['userregistered']) AND $_SESSION['userregistered'] === 1)
 					{
 						ViewTemplate::FrontNotify('Inscription', 'Vous vous êtes inscrit avec succès !', 'success');
 						unset($_SESSION['userregistered']);
 					}
 
-					if ($_SESSION['userloggedin'] === 1)
+					if (isset($_SESSION['userloggedin']) AND $_SESSION['userloggedin'] === 1)
 					{
 						ViewTemplate::FrontNotify('Identification', 'Vous vous êtes identifié avec succès !', 'success');
 						unset($_SESSION['userloggedin']);
 					}
 
-					if ($_SESSION['userloggedout'] === 1)
+					if (isset($_SESSION['userloggedout']) AND $_SESSION['userloggedout'] === 1)
 					{
 						ViewTemplate::FrontNotify('Déconnexion', 'Vous vous êtes déconnecté avec succès !', 'success');
 						unset($_SESSION['userloggedout']);
 					}
 
-					if ($_SESSION['customerremoved'] === 1)
+					if (isset($_SESSION['customerremoved']) AND $_SESSION['customerremoved'] === 1)
 					{
 						ViewTemplate::FrontNotify('Suppression de compte', 'Votre compte utilisateur a été supprimé avec succès !', 'success');
 						unset($_SESSION['customerremoved']);
 					}
 
-					if ($_SESSION['user']['contact'] === 1)
+					if (isset($_SESSION['user']['contact']) AND $_SESSION['user']['contact'] === 1)
 					{
 						ViewTemplate::FrontNotify('Nous contacter', 'Votre message a été envoyé à notre équipe avec succès !', 'success');
 						unset($_SESSION['user']['contact']);
 					}
 
-					if ($_SESSION['nonallowed'] === 1)
+					if (isset($_SESSION['nonallowed']) AND $_SESSION['nonallowed'] === 1)
 					{
 						ViewTemplate::FrontNotify('Erreur', 'Vous ne pouvez pas accéder à cette page.', 'danger');
 						unset($_SESSION['nonallowed']);

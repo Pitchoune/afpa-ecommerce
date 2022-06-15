@@ -197,25 +197,25 @@ class ViewRole
 				<?php
 				ViewTemplate::BackFoot();
 
-				if ($_SESSION['role']['add'] === 1)
+				if (isset($_SESSION['role']['add']) AND $_SESSION['role']['add'] === 1)
 				{
 					ViewTemplate::BackToast('Ajout de rôle', 'Rôle ajouté avec succès !');
 					unset($_SESSION['role']['add']);
 				}
 
-				if ($_SESSION['role']['edit'] === 1)
+				if (isset($_SESSION['role']['edit']) AND $_SESSION['role']['edit'] === 1)
 				{
 					ViewTemplate::BackToast('Modification de rôle', 'Rôle modifié avec succès !');
 					unset($_SESSION['role']['edit']);
 				}
 
-				if ($_SESSION['role']['editperm'] === 1)
+				if (isset($_SESSION['role']['editperm']) AND $_SESSION['role']['editperm'] === 1)
 				{
 					ViewTemplate::BackToast('Modification des permissions de rôle', 'Permissions de rôle modifiée avec succès !');
 					unset($_SESSION['role']['editperm']);
 				}
 
-				if ($_SESSION['role']['delete'] === 1)
+				if (isset($_SESSION['role']['delete']) AND $_SESSION['role']['delete'] === 1)
 				{
 					ViewTemplate::BackToast('Suppression de rôle', 'Rôle supprimé avec succès !');
 					unset($_SESSION['role']['delete']);

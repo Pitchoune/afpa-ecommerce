@@ -323,7 +323,7 @@ class ViewMessage
 
 				ViewTemplate::BackFormValidation('validation', 5, 1);
 
-				if ($_SESSION['employee']['messaging']['replied'] === 1)
+				if (isset($_SESSION['employee']['messaging']) AND $_SESSION['employee']['messaging']['replied'] === 1)
 				{
 					ViewTemplate::BackToast('Réponse au message', 'Réponse envoyée avec succès !');
 					unset($_SESSION['employee']['messaging']['replied']);

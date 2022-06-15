@@ -210,19 +210,19 @@ class ViewCustomer
 				<?php
 				ViewTemplate::BackFoot();
 
-				if ($_SESSION['customer']['add'] === 1)
+				if (isset($_SESSION['customer']['add']) AND $_SESSION['customer']['add'] === 1)
 				{
 					ViewTemplate::BackToast('Ajout de client', 'Client ajouté avec succès !');
 					unset($_SESSION['customer']['add']);
 				}
 
-				if ($_SESSION['customer']['edit'] === 1)
+				if (isset($_SESSION['customer']['edit']) AND $_SESSION['customer']['edit'] === 1)
 				{
 					ViewTemplate::BackToast('Modification de client', 'Client modifié avec succès !');
 					unset($_SESSION['customer']['edit']);
 				}
 
-				if ($_SESSION['customer']['delete'] === 1)
+				if (isset($_SESSION['customer']['delete']) AND $_SESSION['customer']['delete'] === 1)
 				{
 					ViewTemplate::BackToast('Suppression de client', 'Client supprimé avec succès !');
 					unset($_SESSION['customer']['delete']);
@@ -1047,13 +1047,13 @@ class ViewCustomer
 				<?php
 				ViewTemplate::BackFoot();
 
-				if ($_SESSION['employee']['order']['statusprepare'] === 1)
+				if (isset($_SESSION['employee']['order']['statusprepare']) AND $_SESSION['employee']['order']['statusprepare'] === 1)
 				{
 					ViewTemplate::BackToast('Modification de commande', 'État de la commande passé à « En préparation » avec succès !');
 					unset($_SESSION['employee']['order']['statusprepare']);
 				}
 
-				if ($_SESSION['employee']['order']['statussent'] === 1)
+				if (isset($_SESSION['employee']['order']['statussent']) AND $_SESSION['employee']['order']['statussent'] === 1)
 				{
 					ViewTemplate::BackToast('Modification de commande', 'État de la commande passé à « Envoyé » avec succès !');
 					unset($_SESSION['employee']['order']['statussent']);

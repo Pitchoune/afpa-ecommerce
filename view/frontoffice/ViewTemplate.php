@@ -478,7 +478,7 @@ class ViewTemplate
 					</div>
 				</div>
 				<?php
-				if ($_SESSION['user']['loggedin'] !== true)
+				if (isset($_SESSION['user']['loggedin']) AND $_SESSION['user']['loggedin'] !== true)
 				{
  				?>
 				<form class="theme-form" action="index.php?do=dologin" method="post">

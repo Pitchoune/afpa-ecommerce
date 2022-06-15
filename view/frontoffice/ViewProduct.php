@@ -157,7 +157,7 @@ class ViewProduct
 
 				ViewTemplate::FrontFooter();
 
-				if ($_SESSION['userloggedin'] === 1)
+				if (isset($_SESSION['userloggedin']) AND $_SESSION['userloggedin'] === 1)
 				{
 					ViewTemplate::FrontNotify('Identification', 'Vous vous êtes identifié avec succès !', 'success');
 					unset($_SESSION['userloggedin']);
@@ -277,6 +277,12 @@ class ViewProduct
 				}
 
 				ViewTemplate::FrontFooter();
+
+				if (isset($_SESSION['userloggedin']) AND $_SESSION['userloggedin'] === 1)
+				{
+					ViewTemplate::FrontNotify('Identification', 'Vous vous êtes identifié avec succès !', 'success');
+					unset($_SESSION['userloggedin']);
+				}
 				?>
 			</body>
 		</html>

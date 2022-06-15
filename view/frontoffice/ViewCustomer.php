@@ -278,7 +278,7 @@ class ViewCustomer
 				<?php
 				ViewTemplate::FrontFooter();
 
-				if ($_SESSION['profile']['edit'] === 1)
+				if (isset($_SESSION['profile']['edit']) AND $_SESSION['profile']['edit'] === 1)
 				{
 					ViewTemplate::FrontNotify('Modification du profil', 'Profil modifié avec succès !', 'success');
 					unset($_SESSION['profile']['edit']);
@@ -409,7 +409,7 @@ class ViewCustomer
 					<?php
 					ViewTemplate::FrontFooter();
 
-					if ($_SESSION['profile']['edit'] === 1)
+					if (isset($_SESSION['profile']['edit']) AND $_SESSION['profile']['edit'] === 1)
 					{
 						ViewTemplate::FrontNotify('Modification du profil', 'Profil modifié avec succès !', 'success');
 						unset($_SESSION['profile']['edit']);
@@ -503,7 +503,7 @@ class ViewCustomer
 					<?php
 					ViewTemplate::FrontFooter();
 
-					if ($_SESSION['password']['edit'] === 1)
+					if (isset($_SESSION['password']['edit']) AND $_SESSION['password']['edit'] === 1)
 					{
 						ViewTemplate::FrontNotify('Modification du mot de passe', 'Mot de passe modifié avec succès !', 'success');
 						unset($_SESSION['password']['edit']);
@@ -577,7 +577,7 @@ class ViewCustomer
 					<?php
 					ViewTemplate::FrontFooter();
 
-					if ($_SESSION['password']['forgot'] === 1)
+					if (isset($_SESSION['password']['forgot']) AND $_SESSION['password']['forgot'] === 1)
 					{
 						ViewTemplate::FrontNotify('Oubli du mot de passe', 'Demande de nouveau mot de passe effectuée avec succès !', 'success');
 						unset($_SESSION['password']['forgot']);
@@ -649,7 +649,7 @@ class ViewCustomer
 					<?php
 					ViewTemplate::FrontFooter();
 
-					if ($_SESSION['password']['forgot'] === 1)
+					if (isset($_SESSION['password']['forgot']) AND $_SESSION['password']['forgot'] === 1)
 					{
 						ViewTemplate::FrontNotify('Oubli du mot de passe', 'Demande de nouveau mot de passe effectuée avec succès !', 'success');
 						unset($_SESSION['password']['forgot']);
@@ -1198,7 +1198,7 @@ class ViewCustomer
 					<?php
 					ViewTemplate::FrontFooter();
 
-					if ($_SESSION['user']['sendreply'] === 1)
+					if (isset($_SESSION['user']['sendreply']) AND $_SESSION['user']['sendreply'] === 1)
 					{
 						ViewTemplate::FrontNotify('Réponse aux messages', 'Vous avez répondu au message avec succès !', 'success');
 						unset($_SESSION['user']['sendreply']);

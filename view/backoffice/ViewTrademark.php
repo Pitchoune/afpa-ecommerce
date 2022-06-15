@@ -203,19 +203,19 @@ class ViewTrademark
 				<?php
 				ViewTemplate::BackFoot();
 
-				if ($_SESSION['trademark']['add'] === 1)
+				if (isset($_SESSION['trademark']['add']) AND $_SESSION['trademark']['add'] === 1)
 				{
 					ViewTemplate::BackToast('Ajout de marque', 'Marque ajoutée avec succès !');
 					unset($_SESSION['trademark']['add']);
 				}
 
-				if ($_SESSION['trademark']['edit'] === 1)
+				if (isset($_SESSION['trademark']['edit']) AND $_SESSION['trademark']['edit'] === 1)
 				{
 					ViewTemplate::BackToast('Modification de marque', 'Marque modifiée avec succès !');
 					unset($_SESSION['trademark']['edit']);
 				}
 
-				if ($_SESSION['trademark']['delete'] === 1)
+				if (isset($_SESSION['trademark']['delete']) AND $_SESSION['trademark']['delete'] === 1)
 				{
 					ViewTemplate::BackToast('Suppression de marque', 'Marque supprimée avec succès !');
 					unset($_SESSION['trademark']['delete']);

@@ -75,7 +75,7 @@ class ViewShopping
 				<?php
 				ViewTemplate::FrontFooter();
 
-				if ($_SESSION['userloggedin'] === 1)
+				if (isset($_SESSION['userloggedin']) AND $_SESSION['userloggedin'] === 1)
 				{
 					ViewTemplate::FrontNotify('Identification', 'Vous vous êtes identifié avec succès !', 'success');
 					unset($_SESSION['userloggedin']);
@@ -422,7 +422,7 @@ class ViewShopping
 					<?php
 					ViewTemplate::FrontHeader();
 
-					if ($_SESSION['user']['order']['confirmpaid'] === 1)
+					if (isset($_SESSION['user']['order']['confirmpaid']) AND $_SESSION['user']['order']['confirmpaid'] === 1)
 					{
 						?>
 						<!-- order success -->

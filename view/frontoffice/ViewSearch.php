@@ -132,7 +132,15 @@ class ViewSearch
 					</div>
 				</section>
 				<!-- / advanced search -->
-				<?= ViewTemplate::FrontFooter() ?>
+				<?php
+				ViewTemplate::FrontFooter();
+
+				if (isset($_SESSION['userloggedin']) AND $_SESSION['userloggedin'] === 1)
+				{
+					ViewTemplate::FrontNotify('Identification', 'Vous vous êtes identifié avec succès !', 'success');
+					unset($_SESSION['userloggedin']);
+				}
+				?>
 			</body>
 		</html>
 		<?php
@@ -295,7 +303,15 @@ class ViewSearch
 				}
 				?>
 
-				<?= ViewTemplate::FrontFooter() ?>
+				<?php
+				ViewTemplate::FrontFooter();
+
+				if (isset($_SESSION['userloggedin']) AND $_SESSION['userloggedin'] === 1)
+				{
+					ViewTemplate::FrontNotify('Identification', 'Vous vous êtes identifié avec succès !', 'success');
+					unset($_SESSION['userloggedin']);
+				}
+				?>
 			</body>
 		</html>
 		<?php
