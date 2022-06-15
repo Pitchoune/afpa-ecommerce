@@ -3,9 +3,6 @@
 // Start the session here
 session_start();
 
-// Hide some notices from errors - added for the upload stuff
-error_reporting(E_ALL & ~E_NOTICE);
-
 use \Ecommerce\Model\ModelCustomer;
 use \Ecommerce\SecurityService\SecurityService;
 

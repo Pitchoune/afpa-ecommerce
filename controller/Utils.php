@@ -5,8 +5,6 @@ use \Ecommerce\Model\ModelCategory;
 
 /**
  * Utility class to perform various actions across the whole system
- *
- * @Date: $Date$
  */
 class Utils
 {
@@ -74,21 +72,29 @@ class Utils
 	 *
 	 * @return integer Value converted in full length.
 	 */
-	private static function return_bytes($val)
+	public static function return_bytes($val)
 	{
-		$val = trim($val);
-		$last = strtolower($val[strlen($val) - 1]);
+		$aUnits = ['' => 0, 'K' => 1, 'M' => 2, 'G' => 3, 'T' => 4, 'P' => 5, 'E' => 6, 'Z' => 7, 'Y' => 8];
+		$sUnit = strtoupper(trim(substr($val, -1)));
 
-		switch($last)
+		if (intval($sUnit) !== 0)
 		{
-			case 'g':
-				$val *= 1024;
-			case 'm':
-				$val *= 1024;
-			case 'k':
-				$val *= 1024;
+			$sUnit = '';
 		}
-		return $val;
+
+		if (!in_array($sUnit, array_keys($aUnits)))
+		{
+			return false;
+		}
+
+		$iUnits = trim(substr($val, 0, strlen($val) - 1));
+
+		if (!intval($iUnits) == $iUnits)
+		{
+			return false;
+		}
+
+		return $iUnits * pow(1024, $aUnits[$sUnit]);
 	}
 
 	/**

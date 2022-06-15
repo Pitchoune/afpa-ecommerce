@@ -1,8 +1,6 @@
 <?php
 session_start();
 
-error_reporting(E_ALL & ~E_NOTICE);
-
 use \Ecommerce\Model\ModelEmployee;
 
 // Sanitize do= values, others required per page are sanitized when necessary
