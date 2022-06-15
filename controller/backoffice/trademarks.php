@@ -351,7 +351,7 @@ function DeleteTrademark($id)
 /**
  * Deletes the given trademark.
  *
- * @param integer $id ID of the trademark.
+ * @param integer $id ID of the trademark to delete.
  *
  * @return void
  */

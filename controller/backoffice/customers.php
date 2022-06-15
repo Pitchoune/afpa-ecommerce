@@ -201,6 +201,8 @@ function InsertCustomer($firstname, $lastname, $email, $password, $telephone, $a
 /**
  * Displays a form to edit a customer.
  *
+ * @param integer $id ID of the customer to edit.
+ *
  * @return void
  */
 function EditCustomer($id)
@@ -552,6 +554,8 @@ function ViewCustomerOrderDetails($id)
  *
  * @param integer $id ID of the order.
  * @param integer $status ID of a fictive status. 2 for 'Preparing', 3 for 'Sent'.
+ *
+ * @return void
  */
 function ChangeOrderStatus($id, $status)
 {

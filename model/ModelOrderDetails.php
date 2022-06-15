@@ -124,6 +124,9 @@ class ModelOrderDetails extends Model
 	/**
 	 * Returns all best selling products.
 	 *
+	 * @param integer $min Minimum value for the limit.
+	 * @param integer $max Number of items to return.
+	 *
 	 * @return mixed Returns the requested data or false if there is an error.
 	 */
 	public function getBestSellingProductsFromSpecificRange($min, $max)

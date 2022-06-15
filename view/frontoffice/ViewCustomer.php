@@ -11,8 +11,6 @@ use \Ecommerce\Model\ModelTrademark;
 
 /**
  * Class to display HTML content about customers in front.
- *
- * @date $Date$
  */
 class ViewCustomer
 {
@@ -925,6 +923,10 @@ class ViewCustomer
 	/**
 	 * Returns the HTML code to display the customer messages.
 	 *
+	 * @param array Messages content.
+	 * @param integer $perpage Number of messages per page.
+	 * @param integer $nbmessages Number of total messages.
+	 *
 	 * @return void
 	 */
 	public static function ViewMessages($messages, $perpage, $nbmessages)
@@ -1212,7 +1214,12 @@ class ViewCustomer
 	}
 
 	/**
+	 * Returns the HTML code to display the claim form.
 	 *
+	 * @param integer $id Id of the order.
+	 * @param array $orderdetail Details of the order.
+	 *
+	 * @return void
 	 */
 	public static function ViewClaimOrder($id, $orderdetail)
 	{
@@ -1343,7 +1350,12 @@ class ViewCustomer
 	}
 
 	/**
+	 * Returns the HTML code to display the confirmation to the customer about the claim.
 	 *
+	 * @param integer $id ID of the order.
+	 * @param integer $messageid ID of the message.
+	 *
+	 * @return void
 	 */
 	public static function ApplyClaimOrder($id, $messageid)
 	{

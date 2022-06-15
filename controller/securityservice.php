@@ -7,22 +7,67 @@ namespace Ecommerce\SecurityService;
  */
 class SecurityService
 {
+	/**
+	 * The form token.
+	 *
+	 * @var string
+	 */
 	private $formTokenLabel = 'eg-csrf-token-label';
 
+	/**
+	 * The session token.
+	 *
+	 * @var string
+	 */
 	private $sessionTokenLabel = 'EG_CSRF_TOKEN_SESS_IDX';
 
+	/**
+	 * The $_POST content..
+	 *
+	 * @var array
+	 */
 	private $post = [];
 
+	/**
+	 * The $_SESSION content.
+	 *
+	 * @var array
+	 */
 	private $session = [];
 
+	/**
+	 * The $_SERVER content.
+	 *
+	 * @var array
+	 */
 	private $server = [];
 
+	/**
+	 * The URLS to exclude.
+	 *
+	 * @var array
+	 */
 	private $excludeUrl = [];
 
+	/**
+	 * The hash algorithm.
+	 *
+	 * @var string
+	 */
 	private $hashAlgo = 'sha256';
 
+	/**
+	 * Use hmac?
+	 *
+	 * @var boolean
+	 */
 	private $hmac_ip = true;
 
+	/**
+	 * The hmac token.
+	 *
+	 * @var string
+	 */
 	private $hmacData = 'ABCeNBHVe3kmAqvU2s7yyuJSF2gpxKLC';
 
 	/**

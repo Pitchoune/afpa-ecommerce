@@ -238,6 +238,11 @@ function paymentSuccess()
 	ViewShopping::PaymentSuccess();
 }
 
+/**
+ * Displays the failed payment page.
+ *
+ * @return void
+ */
 function paymentFailed()
 {
 	ViewShopping::PaymentFailed();

@@ -9,7 +9,9 @@ use \Ecommerce\Model\ModelCategory;
 class ViewTemplate
 {
 	/**
-	 * Returns the HTML code to display the frontoffice <head>
+	 * Returns the HTML code to display the frontoffice <head>.
+	 *
+	 * @param string $pagetitle title of the page.
 	 *
 	 * @return void
 	 */
@@ -43,6 +45,8 @@ class ViewTemplate
 
 	/**
 	 * Returns the HTML code to display the frontoffice header.
+	 *
+	 * @param string $address Second part of the URL concerning categories and search results only.
 	 *
 	 * @return void
 	 */

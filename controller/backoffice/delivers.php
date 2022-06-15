@@ -64,6 +64,8 @@ function AddDeliver()
 /**
  * Inserts a new deliver into the database.
  *
+ * @param string $name Name of the deliver.
+ *
  * @return void
  */
 function InsertDeliver($name)
@@ -169,6 +171,8 @@ function InsertDeliver($name)
 /**
  * Displays a form to edit a deliver.
  *
+ * @param integer $id ID of the deliver to edit.
+ *
  * @return void
  */
 function EditDeliver($id)
@@ -206,6 +210,9 @@ function EditDeliver($id)
 
 /**
  * Updates the given deliver into the database.
+ *
+ * @param integer $id ID of the deliver.
+ * @param string $name Name of the deliver.
  *
  * @return void
  */

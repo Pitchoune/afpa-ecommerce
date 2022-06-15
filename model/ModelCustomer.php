@@ -94,6 +94,7 @@ class ModelCustomer extends Model
 	 * @param string $firstname First name of the customer.
 	 * @param string $lastname Last name of the customer.
 	 * @param string $email Email address of the customer.
+	 * @param string $password Password of the customer.
 	 * @param string $address Address of the customer.
 	 * @param string $city City of the customer.
 	 * @param string $zipcode Zip code of the customer.
@@ -103,7 +104,7 @@ class ModelCustomer extends Model
 	 *
 	 * @return void
 	 */
-	public function __construct($config, $id = null, $firstname = null, $lastname = null, $email = null, $password = null,$address = null, $city = null, $zipcode = null, $telephone = null, $country = null, $token = null)
+	public function __construct($config, $id = null, $firstname = null, $lastname = null, $email = null, $password = null, $address = null, $city = null, $zipcode = null, $telephone = null, $country = null, $token = null)
 	{
 		$this->config = $config;
 		$this->id = $id;
@@ -214,8 +215,8 @@ class ModelCustomer extends Model
 
 	/**
 	 * Returns the customer informations from the ID.
-	  *
-	  * @return array Informations of the customer.
+	 *
+	 * @return array Informations of the customer.
 	 */
 	public function getCustomerInfosFromId()
 	{

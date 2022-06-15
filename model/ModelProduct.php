@@ -76,6 +76,15 @@ class ModelProduct extends Model
 	 * Constructor
 	 *
 	 * @param array $config Database informations
+	 * @param integer $id ID of the product.
+	 * @param string $name Name of the product.
+	 * @param string $ref Reference of the product.
+	 * @param string $description Description of the product.
+	 * @param string $quantity Quantity of the product.
+	 * @param integer $price Price of the product.
+	 * @param string $photo Photo of the product.
+	 * @param string $id_category ID of the category.
+	 * @param string $id_trademark ID of the trademark.
 	 *
 	 * @return void
 	 */

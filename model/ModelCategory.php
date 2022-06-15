@@ -131,7 +131,9 @@ class ModelCategory extends Model
 	}
 
 	/**
+	 * List all categories with parents
 	 *
+	 * @return mixed Returns data if there is some or false if there is an error.
 	 */
 	public function listCategoriesWithParent()
 	{
@@ -169,7 +171,9 @@ class ModelCategory extends Model
 	}
 
 	/**
+	 * Updates the category genealogy.
 	 *
+	 * @return mixed Returns true if the query worked or false if there is an error.
 	 */
 	public function updateCategoriesGenealogy()
 	{
@@ -227,6 +231,8 @@ class ModelCategory extends Model
 
 	/**
 	 * Returns the informations of the children categories.
+	 *
+	 * @param string $value List of IDs to list category informations.
 	 *
 	 * @return array Informations of the category.
 	 */
@@ -368,7 +374,9 @@ class ModelCategory extends Model
 	}
 
 	/**
+	 * Updates the category display orders.
 	 *
+	 * @return mixed Returns true if the query worked or false if there is an error.
 	 */
 	public function UpdateCategoryDisplayOrder()
 	{

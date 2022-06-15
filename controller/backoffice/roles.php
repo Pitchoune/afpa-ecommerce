@@ -292,7 +292,7 @@ function DeleteRole($id)
 /**
  * Deletes the given role.
  *
- * @param integer $id ID of the role.
+ * @param integer $id ID of the role to delete.
  *
  * @return void
  */

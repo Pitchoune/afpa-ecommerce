@@ -286,6 +286,8 @@ function InsertEmployee($firstname, $lastname, $email, $password, $role)
 /**
  * Displays a form to edit an employee.
  *
+ * @param integer $id Id of the employee to edit.
+ *
  * @return void
  */
 function EditEmployee($id)
@@ -429,7 +431,13 @@ function UpdateEmployee($id, $firstname, $lastname, $email, $password, $role)
 	header('Location: index.php?do=listemployees');
 }
 
-
+/**
+ * Displays a delete confirmation.
+ *
+ * @param integer $id ID of the employee to delete.
+ *
+ * @return void
+ */
 function DeleteEmployee($id)
 {
 	if (!Utils::cando(8))

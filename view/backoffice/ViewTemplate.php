@@ -11,7 +11,7 @@ class ViewTemplate
 	/**
 	 * Returns the HTML code of the <head> part.
 	 *
-	 * @param string $title Title in the <head>.
+	 * @param string $pagetitle Title in the <head>.
 	 *
 	 * @return void
 	 */

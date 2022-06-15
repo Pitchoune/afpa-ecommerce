@@ -156,9 +156,7 @@ class ModelEmployee extends Model
 	}
 
 	/**
-	 * Retrieves all user data via its id.
-	 *
-	 * Returns the user data WITHOUT the hashed password for security purposes.
+	 * Retrieves all user data via its id. Returns the user data WITHOUT the hashed password for security purposes.
 	 *
 	 * @return mixed Returns the employee infos if found or false if not found.
 	 */
@@ -180,7 +178,7 @@ class ModelEmployee extends Model
 	/**
 	 * Returns the informations of the employee.
 	 *
-	 * @return array Informaitons of the employee.
+	 * @return array Informations of the employee.
 	 */
 	public function listEmployeeInfos()
 	{
@@ -293,7 +291,7 @@ class ModelEmployee extends Model
 	/**
 	 * Deletes the specified employee.
 	 *
-	 * @return void
+	 * @return mixed True if valid, false elsewhere.
 	 */
 	public function deleteEmployee()
 	{

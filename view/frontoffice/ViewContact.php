@@ -13,7 +13,7 @@ class ViewContact
 	/**
 	 * Returns the HTML code to contact the team.
 	 *
-	 * @param integer $customer Customer informations.
+	 * @param array $customer Customer informations.
 	 *
 	 * @return void
 	 */

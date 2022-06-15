@@ -640,6 +640,7 @@ function forgotPassword()
  * Send an email with the link to define a new password.
  *
  * @param string $email Email of the customer.
+ * @param string $token CSRF token.
  *
  * @return void
  */
@@ -737,6 +738,7 @@ function deleteProfile()
  *
  * @param integer $id ID of the customer to delete.
  * @param boolean $deletion True or false from the checkbox from the customer to delete the account.
+ * @param string $token CSRF token.
  *
  * @return void
  */
@@ -1007,6 +1009,7 @@ function viewMessage($id)
  * @param integer $id ID of the conversation.
  * @param integer $latestid ID of the latest reply.
  * @param string $message Message of the customer.
+ * @param string $token CSRF token.
  *
  * @return void
  */
@@ -1069,7 +1072,7 @@ function addReplyToMessage($id, $latestid, $message, $token)
 }
 
 /**
- * Display the HTML code to claim about an order.
+ * Displays the HTML code to claim about an order.
  *
  * @param integer $id ID of the order.
  *
@@ -1107,7 +1110,13 @@ function viewClaimOrder($id)
 }
 
 /**
+ * Sends a message to the team about a claim.
  *
+ * @param integer $id ID of the order to claim.
+ * @param array $reason Reason for the claim for all products of the order.
+ * @param string $token CSRF token.
+ *
+ * @return void
  */
 function doClaim($id, $reason, $token)
 {
@@ -1118,6 +1127,7 @@ function doClaim($id, $reason, $token)
 	}
 
 	$id = intval($id);
+	$token  =trim(strval($token));
 
 	global $config;
 
