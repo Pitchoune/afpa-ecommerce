@@ -21,7 +21,6 @@ function ListMessages()
 	global $config, $pagenumber;
 
 	$messages = new ModelMessage($config);
-	$messages->set_type('contact');
 	$totalmessages = $messages->countMessagesFromType();
 
 	if (!$totalmessages)

@@ -82,10 +82,9 @@ class ViewTemplate
 						<?php
 						// Put this part of code here to have the notifications total
 						$messages = new ModelMessage($config);
-						$messages->set_type('notif');
 						$messagecount = $messages->countMessagesFromType();
 						?>
-						<li class="onhover-dropdown"><i data-feather="bell"></i><span class="badge badge-pill badge-primary pull-right notification-badge"><?= $messagecount['count'] ?></span><span class="dot"></span>
+						<li class="onhover-dropdown"><i data-feather="bell"></i><span class="badge badge-pill badge-primary pull-right notification-badge"><?= $messagecount['nbmessages'] ?></span><span class="dot"></span>
 							<ul class="notification-dropdown onhover-show-div p-0">
 								<?php
 								$messagelist = $messages->getAllMessagesFromType();

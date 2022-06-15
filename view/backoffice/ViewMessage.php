@@ -109,7 +109,7 @@ class ViewMessage
 															</table>
 														</div>
 														<?php
-														Utils::construct_page_nav($pagenumber, $perpage, $totalmessages['nbdelivers'], 'index.php?do=listdelivers', 'back');
+														Utils::construct_page_nav($pagenumber, $perpage, $totalmessages['nbmessages'], 'index.php?do=listmessages', 'back');
 														?>
 													</div>
 												</div>

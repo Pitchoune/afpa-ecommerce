@@ -152,14 +152,14 @@ class ModelMessage extends Model
 		$query = $db->prepare("
 			SELECT *
 			FROM message
-			WHERE type = ?
+			WHERE type IN ('contact', 'reclam')
+				AND titre IS NOT NULL
 				AND precedent_id IS NULL
 			ORDER BY date DESC
 			LIMIT ?, ?
 		");
-		$query->bindParam(1, $this->type, \PDO::PARAM_STR);
-		$query->bindParam(2, $limitlower, \PDO::PARAM_INT);
-		$query->bindParam(3, $perpage, \PDO::PARAM_INT);
+		$query->bindParam(1, $limitlower, \PDO::PARAM_INT);
+		$query->bindParam(2, $perpage, \PDO::PARAM_INT);
 
 		$query->execute();
 		return $query->fetchAll();
@@ -261,9 +261,10 @@ class ModelMessage extends Model
 	{
 		$db = $this->dbConnect();
 		$query = $db->prepare("
-			SELECT COUNT(*) AS count
+			SELECT COUNT(*) AS nbmessages
 			FROM message
-			WHERE type = ?
+			WHERE type IN ('contact', 'reclam')
+				AND titre IS NOT NULL
 		");
 		$query->bindParam(1, $this->type, \PDO::PARAM_STR);
 
