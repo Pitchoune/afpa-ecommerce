@@ -34,7 +34,7 @@ code {
 	background-color: $code-tag-bg-color;
 	padding: $code-tag-padding;
 	margin: $code-tag-margin;
-	border-radius: $code-tag-border-radious;
+	border-radius: $code-tag-border-radius;
 }
 
 blockquote {
@@ -206,7 +206,7 @@ input {
 	border: $card-border-width;
 	transition: all 0.3s ease;
 	letter-spacing: 0.5px;
-	border-radius: $card-border-radious;
+	border-radius: $card-border-radius;
 	box-shadow: $card-box-shadow;
 
 	&.card-load {
@@ -251,8 +251,8 @@ input {
 		border-bottom: none;
 		padding: $card-padding;
 		border-bottom: 1px solid $card-border-color;
-		border-top-left-radius: $card-border-radious;
-		border-top-right-radius: $card-border-radious;
+		border-top-left-radius: $card-border-radius;
+		border-top-right-radius: $card-border-radius;
 
 		.card-header-right {
 			border-radius: 0 0 0 7px;
@@ -327,8 +327,8 @@ input {
 	background-color: $card-footer-bg-color;
 	border-top: 1px solid $card-border-color;
 	padding: $card-padding;
-	border-bottom-left-radius: $card-border-radious;
-	border-bottom-right-radius: $card-border-radious;
+	border-bottom-left-radius: $card-border-radius;
+	border-bottom-right-radius: $card-border-radius;
 	}
 }
 
@@ -732,7 +732,7 @@ footer {
 .tab2-card {
 	ul {
 		margin-bottom: 30px;
-		border-bottom: 1px solid $white-4;
+		border-bottom: 1px solid $white2;
 
 		li {
 			a {
@@ -2117,7 +2117,7 @@ $warning-color;
 
 		.bg-primary {
 			padding: 50px;
-			background-color: $theme-color6 !important;
+			background-color: $theme-color2 !important;
 			background-image: url("../images/login-bg.png");
 			background-position: center;
 			box-shadow: 1px 5px 24px 0 rgba($primary-color, 0.8);

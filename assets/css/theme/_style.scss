@@ -145,7 +145,7 @@ ul {
 /*
 ::selection {
 	background-color: $theme-color1;
-	color: $theme-color2;
+	color: $theme-color1;
 }
 */
 
@@ -184,6 +184,18 @@ button:focus {
 	.media-body {
 		flex: 1;
 	}
+}
+
+.titanic {
+	float: none;
+}
+
+.ice-babord {
+	float: left;
+}
+
+.ice-tribord {
+	float: right;
 }
 
 .section-pb-space {
@@ -227,7 +239,7 @@ button:focus {
 }
 
 .light-layout {
-	background-color: $gray1;
+	background-color: $gray-1;
 }
 
 .b-g-white {
@@ -292,11 +304,11 @@ button:focus {
 
 	&.btn-outline {
 		background-color: $white;
-		border: 1px solid $theme-color3;
+		border: 1px solid $theme-color1;
 		color: $dark !important;
 
 		&:hover {
-			background-color: $theme-color3;
+			background-color: $theme-color1;
 			color: $white !important;
 		}
 	}
@@ -337,7 +349,7 @@ header {
 	width: 100%;
 	background-color: $white;
 	z-index: 2;
-	box-shadow: 1px 1px 15px $gray-7;
+	box-shadow: 1px 1px 15px $gray-5;
 	animation: slideInDown 300ms ease-in-out;
 	transition: all 0.3s ease;
 
@@ -514,7 +526,7 @@ header {
 
 /* List of categories */
 .category-header {
-	background-color: $theme-color2;
+	background-color: $theme-color1;
 	position: relative;
 
 	.navbar-menu {
@@ -645,7 +657,7 @@ header {
 			background-color: $white !important;
 
 			&::placeholder {
-				color: $gray-7;
+				color: $gray-5;
 				font-weight: 600;
 				letter-spacing: 0.03em;
 			}
@@ -673,7 +685,7 @@ header {
 			svg {
 				width:22px;
 				height:auto;
-				fill:$gray-7;
+				fill:$gray-5;
 			}
 		}
 	}
@@ -700,7 +712,7 @@ header {
 					border: none;
 					border-left: 1px solid $light-border;
 					border-right: 1px solid $light-border;
-					color: $gray-7;
+					color: $gray-5;
 
 					&:focus {
 						box-shadow: none;
@@ -714,7 +726,7 @@ header {
 
 					svg {
 						font-size: 20px;
-						color: $gray-7;
+						color: $gray-5;
 					}
 				}
 
@@ -722,7 +734,7 @@ header {
 					border: none;
 					outline: none;
 					font-weight: 700;
-					color: $gray-7;
+					color: $gray-5;
 					text-align: center;
 					text-align-last: center;
 					width: 175px;
@@ -744,7 +756,7 @@ header {
 			position: absolute;
 
 			a {
-				color: $gray-7;
+				color: $gray-5;
 			}
 		}
 	}
@@ -771,7 +783,7 @@ header {
 		}
 
 		&.inverse {
-			background-color: $theme-color2;
+			background-color: $theme-color1;
 		}
 
 		&.item-md {
@@ -801,7 +813,7 @@ header {
 	}
 
 	::-webkit-scrollbar-track {
-		background: $gray1;
+		background: $gray-1;
 	}
 
 	::-webkit-scrollbar-thumb {
@@ -1146,7 +1158,7 @@ header {
 			}
 
 			.on-sale {
-				background-color: $theme-color2;
+				background-color: $theme-color1;
 				color: $white;
 				text-transform: uppercase;
 				position: absolute;
@@ -1288,7 +1300,7 @@ header {
 			}
 
 			.on-sale1 {
-				color: $theme-color2;
+				color: $theme-color1;
 				text-transform: uppercase;
 				position: absolute;
 				top: 40px;
@@ -1318,7 +1330,7 @@ header {
 			}
 
 			.on-sale2 {
-				color: $theme-color2;
+				color: $theme-color1;
 				text-transform: uppercase;
 				position: absolute;
 				top: 40px;
@@ -1333,7 +1345,7 @@ header {
 				position: absolute;
 				top: 15px;
 				left: 15px;
-				color: $theme-color2;
+				color: $theme-color1;
 				transition: all 0.5s ease;
 				text-transform: uppercase;
 				font-weight: 700;
@@ -1355,7 +1367,7 @@ header {
 				top: 10px;
 				left: 10px;
 				color: $white;
-				background-color: $theme-color2;
+				background-color: $theme-color1;
 				padding: 15px 10px;
 				text-transform: uppercase;
 				font-weight: 700;
@@ -1364,7 +1376,7 @@ header {
 			}
 
 			.on-sale4 {
-				background-color: $theme-color2;
+				background-color: $theme-color1;
 				color: $white;
 				text-transform: uppercase;
 				position: absolute;
@@ -1527,21 +1539,6 @@ header {
 				padding-right: 10px;
 				background-color: $white;
 
-				.rating-star {
-					li {
-						i {
-							color: $rating-star;
-							font-size: calc(10px + (14 - 10) * ((100vw - 320px) / (1920 - 320)));
-						}
-
-						&:last-child {
-							i {
-								color: $light-gray;
-							}
-						}
-					}
-				}
-
 				h6 {
 					font-size: calc(14px + (16 - 14) * ((100vw - 320px) / (1920 - 320)));
 					font-weight: 700;
@@ -1553,7 +1550,7 @@ header {
 				}
 
 				.detail-price {
-					color: $theme-color2;
+					color: $theme-color1;
 					font-weight: 700;
 					font-size: calc(12px + (14 - 12) * ((100vw - 320px) / (1920 - 320)));
 
@@ -1576,10 +1573,6 @@ header {
 						&:nth-child(n+2) {
 							margin-left: 2px;
 						}
-
-						i {
-							color: $rating-star;
-						}
 					}
 				}
 
@@ -1596,7 +1589,7 @@ header {
 						display: inline-block;
 
 						&.pro-color1 {
-							background-color: $theme-color5;
+							background-color: $theme-color3;
 						}
 
 						&.pro-color2 {
@@ -1604,11 +1597,11 @@ header {
 						}
 
 						&.pro-color3 {
-							background-color: $theme-color4;
+							background-color: $theme-color1;
 						}
 
 						&.pro-color4 {
-							background-color: $bg-theme8;
+							background-color: $bg-theme;
 						}
 					}
 				}
@@ -1707,7 +1700,7 @@ header {
 				.detail-title {
 					.detail-right {
 						.price {
-							color: $theme-color2;
+							color: $theme-color1;
 						}
 					}
 				}
@@ -1718,17 +1711,6 @@ header {
 
 				.detail-left {
 					float: left;
-
-					.rating-star {
-						i {
-							color: $rating-star;
-							font-size: calc(11px + (14 - 11) * ((100vw - 320px) / (1920 - 320)));
-
-							&:last-child {
-								color: $light-gray;
-							}
-						}
-					}
 
 					.price-title {
 						color: $dark;
@@ -1747,7 +1729,7 @@ header {
 					}
 
 					.price {
-						color: $theme-color2;
+						color: $theme-color1;
 						font-size: calc(12px + (14 - 12) * ((100vw - 320px) / (1920 - 320)));
 						font-weight: 700;
 					}
@@ -1844,7 +1826,7 @@ header {
 
 					&:hover {
 						background-color: $theme-color1;
-						color: $white-1;
+						color: $white1;
 					}
 				}
 
@@ -1867,7 +1849,7 @@ header {
 
 						&:hover {
 							background-color: $theme-color1;
-							color: $white-1;
+							color: $white1;
 						}
 					}
 				}
@@ -3761,7 +3743,7 @@ header {
 		padding: 30px;
 		text-align: center;
 		margin-top: 20px;
-		background-color: $gray-5;
+		background-color: $gray-4;
 
 		h2, h3 {
 			color: $black;
@@ -4467,7 +4449,7 @@ footer {
 					}
 
 					&:hover {
-						background-color: $theme-color2;
+						background-color: $theme-color1;
 						transition: all 0.3s ease;
 
 						svg {
@@ -4511,7 +4493,7 @@ footer {
 		}
 
 		&.dark-footer {
-			background-color: $theme-color6;
+			background-color: $theme-color2;
 
 			.footer-left {
 				p {
