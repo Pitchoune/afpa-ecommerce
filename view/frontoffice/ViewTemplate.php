@@ -736,7 +736,7 @@ class ViewTemplate
 
 							const type = $(formElements[i]).attr("id");
 							const pattern = regexListe[type];
-console.log(type);
+
 							if (pattern.test(formElements[i].value) === false)
 							{
 								error = true;

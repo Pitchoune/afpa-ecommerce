@@ -104,7 +104,7 @@ class SecurityService
 	 *
 	 * @return string CSRF token.
 	 */
-	public function getCSRFToken()
+	private function getCSRFToken()
 	{
 		if (empty($this->session[$this->sessionTokenLabel]))
 		{
@@ -201,7 +201,7 @@ class SecurityService
 	 */
 	private function validateRequest()
 	{
-		// Check if CXSRF exists
+		// Check if CSRF exists
 		if (!isset($this->session[$this->sessionTokenLabel]))
 		{
 			return false;

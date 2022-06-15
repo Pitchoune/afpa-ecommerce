@@ -283,7 +283,7 @@ class ModelCustomer extends Model
 	/**
 	 * Saves the customer personal informations from profile edit.
 	 *
-	 * @return mixed Returns the ID generated if query is correct else returns false.
+	 * @return mixed Returns true if the query is correctly executed else returns false.
 	 */
 	public function saveCustomerData()
 	{
