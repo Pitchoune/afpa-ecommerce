@@ -37,7 +37,6 @@ if (isset($_SESSION['user']['id']))
 require_once(DIR . '/controller/securityservice.php');
 $antiCSRF = new SecurityService();
 
-
 // We define which action does and will search in the controller the called function
 try
 {

@@ -143,7 +143,7 @@ function InsertDeliver($name)
 			}
 			else
 			{
-				throw new Exception('Une erreur inattendue est survenue pendant l\'upload. Veuillez recommancer.');
+				throw new Exception('Une erreur inattendue est survenue pendant l\'upload. Veuillez recommencer.');
 			}
 		}
 		else

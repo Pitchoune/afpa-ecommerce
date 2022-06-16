@@ -482,9 +482,21 @@ class ViewTemplate
 					</div>
 				</div>
 				<?php
-				if (!isset($_SESSION['user']['loggedin']) AND $_SESSION['user']['loggedin'] !== true)
+				if (isset($_SESSION['user']['loggedin']) AND $_SESSION['user']['loggedin'] === true)
 				{
  				?>
+				<div class="setting-block">
+					<div class="setting-element">Mon compte</div>
+					<div class="setting-element"><a href="index.php?do=dashboard">Tableau de bord</a></div>
+					<div class="setting-element"><a href="index.php?do=editprofile">Modifier mon profil</a></div>
+					<div class="setting-element"><a href="index.php?do=editpassword">Modifier mon mot de passe</a></div>
+					<div class="setting-element"><a href="index.php?do=logout">Se déconnecter</a></div>
+				</div>
+				<?php
+				}
+				else
+				{
+				?>
 				<form class="theme-form" action="index.php?do=dologin" method="post">
 					<div class="form-group">
 						<label for="email">Adresse email</label>
@@ -504,18 +516,6 @@ class ViewTemplate
 						<a href="index.php?do=register" class="d-block"><h6 >Vous n'avez pas de compte ?<span>Inscrivez-vous maintenant</span></h6></a>
 					</div>
 				</form>
-				<?php
-				}
-				else
-				{
-				?>
-				<div class="setting-block">
-					<div class="setting-element">Mon compte</div>
-					<div class="setting-element"><a href="index.php?do=dashboard">Tableau de bord</a></div>
-					<div class="setting-element"><a href="index.php?do=editprofile">Modifier mon profil</a></div>
-					<div class="setting-element"><a href="index.php?do=editpassword">Modifier mon mot de passe</a></div>
-					<div class="setting-element"><a href="index.php?do=logout">Se déconnecter</a></div>
-				</div>
 				<?php
 				}
 				?>
@@ -647,7 +647,7 @@ class ViewTemplate
 						quantity: /^[0-9]{2,}$/,
 						price: /^[0-9]{1,5}\.[0-9]{2}$/,
 						displayorder: /^[0-9]+$/,
-						message: /^[\p{L}\d\s_~\-!@#:\\"'=\.,;\$%\^&\*\(\)\[\]<>]{2,}$/um,
+						message: /^[\p{L}\d\s_~\-!@#:\\"'=\.,;\$%\^&\*\(\)\[\]\/<>]{2,}$/um,
 						query: /^[\p{L}\d\s_~\-!@#:\\"'=\.,;\$%\^&\*\(\)\[\]]{2,}$/u,
 						deliver: /^[0-9]{1,}$/,
 						delivermode: /^[0-9]{1,}$/u,

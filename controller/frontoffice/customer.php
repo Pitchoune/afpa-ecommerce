@@ -46,7 +46,7 @@ function register()
  */
 function doRegister($firstname, $lastname, $email, $password, $passwordconfirm, $token)
 {
-	global $config;
+	global $config, $antiCSRF;
 
 	if ($_SESSION['user']['loggedin'])
 	{
@@ -103,26 +103,32 @@ function doRegister($firstname, $lastname, $email, $password, $passwordconfirm, 
 	}
 
 	// Verify CSRF attempt is valid
-	$antiCSRF = new SecurityService();
 	$csrfResponse = $antiCSRF->validate();
 
-	$hashedpassword = password_hash($password, PASSWORD_DEFAULT);
-
-	// No error - we insert the new user with the model
-	$customer = new ModelCustomer($config);
-	$customer->set_firstname($firstname);
-	$customer->set_lastname($lastname);
-	$customer->set_email($email);
-	$customer->set_password($hashedpassword);
-
-	if ($customer->saveNewCustomer())
+	if (!empty($csrfResponse))
 	{
-		$_SESSION['userregistered'] = 1;
-		header('Location: index.php');
+		$hashedpassword = password_hash($password, PASSWORD_DEFAULT);
+
+		// No error - we insert the new user with the model
+		$customer = new ModelCustomer($config);
+		$customer->set_firstname($firstname);
+		$customer->set_lastname($lastname);
+		$customer->set_email($email);
+		$customer->set_password($hashedpassword);
+
+		if ($customer->saveNewCustomer())
+		{
+			$_SESSION['userregistered'] = 1;
+			header('Location: index.php');
+		}
+		else
+		{
+			throw new Exception('L\'inscription n\'a pas pu aller jusqu\'au bout. Veuillez recommencer. Si le problème persiste, veuillez contacter l\'équipe.');
+		}
 	}
 	else
 	{
-		throw new Exception('L\'inscription n\'a pas pu aller jusqu\'au bout. Veuillez recommencer. Si le problème persiste, veuillez contacter l\'équipe.');
+		throw new Exception('Une erreur inconnue est survenue. Veuillez recommencer.');
 	}
 }
 
@@ -154,7 +160,7 @@ function login()
  */
 function doLogin($email, $password, $doaction, $token)
 {
-	global $config;
+	global $config, $antiCSRF;
 
 	if ($_SESSION['user']['loggedin'])
 	{
@@ -192,7 +198,6 @@ function doLogin($email, $password, $doaction, $token)
 	}
 
 	// Verify CSRF attempt is valid
-	$antiCSRF = new SecurityService();
 	$csrfResponse = $antiCSRF->validate();
 
 	if (!empty($csrfResponse))
@@ -410,15 +415,14 @@ function saveProfile($id, $firstname, $lastname, $email, $address, $city, $zipco
 		throw new Exception($validmessage);
 	}
 
+	global $config, $antiCSRF;
+
 	// Verify CSRF attempt is valid
-	$antiCSRF = new SecurityService();
 	$csrfResponse = $antiCSRF->validate();
 
 	if (!empty($csrfResponse))
 	{
 		// No error - proceed to save data
-		global $config;
-
 		$customers = new ModelCustomer($config);
 
 		$customers->set_id($id);
@@ -553,14 +557,13 @@ function savePassword($id, $newpassword, $confirmpassword, $token2, $password = 
 		throw new Exception($validmessage);
 	}
 
+	global $config, $antiCSRF;
+
 	// Verify CSRF attempt is valid
-	$antiCSRF = new SecurityService();
 	$csrfResponse = $antiCSRF->validate();
 
 	if (!empty($csrfResponse))
 	{
-		global $config;
-
 		$customers = new ModelCustomer($config);
 		$customers->set_id(intval($id));
 		$customer = $customers->getCustomerInfosFromId();
@@ -652,12 +655,11 @@ function sendPassword($email, $token)
 		header('Location: index.php');
 	}
 
-	global $config;
-
 	$email = trim(strval($email));
 
+	global $config, $antiCSRF;
+
 	// Verify CSRF attempt is valid
-	$antiCSRF = new SecurityService();
 	$csrfResponse = $antiCSRF->validate();
 
 	if (!empty($csrfResponse))
@@ -750,8 +752,9 @@ function doDeleteProfile($id, $deletion, $token)
 		header('Location: index.php');
 	}
 
+	global $config, $antiCSRF;
+
 	// Verify CSRF attempt is valid
-	$antiCSRF = new SecurityService();
 	$csrfResponse = $antiCSRF->validate();
 
 	if (!empty($csrfResponse))
@@ -763,8 +766,6 @@ function doDeleteProfile($id, $deletion, $token)
 
 			// Create a new empty session to store the notify.
 			session_start();
-
-			global $config;
 
 			// Delete only the customer account, not the previous orders
 			$customers = new ModelCustomer($config);
@@ -978,10 +979,7 @@ function viewMessage($id)
 
 	for ($i = 0; $i <= count($messages); $i++)
 	{
-		if ($messages[$i]['id_employe'] !== null)
-		{
-			$latestemployee = $messages[$i]['id_employe'];
-		}
+		$latestemployee = isset($messages[$i]['id_employe']) ? $messages[$i]['id_employe'] : null;
 	}
 
 	$employees = new ModelEmployee($config);
@@ -1020,13 +1018,13 @@ function addReplyToMessage($id, $latestid, $message, $token)
 		throw new Exception('Vous devez vous identifier avant de pouvoir envoyer des réponses aux messages.');
 	}
 
-	global $config;
-
 	$id = intval($id);
 	$latestid = intval($latestid);
 	$message = trim(strval($message));
 
 	$message = nl2br($message);
+
+	global $config, $antiCSRF;
 
 	$customer = new ModelCustomer($config);
 	$customer->set_id($_SESSION['user']['id']);
@@ -1042,7 +1040,6 @@ function addReplyToMessage($id, $latestid, $message, $token)
 	}
 
 	// Verify CSRF attempt is valid
-	$antiCSRF = new SecurityService();
 	$csrfResponse = $antiCSRF->validate();
 
 	if (!empty($csrfResponse))
@@ -1127,12 +1124,11 @@ function doClaim($id, $reason, $token)
 	}
 
 	$id = intval($id);
-	$token  =trim(strval($token));
+	$token = trim(strval($token));
 
-	global $config;
+	global $config, $antiCSRF;
 
 	// Verify CSRF attempt is valid
-	$antiCSRF = new SecurityService();
 	$csrfResponse = $antiCSRF->validate();
 
 	if (!empty($csrfResponse))
