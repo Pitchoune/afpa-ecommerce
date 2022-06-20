@@ -123,7 +123,6 @@ function InsertTrademark($name)
 		{
 			// Specify the allowed extensions list
 			$extensions = ['.apng', '.avif', 'gif', 'jpeg', 'jpg', 'jfif', 'pjpeg', 'pjp', 'png', 'svg', 'webp', 'bmp', 'ico', 'cur', 'tif', 'tiff'];
-			require_once(DIR . '/controller/Utils.php');
 
 			// Do the upload
 			$upload = Utils::upload($extensions, $_FILES['file'], 'trademarks');
@@ -147,8 +146,9 @@ function InsertTrademark($name)
 		}
 		else
 		{
+
 			// Save the trademark in the database
-			if ($trademarks->saveEditTrademarkWithoutLogo())
+			if ($trademarks->saveNewTrademarkWithoutLogo())
 			{
 				$_SESSION['trademark']['add'] = 1;
 			}

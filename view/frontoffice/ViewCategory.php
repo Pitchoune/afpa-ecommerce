@@ -102,7 +102,7 @@ class ViewCategory
 																	?>
 																	<div class="col-xl-2 col-lg-3 col-md-4 col-6 col-grid-box">
 																		<div class="product-box">
-																			<div class="product-imgbox">
+																			<div class="product-imgbox img-250">
 																				<a href="index.php?do=viewproduct&amp;id=<?= $value['id'] ?>"> <img src="<?= $value['photo'] ?>" class="img-fluid" alt="product"></a>
 																			</div>
 																			<div class="product-detail detail-center detail-inverse">

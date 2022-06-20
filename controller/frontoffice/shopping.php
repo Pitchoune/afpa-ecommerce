@@ -60,7 +60,7 @@ function placeOrder($price, $deliver, $delivermode)
  */
 function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $item, $token2)
 {
-	global $config;
+	global $config, $antiCSRF;
 
 	// Validate name
 	$validmessage = Utils::datavalidation($name, 'name', 'Les caractères suivants sont autorisés :<br /><br />- Lettres<br />- Chiffres<br />- -');
@@ -103,7 +103,6 @@ function paymentProcess($name, $email, $price, $deliver, $delivermode, $token, $
 	}
 
 	// Verify CSRF attempt is valid
-	$antiCSRF = new SecurityService();
 	$csrfResponse = $antiCSRF->validate();
 
 	if (!empty($csrfResponse))

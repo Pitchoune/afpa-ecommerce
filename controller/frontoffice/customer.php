@@ -24,7 +24,7 @@ use Dompdf\Dompdf;
  */
 function register()
 {
-	if ($_SESSION['user']['loggedin'])
+	if (isset($_SESSION['user']['loggedin']))
 	{
 		throw new Exception('Vous êtes déjà identifié. Vous ne pouvez pas vous inscrire.');
 	}
@@ -48,7 +48,7 @@ function doRegister($firstname, $lastname, $email, $password, $passwordconfirm, 
 {
 	global $config, $antiCSRF;
 
-	if ($_SESSION['user']['loggedin'])
+	if (isset($_SESSION['user']['loggedin']))
 	{
 		$_SESSION['nonallowed'] = 1;
 		header('Location: index.php');
@@ -93,6 +93,8 @@ function doRegister($firstname, $lastname, $email, $password, $passwordconfirm, 
 		throw new Exception($validmessage);
 	}
 
+	$customer = new ModelCustomer($config);
+
 	// Prepare data to save
 	$customer->set_email($email);
 	$customeremail = $customer->getCustomerId();
@@ -110,7 +112,6 @@ function doRegister($firstname, $lastname, $email, $password, $passwordconfirm, 
 		$hashedpassword = password_hash($password, PASSWORD_DEFAULT);
 
 		// No error - we insert the new user with the model
-		$customer = new ModelCustomer($config);
 		$customer->set_firstname($firstname);
 		$customer->set_lastname($lastname);
 		$customer->set_email($email);
